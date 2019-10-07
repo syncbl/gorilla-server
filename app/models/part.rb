@@ -1,5 +1,5 @@
 class Part < ApplicationRecord
   include Discard::Model
 
-  belongs_to :package, optional: true
+  belongs_to :package
 end

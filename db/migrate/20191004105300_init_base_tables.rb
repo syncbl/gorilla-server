@@ -4,6 +4,9 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
     create_table :users do |t|
       t.string :username, unique: true, null: false
       t.string :locale, limit: 10
+      t.boolean :trusted, default: false
+
+      t.belongs_to :user, index: true, optional: true
 
       t.datetime :discarded_at
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
@@ -26,7 +29,7 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.index :discarded_at
       # To make computers individual
-      t.index [:user_id, :name] # ...
+      t.index [:user_id, :name], unique: true # ...
     end
     create_trigger(compatibility: 1).on(:endpoints).before(:update) do
       'NEW.updated_at = NOW();'
@@ -40,16 +43,23 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.boolean :trusted, default: false # TODO: Digital sign by admin
 
       t.belongs_to :user, index: true, optional: true
+      t.belongs_to :group, index: true, optional: true
 
       t.datetime :discarded_at
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.index :discarded_at
       # Packages will be unique for everyone or for selected user
-      t.index [:user_id, :name]
+      t.index [:user_id, :name], unique: true
     end
     create_trigger(compatibility: 1).on(:packages).before(:update) do
       'NEW.updated_at = NOW();'
+    end
+    # ----------
+    create_join_table :endpoints, :packages do |t|
+      t.index :endpoint_id
+      t.index :package_id
+      t.index [:endpoint_id, :package_id], unique: true
     end
     # ----------
     create_table :parts do |t|

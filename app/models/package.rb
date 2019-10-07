@@ -1,7 +1,8 @@
 class Package < ApplicationRecord
   include Discard::Model
 
-  has_many :parts, dependent: :delete_all
+  has_many :parts, dependent: :destroy
+  has_and_belongs_to_many :endpoints
   belongs_to :user, optional: true
   after_create :create_main_part
 

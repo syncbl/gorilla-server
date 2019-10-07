@@ -22,8 +22,16 @@ ActiveRecord::Schema.define(version: 2019_10_04_105300) do
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["discarded_at"], name: "index_endpoints_on_discarded_at"
-    t.index ["user_id", "name"], name: "index_endpoints_on_user_id_and_name"
+    t.index ["user_id", "name"], name: "index_endpoints_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_endpoints_on_user_id"
+  end
+
+  create_table "endpoints_packages", id: false, force: :cascade do |t|
+    t.bigint "endpoint_id", null: false
+    t.bigint "package_id", null: false
+    t.index ["endpoint_id", "package_id"], name: "index_endpoints_packages_on_endpoint_id_and_package_id", unique: true
+    t.index ["endpoint_id"], name: "index_endpoints_packages_on_endpoint_id"
+    t.index ["package_id"], name: "index_endpoints_packages_on_package_id"
   end
 
   create_table "packages", force: :cascade do |t|
@@ -33,11 +41,13 @@ ActiveRecord::Schema.define(version: 2019_10_04_105300) do
     t.string "descr"
     t.boolean "trusted", default: false
     t.bigint "user_id"
+    t.bigint "group_id"
     t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["discarded_at"], name: "index_packages_on_discarded_at"
-    t.index ["user_id", "name"], name: "index_packages_on_user_id_and_name"
+    t.index ["group_id"], name: "index_packages_on_group_id"
+    t.index ["user_id", "name"], name: "index_packages_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_packages_on_user_id"
   end
 
@@ -58,10 +68,13 @@ ActiveRecord::Schema.define(version: 2019_10_04_105300) do
   create_table "users", force: :cascade do |t|
     t.string "username", null: false
     t.string "locale", limit: 10
+    t.boolean "trusted", default: false
+    t.bigint "user_id"
     t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["discarded_at"], name: "index_users_on_discarded_at"
+    t.index ["user_id"], name: "index_users_on_user_id"
   end
 
   # no candidate create_trigger statement could be found, creating an adapter-specific one
