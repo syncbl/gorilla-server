@@ -12,10 +12,12 @@ gem 'webpacker', '~> 4.0'
 gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.7'
 
+# PostgreSQL will be used for data storage
 gem 'pg', '~> 1'
+# Use triggers
 gem 'hairtrigger'
-#gem 'activeresource'
-
+# Tag items and users
+#gem 'acts-as-taggable-on', '~> 6.0'
 # CRON scheduling
 gem 'whenever', require: false
 # HTML parsing for download link detection

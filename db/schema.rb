@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 2019_10_04_105300) do
     t.string "title"
     t.string "descr"
     t.boolean "trusted", default: false
+    t.boolean "optional", default: false
     t.bigint "user_id"
     t.bigint "group_id"
     t.datetime "discarded_at"

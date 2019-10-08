@@ -8,9 +8,9 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
 
       t.belongs_to :user, index: true, optional: true
 
-      t.datetime :discarded_at
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :discarded_at
       t.index :discarded_at
     end
     create_trigger(compatibility: 1).on(:users).before(:update) do
@@ -24,9 +24,9 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
 
       # TODO: Store PC settings here
 
-      t.datetime :discarded_at
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :discarded_at
       t.index :discarded_at
       # To make computers individual
       t.index [:user_id, :name], unique: true # ...
@@ -39,15 +39,19 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.string :name, null: false
       t.string :alias, unique: true
       t.string :title
-      t.string :descr
+      t.string :description
+
+      # TODO: Change to tags
+      t.boolean :published, default: false # TODO: Sign or tag
       t.boolean :trusted, default: false # TODO: Digital sign by admin
+      t.boolean :optional, default: false # TODO: Sign or tag
 
       t.belongs_to :user, index: true, optional: true
       t.belongs_to :group, index: true, optional: true
 
-      t.datetime :discarded_at
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :discarded_at
       t.index :discarded_at
       # Packages will be unique for everyone or for selected user
       t.index [:user_id, :name], unique: true
@@ -64,15 +68,15 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
     # ----------
     create_table :parts do |t|
       t.string :name, null: false
-      t.string :descr
-      t.string :dest
+      t.string :description
+      t.string :destination
       t.text :script # TODO: Encode script with user's key
 
       t.belongs_to :package, index: true
 
-      t.datetime :discarded_at
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :discarded_at
       t.index :discarded_at
       t.index [:package_id, :name]
     end

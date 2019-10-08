@@ -1,5 +1,6 @@
 class Package < ApplicationRecord
   include Discard::Model
+  #acts_as_taggable
 
   has_many :parts, dependent: :destroy
   has_and_belongs_to_many :endpoints
