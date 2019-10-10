@@ -3,7 +3,8 @@ class Package < ApplicationRecord
   #acts_as_taggable
 
   has_many :parts, dependent: :destroy
-  has_and_belongs_to_many :endpoints
+  has_many :settings
+  has_many :endpoints, through: :settings
   has_and_belongs_to_many :requirements,
     class_name: "Package",
     join_table: :requirements,

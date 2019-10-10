@@ -12,4 +12,5 @@ when "development"
   User.create username: 'test2'
   Package.create name: 'openssl-1.0.3', alias: 'openssl'
   Package.create name: 'openssl-1.0.1'
+  Endpoint.create name: 'test', user: User.first
 end

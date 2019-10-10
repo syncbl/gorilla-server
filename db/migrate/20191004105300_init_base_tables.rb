@@ -21,11 +21,10 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
     # ----------
     create_table :endpoints do |t|
       t.string :name
+      # TODO: Store PC parameters here
+      t.text :data
 
       t.belongs_to :user, index: true, optional: true
-
-      # TODO: Store PC parameters here
-      t.text :parameters
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
@@ -43,6 +42,8 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.string :alias, unique: true
       t.string :title
       t.string :description
+      t.string :version
+      t.string :key, null: false, default: -> { 'md5(random()::text || clock_timestamp()::text)::uuid' }
 
       # TODO: Change to tags
       t.boolean :published, default: false # Is available for installation?
@@ -50,7 +51,7 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.boolean :unstable, default: false # Some of the dependecies is broken
 
       t.belongs_to :user, index: true, optional: true
-      t.belongs_to :group, index: true, optional: true
+      #t.belongs_to :group, index: true, optional: true
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
@@ -63,15 +64,22 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       'NEW.updated_at = NOW();'
     end
     # ----------
-    create_table :requirements, id: false do |t|
-      t.integer :package_id, index: true
+    create_table :requirements do |t|
+      t.belongs_to :package
       t.integer :required_package_id, index: true
       t.index [:package_id, :required_package_id], unique: true
     end
     # ----------
-    create_join_table :endpoints, :packages do |t|
-      t.index :endpoint_id
-      t.index :package_id
+    create_table :settings do |t|
+      t.text :data
+
+      t.belongs_to :endpoint
+      t.belongs_to :package
+
+      t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :discarded_at
+      t.index :discarded_at
       t.index [:endpoint_id, :package_id], unique: true
     end
     # ----------
@@ -79,7 +87,7 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.string :name, null: false
       t.string :description
       t.string :destination
-      t.text :script # TODO: Encode script with user's key
+      t.text :data # TODO: Encode script with user's key
 
       t.belongs_to :package, index: true
 

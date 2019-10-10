@@ -4,6 +4,6 @@ class User < ApplicationRecord
   #acts_as_taggable
 
   has_many :packages, dependent: :destroy
-  has_many :endpoints, dependent: :destroy
+  has_many :endpoints
   belongs_to :user, optional: true
 end
