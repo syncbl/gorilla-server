@@ -19,12 +19,14 @@ class Package < ApplicationRecord
 
   scope :available_for, -> (user = nil) {
     # TODO: Optimize with arel_table
+    kept.
     where(published: true, unstable: false)
     .where(user: user).or(where(user: nil))
   }
 
   scope :editable_by, -> (user = nil) {
     # TODO: Optimize with arel_table
+    kept.
     where(published: false)
     .where(user: user)
   }

@@ -72,6 +72,7 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
     # ----------
     create_table :settings do |t|
       t.text :data
+      # TODO: Purchase information
 
       t.belongs_to :endpoint
       t.belongs_to :package
