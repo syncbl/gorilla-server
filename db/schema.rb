@@ -41,8 +41,8 @@ ActiveRecord::Schema.define(version: 2019_10_04_105300) do
     t.string "title"
     t.string "description"
     t.boolean "published", default: false
-    t.boolean "trusted", default: false
-    t.boolean "autoremovable", default: false
+    t.boolean "removable", default: false
+    t.boolean "unstable", default: false
     t.bigint "user_id"
     t.bigint "group_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false

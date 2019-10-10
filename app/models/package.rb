@@ -13,7 +13,7 @@ class Package < ApplicationRecord
   after_create :create_main_part
 
   default_scope -> {
-    order(user: :asc)
+    order(user_id: :asc)
   }
 
   scope :available_for, -> (user = nil) {
