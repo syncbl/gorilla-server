@@ -18,9 +18,10 @@ ActiveRecord::Schema.define(version: 2019_10_04_105300) do
   create_table "endpoints", force: :cascade do |t|
     t.string "name"
     t.bigint "user_id"
-    t.datetime "discarded_at"
+    t.text "parameters"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "discarded_at"
     t.index ["discarded_at"], name: "index_endpoints_on_discarded_at"
     t.index ["user_id", "name"], name: "index_endpoints_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_endpoints_on_user_id"
@@ -38,14 +39,15 @@ ActiveRecord::Schema.define(version: 2019_10_04_105300) do
     t.string "name", null: false
     t.string "alias"
     t.string "title"
-    t.string "descr"
+    t.string "description"
+    t.boolean "published", default: false
     t.boolean "trusted", default: false
-    t.boolean "optional", default: false
+    t.boolean "autoremovable", default: false
     t.bigint "user_id"
     t.bigint "group_id"
-    t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "discarded_at"
     t.index ["discarded_at"], name: "index_packages_on_discarded_at"
     t.index ["group_id"], name: "index_packages_on_group_id"
     t.index ["user_id", "name"], name: "index_packages_on_user_id_and_name", unique: true
@@ -54,26 +56,35 @@ ActiveRecord::Schema.define(version: 2019_10_04_105300) do
 
   create_table "parts", force: :cascade do |t|
     t.string "name", null: false
-    t.string "descr"
-    t.string "dest"
+    t.string "description"
+    t.string "destination"
     t.text "script"
     t.bigint "package_id"
-    t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "discarded_at"
     t.index ["discarded_at"], name: "index_parts_on_discarded_at"
     t.index ["package_id", "name"], name: "index_parts_on_package_id_and_name"
     t.index ["package_id"], name: "index_parts_on_package_id"
+  end
+
+  create_table "requirements", id: false, force: :cascade do |t|
+    t.integer "package_id"
+    t.integer "required_package_id"
+    t.index ["package_id", "required_package_id"], name: "index_requirements_on_package_id_and_required_package_id", unique: true
+    t.index ["package_id"], name: "index_requirements_on_package_id"
+    t.index ["required_package_id"], name: "index_requirements_on_required_package_id"
   end
 
   create_table "users", force: :cascade do |t|
     t.string "username", null: false
     t.string "locale", limit: 10
     t.boolean "trusted", default: false
+    t.boolean "comapny", default: false
     t.bigint "user_id"
-    t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "discarded_at"
     t.index ["discarded_at"], name: "index_users_on_discarded_at"
     t.index ["user_id"], name: "index_users_on_user_id"
   end

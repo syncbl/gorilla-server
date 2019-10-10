@@ -5,7 +5,9 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.string :username, unique: true, null: false
       t.string :locale, limit: 10
       t.boolean :trusted, default: false
+      t.boolean :comapny, default: false
 
+      # User can be a company
       t.belongs_to :user, index: true, optional: true
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
@@ -22,7 +24,8 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
 
       t.belongs_to :user, index: true, optional: true
 
-      # TODO: Store PC settings here
+      # TODO: Store PC parameters here
+      t.text :parameters
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
@@ -42,9 +45,9 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.string :description
 
       # TODO: Change to tags
-      t.boolean :published, default: false # TODO: Sign or tag
-      t.boolean :trusted, default: false # TODO: Digital sign by admin
-      t.boolean :optional, default: false # TODO: Sign or tag
+      t.boolean :published, default: false # Is available for installation?
+      t.boolean :removable, default: false # Is a component, that must be removed too?
+      t.boolean :unstable, default: false # Some of the dependecies is broken
 
       t.belongs_to :user, index: true, optional: true
       t.belongs_to :group, index: true, optional: true
@@ -58,6 +61,12 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
     end
     create_trigger(compatibility: 1).on(:packages).before(:update) do
       'NEW.updated_at = NOW();'
+    end
+    # ----------
+    create_table :requirements, id: false do |t|
+      t.integer :package_id, index: true
+      t.integer :required_package_id, index: true
+      t.index [:package_id, :required_package_id], unique: true
     end
     # ----------
     create_join_table :endpoints, :packages do |t|

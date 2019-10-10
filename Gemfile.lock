@@ -56,6 +56,7 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
       zeitwerk (~> 2.1, >= 2.1.8)
+    acts_as_follower (0.2.1)
     awesome_print (1.8.0)
     bcrypt (3.1.13)
     better_errors (2.5.1)
@@ -205,6 +206,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  acts_as_follower
   awesome_print
   bcrypt (~> 3.1.7)
   better_errors

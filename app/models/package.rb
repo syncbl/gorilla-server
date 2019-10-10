@@ -4,12 +4,28 @@ class Package < ApplicationRecord
 
   has_many :parts, dependent: :destroy
   has_and_belongs_to_many :endpoints
+  has_and_belongs_to_many :requirements,
+    class_name: "Package",
+    join_table: :requirements,
+    foreign_key: :package_id,
+    association_foreign_key: :required_package_id
   belongs_to :user, optional: true
   after_create :create_main_part
 
-  scope :available_for, -> (user) {
-    where(user: user)
-    .or(where(user: nil, trusted: true))
+  default_scope -> {
+    order(user: :asc)
+  }
+
+  scope :available_for, -> (user = nil) {
+    # TODO: Optimize with arel_table
+    where(published: true, unstable: false)
+    .where(user: user).or(where(user: nil))
+  }
+
+  scope :editable_by, -> (user = nil) {
+    # TODO: Optimize with arel_table
+    where(published: false)
+    .where(user: user)
   }
 
   def to_yaml
