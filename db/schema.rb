@@ -38,10 +38,12 @@ ActiveRecord::Schema.define(version: 2019_10_04_105300) do
     t.boolean "removable", default: false
     t.boolean "unstable", default: false
     t.bigint "user_id"
+    t.bigint "package_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "discarded_at"
     t.index ["discarded_at"], name: "index_packages_on_discarded_at"
+    t.index ["package_id"], name: "index_packages_on_package_id"
     t.index ["user_id", "name"], name: "index_packages_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_packages_on_user_id"
   end

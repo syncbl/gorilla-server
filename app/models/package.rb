@@ -14,19 +14,18 @@ class Package < ApplicationRecord
   after_create :create_main_part
 
   default_scope -> {
+    kept. # ???
     order(user_id: :asc)
   }
 
   scope :available_for, -> (user = nil) {
     # TODO: Optimize with arel_table
-    kept.
     where(published: true, unstable: false)
     .where(user: user).or(where(user: nil))
   }
 
   scope :editable_by, -> (user = nil) {
     # TODO: Optimize with arel_table
-    kept.
     where(published: false)
     .where(user: user)
   }

@@ -6,10 +6,6 @@ class Endpoint < ApplicationRecord
     order(user_id: :asc)
   }
 
-  scope installed, -> {
-    kept
-  }
-
   belongs_to :user
   has_many :settings, dependent: :destroy
   has_many :packages, through: :settings

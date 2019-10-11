@@ -51,7 +51,8 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.boolean :unstable, default: false # Some of the dependecies is broken
 
       t.belongs_to :user, index: true, optional: true
-      #t.belongs_to :group, index: true, optional: true
+      # You can link packages one to another to chain updates
+      t.belongs_to :package, index: true, optional: true
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
@@ -90,6 +91,7 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.string :destination
       t.text :data # TODO: Encode script with user's key
 
+      # Parts will be copied into chained updates
       t.belongs_to :package, index: true
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
