@@ -39,11 +39,13 @@ ActiveRecord::Schema.define(version: 2019_10_04_105300) do
     t.boolean "unstable", default: false
     t.bigint "user_id"
     t.bigint "package_id"
+    t.bigint "product_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "discarded_at"
     t.index ["discarded_at"], name: "index_packages_on_discarded_at"
     t.index ["package_id"], name: "index_packages_on_package_id"
+    t.index ["product_id"], name: "index_packages_on_product_id"
     t.index ["user_id", "name"], name: "index_packages_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_packages_on_user_id"
   end
@@ -52,7 +54,7 @@ ActiveRecord::Schema.define(version: 2019_10_04_105300) do
     t.string "name", null: false
     t.string "description"
     t.string "destination"
-    t.text "data"
+    t.text "script"
     t.bigint "package_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -60,6 +62,17 @@ ActiveRecord::Schema.define(version: 2019_10_04_105300) do
     t.index ["discarded_at"], name: "index_parts_on_discarded_at"
     t.index ["package_id", "name"], name: "index_parts_on_package_id_and_name"
     t.index ["package_id"], name: "index_parts_on_package_id"
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "description"
+    t.bigint "package_id"
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "discarded_at"
+    t.index ["discarded_at"], name: "index_products_on_discarded_at"
+    t.index ["package_id"], name: "index_products_on_package_id"
   end
 
   create_table "requirements", force: :cascade do |t|
@@ -72,6 +85,7 @@ ActiveRecord::Schema.define(version: 2019_10_04_105300) do
 
   create_table "settings", force: :cascade do |t|
     t.text "data"
+    t.text "log"
     t.bigint "endpoint_id"
     t.bigint "package_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -87,7 +101,7 @@ ActiveRecord::Schema.define(version: 2019_10_04_105300) do
     t.string "username", null: false
     t.string "locale", limit: 10
     t.boolean "trusted", default: false
-    t.boolean "comapny", default: false
+    t.boolean "group", default: false
     t.bigint "user_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false

@@ -12,6 +12,9 @@ gem 'webpacker', '~> 4.0'
 gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.7'
 
+gem 'materialize-sass', '~> 1.0.0'
+gem 'material_icons'
+
 # PostgreSQL will be used for data storage
 gem 'pg', '~> 1'
 # Use triggers

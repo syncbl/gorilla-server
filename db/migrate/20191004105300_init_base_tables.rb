@@ -5,7 +5,7 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.string :username, unique: true, null: false
       t.string :locale, limit: 10
       t.boolean :trusted, default: false
-      t.boolean :comapny, default: false
+      t.boolean :group, default: false
 
       # User can be a company
       t.belongs_to :user, index: true, optional: true
@@ -53,6 +53,8 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.belongs_to :user, index: true, optional: true
       # You can link packages one to another to chain updates
       t.belongs_to :package, index: true, optional: true
+      # The package can be a part of product
+      t.belongs_to :product, index: true, optional: true
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
@@ -72,7 +74,10 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
     end
     # ----------
     create_table :settings do |t|
+      # Application related variables and settings
       t.text :data
+      # Log tails etc.
+      t.text :log
       # TODO: Purchase information
 
       t.belongs_to :endpoint
@@ -89,7 +94,7 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.string :name, null: false
       t.string :description
       t.string :destination
-      t.text :data # TODO: Encode script with user's key
+      t.text :script # TODO: Encode script with user's key
 
       # Parts will be copied into chained updates
       t.belongs_to :package, index: true
@@ -102,6 +107,16 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
     end
     create_trigger(compatibility: 1).on(:parts).before(:update) do
       'NEW.updated_at = NOW();'
+    end
+    create_table :products do |t|
+      t.string :title, null: false
+      t.text :description
+      t.belongs_to :package, index: true
+
+      t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :discarded_at
+      t.index :discarded_at
     end
   end
 end
