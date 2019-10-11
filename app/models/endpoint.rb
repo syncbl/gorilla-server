@@ -1,6 +1,6 @@
 class Endpoint < ApplicationRecord
   include Discard::Model
-  #acts_as_taggable
+  acts_as_taggable
 
   belongs_to :user
   has_many :settings, dependent: :destroy

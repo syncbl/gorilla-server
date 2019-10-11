@@ -45,11 +45,6 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.string :version
       t.string :key, null: false, default: -> { 'md5(random()::text || clock_timestamp()::text)::uuid' }
 
-      # TODO: Change to tags
-      t.boolean :published, default: false # Is available for installation?
-      t.boolean :removable, default: false # Is a component, that must be removed too?
-      t.boolean :unstable, default: false # Some of the dependecies is broken
-
       t.belongs_to :user, index: true, optional: true
       # You can link packages one to another to chain updates
       t.belongs_to :package, index: true, optional: true

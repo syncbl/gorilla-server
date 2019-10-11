@@ -20,7 +20,8 @@ gem 'pg', '~> 1'
 # Use triggers
 gem 'hairtrigger'
 # Tag items and users
-#gem 'acts-as-taggable-on', '~> 6.0'
+# TODO: Change to stable release
+gem 'acts-as-taggable-on', git: 'https://github.com/mbleigh/acts-as-taggable-on'
 # CRON scheduling
 gem 'whenever', require: false
 # HTML parsing for download link detection
