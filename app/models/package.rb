@@ -21,7 +21,7 @@ class Package < ApplicationRecord
 
   scope :available_for, -> (user = nil) {
     # TODO: Optimize with arel_table
-    where(published: true, unstable: false)
+    tagged_with("published")
     .where(user: user).or(where(user: nil))
   }
 
