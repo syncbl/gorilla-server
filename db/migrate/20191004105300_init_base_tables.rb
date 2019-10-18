@@ -51,6 +51,10 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       # The package can be a part of product
       t.belongs_to :product, index: true, optional: true
 
+      t.string :tags, null: false, default: ''
+      t.boolean :published, null: false, default: false
+      t.boolean :unstable, null: false, default: false
+
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :discarded_at

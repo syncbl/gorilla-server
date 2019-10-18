@@ -1,10 +1,3 @@
-GIT
-  remote: https://github.com/mbleigh/acts-as-taggable-on
-  revision: fbf2b609b69a90edcd5813e9ba6395a7e293e977
-  specs:
-    acts-as-taggable-on (6.0.1)
-      activerecord (>= 5.0, < 6.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -219,7 +212,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  acts-as-taggable-on!
   awesome_print
   bcrypt (~> 3.1.7)
   better_errors

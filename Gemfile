@@ -19,9 +19,6 @@ gem 'material_icons'
 gem 'pg', '~> 1'
 # Use triggers
 gem 'hairtrigger'
-# Tag items and users
-# TODO: Change to stable release
-gem 'acts-as-taggable-on', git: 'https://github.com/mbleigh/acts-as-taggable-on'
 # CRON scheduling
 gem 'whenever', require: false
 # HTML parsing for download link detection

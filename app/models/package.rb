@@ -1,6 +1,5 @@
 class Package < ApplicationRecord
   include Discard::Model
-  acts_as_taggable
 
   has_many :parts, dependent: :destroy
   has_many :settings
@@ -21,7 +20,7 @@ class Package < ApplicationRecord
 
   scope :available_for, -> (user = nil) {
     # TODO: Optimize with arel_table
-    tagged_with("published")
+    where(published: true, unstable: false)
     .where(user: user).or(where(user: nil))
   }
 
