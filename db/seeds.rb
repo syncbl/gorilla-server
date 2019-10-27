@@ -10,7 +10,8 @@ case Rails.env
 when "development"
   User.create username: 'test1'
   User.create username: 'test2'
-  Package.create name: 'openssl-1.0.3', alias: 'openssl'
+  p = Package.create name: 'openssl-1.0.3', alias: 'openssl'
   Package.create name: 'openssl-1.0.1'
+  Product.create title: 'OpenSSL', package: p
   Endpoint.create name: 'test', user: User.first
 end

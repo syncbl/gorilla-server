@@ -12,8 +12,7 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :discarded_at
-      t.index :discarded_at
+      t.datetime :discarded_at, index: true
     end
     create_trigger(compatibility: 1).on(:users).before(:update) do
       'NEW.updated_at = NOW();'
@@ -23,13 +22,13 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.string :name
       # TODO: Store PC parameters here
       t.text :data
+      t.string :key, index: true, null: false, default: -> { 'md5(random()::text || clock_timestamp()::text)::uuid' }
 
       t.belongs_to :user, index: true, optional: true
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :discarded_at
-      t.index :discarded_at
+      t.datetime :discarded_at, index: true
       # To make computers individual
       t.index [:user_id, :name], unique: true # ...
     end
@@ -43,7 +42,7 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.string :title
       t.string :description
       t.string :version
-      t.string :key, null: false, default: -> { 'md5(random()::text || clock_timestamp()::text)::uuid' }
+      t.string :key, index: true, null: false, default: -> { 'md5(random()::text || clock_timestamp()::text)::uuid' }
 
       t.belongs_to :user, index: true, optional: true
       # You can link packages one to another to chain updates
@@ -57,8 +56,7 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :discarded_at
-      t.index :discarded_at
+      t.datetime :discarded_at, index: true
       # Packages will be unique for everyone or for selected user
       t.index [:user_id, :name], unique: true
     end
@@ -84,8 +82,7 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :discarded_at
-      t.index :discarded_at
+      t.datetime :discarded_at, index: true
       t.index [:endpoint_id, :package_id], unique: true
     end
     # ----------
@@ -94,14 +91,14 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.string :description
       t.string :destination
       t.text :script # TODO: Encode script with user's key
+      t.string :key, index: true, null: false, default: -> { 'md5(random()::text || clock_timestamp()::text)::uuid' }
 
       # Parts will be copied into chained updates
       t.belongs_to :package, index: true
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :discarded_at
-      t.index :discarded_at
+      t.datetime :discarded_at, index: true
       t.index [:package_id, :name]
     end
     create_trigger(compatibility: 1).on(:parts).before(:update) do
@@ -111,11 +108,14 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.string :title, null: false
       t.text :description
       t.belongs_to :package, index: true
+      t.string :key, index: true, null: false, default: -> { 'md5(random()::text || clock_timestamp()::text)::uuid' }
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :discarded_at
-      t.index :discarded_at
+      t.datetime :discarded_at, index: true
+    end
+    create_trigger(compatibility: 1).on(:parts).before(:update) do
+      'NEW.updated_at = NOW();'
     end
   end
 end

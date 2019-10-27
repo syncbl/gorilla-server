@@ -10,19 +10,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_04_105300) do
+ActiveRecord::Schema.define(version: 2019_10_27_155103) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
   create_table "endpoints", force: :cascade do |t|
     t.string "name"
     t.text "data"
+    t.string "key", default: -> { "(md5(((random())::text || (clock_timestamp())::text)))::uuid" }, null: false
     t.bigint "user_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "discarded_at"
     t.index ["discarded_at"], name: "index_endpoints_on_discarded_at"
+    t.index ["key"], name: "index_endpoints_on_key"
     t.index ["user_id", "name"], name: "index_endpoints_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_endpoints_on_user_id"
   end
@@ -44,6 +67,7 @@ ActiveRecord::Schema.define(version: 2019_10_04_105300) do
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "discarded_at"
     t.index ["discarded_at"], name: "index_packages_on_discarded_at"
+    t.index ["key"], name: "index_packages_on_key"
     t.index ["package_id"], name: "index_packages_on_package_id"
     t.index ["product_id"], name: "index_packages_on_product_id"
     t.index ["user_id", "name"], name: "index_packages_on_user_id_and_name", unique: true
@@ -55,11 +79,13 @@ ActiveRecord::Schema.define(version: 2019_10_04_105300) do
     t.string "description"
     t.string "destination"
     t.text "script"
+    t.string "key", default: -> { "(md5(((random())::text || (clock_timestamp())::text)))::uuid" }, null: false
     t.bigint "package_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "discarded_at"
     t.index ["discarded_at"], name: "index_parts_on_discarded_at"
+    t.index ["key"], name: "index_parts_on_key"
     t.index ["package_id", "name"], name: "index_parts_on_package_id_and_name"
     t.index ["package_id"], name: "index_parts_on_package_id"
   end
@@ -68,10 +94,12 @@ ActiveRecord::Schema.define(version: 2019_10_04_105300) do
     t.string "title", null: false
     t.text "description"
     t.bigint "package_id"
+    t.string "key", default: -> { "(md5(((random())::text || (clock_timestamp())::text)))::uuid" }, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "discarded_at"
     t.index ["discarded_at"], name: "index_products_on_discarded_at"
+    t.index ["key"], name: "index_products_on_key"
     t.index ["package_id"], name: "index_products_on_package_id"
   end
 
@@ -110,6 +138,7 @@ ActiveRecord::Schema.define(version: 2019_10_04_105300) do
     t.index ["user_id"], name: "index_users_on_user_id"
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   # no candidate create_trigger statement could be found, creating an adapter-specific one
   execute(<<-SQL)
 CREATE OR REPLACE FUNCTION public.endpoints_before_update_row_tr()
