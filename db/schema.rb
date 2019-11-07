@@ -54,15 +54,15 @@ ActiveRecord::Schema.define(version: 2019_10_27_155103) do
     t.string "name", null: false
     t.string "alias"
     t.string "title"
-    t.string "description"
+    t.string "text"
     t.string "version"
     t.string "key", default: -> { "(md5(((random())::text || (clock_timestamp())::text)))::uuid" }, null: false
-    t.bigint "user_id"
-    t.bigint "package_id"
-    t.bigint "product_id"
     t.string "tags", default: "", null: false
     t.boolean "published", default: false, null: false
     t.boolean "unstable", default: false, null: false
+    t.bigint "user_id"
+    t.bigint "package_id"
+    t.bigint "product_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "discarded_at"
@@ -92,9 +92,9 @@ ActiveRecord::Schema.define(version: 2019_10_27_155103) do
 
   create_table "products", force: :cascade do |t|
     t.string "title", null: false
-    t.text "description"
-    t.bigint "package_id"
+    t.text "text"
     t.string "key", default: -> { "(md5(((random())::text || (clock_timestamp())::text)))::uuid" }, null: false
+    t.bigint "package_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "discarded_at"

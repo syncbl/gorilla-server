@@ -10,7 +10,6 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'sass-rails', '~> 5'
 gem 'webpacker', '~> 4.0'
 gem 'turbolinks', '~> 5'
-gem 'jbuilder'
 gem 'jquery-rails'
 
 gem 'materialize-sass', '~> 1.0.0'
@@ -34,8 +33,12 @@ gem "foreman"
 gem 'discard', '~> 1.0'
 # Stream zip as file container
 gem 'zip_tricks'
-# pack and unpack parts to zip
+# Pack parts to zip
 gem 'rubyzip'
+
+# JSON Builder
+#gem 'jbuilder'
+gem 'jb'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

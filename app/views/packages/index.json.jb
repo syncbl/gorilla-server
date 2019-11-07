@@ -1,0 +1,14 @@
+json = {
+  name: (@package.alias || @package.name),
+  title: @package.title,
+  text: @package.text,
+  key: @package.key,
+  version: @package.version,
+  published: @package.published,
+  unstable: @package.unstable
+  created_at: @package.created_at,
+  updated_at: @package.updated_at,
+
+  # TODO: Render user
+  # TODO: Render requirements
+}

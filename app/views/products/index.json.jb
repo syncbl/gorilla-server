@@ -1,0 +1,18 @@
+json = {
+  count: @products.size
+}
+
+json[:products] = @products.map do |product|
+  {
+    title: product.title,
+    text: product.text,
+    key: product.key,
+    approved: product.approved,
+    created_at: product.created_at,
+    updated_at: product.updated_at,
+
+    # TODO: Render user and package
+  }
+end
+
+json
