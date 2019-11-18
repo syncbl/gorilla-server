@@ -1,8 +1,4 @@
-json = {
-  count: @products.size
-}
-
-json[:products] = @products.map do |product|
+json = @products.map do |product|
   {
     title: product.title,
     text: product.text,
@@ -14,5 +10,3 @@ json[:products] = @products.map do |product|
     # TODO: Render user and package
   }
 end
-
-json

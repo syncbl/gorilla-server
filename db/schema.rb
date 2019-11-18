@@ -94,6 +94,7 @@ ActiveRecord::Schema.define(version: 2019_10_27_155103) do
     t.string "title", null: false
     t.text "text"
     t.string "key", default: -> { "(md5(((random())::text || (clock_timestamp())::text)))::uuid" }, null: false
+    t.boolean "approved", default: false, null: false
     t.bigint "package_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false

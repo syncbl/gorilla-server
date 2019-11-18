@@ -4,7 +4,8 @@ class PackagesController < ApplicationController
   # GET /packages
   # GET /packages.json
   def index
-    @packages = Package.all
+    # TODO: If product OR requirement
+    @packages = Product.find_by(key: params[:product]).package
   end
 
   # GET /packages/1
@@ -64,11 +65,11 @@ class PackagesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_package
-      @package = Package.find(params[:id])
+      @package = Package.find(key: params[:package])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def package_params
-      params.fetch(:package, {})
+      params.fetch(:package, {}).permit(:product)
     end
 end

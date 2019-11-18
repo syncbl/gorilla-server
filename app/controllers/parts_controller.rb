@@ -4,7 +4,7 @@ class PartsController < ApplicationController
   # GET /parts
   # GET /parts.json
   def index
-    @parts = Part.all
+    @parts = Packages.find_by(key: params[:package]).parts
   end
 
   # GET /parts/1
@@ -64,7 +64,7 @@ class PartsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_part
-      @part = Part.find(params[:id])
+      @part = Part.find(key: params[:part])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
