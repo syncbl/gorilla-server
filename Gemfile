@@ -15,6 +15,9 @@ gem 'jquery-rails'
 gem 'materialize-sass', '~> 1.0.0'
 #gem 'material_icons'
 
+gem 'devise'
+gem 'simple_token_authentication', '~> 1.0'
+
 # PostgreSQL will be used for data storage
 gem 'pg', '~> 1'
 # Use triggers

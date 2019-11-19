@@ -2,13 +2,14 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
   def change
     # ----------
     create_table :users do |t|
-      t.string :username, unique: true, null: false
       t.string :locale, limit: 10
-      t.boolean :trusted, default: false
-      t.boolean :group, default: false
+      #t.boolean :trusted, default: false
+      #t.boolean :group, default: false
 
       # User can be a company
       t.belongs_to :user, index: true, optional: true
+
+      t.string :authentication_token, index: true, unique: true, limit: 30
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
