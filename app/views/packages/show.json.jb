@@ -1,0 +1,1 @@
+json = render 'show', package: @package

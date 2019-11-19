@@ -1,0 +1,11 @@
+json = {
+  title: product.title,
+  text: product.text,
+  key: product.key,
+  approved: product.approved,
+  created_at: product.created_at,
+  updated_at: product.updated_at,
+  package: (render 'packages/show', package: product.package)
+
+  # TODO: Render user and package
+}

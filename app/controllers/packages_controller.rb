@@ -6,8 +6,8 @@ class PackagesController < ApplicationController
   def index
     # TODO: If product OR requirement
     # TODO: Tree
-    ???
-    @packages = (Product.find_by(key: params[:product])&.package.requirements || Package.find_by(key: params[:product]))
+    #???
+    #@packages = (Product.find_by(key: params[:product])&.package.requirements || Package.find_by(key: params[:package]))
   end
 
   # GET /packages/1
@@ -72,6 +72,6 @@ class PackagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def package_params
-      params.fetch(:package, {}).permit(:product)
+      params.fetch(:package, {}).permit(:product, :package)
     end
 end
