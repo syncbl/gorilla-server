@@ -5,7 +5,9 @@ class PackagesController < ApplicationController
   # GET /packages.json
   def index
     # TODO: If product OR requirement
-    @packages = Product.find_by(key: params[:product]).package
+    # TODO: Tree
+    ???
+    @packages = (Product.find_by(key: params[:product])&.package.requirements || Package.find_by(key: params[:product]))
   end
 
   # GET /packages/1
