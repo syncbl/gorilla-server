@@ -1,13 +1,27 @@
 class InitBaseTables < ActiveRecord::Migration[6.0]
   def change
     # ----------
+    create_table :companies do |t|
+      t.string :name
+
+      # Licence information
+
+      t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :discarded_at, index: true
+    end
+    create_trigger(compatibility: 1).on(:companies).before(:update) do
+      'NEW.updated_at = NOW();'
+    end
+    # ----------
     create_table :users do |t|
+      t.string :name
       t.string :locale, limit: 10
       #t.boolean :trusted, default: false
       #t.boolean :group, default: false
 
       # User can be a company
-      t.belongs_to :user, index: true, optional: true
+      t.belongs_to :company, index: true, optional: true
 
       t.string :authentication_token, index: true, unique: true, limit: 30
 
@@ -46,8 +60,8 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.string :key, index: true, null: false, default: -> { 'md5(random()::text || clock_timestamp()::text)::uuid' }
 
       t.string :tags, null: false, default: ''
-      t.boolean :published, null: false, default: false
-      t.boolean :unstable, null: false, default: false
+      #t.boolean :unstable, null: false, default: false
+      #t.boolean :deprecated, null: false, default: false
 
       t.belongs_to :user, index: true, optional: true
       # You can link packages one to another to chain updates
@@ -65,10 +79,17 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       'NEW.updated_at = NOW();'
     end
     # ----------
-    create_table :requirements do |t|
+    create_table :dependencies do |t|
       t.belongs_to :package
-      t.integer :required_package_id, index: true
-      t.index [:package_id, :required_package_id], unique: true
+      t.integer :dependent_package_id, index: true
+      t.index [:package_id, :dependent_package_id], unique: true
+
+      t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :discarded_at, index: true
+    end
+    create_trigger(compatibility: 1).on(:dependencies).before(:update) do
+      'NEW.updated_at = NOW();'
     end
     # ----------
     create_table :settings do |t|
@@ -85,6 +106,9 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :discarded_at, index: true
       t.index [:endpoint_id, :package_id], unique: true
+    end
+    create_trigger(compatibility: 1).on(:settings).before(:update) do
+      'NEW.updated_at = NOW();'
     end
     # ----------
     create_table :parts do |t|
@@ -111,14 +135,15 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.text :text
       t.string :key, index: true, null: false, default: -> { 'md5(random()::text || clock_timestamp()::text)::uuid' }
       t.boolean :approved, null: false, default: false
+      t.boolean :published, null: false, default: false
 
-      t.belongs_to :package, index: true
+      t.belongs_to :user, index: true, optional: true
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :discarded_at, index: true
     end
-    create_trigger(compatibility: 1).on(:parts).before(:update) do
+    create_trigger(compatibility: 1).on(:products).before(:update) do
       'NEW.updated_at = NOW();'
     end
   end

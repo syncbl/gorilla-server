@@ -36,6 +36,25 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "companies", force: :cascade do |t|
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "discarded_at"
+    t.index ["discarded_at"], name: "index_companies_on_discarded_at"
+  end
+
+  create_table "dependencies", force: :cascade do |t|
+    t.bigint "package_id"
+    t.integer "dependent_package_id"
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "discarded_at"
+    t.index ["dependent_package_id"], name: "index_dependencies_on_dependent_package_id"
+    t.index ["discarded_at"], name: "index_dependencies_on_discarded_at"
+    t.index ["package_id", "dependent_package_id"], name: "index_dependencies_on_package_id_and_dependent_package_id", unique: true
+    t.index ["package_id"], name: "index_dependencies_on_package_id"
+  end
+
   create_table "endpoints", force: :cascade do |t|
     t.string "name"
     t.text "data"
@@ -58,7 +77,6 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.string "version"
     t.string "key", default: -> { "(md5(((random())::text || (clock_timestamp())::text)))::uuid" }, null: false
     t.string "tags", default: "", null: false
-    t.boolean "published", default: false, null: false
     t.boolean "unstable", default: false, null: false
     t.bigint "user_id"
     t.bigint "package_id"
@@ -95,21 +113,14 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.text "text"
     t.string "key", default: -> { "(md5(((random())::text || (clock_timestamp())::text)))::uuid" }, null: false
     t.boolean "approved", default: false, null: false
-    t.bigint "package_id"
+    t.boolean "published", default: false, null: false
+    t.bigint "user_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "discarded_at"
     t.index ["discarded_at"], name: "index_products_on_discarded_at"
     t.index ["key"], name: "index_products_on_key"
-    t.index ["package_id"], name: "index_products_on_package_id"
-  end
-
-  create_table "requirements", force: :cascade do |t|
-    t.bigint "package_id"
-    t.integer "required_package_id"
-    t.index ["package_id", "required_package_id"], name: "index_requirements_on_package_id_and_required_package_id", unique: true
-    t.index ["package_id"], name: "index_requirements_on_package_id"
-    t.index ["required_package_id"], name: "index_requirements_on_required_package_id"
+    t.index ["user_id"], name: "index_products_on_user_id"
   end
 
   create_table "settings", force: :cascade do |t|
@@ -128,7 +139,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
 
   create_table "users", force: :cascade do |t|
     t.string "locale", limit: 10
-    t.bigint "user_id"
+    t.bigint "company_id"
     t.string "authentication_token", limit: 30
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -139,13 +150,45 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.index ["authentication_token"], name: "index_users_on_authentication_token"
+    t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["discarded_at"], name: "index_users_on_discarded_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["user_id"], name: "index_users_on_user_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  # no candidate create_trigger statement could be found, creating an adapter-specific one
+  execute(<<-SQL)
+CREATE OR REPLACE FUNCTION public.companies_before_update_row_tr()
+ RETURNS trigger
+ LANGUAGE plpgsql
+AS $function$
+BEGIN
+    NEW.updated_at = NOW();
+    RETURN NEW;
+END;
+$function$
+  SQL
+
+  # no candidate create_trigger statement could be found, creating an adapter-specific one
+  execute("CREATE TRIGGER companies_before_update_row_tr BEFORE UPDATE ON \"companies\" FOR EACH ROW EXECUTE PROCEDURE companies_before_update_row_tr()")
+
+  # no candidate create_trigger statement could be found, creating an adapter-specific one
+  execute(<<-SQL)
+CREATE OR REPLACE FUNCTION public.dependencies_before_update_row_tr()
+ RETURNS trigger
+ LANGUAGE plpgsql
+AS $function$
+BEGIN
+    NEW.updated_at = NOW();
+    RETURN NEW;
+END;
+$function$
+  SQL
+
+  # no candidate create_trigger statement could be found, creating an adapter-specific one
+  execute("CREATE TRIGGER dependencies_before_update_row_tr BEFORE UPDATE ON \"dependencies\" FOR EACH ROW EXECUTE PROCEDURE dependencies_before_update_row_tr()")
+
   # no candidate create_trigger statement could be found, creating an adapter-specific one
   execute(<<-SQL)
 CREATE OR REPLACE FUNCTION public.endpoints_before_update_row_tr()
@@ -193,6 +236,38 @@ $function$
 
   # no candidate create_trigger statement could be found, creating an adapter-specific one
   execute("CREATE TRIGGER parts_before_update_row_tr BEFORE UPDATE ON \"parts\" FOR EACH ROW EXECUTE PROCEDURE parts_before_update_row_tr()")
+
+  # no candidate create_trigger statement could be found, creating an adapter-specific one
+  execute(<<-SQL)
+CREATE OR REPLACE FUNCTION public.products_before_update_row_tr()
+ RETURNS trigger
+ LANGUAGE plpgsql
+AS $function$
+BEGIN
+    NEW.updated_at = NOW();
+    RETURN NEW;
+END;
+$function$
+  SQL
+
+  # no candidate create_trigger statement could be found, creating an adapter-specific one
+  execute("CREATE TRIGGER products_before_update_row_tr BEFORE UPDATE ON \"products\" FOR EACH ROW EXECUTE PROCEDURE products_before_update_row_tr()")
+
+  # no candidate create_trigger statement could be found, creating an adapter-specific one
+  execute(<<-SQL)
+CREATE OR REPLACE FUNCTION public.settings_before_update_row_tr()
+ RETURNS trigger
+ LANGUAGE plpgsql
+AS $function$
+BEGIN
+    NEW.updated_at = NOW();
+    RETURN NEW;
+END;
+$function$
+  SQL
+
+  # no candidate create_trigger statement could be found, creating an adapter-specific one
+  execute("CREATE TRIGGER settings_before_update_row_tr BEFORE UPDATE ON \"settings\" FOR EACH ROW EXECUTE PROCEDURE settings_before_update_row_tr()")
 
   # no candidate create_trigger statement could be found, creating an adapter-specific one
   execute(<<-SQL)

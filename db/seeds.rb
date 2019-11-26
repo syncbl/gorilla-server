@@ -12,7 +12,9 @@ when "development"
   #User.create email: 'eldar.avatov@gmail.com', encrypted_password: '$2a$11$taCALJiHs0S09Pgu.WKZ8.trzmtyEpXm5DWKoN/mdkRzEYZzNkP2e',
   #  authentication_token: 'Tfu_P5XZyCpZxkrXpNfh'
   Package.create name: 'openssl-1.0.1'
-  Package.create name: 'openssl-1.0.3', alias: 'openssl'
+  d = Package.create name: 'openssl-dev'
+  p = Package.create name: 'openssl-1.0.3', alias: 'openssl'
+  p.dependencies << d
   Product.create title: 'OpenSSL', package: Package.last, text: 'Проверим русский язык'
   Endpoint.create name: 'test', user: User.first
 end

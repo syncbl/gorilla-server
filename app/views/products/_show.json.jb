@@ -3,6 +3,7 @@ json = {
   text: product.text,
   key: product.key,
   approved: product.approved,
+  published: product.published,
   created_at: product.created_at,
   updated_at: product.updated_at,
   package: (render 'packages/show', package: product.package)

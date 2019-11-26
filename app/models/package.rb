@@ -5,30 +5,32 @@ class Package < ApplicationRecord
   has_many :settings
   has_many :endpoints, through: :settings
   has_one :product
-  has_and_belongs_to_many :requirements,
+  has_and_belongs_to_many :dependencies,
     class_name: "Package",
-    join_table: :requirements,
+    join_table: :dependencies,
     foreign_key: :package_id,
-    association_foreign_key: :required_package_id
+    association_foreign_key: :dependent_package_id
   belongs_to :user, optional: true
   after_create :create_main_part
 
   default_scope -> {
-    kept. # ???
-    order(user_id: :asc)
+    kept
+    .includes(:dependencies)
   }
 
-  scope :available_for, -> (user = nil) {
-    # TODO: Optimize with arel_table
-    where(published: true, unstable: false)
-    .where(user: user).or(where(user: nil))
-  }
-
-  scope :editable_by, -> (user = nil) {
-    # TODO: Optimize with arel_table
-    where(published: false)
-    .where(user: user)
-  }
+  def all_dependencies(packages = [])
+    dependencies.map do |p|
+      if !packages.include?(p)
+        if p.dependencies.size > 0
+          packages << p
+        else
+          packages.unshift(p)
+        end
+        all_dependencies(packages)
+      end
+    end
+    packages
+  end
 
   def to_yaml
     #
@@ -41,4 +43,5 @@ class Package < ApplicationRecord
       name: 'main'
     )
   end
+
 end

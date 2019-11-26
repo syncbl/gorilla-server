@@ -1,13 +1,14 @@
 class PackagesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_package, only: [:show, :edit, :update, :destroy]
 
   # GET /packages
   # GET /packages.json
   def index
-    # TODO: If product OR requirement
+    # TODO: If product OR dependencies
     # TODO: Tree
     #???
-    #@packages = (Product.find_by(key: params[:product])&.package.requirements || Package.find_by(key: params[:package]))
+    @packages = Package.find_by(key: params[:key])&.all_dependencies
   end
 
   # GET /packages/1

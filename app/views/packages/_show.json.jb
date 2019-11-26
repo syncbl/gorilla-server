@@ -4,9 +4,14 @@ json = {
   text: package.text,
   key: package.key,
   version: package.version,
-  published: package.published,
-  unstable: package.unstable,
+  #unstable: package.unstable,
 
   # TODO: Render user
-  # TODO: Render requirements
+  # TODO: Render dependencies
 }
+
+package.all_dependencies.map do |p|
+  json[:dependencies] << (render 'show', package: package)
+end
+
+json
