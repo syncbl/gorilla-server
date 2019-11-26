@@ -26,6 +26,7 @@ class Package < ApplicationRecord
         else
           packages.unshift(p)
         end
+        # TODO: May be, counter?
         all_dependencies(packages)
       end
     end

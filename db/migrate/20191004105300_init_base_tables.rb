@@ -132,6 +132,7 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
     # ----------
     create_table :products do |t|
       t.string :title, null: false
+      # TODO: Search string?
       t.text :text
       t.string :key, index: true, null: false, default: -> { 'md5(random()::text || clock_timestamp()::text)::uuid' }
       t.boolean :approved, null: false, default: false

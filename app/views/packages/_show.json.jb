@@ -9,9 +9,3 @@ json = {
   # TODO: Render user
   # TODO: Render dependencies
 }
-
-package.all_dependencies.map do |p|
-  json[:dependencies] << (render 'show', package: package)
-end
-
-json
