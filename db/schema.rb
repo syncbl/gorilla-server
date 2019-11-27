@@ -59,13 +59,14 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
   create_table "endpoints", force: :cascade do |t|
     t.string "name"
     t.text "data"
-    t.string "key", default: -> { "(md5(((random())::text || (clock_timestamp())::text)))::uuid" }, null: false
+    t.string "eid", default: "", null: false
+    t.string "authentication_token", limit: 30
     t.bigint "user_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "discarded_at"
+    t.index ["authentication_token"], name: "index_endpoints_on_authentication_token"
     t.index ["discarded_at"], name: "index_endpoints_on_discarded_at"
-    t.index ["key"], name: "index_endpoints_on_key"
     t.index ["user_id", "name"], name: "index_endpoints_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_endpoints_on_user_id"
   end

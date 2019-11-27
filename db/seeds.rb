@@ -16,5 +16,5 @@ when "development"
   p = Package.create name: 'openssl-1.0.3', alias: 'openssl'
   p.dependencies << d
   Product.create title: 'OpenSSL', package: Package.last, text: 'Проверим русский язык'
-  Endpoint.create name: 'test', user: User.first
+  Endpoint.create name: 'test', eid: '123456', user: User.first
 end

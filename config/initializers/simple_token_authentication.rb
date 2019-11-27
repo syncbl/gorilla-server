@@ -7,7 +7,7 @@ SimpleTokenAuthentication.configure do |config|
   # If true, user is stored in the session and the authentication token and
   # email may be provided only once.
   # If false, users must provide their authentication token and email at every request.
-  config.sign_in_token = true
+  config.sign_in_token = false
 
   # Configure the name of the HTTP headers watched for authentication.
   #
@@ -36,6 +36,13 @@ SimpleTokenAuthentication.configure do |config|
   #     `config.header_names = { super_admin: { phone_number: 'X-SuperAdmin-PhoneNumber' } }`
   #
   # config.header_names = { user: { authentication_token: 'X-User-Token', email: 'X-User-Email' } }
+
+  ##config.identifiers = {
+  ##  endpoint: 'eid'
+  ##}
+  ##config.header_names = {
+  ##  endpoint: { authentication_token: 'X-Endpoint-Token', eid: 'X-Endpoint-Id' }
+  ##}
 
   # Configure the name of the attribute used to identify the user for authentication.
   # That attribute must exist in your model.

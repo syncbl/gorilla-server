@@ -1,12 +1,11 @@
 Rails.application.routes.draw do
 
-  resources :companies
   devise_for :users, controllers: {sessions: 'users/sessions'}
   root 'products#index'
 
+  resources :companies
   resources :products
   resources :packages
-
   resources :settings
   resources :users
   resources :parts

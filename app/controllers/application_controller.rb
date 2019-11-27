@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   acts_as_token_authentication_handler_for User
+  #acts_as_token_authentication_handler_for Endpoint, fallback: :none
   protect_from_forgery with: :exception, unless: -> { request.format.json? }
   before_action :configure_permitted_parameters, if: :devise_controller?
 
