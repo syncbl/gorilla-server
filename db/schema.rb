@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
   end
 
   create_table "companies", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "discarded_at"
@@ -77,7 +78,6 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.string "version"
     t.string "key", default: -> { "(md5(((random())::text || (clock_timestamp())::text)))::uuid" }, null: false
     t.string "tags", default: "", null: false
-    t.boolean "unstable", default: false, null: false
     t.bigint "user_id"
     t.bigint "package_id"
     t.bigint "product_id"
@@ -138,6 +138,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
   end
 
   create_table "users", force: :cascade do |t|
+    t.string "name"
     t.string "locale", limit: 10
     t.bigint "company_id"
     t.string "authentication_token", limit: 30

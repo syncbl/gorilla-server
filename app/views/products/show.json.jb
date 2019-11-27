@@ -1,0 +1,5 @@
+json = render 'layouts/object', object: @product
+
+json[:product] = render 'show', product: @product
+
+json

@@ -11,6 +11,7 @@ class Package < ApplicationRecord
     foreign_key: :package_id,
     association_foreign_key: :dependent_package_id
   belongs_to :user, optional: true
+
   after_create :create_main_part
 
   default_scope -> {

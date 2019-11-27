@@ -1,3 +1,7 @@
-json = @products.map do |product|
+json = render 'layouts/array', array: @product
+
+json[:products] = @products.map do |product|
   render 'show', product: product
 end
+
+json
