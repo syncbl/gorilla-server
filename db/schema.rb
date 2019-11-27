@@ -216,7 +216,7 @@ CREATE OR REPLACE FUNCTION public.products_before_update_row_tr()
  LANGUAGE plpgsql
 AS $function$
 BEGIN
-    IF NEW.updated_at = updated_at THEN NEW.updated_at = NOW(); END IF;
+    NEW.updated_at = NOW();
     RETURN NEW;
 END;
 $function$
