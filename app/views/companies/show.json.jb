@@ -1,5 +1,0 @@
-{
-  id: @company.id,
-  created_at: @company.created_at,
-  updated_at: @company.updated_at
-}

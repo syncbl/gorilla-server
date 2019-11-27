@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   include Discard::Model
-
   acts_as_token_authenticatable
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable,
@@ -9,7 +9,6 @@ class User < ApplicationRecord
 
   has_many :packages, dependent: :destroy
   has_many :endpoints
-  belongs_to :company, optional: true
 
   default_scope -> {
     kept

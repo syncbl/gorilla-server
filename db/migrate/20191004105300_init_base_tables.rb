@@ -1,27 +1,11 @@
 class InitBaseTables < ActiveRecord::Migration[6.0]
   def change
     # ----------
-    create_table :companies do |t|
-      t.string :name
-
-      # Licence information
-
-      t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :discarded_at, index: true
-    end
-    create_trigger(compatibility: 1).on(:companies).before(:update) do
-      'NEW.updated_at = NOW();'
-    end
-    # ----------
     create_table :users do |t|
       t.string :name
       t.string :locale, limit: 10
       #t.boolean :trusted, default: false
       #t.boolean :group, default: false
-
-      # User can be a company
-      t.belongs_to :company, index: true, optional: true
 
       t.string :authentication_token, index: true, unique: true, limit: 30
 

@@ -5,11 +5,9 @@ class PackagesController < ApplicationController
   # GET /packages
   # GET /packages.json
   def index
-    if current_user.company
-      @packages = Packages.where(user: current_user.company.users)
-    else
-      @packages = Packages.find_by(user: current_user)
-    end
+    #if current_user.company
+    #  @packages = Packages.where(user: current_user.company.users)
+    @packages = Packages.find_by(user: current_user)
   end
 
   # GET /packages/1
