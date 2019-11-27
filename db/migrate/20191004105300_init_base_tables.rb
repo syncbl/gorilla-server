@@ -65,13 +65,14 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
     end
     # ----------
     create_table :dependencies do |t|
-      t.belongs_to :package
       t.integer :dependent_package_id, index: true
-      t.index [:package_id, :dependent_package_id], unique: true
+
+      t.belongs_to :package
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :discarded_at, index: true
+      t.index [:package_id, :dependent_package_id], unique: true
     end
     create_trigger(compatibility: 1).on(:dependencies).before(:update) do
       'NEW.updated_at = NOW();'
@@ -101,7 +102,6 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.string :description
       t.string :destination
       t.text :script # TODO: Encode script with user's key
-      t.string :key, index: true, null: false, default: -> { 'md5(random()::text || clock_timestamp()::text)::uuid' }
 
       # Parts will be copied into chained updates
       t.belongs_to :package, index: true
