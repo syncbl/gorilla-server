@@ -13,6 +13,7 @@ when "development"
   #  authentication_token: 'Tfu_P5XZyCpZxkrXpNfh'
   Package.create name: 'openssl-1.0.1'
   d = Package.create name: 'openssl-dev'
+  d.parts.first.files.attach(io: File.open('storage/openssl-1.0.3/guacamole-server-0.9.14.tar.gz'), filename: 'guacamole-server-0.9.14.tar.gz')
   p = Package.create name: 'openssl-1.0.3', alias: 'openssl'
   p.dependencies << d
   Product.create title: 'OpenSSL', package: Package.last, text: 'Проверим русский язык'

@@ -1,6 +1,7 @@
 class Product < ApplicationRecord
   include Discard::Model
 
+  # TODO: has_one_attached different sizes
   has_many_attached :images
   has_one :package, dependent: :nullify
   belongs_to :user, optional: true

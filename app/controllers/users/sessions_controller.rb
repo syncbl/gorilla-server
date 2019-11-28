@@ -15,7 +15,11 @@ class Users::SessionsController < Devise::SessionsController
           # TODO: Check for count of allowed endpoints etc.
           # TODO: Blockchain hash!
         #  current_user.save(touch: false)
+        ## current_user.update(authentication_token: nil)
         #end
+
+        # Also create Endpoint record if none
+
         respond_with_authentication_token(resource)
       end
     end
