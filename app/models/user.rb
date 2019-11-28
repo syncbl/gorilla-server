@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-  include Discard::Model
   acts_as_token_authenticatable
 
   # Include default devise modules. Others available are:
@@ -10,7 +9,9 @@ class User < ApplicationRecord
   has_many :packages, dependent: :destroy
   has_many :endpoints
 
-  default_scope -> {
-    kept
-  }
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  validates :email, presence: true, length: { maximum: 105 },
+            uniqueness: { case_sensitive: false },
+            format: { with: VALID_EMAIL_REGEX }
+
 end

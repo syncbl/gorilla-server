@@ -28,7 +28,9 @@ class Users::SessionsController < Devise::SessionsController
     render json: {
       success: true,
       auth_token: resource.authentication_token,
-      email: resource.email
+      email: resource.email,
+      #version_info
+      #user_info
     }
   end
 

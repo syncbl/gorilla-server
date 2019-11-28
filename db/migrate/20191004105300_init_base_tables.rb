@@ -11,7 +11,6 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :discarded_at, index: true
     end
     create_trigger(compatibility: 1).on(:users).before(:update) do
       'NEW.updated_at = NOW();'

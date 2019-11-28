@@ -6,9 +6,11 @@ Rails.application.routes.draw do
   resources :products
   resources :packages
   resources :settings
-  resources :users
   resources :parts
   resources :endpoints
+
+  # No API for users, user data will be sent within login answer
+  resources :users, only: [:show, :edit, :update]
 
 #  namespace :api, defaults: { format: :json }, constraints: { subdomain: 'api' }, path: '/' do
     # list of resources
