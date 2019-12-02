@@ -13,6 +13,7 @@ class Product < ApplicationRecord
   default_scope -> {
     kept
     .joins(:package)
+    .with_attached_files
   }
 
 end

@@ -6,5 +6,6 @@ class Part < ApplicationRecord
 
   default_scope -> {
     kept
+    .with_attached_files
   }
 end
