@@ -10,26 +10,35 @@
     <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
   </head>
-
   <body>
-
-  <div class="top-bar" id="mainMenu">
-    <div class="top-bar-left">
-      <ul class="menu" data-responsive-menu="accordion">
-        <li class="menu-text">Interplanetary</li>
-        <li><a href="#">One</a></li>
-        <li><a href="#">Two</a></li>
-        <li><a href="#">Three</a></li>
-      </ul>
+    <div class="title-bar" data-responsive-toggle="mainNavigation" data-hide-for="medium">
+      <div class="title-bar-left">
+        <button class="menu-icon" type="button" data-toggle="mainNavigation"></button>
+        <div class="title-bar-title">Menu</div>
+      </div>
+      <div class="title-bar-right">
+        Marketing Site
+      </div>
     </div>
-    <div class="top-bar-right">
-      <ul class="menu">
-        <%= render 'layouts/login' %>
-      </ul>
+    <div class="top-bar" id="mainNavigation">
+      <div class="top-bar-left">
+        <ul class="menu vertical medium-horizontal">
+          <li class="menu-text hide-for-small-only">Marketing Site</li>
+          <li><a href="#">One</a></li>
+          <li><a href="#">Two</a></li>
+        </ul>
+      </div>
+      <div class="top-bar-right">
+        <ul class="menu vertical medium-horizontal">
+          <li><a href="#">Three</a></li>
+          <li><a href="#">Four</a></li>
+          <li><a href="#">Five</a></li>
+          <%= render 'layouts/login' %>
+        </ul>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <%= yield %>
-  </div>
-  </body>
+    <div class="row">
+      <%= yield %>
+    </div>
+    </body>
 </html>

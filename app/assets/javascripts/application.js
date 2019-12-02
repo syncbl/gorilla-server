@@ -2,5 +2,7 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require activestorage
-
-$(function(){ $(document).foundation(); });
+//= require foundation
+$(document).on('turbolinks:load', function() {
+  $(function(){ $(document).foundation(); });
+});
