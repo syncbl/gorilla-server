@@ -12,8 +12,8 @@ gem 'webpacker', '~> 4.0'
 gem 'turbolinks', '~> 5'
 gem 'jquery-rails'
 
-gem 'materialize-sass', '~> 1.0.0'
-#gem 'material_icons'
+gem 'foundation-rails'
+gem 'simple_form'
 
 gem 'devise'
 gem 'simple_token_authentication', '~> 1.0'

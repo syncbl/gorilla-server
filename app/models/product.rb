@@ -2,6 +2,7 @@ class Product < ApplicationRecord
   include Discard::Model
 
   # TODO: has_one_attached different sizes
+  has_one_attached :icon
   has_many_attached :images
   has_one :package, dependent: :nullify
   belongs_to :user, optional: true
@@ -13,7 +14,7 @@ class Product < ApplicationRecord
   default_scope -> {
     kept
     .joins(:package)
-    .with_attached_files
+    .with_attached_icon
   }
 
 end

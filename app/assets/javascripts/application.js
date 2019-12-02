@@ -1,8 +1,6 @@
 //= require jquery
+//= require jquery_ujs
 //= require turbolinks
-//= require materialize-sprockets
 //= require activestorage
 
-$(document).ready(function(){
-  $('.sidenav').sidenav();
-});
+$(function(){ $(document).foundation(); });

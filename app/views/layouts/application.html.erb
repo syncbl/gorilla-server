@@ -1,42 +1,35 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-  <title>GpServer</title>
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
+    <title><%= content_for?(:title) ? yield(:title) : "Untitled" %></title>
 
-  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-  <%# TODO: Change icon place to local! %>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-</head>
+    <%= stylesheet_link_tag    "application" %>
+    <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+  </head>
 
-<body>
-  <header>
-    <nav>
-      <div class="container">
-        <div class="nav-wrapper">
-          <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-          <a href="#" class="brand-logo">Liberosis Store</a>
-          <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="sass.html">Sass</a></li>
-            <li><a href="badges.html">Components</a></li>
-            <li><a href="collapsible.html">JavaScript</a></li>
-            <%= render 'layouts/login' %>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header>
-  <main>
-    <div class="container">
-      <%= yield %>
+  <body>
+
+  <div class="top-bar" id="mainMenu">
+    <div class="top-bar-left">
+      <ul class="menu" data-responsive-menu="accordion">
+        <li class="menu-text">Interplanetary</li>
+        <li><a href="#">One</a></li>
+        <li><a href="#">Two</a></li>
+        <li><a href="#">Three</a></li>
+      </ul>
     </div>
-  </main>
-  <footer>
-
-  </footer>
-</body>
-
+    <div class="top-bar-right">
+      <ul class="menu">
+        <%= render 'layouts/login' %>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <%= yield %>
+  </div>
+  </body>
 </html>
