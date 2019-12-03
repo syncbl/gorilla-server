@@ -2,7 +2,5 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require activestorage
-//= require foundation
-$(document).on('turbolinks:load', function() {
-  $(function(){ $(document).foundation(); });
-});
+//= require popper
+//= require bootstrap-sprockets

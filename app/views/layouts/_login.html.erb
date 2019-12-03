@@ -1,9 +1,9 @@
 <% if user_signed_in? %>
-  <li>
-    <%= button_to('Logout', destroy_user_session_path, method: :delete, class: "button") %>
+  <li class="nav-item text-nowrap">
+    <%= link_to('Logout', destroy_user_session_path, method: :delete, class: "nav-link") %>
   </li>
 <% else %>
-  <li>
-    <%= button_to('Login', new_user_session_path, class: "button") %>
+  <li class="nav-item text-nowrap">
+    <%= button_to('Login', new_user_session_path, class: "nav-link") %>
   </li>
 <% end %>
