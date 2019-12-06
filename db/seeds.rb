@@ -15,8 +15,8 @@ when "development"
   Package.create name: 'openssl-1.0.1'
   Package.create name: 'openssl-dev'
   Package.first.dependencies << Package.last
-  Package.last.parts.first.files.attach(io: File.open('storage/openssl-1.0.3/guacamole-server-0.9.14.tar.gz'),
-    filename: 'guacamole-server-0.9.14.tar.gz')
+  Package.last.parts.first.files.attach(io: File.open('storage/README.md'),
+    filename: 'README.md')
   Product.create title: 'OpenSSL', package: Package.last, text: 'Проверим русский язык'
   Endpoint.create name: 'test', eid: '123456', user: User.first
 end
