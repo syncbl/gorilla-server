@@ -17,4 +17,8 @@ class Product < ApplicationRecord
     .with_attached_icon
   }
 
+  def to_param
+    title
+  end
+
 end

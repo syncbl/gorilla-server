@@ -38,6 +38,10 @@ class Package < ApplicationRecord
     #
   end
 
+  def to_param
+    key
+  end
+
   private
 
   def create_main_part
