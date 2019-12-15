@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:release]
   before_action :set_product, only: [:show, :edit, :update, :destroy]
 
   # GET /products
@@ -60,6 +60,10 @@ class ProductsController < ApplicationController
       format.html { redirect_to products_url, notice: 'Product was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  # GET /release.json
+  def release
   end
 
   private

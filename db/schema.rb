@@ -129,6 +129,9 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "locale", limit: 10
+    t.boolean "trusted", default: false
+    t.boolean "admin", default: false
+    t.boolean "developer", default: false
     t.string "authentication_token", limit: 30
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false

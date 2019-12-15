@@ -4,8 +4,12 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
     create_table :users do |t|
       t.string :name
       t.string :locale, limit: 10
-      #t.boolean :trusted, default: false
+      t.boolean :trusted, default: false
+      t.boolean :admin, default: false
+      t.boolean :developer, default: false
       #t.boolean :group, default: false
+
+      # TODO: Add company because of associated propritary package
 
       t.string :authentication_token, index: true, unique: true, limit: 30
 
