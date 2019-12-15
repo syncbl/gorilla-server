@@ -33,6 +33,8 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.bigint "byte_size", null: false
     t.string "checksum", null: false
     t.datetime "created_at", null: false
+    t.string "path", default: "", null: false
+    t.boolean "archive", default: false, null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 

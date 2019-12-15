@@ -1,0 +1,20 @@
+json = {
+  name: part.name,
+  description: part.description,
+  destination: part.destination,
+  script: part.script,
+
+  # TODO: Download as archive?
+  # We can after update set flag "preparing", start packing, then make it available
+  #url: url_for(part.archive)
+}
+
+json[:files] = part.files.map do |file|
+  {
+    filename: file.filename,
+    checksum: file.checksum
+    url: url_for(file)
+  }
+end
+
+json
