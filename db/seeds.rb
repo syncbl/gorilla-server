@@ -15,8 +15,8 @@ when "development"
   Package.create name: 'openssl-1.0.1'
   Package.create name: 'openssl-dev'
   Package.first.dependencies << Package.last
-  Package.last.parts.first.files.attach(io: File.open('storage/README.md'),
+  Package.first.parts.first.files.attach(io: File.open('storage/README.md'),
     filename: 'README.md')
-  Product.create title: 'OpenSSL Test Тест', package: Package.last, text: 'Проверим русский язык'
+  Product.create name: 'OpenSSL Test Тест', package: Package.first, text: 'Проверим русский язык'
   Endpoint.create name: 'test', eid: '123456', user: User.first
 end

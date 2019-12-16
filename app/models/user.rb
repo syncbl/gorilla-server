@@ -2,11 +2,12 @@ class User < ApplicationRecord
   acts_as_token_authenticatable
 
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  # :confirmable, :lockable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable,
-         :validatable
+         :validatable, :timeoutable
 
   has_many :packages, dependent: :destroy
+  has_many :products, dependent: :destroy
   has_many :endpoints
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i

@@ -1,5 +1,5 @@
 json = {
-  title: product.title,
+  name: product.name,
   text: product.text,
   key: product.key,
   approved: product.approved,

@@ -1,6 +1,5 @@
 json = {
   name: (package.alias || package.name),
-  title: package.title,
   text: package.text,
   key: package.key,
   version: package.version,

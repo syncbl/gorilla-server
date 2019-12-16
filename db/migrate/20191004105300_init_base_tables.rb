@@ -42,7 +42,6 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
     create_table :packages do |t|
       t.string :name, null: false
       t.string :alias, unique: true
-      t.string :title
       t.string :text
       t.string :version
       t.string :key, index: true, null: false, default: -> { 'md5(random()::text || clock_timestamp()::text)::uuid' }
@@ -54,8 +53,6 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.belongs_to :user, index: true, optional: true
       # You can link packages one to another to chain updates
       t.belongs_to :package, index: true, optional: true
-      # The package can be a part of product
-      t.belongs_to :product, index: true, optional: true
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
@@ -119,13 +116,14 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
     end
     # ----------
     create_table :products do |t|
-      t.string :title, null: false
+      t.string :name, null: false
       # TODO: Search string?
       t.text :text
-      t.string :key, index: true, null: false, default: -> { 'md5(random()::text || clock_timestamp()::text)::uuid' }
       t.boolean :approved, null: false, default: false
       t.boolean :published, null: false, default: false
 
+      # The product must contain one root package
+      t.belongs_to :package, index: true
       t.belongs_to :user, index: true, optional: true
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }

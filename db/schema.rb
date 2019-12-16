@@ -66,7 +66,6 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
   create_table "packages", force: :cascade do |t|
     t.string "name", null: false
     t.string "alias"
-    t.string "title"
     t.string "text"
     t.string "version"
     t.string "key", default: -> { "(md5(((random())::text || (clock_timestamp())::text)))::uuid" }, null: false
@@ -100,9 +99,8 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
   end
 
   create_table "products", force: :cascade do |t|
-    t.string "title", null: false
+    t.string "name", null: false
     t.text "text"
-    t.string "key", default: -> { "(md5(((random())::text || (clock_timestamp())::text)))::uuid" }, null: false
     t.boolean "approved", default: false, null: false
     t.boolean "published", default: false, null: false
     t.bigint "user_id"
@@ -110,7 +108,6 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "discarded_at"
     t.index ["discarded_at"], name: "index_products_on_discarded_at"
-    t.index ["key"], name: "index_products_on_key"
     t.index ["user_id"], name: "index_products_on_user_id"
   end
 

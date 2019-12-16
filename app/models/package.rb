@@ -4,7 +4,6 @@ class Package < ApplicationRecord
   has_many :parts, dependent: :destroy
   has_many :settings
   has_many :endpoints, through: :settings
-  has_one :product
   has_and_belongs_to_many :dependencies,
     class_name: "Package",
     join_table: :dependencies,
