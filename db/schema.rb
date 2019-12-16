@@ -72,14 +72,12 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.string "tags", default: "", null: false
     t.bigint "user_id"
     t.bigint "package_id"
-    t.bigint "product_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "discarded_at"
     t.index ["discarded_at"], name: "index_packages_on_discarded_at"
     t.index ["key"], name: "index_packages_on_key"
     t.index ["package_id"], name: "index_packages_on_package_id"
-    t.index ["product_id"], name: "index_packages_on_product_id"
     t.index ["user_id", "name"], name: "index_packages_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_packages_on_user_id"
   end
@@ -96,19 +94,6 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.index ["discarded_at"], name: "index_parts_on_discarded_at"
     t.index ["package_id", "name"], name: "index_parts_on_package_id_and_name"
     t.index ["package_id"], name: "index_parts_on_package_id"
-  end
-
-  create_table "products", force: :cascade do |t|
-    t.string "name", null: false
-    t.text "text"
-    t.boolean "approved", default: false, null: false
-    t.boolean "published", default: false, null: false
-    t.bigint "user_id"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "discarded_at"
-    t.index ["discarded_at"], name: "index_products_on_discarded_at"
-    t.index ["user_id"], name: "index_products_on_user_id"
   end
 
   create_table "settings", force: :cascade do |t|
@@ -208,22 +193,6 @@ $function$
 
   # no candidate create_trigger statement could be found, creating an adapter-specific one
   execute("CREATE TRIGGER parts_before_update_row_tr BEFORE UPDATE ON \"parts\" FOR EACH ROW EXECUTE PROCEDURE parts_before_update_row_tr()")
-
-  # no candidate create_trigger statement could be found, creating an adapter-specific one
-  execute(<<-SQL)
-CREATE OR REPLACE FUNCTION public.products_before_update_row_tr()
- RETURNS trigger
- LANGUAGE plpgsql
-AS $function$
-BEGIN
-    NEW.updated_at = NOW();
-    RETURN NEW;
-END;
-$function$
-  SQL
-
-  # no candidate create_trigger statement could be found, creating an adapter-specific one
-  execute("CREATE TRIGGER products_before_update_row_tr BEFORE UPDATE ON \"products\" FOR EACH ROW EXECUTE PROCEDURE products_before_update_row_tr()")
 
   # no candidate create_trigger statement could be found, creating an adapter-specific one
   execute(<<-SQL)

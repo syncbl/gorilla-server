@@ -10,12 +10,18 @@ class Package < ApplicationRecord
     foreign_key: :package_id,
     association_foreign_key: :dependent_package_id
   belongs_to :user, optional: true
+  has_one_attached :icon
 
   after_create :create_main_part
 
   default_scope -> {
+    # Because of deprecated we need to allow find all the packages including deleted
+    includes(:dependencies)
+    .with_attached_icon
+  }
+
+  scope :available_for, -> (user = nil) {
     kept
-    .includes(:dependencies)
   }
 
   def all_dependencies(packages = [])

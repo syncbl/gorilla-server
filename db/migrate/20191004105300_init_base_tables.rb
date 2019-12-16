@@ -48,7 +48,6 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
 
       t.string :tags, null: false, default: ''
       #t.boolean :unstable, null: false, default: false
-      #t.boolean :deprecated, null: false, default: false
 
       t.belongs_to :user, index: true, optional: true
       # You can link packages one to another to chain updates
@@ -112,25 +111,6 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.index [:package_id, :name]
     end
     create_trigger(compatibility: 1).on(:parts).before(:update) do
-      'NEW.updated_at = NOW();'
-    end
-    # ----------
-    create_table :products do |t|
-      t.string :name, null: false
-      # TODO: Search string?
-      t.text :text
-      t.boolean :approved, null: false, default: false
-      t.boolean :published, null: false, default: false
-
-      # The product must contain one root package
-      t.belongs_to :package, index: true
-      t.belongs_to :user, index: true, optional: true
-
-      t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :discarded_at, index: true
-    end
-    create_trigger(compatibility: 1).on(:products).before(:update) do
       'NEW.updated_at = NOW();'
     end
   end

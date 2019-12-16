@@ -17,6 +17,5 @@ when "development"
   Package.first.dependencies << Package.last
   Package.first.parts.first.files.attach(io: File.open('storage/README.md'),
     filename: 'README.md')
-  Product.create name: 'OpenSSL Test Тест', package: Package.first, text: 'Проверим русский язык'
   Endpoint.create name: 'test', eid: '123456', user: User.first
 end

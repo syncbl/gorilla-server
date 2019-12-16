@@ -1,13 +1,13 @@
 class PackagesController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:release]
   before_action :set_package, only: [:show, :edit, :update, :destroy]
 
   # GET /packages
   # GET /packages.json
   def index
     #if current_user.company
-    #  @packages = Packages.where(user: current_user.company.users)
-    @packages = Packages.find_by(user: current_user)
+    #  @packages = Package.where(user: current_user.company.users)
+    @packages = Package.available_for(user: current_user)
   end
 
   # GET /packages/1
@@ -44,7 +44,7 @@ class PackagesController < ApplicationController
   # PATCH/PUT /packages/1.json
   def update
     respond_to do |format|
-      if @package.update(package_params)
+      if @package.discarded_at.nil? && @package.update(package_params)
         format.html { redirect_to @package, notice: 'Package was successfully updated.' }
         format.json { render :show, status: :ok, location: @package }
       else
@@ -64,10 +64,14 @@ class PackagesController < ApplicationController
     end
   end
 
+  # GET /release.json
+  def release
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_package
-      @package = Package.find_by(key: params[:id])
+      @package = Package.find_by(key: params[:id]) || Package.find_by(name: params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

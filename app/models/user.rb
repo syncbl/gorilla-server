@@ -7,7 +7,6 @@ class User < ApplicationRecord
          :validatable, :timeoutable
 
   has_many :packages, dependent: :destroy
-  has_many :products, dependent: :destroy
   has_many :endpoints
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
