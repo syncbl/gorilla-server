@@ -71,7 +71,8 @@ class PackagesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_package
-      @package = Package.find_by(key: params[:id]) || Package.find_by(name: params[:id])
+      @package = Package.available_for(current_user).find_by(key: params[:id]) ||
+                 Package.available_for(current_user).find_by(alias: params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

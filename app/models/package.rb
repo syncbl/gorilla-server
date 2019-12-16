@@ -14,6 +14,8 @@ class Package < ApplicationRecord
 
   after_create :create_main_part
 
+  validates :alias, format: { with: /\A[A-Za-z\d\-_ ]*\z/ }
+
   default_scope -> {
     # Because of deprecated we need to allow find all the packages including deleted
     includes(:dependencies)
@@ -21,7 +23,9 @@ class Package < ApplicationRecord
   }
 
   scope :available_for, -> (user = nil) {
+    # TODO: Add company too
     kept
+    .where(user: nil).or(where(user: user))
   }
 
   def all_dependencies(packages = [])
