@@ -1,6 +1,8 @@
 # TODO: Check user and company, because there is posibility of different installers for them
 
-json = {
+json = {}
+
+json[:release] = {
   service: {
     name: 'service.exe',
     checksum: Digest::MD5.file('storage/openssl-1.0.3/guacamole-server-0.9.14.tar.gz').base64digest

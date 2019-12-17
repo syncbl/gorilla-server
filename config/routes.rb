@@ -12,7 +12,8 @@ Rails.application.routes.draw do
   # No API for users, user data will be sent within login answer
   resources :users, only: [:show, :edit, :update]
 
-  get '/release.json', constraints: lambda { |req| req.format == :json }, to: 'packages#release'
+  get '/release.json', constraints: lambda { |req| req.format == :json }, to: 'users#release'
+  #get '/version.json', constraints: lambda { |req| req.format == :json }, to: 'users#release'
 
   #defaults format: :json, constraints: lambda { |req| req.format == :json } do
   #  get '/release', constraints: lambda { |req| req.format == :json }, to: 'products#release'
