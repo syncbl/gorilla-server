@@ -1,4 +1,4 @@
-json = {}
+json = render 'layouts/array', array: @packages
 
 json[:packages] = render 'packages/index', packages: @packages, trusted_packages: @trusted_packages
 
