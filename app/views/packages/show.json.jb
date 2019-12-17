@@ -1,6 +1,6 @@
 json = render 'layouts/object', object: @package
 
-json[:package] = render 'show', package: @package
+json[:package] = render 'packages/show', package: @package
 
 json[:package][:dependencies] = @package.all_dependencies.map do |dependent|
   render 'show', package: dependent

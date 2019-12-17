@@ -26,7 +26,7 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       # TODO: Store PC parameters here
       t.text :data
       #t.string :key, index: true, null: false, default: -> { 'md5(random()::text || clock_timestamp()::text)::uuid' }
-      t.string :eid, null: false, default: ""
+      t.string :eid, null: false
 
       t.belongs_to :user, index: true, optional: true
 

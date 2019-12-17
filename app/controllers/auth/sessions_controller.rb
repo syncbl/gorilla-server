@@ -1,4 +1,4 @@
-class Auth::SessionsController < Devise::SessionsController
+  class Auth::SessionsController < Devise::SessionsController
 
   def create
     respond_to do |format|
@@ -29,9 +29,8 @@ class Auth::SessionsController < Devise::SessionsController
 
   def respond_with_authentication_token(resource)
     render json: {
-      success: true,
       auth_token: resource.authentication_token,
-      email: resource.email,
+      email: resource.email
       #version_info
       #user_info
     }
