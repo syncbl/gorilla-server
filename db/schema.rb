@@ -69,7 +69,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.string "alias"
     t.string "text"
     t.string "version"
-    t.string "key", default: -> { "(md5(((random())::text || (clock_timestamp())::text)))::uuid" }, null: false
+    t.string "key", default: -> { "gen_random_uuid()" }, null: false
     t.boolean "trusted", default: false, null: false
     t.bigint "user_id"
     t.bigint "package_id"

@@ -1,11 +1,10 @@
 class Part < ApplicationRecord
-  include Discard::Model
-
   has_many_attached :files
+  # TODO: Pack parts into archive?
+  has_one_attached :archive
   belongs_to :package
 
   default_scope -> {
-    kept
-    .with_attached_files
+    with_attached_archive
   }
 end

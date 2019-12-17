@@ -45,7 +45,7 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.string :alias, unique: true
       t.string :text
       t.string :version
-      t.string :key, index: true, null: false, default: -> { 'md5(random()::text || clock_timestamp()::text)::uuid' }
+      t.string :key, index: true, null: false, default: -> { 'gen_random_uuid()' }
 
       t.boolean :trusted, null: false, default: false
 

@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
-  devise_for :users, controllers: {sessions: 'users/sessions'}
+  devise_for :users, controllers: {sessions: 'auth/sessions'}
+  #devise_for :endpoints, controllers: {sessions: 'auth/sessions'}
   root 'packages#index'
 
   resources :packages

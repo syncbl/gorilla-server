@@ -1,3 +1,5 @@
+<% content_for :title, "Packages" %>
+
 <p id="notice"><%= notice %></p>
 
 <h1>Packages</h1>
@@ -10,7 +12,7 @@
   </thead>
 
   <tbody>
-    <% @packages.each do |package| %>
+    <% @packages.select { |package| package.discarded_at.nil? }.map do |package| %>
       <tr>
         <td><%= package.name %></td>
         <td><%= link_to 'Show', package %></td>
@@ -31,7 +33,7 @@
   </thead>
 
   <tbody>
-    <% @trusted_packages.each do |package| %>
+    <% @trusted_packages.select { |package| package.discarded_at.nil? }.map do |package| %>
       <tr>
         <td><%= package.name %></td>
         <td><%= link_to 'Show', package %></td>

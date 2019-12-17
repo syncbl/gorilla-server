@@ -1,10 +1,9 @@
-class Users::SessionsController < Devise::SessionsController
+class Auth::SessionsController < Devise::SessionsController
 
   def create
     respond_to do |format|
       format.any(*navigational_formats) { super }
       format.json do
-        #return if params[:X-User-]
         self.resource = warden.authenticate!(auth_options)
         sign_in(resource_name, resource)
 
