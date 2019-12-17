@@ -8,7 +8,7 @@
 
 case Rails.env
 when "development"
-  User.create email: 'test@example.com'
+  User.create email: 'test@example.com', password: '123456'
   #User.create email: 'eldar.avatov@gmail.com', encrypted_password: '$2a$11$taCALJiHs0S09Pgu.WKZ8.trzmtyEpXm5DWKoN/mdkRzEYZzNkP2e',
   #  authentication_token: 'Tfu_P5XZyCpZxkrXpNfh'
   Package.create name: 'openssl-1.0.3', alias: 'openssl', trusted: true
