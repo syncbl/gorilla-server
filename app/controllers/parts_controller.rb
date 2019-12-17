@@ -4,7 +4,7 @@ class PartsController < ApplicationController
   # GET /parts
   # GET /parts.json
   def index
-    @parts = Packages.find_by(key: params[:package]).parts
+    @parts = Package.find_by(key: params[:package]).parts
   end
 
   # GET /parts/1

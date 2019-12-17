@@ -7,7 +7,8 @@ class PackagesController < ApplicationController
   def index
     #if current_user.company
     #  @packages = Package.where(user: current_user.company.users)
-    @packages = Package.available_for(user: current_user)
+    @packages = current_user.packages.kept
+    @trusted_packages = Package.kept.where(trusted: true)
   end
 
   # GET /packages/1
@@ -71,8 +72,8 @@ class PackagesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_package
-      @package = Package.available_for(current_user).find_by(key: params[:id]) ||
-                 Package.available_for(current_user).find_by(alias: params[:id])
+      @package = current_user.packages.kept.find_by(key: params[:id]) ||
+                 current_user.packages.kept.find_by(alias: params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

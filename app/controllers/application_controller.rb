@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
   def user_token_authenticable?
     return false unless request.format.json?
     return false if request.headers['X-User-Email'].blank?
+    return false if request.headers['X-User-Token'].blank?
 
     # TODO: To check license
     #User.find_by(email: request.headers['X-User-Email']).endpoints.size <= MAXIMUM

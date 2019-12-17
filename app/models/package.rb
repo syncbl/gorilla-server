@@ -22,12 +22,6 @@ class Package < ApplicationRecord
     .with_attached_icon
   }
 
-  scope :available_for, -> (user = nil) {
-    # TODO: Add company too
-    kept
-    .where(user: nil).or(where(user: user))
-  }
-
   def all_dependencies(packages = [])
     dependencies.map do |p|
       if !packages.include?(p)

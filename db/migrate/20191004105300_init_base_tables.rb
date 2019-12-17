@@ -1,5 +1,6 @@
 class InitBaseTables < ActiveRecord::Migration[6.0]
   def change
+    enable_extension 'pgcrypto'
     # ----------
     create_table :users do |t|
       t.string :name
@@ -46,8 +47,7 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.string :version
       t.string :key, index: true, null: false, default: -> { 'md5(random()::text || clock_timestamp()::text)::uuid' }
 
-      t.string :tags, null: false, default: ''
-      #t.boolean :unstable, null: false, default: false
+      t.boolean :trusted, null: false, default: false
 
       t.belongs_to :user, index: true, optional: true
       # You can link packages one to another to chain updates

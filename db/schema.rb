@@ -13,6 +13,7 @@
 ActiveRecord::Schema.define(version: 2019_11_19_005009) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -69,7 +70,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.string "text"
     t.string "version"
     t.string "key", default: -> { "(md5(((random())::text || (clock_timestamp())::text)))::uuid" }, null: false
-    t.string "tags", default: "", null: false
+    t.boolean "trusted", default: false, null: false
     t.bigint "user_id"
     t.bigint "package_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
