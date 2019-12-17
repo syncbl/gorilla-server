@@ -13,11 +13,7 @@ Rails.application.routes.draw do
   resources :users, only: [:show, :edit, :update]
 
   get '/release.json', constraints: lambda { |req| req.format == :json }, to: 'users#release'
-  #get '/version.json', constraints: lambda { |req| req.format == :json }, to: 'users#release'
 
-  #defaults format: :json, constraints: lambda { |req| req.format == :json } do
-  #  get '/release', constraints: lambda { |req| req.format == :json }, to: 'products#release'
-  #end
   #namespace :api, defaults: { format: :json }, constraints: { subdomain: 'api' }, path: '/' do
   #  list of resources
   #end

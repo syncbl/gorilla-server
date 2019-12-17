@@ -1,6 +1,6 @@
 # TODO: Check user and company, because there is posibility of different installers for them
 
-json = {}
+json = render 'layouts/version'
 
 json[:release] = {
   service: {
