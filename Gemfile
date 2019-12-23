@@ -13,6 +13,7 @@ gem 'turbolinks', '~> 5'
 gem 'jquery-rails'
 
 gem 'bootstrap', '~> 4.3.1'
+#gem 'pagy', '~> 3.5'
 
 gem 'devise'
 gem 'simple_token_authentication', '~> 1.0'
