@@ -54,7 +54,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
   create_table "endpoints", force: :cascade do |t|
     t.string "name"
     t.text "data"
-    t.string "eid", default: "", null: false
+    t.string "eid", null: false
     t.bigint "user_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false

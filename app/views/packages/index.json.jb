@@ -1,5 +1,6 @@
-json = render 'layouts/array', array: @packages
+json = render 'layouts/header'
 
-json[:packages] = render 'packages/index', packages: @packages, trusted_packages: @trusted_packages
+json[:packages] = render 'packages/index', packages: @packages
+json[:trusted] = render 'packages/index', packages: @trusted
 
 json

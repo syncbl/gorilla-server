@@ -33,7 +33,7 @@
   </thead>
 
   <tbody>
-    <% @trusted_packages.select { |package| package.discarded_at.nil? }.map do |package| %>
+    <% @trusted.select { |package| package.discarded_at.nil? }.map do |package| %>
       <tr>
         <td><%= package.name %></td>
         <td><%= link_to 'Show', package %></td>

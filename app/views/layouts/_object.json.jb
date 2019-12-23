@@ -1,7 +1,0 @@
-json = {
-  #version_info
-}
-
-json << render 'layouts/version'
-
-json

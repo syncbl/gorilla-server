@@ -1,4 +1,4 @@
-json = render 'layouts/object', object: @package
+json = render 'layouts/header'
 
 json[:package] = render 'packages/show', package: @package
 

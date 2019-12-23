@@ -17,9 +17,7 @@ class Package < ApplicationRecord
   validates :alias, format: { with: /\A[A-Za-z\d\-_ ]*\z/ }
 
   default_scope -> {
-    # Because of deprecated we need to allow find all the packages including deleted
-    includes(:dependencies)
-    .with_attached_icon
+    with_attached_icon
   }
 
   def all_dependencies(packages = [])
