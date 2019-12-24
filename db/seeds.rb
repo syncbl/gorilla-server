@@ -11,11 +11,11 @@ when "development"
   User.create email: 'test@example.com', password: '123456'
   #User.create email: 'eldar.avatov@gmail.com', encrypted_password: '$2a$11$taCALJiHs0S09Pgu.WKZ8.trzmtyEpXm5DWKoN/mdkRzEYZzNkP2e',
   #  authentication_token: 'Tfu_P5XZyCpZxkrXpNfh'
-  Package.create name: 'openssl-1.0.3', alias: 'openssl', trusted: true
+  Package.create name: 'openssl-1.0.3', alias: 'openssl', key: '123456', trusted: true
   Package.create name: 'openssl-1.0.1'
   Package.create name: 'openssl-dev', trusted: true
   Package.first.dependencies << Package.last
   Package.first.parts.first.files.attach(io: File.open('storage/README.md'),
     filename: 'README.md')
-  Endpoint.create name: 'test', eid: '123456', user: User.first
+  Endpoint.create name: 'test', key: '123456', user: User.first
 end

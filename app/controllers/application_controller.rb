@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
     return false unless request.format.json?
     return false if request.headers['X-User-Email'].blank?
     return false if request.headers['X-User-Token'].blank?
+    #return false if request.headers['X-User-Endpoint'].blank?
 
     # TODO: To check license
     #User.find_by(email: request.headers['X-User-Email']).endpoints.size <= MAXIMUM
