@@ -56,9 +56,6 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
       zeitwerk (~> 2.2)
-    annotate (3.0.3)
-      activerecord (>= 3.2, < 7.0)
-      rake (>= 10.4, < 14.0)
     autoprefixer-rails (9.7.3)
       execjs
     awesome_print (1.8.0)
@@ -206,6 +203,9 @@ GEM
       sprockets-rails
       tilt
     sexp_processor (4.13.0)
+    simple_form (5.0.1)
+      actionpack (>= 5.0)
+      activemodel (>= 5.0)
     simple_token_authentication (1.17.0)
       actionmailer (>= 3.2.6, < 7)
       actionpack (>= 3.2.6, < 7)
@@ -252,7 +252,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  annotate
   awesome_print
   bcrypt (~> 3.1.7)
   better_errors
@@ -275,6 +274,7 @@ DEPENDENCIES
   rubyzip
   sanitize
   sass-rails (~> 5)
+  simple_form
   simple_token_authentication (~> 1.0)
   simplecov
   spring
