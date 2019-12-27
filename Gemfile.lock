@@ -269,7 +269,7 @@ DEPENDENCIES
   nokogiri
   pg (~> 1)
   puma (~> 4.2)
-  rails (~> 6.0.0)
+  rails (~> 6.0)
   redis (~> 4.0)
   rubyzip
   sanitize
@@ -285,7 +285,7 @@ DEPENDENCIES
   zip_tricks
 
 RUBY VERSION
-   ruby 2.6.4p104
+   ruby 2.6.5p114
 
 BUNDLED WITH
-   2.0.2
+   2.1.2

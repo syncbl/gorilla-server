@@ -3,7 +3,8 @@ json = {
   text: package.text,
   key: package.key,
   version: package.version,
-  deprecated: package.discarded_at.present?
+  deprecated: package.discarded_at.present?,
+  trusted: package.trusted
 
   # TODO: Render user
   # TODO: Render dependencies

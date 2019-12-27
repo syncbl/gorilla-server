@@ -1,6 +1,5 @@
 json = render 'layouts/header'
 
 json[:packages] = render 'packages/index', packages: @packages
-json[:trusted] = render 'packages/index', packages: @trusted
 
 json

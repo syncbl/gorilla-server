@@ -7,8 +7,7 @@ class PackagesController < ApplicationController
   def index
     #if current_user.company
     #  @packages = Package.where(user: current_user.company.users)
-    @packages = Package.where(user: current_user, trusted: false)
-    @trusted = Package.where(trusted: true)
+    @packages = Package.where(user: current_user, trusted: false).or(Package.where(trusted: true))
   end
 
   # GET /packages/1

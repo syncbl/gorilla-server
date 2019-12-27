@@ -12,7 +12,7 @@
   </thead>
 
   <tbody>
-    <% @packages.select { |package| package.discarded_at.nil? }.map do |package| %>
+    <% @packages.select { |package| package.discarded_at.nil? && package.user = current_user }.map do |package| %>
       <tr>
         <td><%= package.name %></td>
         <td><%= link_to 'Show', package %></td>
@@ -33,7 +33,7 @@
   </thead>
 
   <tbody>
-    <% @trusted.select { |package| package.discarded_at.nil? }.map do |package| %>
+    <% @packages.select { |package| package.discarded_at.nil? && package.trusted }.map do |package| %>
       <tr>
         <td><%= package.name %></td>
         <td><%= link_to 'Show', package %></td>
