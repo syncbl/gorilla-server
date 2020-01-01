@@ -1,6 +1,6 @@
 class Part < ApplicationRecord
   has_many_attached :files
-  # TODO: Pack parts into archive?
+  # TODO: Worker will pack all the attached files to archive. We need to set a flag for package.
   has_one_attached :archive
   belongs_to :package
 

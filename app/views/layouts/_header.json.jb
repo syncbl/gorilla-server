@@ -1,4 +1,4 @@
 json = {
   version: Rails.application.config.api_version,
-  user: current_user.to_json
+  user: (render 'users/show', user: current_user)
 }

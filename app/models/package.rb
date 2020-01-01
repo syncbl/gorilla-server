@@ -20,10 +20,14 @@ class Package < ApplicationRecord
     with_attached_icon
   }
 
+  scope :full, -> {
+    includes(:parts)
+  }
+
   def all_dependencies(packages = [])
     dependencies.map do |p|
       if !packages.include?(p)
-        if p.dependencies.size > 0
+        if p.dependencies.any?
           packages << p
         else
           packages.unshift(p)

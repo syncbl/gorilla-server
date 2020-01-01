@@ -30,10 +30,10 @@
   def respond_with_authentication_token(resource)
     render json: {
       version: Rails.application.config.api_version,
-      token: resource.authentication_token,
-      email: resource.email
-      #version_info
-      #user_info
+      user: {
+        name: resource.name
+      },
+      token: resource.authentication_token
     }
   end
 

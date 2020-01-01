@@ -6,4 +6,8 @@ json[:package][:dependencies] = @package.all_dependencies.map do |dependent|
   render 'show', package: dependent
 end
 
+json[:package][:parts] = @package.parts.map do |part|
+  render 'parts/show', part: part
+end
+
 json

@@ -1,0 +1,5 @@
+json = {
+  filename: file.filename,
+  checksum: file.checksum,
+  url: url_for(file)
+}

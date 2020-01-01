@@ -1,0 +1,4 @@
+json = {
+  name: user.name
+  # TODO: Icon, company etc.
+}
