@@ -6,8 +6,13 @@ json = {
   url: part.archive ? nil : url_for(part.archive)
 }
 
+size = 0
+
 json[:files] = part.files.map do |file|
+  size += file.byte_size
   render 'layouts/file', file: file
 end
+
+json[:size] = size
 
 json

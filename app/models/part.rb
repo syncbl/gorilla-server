@@ -6,5 +6,6 @@ class Part < ApplicationRecord
 
   default_scope -> {
     with_attached_archive
+    .with_attached_files
   }
 end
