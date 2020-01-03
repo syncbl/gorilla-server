@@ -31,7 +31,8 @@
     render json: {
       version: Rails.application.config.api_version,
       user: {
-        name: resource.name
+        name: resource.name,
+        key: resource.key
       },
       token: resource.authentication_token
     }

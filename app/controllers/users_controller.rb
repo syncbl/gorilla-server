@@ -33,10 +33,11 @@ class UsersController < ApplicationController
       format.html { redirect_to @user }
       format.json do
         if (request.headers['X-API-VersionId'] = Rails.application.config.api_version)
+          #|| (@endpoint = current_user.endpoints.find_by(key: request.headers['X-User-Endpoint']))
           #|| (params[:service] = Digest::MD5.file('storage/README.md').base64digest)
           # TODO: Add all other auth params
           # TODO: Add all incoming entities, like endpoint and settings data
-          current_user.touch
+          @endpoint.touch
           render :show
         else
           render json: @user.errors, status: :unprocessable_entity

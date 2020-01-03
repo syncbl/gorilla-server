@@ -54,7 +54,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
   create_table "endpoints", force: :cascade do |t|
     t.string "name"
     t.text "data"
-    t.string "key", default: -> { "gen_random_uuid()" }, null: false
+    t.string "key", limit: 36, default: -> { "gen_random_uuid()" }, null: false
     t.bigint "user_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -70,7 +70,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.string "alias"
     t.string "text"
     t.string "version"
-    t.string "key", default: -> { "gen_random_uuid()" }, null: false
+    t.string "key", limit: 36, default: -> { "gen_random_uuid()" }, null: false
     t.boolean "trusted", default: false, null: false
     t.bigint "user_id"
     t.bigint "package_id"
@@ -118,6 +118,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.boolean "trusted", default: false
     t.boolean "admin", default: false
     t.boolean "developer", default: false
+    t.string "key", limit: 36, default: -> { "gen_random_uuid()" }, null: false
     t.string "authentication_token", limit: 30
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -128,6 +129,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.datetime "remember_created_at"
     t.index ["authentication_token"], name: "index_users_on_authentication_token"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["key"], name: "index_users_on_key"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 

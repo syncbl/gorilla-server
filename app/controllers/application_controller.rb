@@ -9,9 +9,9 @@ class ApplicationController < ActionController::Base
 
   def user_token_authenticable?
     return false unless request.format.json?
-    return false if request.headers['X-User-Email'].blank?
+    return false if request.headers['X-User-Key'].blank?
     return false if request.headers['X-User-Token'].blank?
-    return false if request.headers['X-API-VersionId'].blank?
+    return false if request.headers['X-API-VersionId'] != Rails.application.config.api_version
     #return false if request.headers['X-User-Endpoint'].blank?
 
     # TODO: To check license

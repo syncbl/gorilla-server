@@ -1,4 +1,5 @@
 json = {
-  name: user.name
+  name: user.name,
+  key: user.key
   # TODO: Icon, company etc.
 }
