@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update]
+  before_action :set_user, only: [:show, :edit, :update, :auth]
 
   # GET /users/1
   def show
@@ -18,6 +18,7 @@ class UsersController < ApplicationController
     end
   end
 
+  # TODO: Dashboard
   def dashboard
     if current_user
       #
@@ -26,8 +27,22 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET /release.json
-  def release
+  def auth
+    # TODO: Check all
+    respond_to do |format|
+      format.html { redirect_to @user }
+      format.json do
+        if (params[:version] = Rails.application.config.api_version)
+          #|| (params[:service] = Digest::MD5.file('storage/README.md').base64digest)
+          # TODO: Add all other auth params
+          # TODO: Add all incoming entities, like endpoint and settings data
+          current_user.touch
+          render :show
+        else
+          render json: @user.errors, status: :unprocessable_entity
+        end
+      end
+    end
   end
 
   private

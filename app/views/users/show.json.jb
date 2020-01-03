@@ -2,6 +2,8 @@
 
 json = render 'layouts/header'
 
+json[:user] = render 'users/show', user: current_user
+
 json[:release] = {
   service: {
     name: 'service.exe',

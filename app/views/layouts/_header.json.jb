@@ -1,4 +1,3 @@
 json = {
   version: Rails.application.config.api_version,
-  user: (render 'users/show', user: current_user)
 }
