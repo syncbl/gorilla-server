@@ -23,9 +23,6 @@ class ApplicationController < ActionController::Base
 
     # TODO: To check license
     #User.find_by(email: request.headers['X-User-Email']).endpoints.size <= MAXIMUM
-
-    # TODO: To check endpoint params
-    #request.headers['Endpoint-ID']
   end
 
   def configure_permitted_parameters
