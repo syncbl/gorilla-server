@@ -28,24 +28,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def auth
-    # TODO: Check all
-    respond_to do |format|
-      format.html { redirect_to @user }
-      format.json do
-        @endpoint = current_user.endpoints.find_by(key: request.headers['X-User-Endpoint'])
-        if params[:service] == Digest::MD5.file('storage/README.md').base64digest
-          # TODO: Add all other auth params
-          # TODO: Add all incoming entities, like endpoint and settings data
-          @endpoint.touch
-          render :show
-        else
-          render json: @user.errors, status: :unprocessable_entity
-        end
-      end
-    end
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

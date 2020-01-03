@@ -64,7 +64,7 @@ class EndpointsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_endpoint
-      @endpoint = Endpoint.find(params[:id])
+      @endpoint = Endpoint.find(key: request.headers['X-User-Endpoint'])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -1,18 +1,24 @@
 class ApplicationController < ActionController::Base
-  before_action :check_headers?, unless: :devise_controller?
+  before_action :check_headers, unless: :devise_controller?
   acts_as_token_authentication_handler_for User
   protect_from_forgery with: :exception, unless: -> { request.format.json? }
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   protected
 
-  def check_headers?
-    if request.format.json? &&
-        (request.headers['X-User-Key'].blank? ||
-        request.headers['X-User-Token'].blank? ||
-        request.headers['X-User-Endpoint'].blank? ||
-        (request.headers['X-API-VersionId'] != Rails.application.config.api_version))
-      render json: { error: I18n.t('devise.failure.unauthenticated') }, status: :unauthorized
+  def check_headers
+    if request.format.json?
+      if request.headers['X-User-Key'].blank? ||
+          request.headers['X-User-Token'].blank? ||
+          request.headers['X-User-Endpoint'].blank?
+        render json: { error: I18n.t(' missing keys ') }, status: :unauthorized
+      elsif (request.headers['X-API-Version'] != Rails.application.config.api_version) ||
+            (request.headers['X-API-Service'] != Digest::MD5.file('storage/README.md').base64digest)
+        render json: {
+            error: I18n.t(' wrong version '),
+            service: 'storage/README.md'
+          }, status: :forbidden
+      end
     end
 
     # TODO: To check license

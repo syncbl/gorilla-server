@@ -4,12 +4,11 @@ Rails.application.routes.draw do
   #devise_for :endpoints, controllers: {sessions: 'auth/sessions'}
 
   resources :packages
-  resources :settings, constraints: lambda { |req| req.format == :json }
-  #resources :parts
+  #resources :settings, constraints: lambda { |req| req.format == :json }
+  # Touch endpoint after update
   resources :endpoints, constraints: lambda { |req| req.format == :json }
-  resources :users, only: [:show, :edit]
   get 'user', to: 'users#show'
-  post 'user', to: 'users#auth', constraints: lambda { |req| req.format == :json }
+  #post 'update', to: 'users#auth', constraints: lambda { |req| req.format == :json }
 
   # TODO: Dashboard, endpoints and user settings only
   authenticated :user do

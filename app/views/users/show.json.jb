@@ -4,19 +4,6 @@ json = render 'layouts/header'
 
 json[:user] = render 'users/show', user: current_user
 
-json[:release] = {
-  service: {
-    name: 'service.exe',
-    checksum: Digest::MD5.file('storage/README.md').base64digest,
-    path: 'storage/README.md',
-  },
-  helper: {
-    name: 'helper.exe',
-    checksum: Digest::MD5.file('storage/README.md').base64digest,
-    path: 'storage/README.md',
-  }
-}
-
 #company = params[:company] ? '' : (params[:company] + '/')
 
 # Other files will be downloaded by company

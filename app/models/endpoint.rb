@@ -6,4 +6,8 @@ class Endpoint < ApplicationRecord
   default_scope -> {
     order(user_id: :asc)
   }
+
+  def to_param
+    key
+  end
 end
