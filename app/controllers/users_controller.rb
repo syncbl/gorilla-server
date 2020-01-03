@@ -32,7 +32,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to @user }
       format.json do
-        if (params[:version] = Rails.application.config.api_version)
+        if (request.headers['X-API-VersionId'] = Rails.application.config.api_version)
           #|| (params[:service] = Digest::MD5.file('storage/README.md').base64digest)
           # TODO: Add all other auth params
           # TODO: Add all incoming entities, like endpoint and settings data

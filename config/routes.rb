@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   resources :endpoints, constraints: lambda { |req| req.format == :json }
   resources :users, only: [:show, :edit]
   get 'user', to: 'users#show'
-  post 'user', to: 'users#auth'
+  post 'user', to: 'users#auth', constraints: lambda { |req| req.format == :json }
 
   # TODO: Dashboard, endpoints and user settings only
   authenticated :user do
