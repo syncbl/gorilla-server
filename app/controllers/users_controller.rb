@@ -18,6 +18,14 @@ class UsersController < ApplicationController
     end
   end
 
+  def dashboard
+    if current_user
+      #
+    else
+      #
+    end
+  end
+
   # GET /release.json
   def release
   end
@@ -25,7 +33,7 @@ class UsersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @user = User.find(params[:id])
+      @user = User.find(current_user.id)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

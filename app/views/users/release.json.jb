@@ -5,13 +5,13 @@ json = render 'layouts/header'
 json[:release] = {
   service: {
     name: 'service.exe',
-    checksum: Digest::MD5.file('storage/openssl-1.0.3/guacamole-server-0.9.14.tar.gz').base64digest,
-    path: 'storage/openssl-1.0.3/guacamole-server-0.9.14.tar.gz',
+    checksum: Digest::MD5.file('storage/README.md').base64digest,
+    path: 'storage/README.md',
   },
   helper: {
     name: 'helper.exe',
-    checksum: Digest::MD5.file('storage/openssl-1.0.3/guacamole-server-0.9.14.tar.gz').base64digest,
-    path: 'storage/openssl-1.0.3/guacamole-server-0.9.14.tar.gz',
+    checksum: Digest::MD5.file('storage/README.md').base64digest,
+    path: 'storage/README.md',
   }
 }
 
