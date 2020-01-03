@@ -127,6 +127,9 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.integer "failed_attempts", default: 0, null: false
+    t.string "unlock_token"
+    t.datetime "locked_at"
     t.index ["authentication_token"], name: "index_users_on_authentication_token"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["key"], name: "index_users_on_key"

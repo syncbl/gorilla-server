@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_user, only: [:show, :edit, :update, :auth]
 
   # GET /users/1
@@ -32,9 +33,8 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to @user }
       format.json do
-        if (request.headers['X-API-VersionId'] = Rails.application.config.api_version)
-          #|| (@endpoint = current_user.endpoints.find_by(key: request.headers['X-User-Endpoint']))
-          #|| (params[:service] = Digest::MD5.file('storage/README.md').base64digest)
+        @endpoint = current_user.endpoints.find_by(key: request.headers['X-User-Endpoint'])
+        if params[:service] == Digest::MD5.file('storage/README.md').base64digest
           # TODO: Add all other auth params
           # TODO: Add all incoming entities, like endpoint and settings data
           @endpoint.touch

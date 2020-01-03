@@ -7,18 +7,8 @@
         self.resource = warden.authenticate!(auth_options)
         sign_in(resource_name, resource)
 
-        # -- We need to leave token for all the computers used --
-        # -- But we need to control endpoints one by one --
-        #if current_user
-        #  current_user.authentication_token = ''
-          # TODO: Counters, timeouts, etc.
-          # TODO: Check for count of allowed endpoints etc.
-          # TODO: Blockchain hash!
-        #  current_user.save(touch: false)
-        ## current_user.update(authentication_token: nil)
-        #end
-
-        # Also create Endpoint record if none
+        @endpoint = Endpoint.find_by(user: resource, key: params[:user][:endpoint]) ||
+                    Endpoint.create(user: resource, key: params[:user][:endpoint])
 
         respond_with_authentication_token(resource)
       end
@@ -30,11 +20,11 @@
   def respond_with_authentication_token(resource)
     render json: {
       version: Rails.application.config.api_version,
-      user: {
-        name: resource.name,
-        key: resource.key
-      },
-      token: resource.authentication_token
+      session: {
+        key: resource.key,
+        endpoint: @endpoint.key,
+        token: resource.authentication_token
+      }
     }
   end
 
