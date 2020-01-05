@@ -1,9 +1,13 @@
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
   <h5 class="my-0 mr-md-auto font-weight-normal">Company name</h5>
     <nav class="my-2 my-md-0 mr-md-3">
-      <%= link_to 'Packages', packages_path, class: 'p-2 text-dark' %>
-      <a class="p-2 text-dark" href="#">Help</a>
-      <%= link_to current_user.readable_name, '/user', class: 'p-2 text-dark' %>
+      <% if user_signed_in? %>
+        <%= link_to 'Packages', packages_path, class: 'p-2 text-dark' %>
+        <a class="p-2 text-dark" href="#">Help</a>
+        <%= link_to current_user.readable_name, '/user', class: 'p-2 text-dark' %>
+      <% else %>
+        <a class="p-2 text-dark" href="#">Help</a>
+      <% end %>
     </nav>
     <% if user_signed_in? %>
       <%= button_to('Logout', destroy_user_session_path, method: :delete, class: "btn btn-primary") %>
