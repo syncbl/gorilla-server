@@ -11,7 +11,9 @@ class ApplicationController < ActionController::Base
       if request.headers['X-User-Key'].blank? ||
           request.headers['X-User-Token'].blank? ||
           request.headers['X-User-Endpoint'].blank?
-        render json: { error: I18n.t(' missing keys ') }, status: :unauthorized
+        render json: {
+            error: I18n.t(' missing keys ')
+          }, status: :unauthorized
       elsif (request.headers['X-API-Version'] != Rails.application.config.api_version) ||
             (request.headers['X-API-Service'] != Digest::MD5.file('storage/README.md').base64digest)
         render json: {
