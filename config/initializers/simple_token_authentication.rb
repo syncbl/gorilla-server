@@ -35,7 +35,7 @@ SimpleTokenAuthentication.configure do |config|
   #   Then both the header names identifier key and default value are modified accordingly:
   #     `config.header_names = { super_admin: { phone_number: 'X-SuperAdmin-PhoneNumber' } }`
   #
-  config.header_names = { user: { authentication_token: 'X-User-Token', key: 'X-User-Key' } }
+  config.header_names = { user: { authentication_token: 'X-API-Token', key: 'X-API-Key' } }
 
   # Configure the name of the attribute used to identify the user for authentication.
   # That attribute must exist in your model.

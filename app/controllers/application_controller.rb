@@ -7,10 +7,10 @@ class ApplicationController < ActionController::Base
   protected
 
   def check_headers
-    if request.format.json?
-      if request.headers['X-User-Key'].blank? ||
-          request.headers['X-User-Token'].blank? ||
-          request.headers['X-User-Endpoint'].blank?
+    if Rails.env.production? && request.format.json?
+      if request.headers['X-API-Key'].blank? ||
+          request.headers['X-API-Token'].blank? ||
+          request.headers['X-API-Endpoint'].blank?
         render json: {
             error: I18n.t(' missing keys ')
           }, status: :unauthorized
