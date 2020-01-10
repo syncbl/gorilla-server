@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  before_action :check_headers, unless: :devise_controller?
+  before_action :check_headers
   acts_as_token_authentication_handler_for User
   protect_from_forgery with: :exception, unless: -> { request.format.json? }
   before_action :configure_permitted_parameters, if: :devise_controller?
@@ -8,18 +8,20 @@ class ApplicationController < ActionController::Base
 
   def check_headers
     if Rails.env.production? && request.format.json?
-      if request.headers['X-API-Key'].blank? ||
-          request.headers['X-API-Token'].blank? ||
-          request.headers['X-API-Endpoint'].blank?
+      if (request.headers['X-API-Version'] != Rails.application.config.api_version) ||
+         (request.headers['X-API-Service'] != Digest::MD5.file('storage/README.md').base64digest)
         render json: {
-            error: I18n.t(' missing keys ')
-          }, status: :unauthorized
-      elsif (request.headers['X-API-Version'] != Rails.application.config.api_version) ||
-            (request.headers['X-API-Service'] != Digest::MD5.file('storage/README.md').base64digest)
+          error: I18n.t(' wrong version '),
+          service: 'storage/README.md'
+        }, status: :forbidden
+      elsif !devise_controller? && (
+              request.headers['X-API-Key'].blank? ||
+              request.headers['X-API-Token'].blank? ||
+              request.headers['X-API-Endpoint'].blank?
+            )
         render json: {
-            error: I18n.t(' wrong version '),
-            service: 'storage/README.md'
-          }, status: :forbidden
+          error: I18n.t(' missing keys ')
+        }, status: :unauthorized
       end
     end
 
