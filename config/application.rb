@@ -11,7 +11,7 @@ require "action_mailer/railtie"
 require "action_text/engine"
 require "action_view/railtie"
 #require "action_cable/engine"
-# require "sprockets/railtie"
+#require "sprockets/railtie"
 #require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
@@ -30,5 +30,6 @@ module GpServer
     config.active_storage.routes_prefix = '/'
     # Own version marker
     config.api_version = '864456aa'
+    config.service_path = 'storage/README.md'
   end
 end

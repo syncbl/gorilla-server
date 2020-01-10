@@ -9,10 +9,10 @@ class ApplicationController < ActionController::Base
   def check_headers
     if Rails.env.production? && request.format.json?
       if (request.headers['X-API-Version'] != Rails.application.config.api_version) ||
-         (request.headers['X-API-Service'] != Digest::MD5.file('storage/README.md').base64digest)
+         (request.headers['X-API-Service'] != Digest::MD5.file(Rails.application.config.service_path).base64digest)
         render json: {
           error: I18n.t(' wrong version '),
-          service: 'storage/README.md'
+          service: Rails.application.config.service_path
         }, status: :forbidden
       elsif !devise_controller? && (
               request.headers['X-API-Key'].blank? ||
