@@ -28,9 +28,10 @@ class PackagesController < ApplicationController
   # POST /packages.json
   def create
     @package = Package.new(package_params)
-
+    @package.user = current_user
     respond_to do |format|
       if @package.save
+        @package.reload
         format.html { redirect_to @package, notice: 'Package was successfully created.' }
         format.json { render :show, status: :created, location: @package }
       else
@@ -44,12 +45,17 @@ class PackagesController < ApplicationController
   # PATCH/PUT /packages/1.json
   def update
     respond_to do |format|
-      if @package.discarded_at.nil? && @package.update(package_params)
-        format.html { redirect_to @package, notice: 'Package was successfully updated.' }
-        format.json { render :show, status: :ok, location: @package }
-      else
+      if @package.user != current_user
         format.html { render :edit }
         format.json { render json: @package.errors, status: :unprocessable_entity }
+      else
+        if @package.update(package_params)
+          format.html { redirect_to @package, notice: 'Package was successfully updated.' }
+          format.json { render :show, status: :ok, location: @package }
+        else
+          format.html { render :edit }
+          format.json { render json: @package.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -57,10 +63,15 @@ class PackagesController < ApplicationController
   # DELETE /packages/1
   # DELETE /packages/1.json
   def destroy
-    @package.destroy
     respond_to do |format|
-      format.html { redirect_to packages_url, notice: 'Package was successfully destroyed.' }
-      format.json { head :no_content }
+      if @package.user != current_user
+        format.html { render :edit }
+        format.json { render json: @package.errors, status: :unprocessable_entity }
+      else
+        @package.discard
+        format.html { redirect_to packages_url, notice: 'Package was successfully destroyed.' }
+        format.json { head :no_content }
+      end
     end
   end
 
@@ -72,6 +83,6 @@ class PackagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def package_params
-      params.fetch(:package, {})
+      params.permit(:name, :text, :version)
     end
 end

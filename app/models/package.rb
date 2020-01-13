@@ -17,12 +17,15 @@ class Package < ApplicationRecord
   validates :alias, format: { with: /\A[A-Za-z\d\-_ ]*\z/ }
 
   default_scope -> {
-    with_attached_icon
+    kept
+    .with_attached_icon
   }
 
   scope :full, -> {
     includes(:parts)
   }
+
+  # TODO: Scope updated to check if package updated by last endpoint update
 
   def all_dependencies(packages = [])
     dependencies.map do |p|

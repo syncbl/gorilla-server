@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   #devise_for :endpoints, controllers: {sessions: 'auth/sessions'}
 
   resources :packages
+  get 'package(/:id)', to: 'packages#show'
   #resources :settings, constraints: lambda { |req| req.format == :json }
   # Touch endpoint after update
   resources :endpoints, constraints: lambda { |req| req.format == :json }

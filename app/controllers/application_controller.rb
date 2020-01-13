@@ -11,15 +11,18 @@ class ApplicationController < ActionController::Base
       if (request.headers['X-API-Version'] != Rails.application.config.api_version) ||
          (request.headers['X-API-Service'] != Digest::MD5.file(Rails.application.config.service_path).base64digest)
         render json: {
+          version: Rails.application.config.api_version,
           error: I18n.t(' wrong version '),
           service: Rails.application.config.service_path
         }, status: :forbidden
+        # TODO: Add all the items
       elsif !devise_controller? && (
               request.headers['X-API-Key'].blank? ||
               request.headers['X-API-Token'].blank? ||
               request.headers['X-API-Endpoint'].blank?
             )
         render json: {
+          version: Rails.application.config.api_version,
           error: I18n.t(' missing keys ')
         }, status: :unauthorized
       end

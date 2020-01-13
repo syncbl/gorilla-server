@@ -4,7 +4,9 @@ json = {
   key: package.key,
   version: package.version,
   deprecated: package.discarded_at.present?,
-  trusted: package.trusted
+  trusted: package.trusted,
+  created_at: package.created_at,
+  updated_at: package.updated_at
 
   # TODO: Render user
   # TODO: Render dependencies
