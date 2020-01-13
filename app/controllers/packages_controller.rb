@@ -78,11 +78,13 @@ class PackagesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_package
-      @package = Package.full.find_by('key = ? OR alias = ?', params[:id], params[:id])
+      # TODO: includes(:parts) ???
+      @package = Package.find_by('key = ? OR alias = ?', params[:id], params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def package_params
       params.permit(:name, :text, :version)
+      params.require(:package).permit(:name, :text, :version) if request.format.json?
     end
 end

@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  include ApplicationHelper
+
   before_action :check_headers
   acts_as_token_authentication_handler_for User
   protect_from_forgery with: :exception, unless: -> { request.format.json? }
@@ -7,15 +9,21 @@ class ApplicationController < ActionController::Base
   protected
 
   def check_headers
-    if Rails.env.production? && request.format.json?
-      if (request.headers['X-API-Version'] != Rails.application.config.api_version) ||
-         (request.headers['X-API-Service'] != Digest::MD5.file(Rails.application.config.service_path).base64digest)
+    #if Rails.env.production? && request.format.json?
+      if (request.headers['X-API-Version'] != Rails.application.config.api_version)
         render json: {
           version: Rails.application.config.api_version,
-          error: I18n.t(' wrong version '),
-          service: Rails.application.config.service_path
+          event: 'E_API_VERSION',
+          error: I18n.t(' wrong version ')
         }, status: :forbidden
-        # TODO: Add all the items
+      elsif (request.headers['X-API-Service'] != service_key(Rails.application.config.service_path))
+        # TODO: Check this from allowed list including
+        render json: {
+          version: Rails.application.config.api_version,
+          event: 'E_FILE_VERSION',
+          error: I18n.t(' wrong requester '),
+          url: Rails.application.config.service_path
+        }, status: :forbidden
       elsif !devise_controller? && (
               request.headers['X-API-Key'].blank? ||
               request.headers['X-API-Token'].blank? ||
@@ -23,9 +31,10 @@ class ApplicationController < ActionController::Base
             )
         render json: {
           version: Rails.application.config.api_version,
+          event: 'E_SESSION_KEYS',
           error: I18n.t(' missing keys ')
         }, status: :unauthorized
-      end
+      #end
     end
 
     # TODO: To check license

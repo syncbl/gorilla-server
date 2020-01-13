@@ -21,12 +21,6 @@ class Package < ApplicationRecord
     .with_attached_icon
   }
 
-  scope :full, -> {
-    includes(:parts)
-  }
-
-  # TODO: Scope updated to check if package updated by last endpoint update
-
   def all_dependencies(packages = [])
     dependencies.map do |p|
       if !packages.include?(p)
@@ -40,10 +34,6 @@ class Package < ApplicationRecord
       end
     end
     packages
-  end
-
-  def to_yaml
-    #
   end
 
   def to_param
