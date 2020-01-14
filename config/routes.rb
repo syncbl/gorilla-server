@@ -8,15 +8,20 @@ Rails.application.routes.draw do
     #  get "/register": "users/registrations#new", :as => :new_user_registration
     #end
   #devise_for :endpoints, controllers: {sessions: 'auth/sessions'}
+  get 'user', to: 'users#show'
 
   resources :packages
+  # TODO: Get only installed apps with updates
+  # !!! It's better to update like Steam - only by date, allowing to recover files manually
+  #post 'update', to: 'users#auth', constraints: lambda { |req| req.format == :json }
   #get 'package(/:id)', to: 'packages#show'
 
   # TODO: only: []
   resources :parts, constraints: lambda { |req| req.format == :json }
   resources :endpoints, constraints: lambda { |req| req.format == :json }
   resources :settings, constraints: lambda { |req| req.format == :json }
-  get 'user', to: 'users#show'
+
+  # TODO: Render commands like INSTALL, UNINSTALL, UPDATE etc.
 
   # TODO: Dashboard, endpoints and user settings only
   authenticated :user do
