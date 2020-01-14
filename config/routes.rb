@@ -1,15 +1,22 @@
 Rails.application.routes.draw do
 
   devise_for :users, controllers: {sessions: 'auth/sessions'}
+    #,skip: [:sessions] do
+    #  get '/login': "devise/sessions#new", :as => :new_user_session
+    #  post '/login': 'devise/sessions#create', :as => :user_session
+    #  get '/logout': 'devise/sessions#destroy', :as => :destroy_user_session
+    #  get "/register": "users/registrations#new", :as => :new_user_registration
+    #end
   #devise_for :endpoints, controllers: {sessions: 'auth/sessions'}
 
   resources :packages
-  get 'package(/:id)', to: 'packages#show'
-  #resources :settings, constraints: lambda { |req| req.format == :json }
-  # Touch endpoint after update
+  #get 'package(/:id)', to: 'packages#show'
+
+  # TODO: only: []
+  resources :parts, constraints: lambda { |req| req.format == :json }
   resources :endpoints, constraints: lambda { |req| req.format == :json }
+  resources :settings, constraints: lambda { |req| req.format == :json }
   get 'user', to: 'users#show'
-  #post 'update', to: 'users#auth', constraints: lambda { |req| req.format == :json }
 
   # TODO: Dashboard, endpoints and user settings only
   authenticated :user do

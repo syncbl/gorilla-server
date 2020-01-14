@@ -13,7 +13,7 @@ class User < ApplicationRecord
   validates :email, presence: true, length: { maximum: 105 },
             uniqueness: { case_sensitive: false },
             format: { with: VALID_EMAIL_REGEX }
-  validates :key, length: {is: 36}
+  validates :key, length: {is: 36}, allow_blank: true
 
   #default_scope -> {
   #  includes(:endpoints)
