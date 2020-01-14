@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def check_headers
-    #if Rails.env.production? && request.format.json?
+    if Rails.env.production? && request.format.json?
       if (request.headers['X-API-Version'] != Rails.application.config.api_version)
         render json: {
           version: Rails.application.config.api_version,
@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
           event: 'E_SESSION_KEYS',
           error: I18n.t(' missing keys ')
         }, status: :unauthorized
-      #end
+      end
     end
 
     # TODO: To check license

@@ -15,6 +15,7 @@ class Package < ApplicationRecord
   after_create :create_main_part
 
   validates :alias, format: { with: /\A[A-Za-z\d\-_ ]*\z/ }
+  validates :key, length: {is: 36}
 
   default_scope -> {
     kept

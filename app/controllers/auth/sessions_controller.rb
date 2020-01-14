@@ -8,7 +8,7 @@
         sign_in(resource_name, resource)
 
         @endpoint = Endpoint.find_by(user: resource, key: params[:user][:endpoint]) ||
-                    Endpoint.create(user: resource, key: params[:user][:endpoint])
+                    Endpoint.create(user: resource)
 
         respond_with_authentication_token(resource)
       end
@@ -22,7 +22,7 @@
       version: Rails.application.config.api_version,
       session: {
         key: resource.key,
-        endpoint: @endpoint.key,
+        endpoint: @endpoint.reload.key,
         token: resource.authentication_token
       }
     }
