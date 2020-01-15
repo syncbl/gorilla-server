@@ -3,12 +3,11 @@ json = render 'layouts/header'
 json[:package] = render 'packages/show', package: @package
 
 json[:package][:dependencies] = @package.all_dependencies.map do |dependent|
-  # TODO: Array only without render? But it's usefull for install...
+  # Note: it's better to use this render, because you may need to show dependent project names to user
   render 'show', package: dependent
 end
 
 size = 0
-
 json[:package][:parts] = @package.parts.map do |part|
   json_part = render 'parts/show', part: part
   size += json_part[:size]
