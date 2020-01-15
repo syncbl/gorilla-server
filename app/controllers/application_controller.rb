@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
       @endpoint = Endpoint.find_by(key: request.headers['X-API-Endpoint'], authentication_token: request.headers['X-API-Token'])
       if @endpoint&.user
         bypass_sign_in(@endpoint.user)
-        # TODO: 
+        # TODO: Find a better place to store endpoint data
         session[:endpoint] = @endpoint
       else
         render json: {
