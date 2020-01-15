@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable,
          :validatable, :timeoutable, :lockable
-  acts_as_token_authenticatable
+  has_secure_token :authentication_token
 
   has_many :packages, dependent: :destroy
   has_many :endpoints

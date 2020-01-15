@@ -17,7 +17,6 @@ gem 'simple_form'
 #gem 'pagy', '~> 3.5'
 
 gem 'devise'
-gem 'simple_token_authentication', '~> 1.0'
 
 # PostgreSQL will be used for data storage
 gem 'pg', '~> 1'

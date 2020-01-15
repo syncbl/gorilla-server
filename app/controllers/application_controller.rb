@@ -1,37 +1,40 @@
 class ApplicationController < ActionController::Base
   include ApplicationHelper
 
-  before_action :check_headers
-  acts_as_token_authentication_handler_for User
+  before_action :check_headers, if: -> { !devise_controller? && request.format.json? }
   protect_from_forgery with: :exception, unless: -> { request.format.json? }
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   protected
 
   def check_headers
-    if Rails.env.production? && request.format.json?
-      if (request.headers['X-API-Version'] != Rails.application.config.api_version)
+    if (request.headers['X-API-Version'] != Rails.application.config.api_version)
+      render json: {
+        version: Rails.application.config.api_version,
+        event: 'E_API_VERSION',
+        error: I18n.t(' wrong version ')
+      }, status: :forbidden
+    elsif (request.headers['X-API-Service'] != service_key(Rails.application.config.service_path))
+      # TODO: Check this from allowed list including
+      render json: {
+        version: Rails.application.config.api_version,
+        event: 'E_FILE_VERSION',
+        error: I18n.t(' wrong requester '),
+        url: Rails.application.config.service_path
+      }, status: :forbidden
+    else
+      # TODO: Authorize by endpoint!
+      @user = User.find_by(key: request.headers['X-API-Key'], authentication_token: request.headers['X-API-Token'])
+      # TODO: Optimize!
+      @endpoint = @user.endpoints.find_by(key: request.headers['X-API-Endpoint'])
+      if @user && @endpoint
+        sign_in(@user)
+        # TODO: 
+        session[:endpoint] = @endpoint
+      else
         render json: {
           version: Rails.application.config.api_version,
-          event: 'E_API_VERSION',
-          error: I18n.t(' wrong version ')
-        }, status: :forbidden
-      elsif (request.headers['X-API-Service'] != service_key(Rails.application.config.service_path))
-        # TODO: Check this from allowed list including
-        render json: {
-          version: Rails.application.config.api_version,
-          event: 'E_FILE_VERSION',
-          error: I18n.t(' wrong requester '),
-          url: Rails.application.config.service_path
-        }, status: :forbidden
-      elsif !devise_controller? && (
-              request.headers['X-API-Key'].blank? ||
-              request.headers['X-API-Token'].blank? ||
-              request.headers['X-API-Endpoint'].blank?
-            )
-        render json: {
-          version: Rails.application.config.api_version,
-          event: 'E_SESSION_KEYS',
+          event: 'E_SESSION_TOKEN',
           error: I18n.t(' missing keys ')
         }, status: :unauthorized
       end
