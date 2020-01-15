@@ -1,4 +1,4 @@
-  class Auth::SessionsController < Devise::SessionsController
+class Auth::SessionsController < Devise::SessionsController
 
   def create
     respond_to do |format|
@@ -31,5 +31,4 @@
       }
     }
   end
-
 end

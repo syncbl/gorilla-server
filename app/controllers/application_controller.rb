@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
       # TODO: Check this from allowed list including
       render json: {
         version: Rails.application.config.api_version,
-        event: 'E_FILE_VERSION',
+        event: 'E_SERVICE_KEY',
         error: I18n.t(' wrong requester '),
         url: Rails.application.config.service_path
       }, status: :forbidden
