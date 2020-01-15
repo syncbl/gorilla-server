@@ -55,10 +55,12 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.string "name"
     t.text "data"
     t.string "key", limit: 36, default: -> { "gen_random_uuid()" }, null: false
+    t.string "authentication_token", limit: 30
     t.bigint "user_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "discarded_at"
+    t.index ["authentication_token"], name: "index_endpoints_on_authentication_token"
     t.index ["discarded_at"], name: "index_endpoints_on_discarded_at"
     t.index ["key"], name: "index_endpoints_on_key"
     t.index ["user_id", "name"], name: "index_endpoints_on_user_id_and_name", unique: true
@@ -118,8 +120,6 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.boolean "trusted", default: false
     t.boolean "admin", default: false
     t.boolean "developer", default: false
-    t.string "key", limit: 36, default: -> { "gen_random_uuid()" }, null: false
-    t.string "authentication_token", limit: 30
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "email", default: "", null: false
@@ -130,9 +130,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.integer "failed_attempts", default: 0, null: false
     t.string "unlock_token"
     t.datetime "locked_at"
-    t.index ["authentication_token"], name: "index_users_on_authentication_token"
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["key"], name: "index_users_on_key"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 

@@ -23,12 +23,9 @@ class ApplicationController < ActionController::Base
         url: Rails.application.config.service_path
       }, status: :forbidden
     else
-      # TODO: Authorize by endpoint!
-      @user = User.find_by(key: request.headers['X-API-Key'], authentication_token: request.headers['X-API-Token'])
-      # TODO: Optimize!
-      @endpoint = @user.endpoints.find_by(key: request.headers['X-API-Endpoint'])
-      if @user && @endpoint
-        sign_in(@user)
+      @endpoint = Endpoint.find_by(key: request.headers['X-API-Endpoint'], authentication_token: request.headers['X-API-Token'])
+      if @endpoint&.user
+        bypass_sign_in(@endpoint.user)
         # TODO: 
         session[:endpoint] = @endpoint
       else

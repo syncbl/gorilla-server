@@ -1,4 +1,6 @@
 class Endpoint < ApplicationRecord
+  has_secure_token :authentication_token
+
   belongs_to :user
   has_many :settings, dependent: :destroy
   has_many :packages, through: :settings

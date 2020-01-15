@@ -21,9 +21,8 @@
     render json: {
       version: Rails.application.config.api_version,
       session: {
-        key: resource.key,
         endpoint: @endpoint.reload.key,
-        token: resource.authentication_token
+        token: @endpoint.authentication_token
       }
     }
   end

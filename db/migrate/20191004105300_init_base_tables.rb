@@ -12,9 +12,6 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
 
       # TODO: Add company because of associated propritary package
 
-      t.string :key, index: true, null: false, limit: 36, default: -> { 'gen_random_uuid()' }
-      t.string :authentication_token, index: true, unique: true, limit: 30
-
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
     end
@@ -28,6 +25,7 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.text :data
 
       t.string :key, index: true, null: false, limit: 36, default: -> { 'gen_random_uuid()' }
+      t.string :authentication_token, index: true, unique: true, limit: 30
       t.belongs_to :user, index: true, optional: true
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
