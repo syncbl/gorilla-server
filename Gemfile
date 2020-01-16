@@ -20,6 +20,9 @@ gem 'devise'
 
 # PostgreSQL will be used for data storage
 gem 'pg', '~> 1'
+# Redis for cache
+gem 'redis', '~> 4.0'
+gem 'hiredis'
 # Use triggers
 gem 'hairtrigger'
 # CRON scheduling
@@ -60,5 +63,5 @@ group :development do
 end
 
 group :production do
-  gem 'redis', '~> 4.0'
+  #gem 'redis', '~> 4.0'
 end

@@ -98,6 +98,7 @@ GEM
       activerecord (>= 5.0, < 7)
       ruby2ruby (~> 2.4)
       ruby_parser (~> 3.10)
+    hiredis (0.6.3)
     i18n (1.8.2)
       concurrent-ruby (~> 1.0)
     jb (0.7.1)
@@ -209,10 +210,6 @@ GEM
     simple_form (5.0.1)
       actionpack (>= 5.0)
       activemodel (>= 5.0)
-    simple_token_authentication (1.17.0)
-      actionmailer (>= 3.2.6, < 7)
-      actionpack (>= 3.2.6, < 7)
-      devise (>= 3.2, < 6)
     simplecov (0.17.1)
       docile (~> 1.1)
       json (>= 1.8, < 3)
@@ -266,6 +263,7 @@ DEPENDENCIES
   discard (~> 1.0)
   foreman
   hairtrigger
+  hiredis
   jb
   jquery-rails
   listen (>= 3.0.5, < 3.2)
@@ -279,7 +277,6 @@ DEPENDENCIES
   sanitize
   sass-rails (~> 5)
   simple_form
-  simple_token_authentication (~> 1.0)
   simplecov
   spring
   spring-watcher-listen (~> 2.0.0)
