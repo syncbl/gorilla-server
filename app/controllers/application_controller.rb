@@ -1,8 +1,8 @@
 class ApplicationController < ActionController::Base
   include ApplicationHelper
 
-  before_action :check_headers, if: -> { !devise_controller? && request.format.json? }
   protect_from_forgery with: :exception, unless: -> { request.format.json? }
+  before_action :check_headers, if: -> { !devise_controller? && request.format.json? }
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   protected
@@ -14,12 +14,12 @@ class ApplicationController < ActionController::Base
         event: 'E_API_VERSION',
         error: I18n.t(' wrong version ')
       }, status: :forbidden
-    elsif (request.headers['X-API-Service'] != service_key(Rails.application.config.service_path))
+    elsif !service_keys.include?(request.headers['X-API-Service'])
       # TODO: Check this from allowed list including
       render json: {
         version: Rails.application.config.api_version,
         event: 'E_SERVICE_KEY',
-        error: I18n.t(' wrong requester '),
+        error: I18n.t(' wrong service '),
         url: Rails.application.config.service_path
       }, status: :forbidden
     else
