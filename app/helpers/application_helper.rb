@@ -7,7 +7,7 @@ module ApplicationHelper
   def service_keys
     # TODO: Cache results!
     [
-      "###DEV###",
+      "#DEV#",
       service_key(Rails.application.config.service_path)
     ]
   end

@@ -11,6 +11,7 @@ class Package < ApplicationRecord
     association_foreign_key: :dependent_package_id
   belongs_to :user, optional: true
   has_one_attached :icon
+  accepts_nested_attributes_for :parts
 
   after_create :create_main_part
 
