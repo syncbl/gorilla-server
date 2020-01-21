@@ -11,13 +11,15 @@ gem 'sass-rails', '~> 5'
 gem 'webpacker', '~> 4.0'
 gem 'turbolinks', '~> 5'
 gem 'jquery-rails'
+gem 'devise'
 
 gem 'bootstrap', '~> 4.3.1'
 gem 'devise-bootstrap-views', '~> 1.0'
 gem 'simple_form'
 #gem 'pagy', '~> 3.5'
 
-gem 'devise'
+# JSON Builder
+gem 'jb'
 
 # PostgreSQL will be used for data storage
 gem 'pg', '~> 1'
@@ -26,6 +28,7 @@ gem 'redis', '~> 4.0'
 gem 'hiredis'
 # Use triggers
 gem 'hairtrigger'
+
 # CRON scheduling
 gem 'whenever', require: false
 # HTML parsing for download link detection
@@ -43,10 +46,6 @@ gem 'zip_tricks'
 # Pack parts to zip
 gem 'rubyzip'
 
-# JSON Builder
-#gem 'jbuilder'
-gem 'jb'
-
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -61,6 +60,7 @@ group :development do
   gem 'awesome_print', :require => 'ap'
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem "letter_opener"
 end
 
 group :production do
