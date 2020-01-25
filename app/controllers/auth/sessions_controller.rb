@@ -6,7 +6,6 @@ class Auth::SessionsController < Devise::SessionsController
       format.json do
         self.resource = warden.authenticate!(auth_options)
         sign_in(resource_name, resource)
-
         @endpoint = Endpoint.find_by(user: resource, key: params[:user][:endpoint]) ||
                     Endpoint.new(user: resource)
         if @endpoint.new_record?
@@ -16,6 +15,15 @@ class Auth::SessionsController < Devise::SessionsController
           @endpoint.regenerate_authentication_token
         end
         respond_with_authentication_token(resource)
+      end
+    end
+  end
+
+  def destroy
+    respond_to do |format|
+      format.any(*navigational_formats) { super }
+      format.json do
+        current_user&.endpoint&.regenerate_authentication_token
       end
     end
   end

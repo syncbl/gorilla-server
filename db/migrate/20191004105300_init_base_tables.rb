@@ -15,9 +15,6 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
     end
-    create_trigger(compatibility: 1).on(:users).before(:update) do
-      'NEW.updated_at = NOW();'
-    end
     # ----------
     create_table :endpoints do |t|
       t.string :name
@@ -26,16 +23,13 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
 
       t.string :key, index: true, null: false, limit: 36, default: -> { 'gen_random_uuid()' }
       t.string :authentication_token, index: true, unique: true, limit: 30
-      t.belongs_to :user, index: true, optional: true
+      t.belongs_to :user, index: true
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :discarded_at, index: true
       # To make computers individual
       t.index [:user_id, :name], unique: true # ...
-    end
-    create_trigger(compatibility: 1).on(:endpoints).before(:update) do
-      'NEW.updated_at = NOW();'
     end
     # ----------
     create_table :packages do |t|
@@ -57,9 +51,6 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       # Packages will be unique for everyone or for selected user
       t.index [:user_id, :name], unique: true
     end
-    create_trigger(compatibility: 1).on(:packages).before(:update) do
-      'NEW.updated_at = NOW();'
-    end
     # ----------
     create_table :dependencies do |t|
       t.integer :dependent_package_id, index: true
@@ -70,9 +61,6 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :discarded_at, index: true
       t.index [:package_id, :dependent_package_id], unique: true
-    end
-    create_trigger(compatibility: 1).on(:dependencies).before(:update) do
-      'NEW.updated_at = NOW();'
     end
     # ----------
     create_table :settings do |t|
@@ -89,27 +77,6 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :discarded_at, index: true
       t.index [:endpoint_id, :package_id], unique: true
-    end
-    create_trigger(compatibility: 1).on(:settings).before(:update) do
-      'NEW.updated_at = NOW();'
-    end
-    # ----------
-    create_table :parts do |t|
-      t.string :name, null: false
-      t.string :description
-      t.string :destination
-      t.text :script # TODO: Encode script with user's key
-
-      # Parts will be copied into chained updates
-      t.belongs_to :package, index: true
-
-      t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :discarded_at, index: true
-      t.index [:package_id, :name]
-    end
-    create_trigger(compatibility: 1).on(:parts).before(:update) do
-      'NEW.updated_at = NOW();'
     end
   end
 end

@@ -12,9 +12,7 @@ class User < ApplicationRecord
             uniqueness: { case_sensitive: false },
             format: { with: VALID_EMAIL_REGEX }
 
-  #default_scope -> {
-  #  includes(:endpoints)
-  #}
+  attr_accessor :endpoint
 
   def readable_name
     name || email

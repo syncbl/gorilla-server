@@ -78,7 +78,6 @@ class PackagesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_package
-      # TODO: includes(:parts) ???
       @package = Package.find_by('key = ? OR alias = ?', params[:id], params[:id])
     end
 

@@ -15,7 +15,7 @@ when "development"
   Package.create name: 'openssl-1.0.1'
   Package.create name: 'openssl-dev', trusted: true
   Package.first.dependencies << Package.last
-  Package.first.parts.first.files.attach(io: File.open('storage/README.md'),
+  Package.first.files.attach(io: File.open('storage/README.md'),
     filename: 'README.md')
   Endpoint.create name: 'test', key: '22c10457-3905-4bd6-bcdd-95349fe3ab45', user: User.first
 end

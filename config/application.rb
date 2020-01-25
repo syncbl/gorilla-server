@@ -28,8 +28,9 @@ module GpServer
     config.i18n.default_locale = :en
     config.i18n.fallbacks = [config.i18n.default_locale]
     config.active_storage.routes_prefix = '/'
-    # Own version marker
+    # Custom application parameters
     config.api_version = '864456aa'
     config.service_path = 'storage/README.md'
+    config.api_session_limit = 2.weeks
   end
 end

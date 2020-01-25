@@ -17,7 +17,6 @@ Rails.application.routes.draw do
   #get 'package(/:id)', to: 'packages#show'
 
   # TODO: only: []
-  resources :parts, constraints: lambda { |req| req.format == :json }
   resources :endpoints, constraints: lambda { |req| req.format == :json }
   resources :settings, constraints: lambda { |req| req.format == :json }
 

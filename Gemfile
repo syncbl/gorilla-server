@@ -26,8 +26,6 @@ gem 'pg', '~> 1'
 # Redis for cache
 gem 'redis', '~> 4.0'
 gem 'hiredis'
-# Use triggers
-gem 'hairtrigger'
 
 # CRON scheduling
 gem 'whenever', require: false
@@ -45,6 +43,8 @@ gem 'discard', '~> 1.0'
 gem 'zip_tricks'
 # Pack parts to zip
 gem 'rubyzip'
+# Translate packages
+#gem 'globalize', '~> 5.1.0'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
