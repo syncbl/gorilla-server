@@ -10,11 +10,6 @@ class CreateActiveStorageTables < ActiveRecord::Migration[6.0]
       t.string   :checksum,   null: false
       t.datetime :created_at, null: false
 
-      # TODO: Planning path for this file
-      t.string   :path,       null: false, default: ''
-      # TODO: Is archive?
-      t.boolean  :archive,    null: false, default: false
-
       t.index [ :key ], unique: true
     end
 

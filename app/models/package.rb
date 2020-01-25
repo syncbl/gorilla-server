@@ -21,7 +21,7 @@ class Package < ApplicationRecord
   #}
 
   def all_dependencies(packages = [])
-    dependencies.map do |p|
+    dependencies.kept.map do |p|
       if !packages.include?(p)
         if p.dependencies.any?
           packages << p

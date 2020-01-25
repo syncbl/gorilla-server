@@ -62,6 +62,7 @@ class PackagesController < ApplicationController
 
   # DELETE /packages/1
   # DELETE /packages/1.json
+  # TODO: Clear deleted packages when installed on 0 endpoints
   def destroy
     respond_to do |format|
       if @package.user != current_user
@@ -83,6 +84,6 @@ class PackagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def package_params
-      params.permit(:name, :text, :version, :files)
+      params.permit(:name, :text, :version, :discarded_at, :files)
     end
 end
