@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
   #User.find_by(email: request.headers['X-User-Email']).endpoints.size <= MAXIMUM
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:username])
-    devise_parameter_sanitizer.permit(:account_update, keys: [:username])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:name])
   end
 end
