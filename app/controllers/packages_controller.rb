@@ -83,7 +83,6 @@ class PackagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def package_params
-      params.permit(:name, :text, :version)
-      params.require(:package).permit(:name, :text, :version) if request.format.json?
+      params.permit(:name, :text, :version, :icon, :file)
     end
 end
