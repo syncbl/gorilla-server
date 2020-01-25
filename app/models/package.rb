@@ -9,7 +9,7 @@ class Package < ApplicationRecord
     foreign_key: :package_id,
     association_foreign_key: :dependent_package_id
   belongs_to :user, optional: true
-  has_one_attached :icon
+  #has_one_attached :icon
   has_many_attached :files
 
   validates :alias, format: { with: /\A[A-Za-z\d\-_ ]*\z/ }

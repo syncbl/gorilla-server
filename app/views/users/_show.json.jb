@@ -1,5 +1,5 @@
 json = {
   name: user.name,
-  key: user.key
+  locale: user.locale
   # TODO: Icon, company etc.
 }

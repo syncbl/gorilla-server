@@ -4,9 +4,9 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :exception, unless: -> { request.format.json? }
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :api_check_version, if: -> { !devise_controller? && request.format.json? }
-  before_action :api_check_service, if: -> { !devise_controller? && request.format.json? }
-  before_action :api_sign_in_endpoint, if: -> { request.format.json? }
+  #before_action :api_check_version, if: -> { !devise_controller? && request.format.json? }
+  #before_action :api_check_service, if: -> { !devise_controller? && request.format.json? }
+  #before_action :api_sign_in_endpoint, if: -> { request.format.json? }
 
   protected
 
