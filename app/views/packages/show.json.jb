@@ -8,8 +8,8 @@ end
 
 # TODO: Size of archives
 size = 0
-
 json[:package][:files] = @package.files.map do |file|
+  size += file.byte_size
   render 'layouts/file', file: file
 end
 
