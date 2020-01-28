@@ -15,7 +15,6 @@ gem 'devise'
 
 gem 'bootstrap', '~> 4.3.1'
 gem 'devise-bootstrap-views', '~> 1.0'
-gem 'simple_form'
 #gem 'pagy', '~> 3.5'
 
 # JSON Builder
