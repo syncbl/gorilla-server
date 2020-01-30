@@ -39,9 +39,9 @@ gem "foreman"
 # Soft delete for all records
 gem 'discard', '~> 1.0'
 # Stream zip as file container
-gem 'zip_tricks'
+#gem 'zip_tricks'
 # Pack parts to zip
-gem 'rubyzip'
+gem 'rubyzip', require: 'zip'
 # Translate packages
 #gem 'globalize', '~> 5.1.0'
 

@@ -241,7 +241,6 @@ GEM
     whenever (1.0.0)
       chronic (>= 0.6.3)
     zeitwerk (2.2.2)
-    zip_tricks (5.0.0)
 
 PLATFORMS
   ruby
@@ -278,7 +277,6 @@ DEPENDENCIES
   turbolinks (~> 5)
   webpacker (~> 4.0)
   whenever
-  zip_tricks
 
 RUBY VERSION
    ruby 2.6.5p114

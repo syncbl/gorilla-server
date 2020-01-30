@@ -5,9 +5,9 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception, unless: -> { request.format.json? }
   before_action :configure_permitted_parameters, if: :devise_controller?
   if Rails.env.production?
-    before_action :api_check_version, if: -> { !devise_controller? && request.format.json? }
-    before_action :api_check_service, if: -> { !devise_controller? && request.format.json? }
-    before_action :api_sign_in_endpoint, if: -> { request.format.json? }
+    before_action :api_check_version, if: -> { request.format.json? && !devise_controller? }
+    before_action :api_check_service, if: -> { request.format.json? && !devise_controller? }
+    before_action :api_sign_in_endpoint
   end
 
   protected
@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
     if Time.current > (endpoint.updated_at + Rails.application.config.api_session_limit)
       render_error_json('E_SESSION_EXPIRED', ' session expired ', :unauthorized)
     else
-      bypass_sign_in(endpoint.user)
+      bypass_sign_in(endpoint.user) unless user_signed_in?
       current_user.endpoint = endpoint
     end
   end
