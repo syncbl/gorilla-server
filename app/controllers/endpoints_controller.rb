@@ -65,7 +65,7 @@ class EndpointsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_endpoint
       # TODO: Move to GET
-      @endpoint = Endpoint.find(key: request.headers['X-API-Endpoint'])
+      @endpoint = current_user.endpoint
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

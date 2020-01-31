@@ -10,7 +10,18 @@ class Package < ApplicationRecord
     association_foreign_key: :dependent_package_id
   belongs_to :user, optional: true
   #has_one_attached :icon
-  has_many_attached :files
+  # TODO: So, here is a logic:
+  # - Every package has one main file, containing manifest and ONE hardcoded directory.
+  # - We can suppose, that for some files user can choose destination, for some not.
+  # - /files
+  # -       /0
+  # -       /1
+  # - ...
+  # - Manifest YAML contains crc, path, settings, shortcut info etc.
+  # - AND SIGNED!
+  has_one_attached :file
+  has_one_attached :manifest
+  has_one_attached :update
 
   validates :alias, format: { with: /\A[A-Za-z\d\-_ ]*\z/ }
   validates :key, length: {is: 36}, allow_blank: true
