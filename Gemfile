@@ -62,7 +62,6 @@ group :development do
   gem "letter_opener"
   gem "memory_profiler"
   gem "derailed_benchmarks"
-  gem 'jemalloc'
 end
 
 group :production do
