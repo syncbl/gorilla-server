@@ -9,8 +9,6 @@ class Auth::SessionsController < Devise::SessionsController
         @endpoint = Endpoint.find_by(user: resource, key: params[:user][:endpoint]) ||
                     Endpoint.new(user: resource) # Can't use param key, because of security issue
 
-        puts '*** ' + params[:user][:endpoint]
-
         if @endpoint.new_record?
           @endpoint.save
           @endpoint.reload

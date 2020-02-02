@@ -54,10 +54,13 @@ class SettingsController < ApplicationController
   # DELETE /settings/1
   # DELETE /settings/1.json
   def destroy
+    package = @setting.package
     @setting.destroy
     respond_to do |format|
       format.html { redirect_to settings_url, notice: 'Setting was successfully destroyed.' }
       format.json { head :no_content }
+    end
+    package.destroy if (package.endpoints.size == 0)
     end
   end
 

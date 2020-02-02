@@ -1,7 +1,7 @@
 class Package < ApplicationRecord
   include Discard::Model
 
-  has_many :settings
+  has_many :settings, dependent: :destroy
   has_many :endpoints, through: :settings
   has_and_belongs_to_many :dependencies,
     class_name: "Package",
@@ -26,6 +26,7 @@ class Package < ApplicationRecord
   validates :alias, format: { with: /\A[A-Za-z\d\-_ ]*\z/ }
   validates :key, length: {is: 36}, allow_blank: true
 
+  # TODO:
   #default_scope -> {
   #  kept
   #  .with_attached_icon
@@ -39,7 +40,6 @@ class Package < ApplicationRecord
         else
           packages.unshift(p)
         end
-        # TODO: May be, counter?
         all_dependencies(packages)
       end
     end

@@ -62,7 +62,6 @@ class PackagesController < ApplicationController
 
   # DELETE /packages/1
   # DELETE /packages/1.json
-  # TODO: Clear deleted packages when installed on 0 endpoints
   def destroy
     respond_to do |format|
       if @package.user != current_user

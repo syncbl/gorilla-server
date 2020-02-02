@@ -64,7 +64,6 @@ class EndpointsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_endpoint
-      # TODO: Move to GET
       @endpoint = current_user.endpoint
     end
 

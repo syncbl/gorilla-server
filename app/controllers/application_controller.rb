@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   if Rails.env.production?
     before_action :api_check_version, if: -> { request.format.json? && !devise_controller? }
     before_action :api_check_service, if: -> { request.format.json? && !devise_controller? }
-    before_action :api_sign_in_endpoint
+    before_action :api_sign_in_endpoint, if: -> { request.format.json? }
   end
 
   protected
@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   end
 
   def api_check_service
-    render_error_json('E_SERVICE_KEY', ' missing keys ', :forbidden) unless
+    render_error_json('E_API_SERVICE', ' missing keys ', :forbidden) unless
       service_keys.include?(request.headers['X-API-Service'])
   end
 
@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
     return true if request.headers['X-API-Token'].blank?
     endpoint = Endpoint.find_by(authentication_token: request.headers['X-API-Token'])
     if Time.current > (endpoint.updated_at + Rails.application.config.api_session_limit)
-      render_error_json('E_SESSION_EXPIRED', ' session expired ', :unauthorized)
+      render_error_json('E_API_SESSION', ' session expired ', :unauthorized)
     else
       bypass_sign_in(endpoint.user) unless user_signed_in?
       current_user.endpoint = endpoint

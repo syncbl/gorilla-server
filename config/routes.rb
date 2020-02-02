@@ -16,11 +16,11 @@ Rails.application.routes.draw do
   #post 'update', to: 'users#auth', constraints: lambda { |req| req.format == :json }
   #get 'package(/:id)', to: 'packages#show'
 
-  # TODO: only: []
-  resources :endpoints, constraints: lambda { |req| req.format == :json }
-  resources :settings, constraints: lambda { |req| req.format == :json }
+  resources :endpoints, only: [:show, :update], constraints: lambda { |req| req.format == :json }
+  resources :settings, only: [:show, :update], constraints: lambda { |req| req.format == :json }
 
-  # TODO: Render commands like INSTALL, UNINSTALL, UPDATE etc.
+  # TODO: Render commands like INSTALL, UNINSTALL, UPDATE etc. on packages
+  # and disallow direct access to endpoints and settings
 
   # TODO: Dashboard, endpoints and user settings only
   authenticated :user do
