@@ -83,6 +83,6 @@ class PackagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def package_params
-      params.permit(:name, :text, :version, :discarded_at, :files)
+      params.permit(:name, :text, :version, :discarded_at, :archive)
     end
 end

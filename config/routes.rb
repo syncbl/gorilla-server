@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :companies
   devise_for :users, controllers: {sessions: 'auth/sessions'}
     #,skip: [:sessions] do
     #  get '/login': "devise/sessions#new", :as => :new_user_session
@@ -8,7 +9,6 @@ Rails.application.routes.draw do
     #  get "/register": "users/registrations#new", :as => :new_user_registration
     #end
   #devise_for :endpoints, controllers: {sessions: 'auth/sessions'}
-  get 'user', to: 'users#show'
 
   resources :packages
   # TODO: Get only installed apps with updates
@@ -16,8 +16,7 @@ Rails.application.routes.draw do
   #post 'update', to: 'users#auth', constraints: lambda { |req| req.format == :json }
   #get 'package(/:id)', to: 'packages#show'
 
-  resources :endpoints, only: [:show, :update], constraints: lambda { |req| req.format == :json }
-  resources :settings, only: [:show, :update], constraints: lambda { |req| req.format == :json }
+  # TODO: Remove html declaration for api-only controllers
 
   # TODO: Render commands like INSTALL, UNINSTALL, UPDATE etc. on packages
   # and disallow direct access to endpoints and settings
@@ -25,6 +24,13 @@ Rails.application.routes.draw do
   # TODO: Dashboard, endpoints and user settings only
   authenticated :user do
     root to: 'packages#index', as: :authenticated_root #'users#dashboard'
+    get 'user', to: 'users#show'
+    constraints format: :json do
+      get 'endpoint', to: 'endpoints#show'
+      put 'endpoint', to: 'endpoints#update'
+      resources :endpoints, only: [:index]
+      resources :settings, only: [:show, :update]
+    end
   end
   root to: redirect('/users/sign_in')
 

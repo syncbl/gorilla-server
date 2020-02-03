@@ -37,6 +37,12 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "companies", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+  end
+
   create_table "dependencies", force: :cascade do |t|
     t.integer "dependent_package_id"
     t.bigint "package_id"
@@ -53,7 +59,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.string "name"
     t.text "data"
     t.string "key", limit: 36, default: -> { "gen_random_uuid()" }, null: false
-    t.string "authentication_token", limit: 30
+    t.string "authentication_token", limit: 24
     t.bigint "user_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -61,7 +67,6 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.index ["authentication_token"], name: "index_endpoints_on_authentication_token"
     t.index ["discarded_at"], name: "index_endpoints_on_discarded_at"
     t.index ["key"], name: "index_endpoints_on_key"
-    t.index ["user_id", "name"], name: "index_endpoints_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_endpoints_on_user_id"
   end
 
@@ -91,8 +96,6 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.bigint "package_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "discarded_at"
-    t.index ["discarded_at"], name: "index_settings_on_discarded_at"
     t.index ["endpoint_id", "package_id"], name: "index_settings_on_endpoint_id_and_package_id", unique: true
     t.index ["endpoint_id"], name: "index_settings_on_endpoint_id"
     t.index ["package_id"], name: "index_settings_on_package_id"
@@ -104,6 +107,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.boolean "trusted", default: false
     t.boolean "admin", default: false
     t.boolean "developer", default: false
+    t.bigint "company_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "email", default: "", null: false
@@ -114,6 +118,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.integer "failed_attempts", default: 0, null: false
     t.string "unlock_token"
     t.datetime "locked_at"
+    t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

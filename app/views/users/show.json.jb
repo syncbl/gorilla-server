@@ -2,7 +2,7 @@
 
 json = render 'layouts/header'
 
-json[:user] = render 'users/show', user: current_user
+json[:user] = render 'users/show', user: @user
 
 #company = params[:company] ? '' : (params[:company] + '/')
 

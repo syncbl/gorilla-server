@@ -7,10 +7,12 @@ class ApplicationController < ActionController::Base
   if Rails.env.production?
     before_action :api_check_version, if: -> { request.format.json? && !devise_controller? }
     before_action :api_check_service, if: -> { request.format.json? && !devise_controller? }
-    before_action :api_sign_in_endpoint, if: -> { request.format.json? }
   end
+  before_action :api_sign_in_endpoint, if: -> { request.format.json? }
 
   protected
+
+  # TODO: I18n
 
   def api_check_version
     render_error_json('E_API_VERSION', ' wrong version ', :forbidden) if

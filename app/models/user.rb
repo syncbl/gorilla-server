@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :validatable, :timeoutable, :lockable
 
   # Because of company support and installed packages we can't allow to delete resources
+  belongs_to :company, optional: true
   has_many :packages, dependent: :nullify
   has_many :endpoints, dependent: :nullify
 

@@ -2,6 +2,13 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
   def change
     enable_extension 'pgcrypto'
     # ----------
+    create_table :companies do |t|
+      t.string :name
+
+      t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+    end
+    # ----------
     create_table :users do |t|
       t.string :name
       t.string :locale, limit: 10
@@ -10,7 +17,7 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.boolean :developer, default: false
       #t.boolean :group, default: false
 
-      # TODO: Add company because of associated propritary package
+      t.belongs_to :company, index: true, optional: true
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
@@ -22,14 +29,14 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.text :data
 
       t.string :key, index: true, null: false, limit: 36, default: -> { 'gen_random_uuid()' }
-      t.string :authentication_token, index: true, unique: true, limit: 30
+      t.string :authentication_token, index: true, unique: true, limit: 24
       t.belongs_to :user, index: true
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :discarded_at, index: true
       # To make computers individual
-      t.index [:user_id, :name], unique: true # ...
+      #t.index [:user_id, :name], unique: true # ...
     end
     # ----------
     create_table :packages do |t|
@@ -75,7 +82,6 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :discarded_at, index: true
       t.index [:endpoint_id, :package_id], unique: true
     end
   end

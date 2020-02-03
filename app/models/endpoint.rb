@@ -1,4 +1,6 @@
 class Endpoint < ApplicationRecord
+  include Discard::Model
+
   has_secure_token :authentication_token
 
   belongs_to :user

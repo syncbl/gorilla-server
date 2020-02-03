@@ -6,9 +6,9 @@ class Auth::SessionsController < Devise::SessionsController
       format.json do
         self.resource = warden.authenticate!(auth_options)
         sign_in(resource_name, resource)
-        @endpoint = Endpoint.find_by(user: resource, key: params[:user][:endpoint]) ||
+        @endpoint = Endpoint.find_by(user: resource, key: params[:endpoint][:key]) ||
                     Endpoint.new(user: resource) # Can't use param key, because of security issue
-
+        @endpoint.name = params[:endpoint][:name]
         if @endpoint.new_record?
           @endpoint.save
           @endpoint.reload

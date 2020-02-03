@@ -19,9 +19,7 @@ class Package < ApplicationRecord
   # - ...
   # - Manifest YAML contains crc, path, settings, shortcut info etc.
   # - AND SIGNED!
-  has_one_attached :file
-  has_one_attached :manifest
-  has_one_attached :update
+  has_one_attached :archive
 
   validates :alias, format: { with: /\A[A-Za-z\d\-_ ]*\z/ }
   validates :key, length: {is: 36}, allow_blank: true

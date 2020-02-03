@@ -1,0 +1,4 @@
+json = {
+  name: endpoint.name
+  # TODO: Icon, company etc.
+}

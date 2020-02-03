@@ -3,7 +3,7 @@ json = {
   text: package.text,
   key: package.key,
   version: package.version,
-  deprecated: package.discarded_at.present?,
+  discarded: package.discarded?,
   trusted: package.trusted,
   created_at: package.created_at.to_i,
   updated_at: package.updated_at.to_i

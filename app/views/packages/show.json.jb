@@ -7,15 +7,9 @@ json[:package][:dependencies] = @package.all_dependencies.map do |dependent|
 end
 
 # TODO: Size of archives
-size = 0
-json[:package][:files] = @package.files.map do |file|
-  size += file.byte_size
-  render 'layouts/file', file: file
+if @package.archive.attached?
+  json[:package][:archive] = render 'layouts/file', file: @package.archive
 end
-
-json[:package][:size] = size
-# TODO: I18n
-json[:package][:h_size] = number_to_human_size(size)
 
 endpoint_count = @package.endpoints.size
 # TODO: To materialized processing

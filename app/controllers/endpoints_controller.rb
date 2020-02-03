@@ -4,7 +4,8 @@ class EndpointsController < ApplicationController
   # GET /endpoints
   # GET /endpoints.json
   def index
-    @endpoints = Endpoint.all
+    # TODO: Add company
+    @endpoints = current_user.endpoints
   end
 
   # GET /endpoints/1
