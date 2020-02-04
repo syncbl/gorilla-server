@@ -76,6 +76,8 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.string "text"
     t.string "version"
     t.string "key", limit: 36, default: -> { "gen_random_uuid()" }, null: false
+    t.string "filename"
+    t.string "checksum"
     t.boolean "trusted", default: false, null: false
     t.bigint "user_id"
     t.bigint "package_id"
@@ -87,6 +89,13 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.index ["package_id"], name: "index_packages_on_package_id"
     t.index ["user_id", "name"], name: "index_packages_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_packages_on_user_id"
+  end
+
+  create_table "services", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "key", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["key"], name: "index_services_on_key"
   end
 
   create_table "settings", force: :cascade do |t|

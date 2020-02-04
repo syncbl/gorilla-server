@@ -45,6 +45,8 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.string :text
       t.string :version
       t.string :key, index: true, null: false, limit: 36, default: -> { 'gen_random_uuid()' }
+      t.string :filename
+      t.string :checksum
 
       t.boolean :trusted, null: false, default: false
 
@@ -83,6 +85,13 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.index [:endpoint_id, :package_id], unique: true
+    end
+    # ----------
+    create_table :services do |t|
+      t.string :name, null: false
+      t.string :key, null: false, index: true
+
+      t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
     end
   end
 end

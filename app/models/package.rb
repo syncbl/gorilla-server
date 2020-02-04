@@ -19,7 +19,10 @@ class Package < ApplicationRecord
   # - ...
   # - Manifest YAML contains crc, path, settings, shortcut info etc.
   # - AND SIGNED!
-  has_one_attached :archive
+
+  # For really big archive we need to split it to chunks. I think 50mb will be enough.
+  has_many_attached :files
+  has_one_attached :manifest
 
   validates :alias, format: { with: /\A[A-Za-z\d\-_ ]*\z/ }
   validates :key, length: {is: 36}, allow_blank: true

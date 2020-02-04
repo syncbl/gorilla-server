@@ -1,0 +1,5 @@
+{
+  id: @service.id,
+  created_at: @service.created_at,
+  updated_at: @service.updated_at
+}

@@ -41,9 +41,12 @@ gem 'discard', '~> 1.0'
 # Stream zip as file container
 #gem 'zip_tricks'
 # Pack parts to zip
+# ???
 gem 'rubyzip', require: 'zip'
 # Translate packages
 #gem 'globalize', '~> 5.1.0'
+
+gem 'aws-sdk'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

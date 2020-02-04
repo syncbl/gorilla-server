@@ -50,6 +50,8 @@ class PackagesController < ApplicationController
         format.json { render json: @package.errors, status: :unprocessable_entity }
       else
         if @package.update(package_params)
+          @package.files.purge if params[:filename] == ''
+          @package.files.attach(params[:file]) if params[:file].present?
           format.html { redirect_to @package, notice: 'Package was successfully updated.' }
           format.json { render :show, status: :ok, location: @package }
         else
@@ -83,6 +85,6 @@ class PackagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def package_params
-      params.permit(:name, :text, :version, :discarded_at, :archive)
+      params.permit(:name, :text, :version, :discarded_at, :filename, :checksum, :manifest)
     end
 end

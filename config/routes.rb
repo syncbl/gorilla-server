@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :services
   resources :companies
   devise_for :users, controllers: {sessions: 'auth/sessions'}
     #,skip: [:sessions] do
