@@ -1,4 +1,6 @@
 json = {
-  name: endpoint.name
+  name: endpoint.name,
+  created_at: endpoint.created_at.to_i,
+  updated_at: endpoint.updated_at.to_i
   # TODO: Icon, company etc.
 }

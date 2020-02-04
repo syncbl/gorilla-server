@@ -7,7 +7,7 @@ class PackagesController < ApplicationController
   def index
     #if current_user.company
     #  @packages = Package.where(user: current_user.company.users)
-    @packages = Package.where(user: current_user, trusted: false).or(Package.where(trusted: true))
+    @packages = Package.kept.where(user: current_user, trusted: false).or(Package.where(trusted: true))
   end
 
   # GET /packages/1
@@ -50,7 +50,7 @@ class PackagesController < ApplicationController
         format.json { render json: @package.errors, status: :unprocessable_entity }
       else
         if @package.update(package_params)
-          @package.files.purge if params[:filename] == ''
+          @package.files.purge if (params[:filename] == '')
           @package.files.attach(params[:file]) if params[:file].present?
           format.html { redirect_to @package, notice: 'Package was successfully updated.' }
           format.json { render :show, status: :ok, location: @package }
