@@ -15,6 +15,7 @@ class User < ApplicationRecord
             format: { with: VALID_EMAIL_REGEX }
 
   attr_accessor :endpoint
+  # TODO: Everyone can create packages, but we need to add permissions for company members later
 
   def readable_name
     name || email

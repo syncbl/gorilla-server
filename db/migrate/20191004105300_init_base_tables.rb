@@ -3,7 +3,7 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
     enable_extension 'pgcrypto'
     # ----------
     create_table :companies do |t|
-      t.string :name
+      t.string :name, index: true
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }

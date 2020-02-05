@@ -47,11 +47,15 @@ class PackagesController < ApplicationController
     respond_to do |format|
       if @package.user != current_user
         format.html { render :edit }
-        format.json { render json: @package.errors, status: :unprocessable_entity }
+        format.json { render json: @package.errors, status: :forbidden }
       else
+        @package.files.purge if (params[:filename] == '')
+        if params[:file].present?
+          @package.files.attach(params[:file])
+          @package.filename = nil
+        end
+
         if @package.update(package_params)
-          @package.files.purge if (params[:filename] == '')
-          @package.files.attach(params[:file]) if params[:file].present?
           format.html { redirect_to @package, notice: 'Package was successfully updated.' }
           format.json { render :show, status: :ok, location: @package }
         else

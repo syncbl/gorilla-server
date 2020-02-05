@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   resources :services
   resources :companies
-  devise_for :users, controllers: {sessions: 'auth/sessions'}
+  devise_for :users, controllers: {sessions: 'auth/sessions', registrations: 'auth/registrations'}
     #,skip: [:sessions] do
     #  get '/login': "devise/sessions#new", :as => :new_user_session
     #  post '/login': 'devise/sessions#create', :as => :user_session

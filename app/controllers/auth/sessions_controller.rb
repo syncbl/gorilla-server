@@ -6,16 +6,8 @@ class Auth::SessionsController < Devise::SessionsController
       format.json do
         self.resource = warden.authenticate!(auth_options)
         sign_in(resource_name, resource)
-        @endpoint = Endpoint.find_by(user: resource, key: params[:endpoint][:key]) ||
-                    Endpoint.new(user: resource) # Can't use param key, because of security issue
-        @endpoint.name = params[:endpoint][:name]
-        if @endpoint.new_record?
-          @endpoint.save
-          @endpoint.reload
-        else
-          @endpoint.regenerate_authentication_token
-        end
-        respond_with_authentication_token(resource)
+        authenticate_endpoint(resource, params)
+        # TODO: Registration through API.
       end
     end
   end
@@ -27,17 +19,5 @@ class Auth::SessionsController < Devise::SessionsController
         current_user&.endpoint&.regenerate_authentication_token
       end
     end
-  end
-
-  protected
-
-  def respond_with_authentication_token(resource)
-    render json: {
-      version: Rails.application.config.api_version,
-      session: {
-        endpoint: @endpoint.key,
-        token: @endpoint.authentication_token
-      }
-    }
   end
 end
