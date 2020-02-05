@@ -24,8 +24,10 @@ class Package < ApplicationRecord
   has_many_attached :files
   has_one_attached :manifest
 
-  validates :name, presence: true, format: { with: /\A[A-Za-z0-9\d\-_ ]*\z/ }, uniqueness: { scope: :user_id, case_sensitive: false }
-  validates :alias, format: { with: /\A[A-Za-z0-9\d\-_ ]*\z/ }, uniqueness: { case_sensitive: false }
+  validates :name, presence: true, format: { with: /\A[A-Za-z0-9\d\-_ ]*\z/ },
+    uniqueness: { scope: :user_id, case_sensitive: false }
+  validates :alias, format: { with: /\A[A-Za-z0-9\d\-_ ]*\z/ },
+    uniqueness: { case_sensitive: false }
   validates :key, length: {is: 36}, allow_blank: true
 
   # TODO:
