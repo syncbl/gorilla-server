@@ -4,6 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.6.5'
 
 gem 'rails', '~> 6.0'
+gem 'rails-i18n', '~> 6.0'
 gem 'puma', '~> 4.2'
 gem 'bcrypt', '~> 3.1.7'
 gem 'bootsnap', '>= 1.4.2', require: false
@@ -65,6 +66,7 @@ group :development do
   gem "letter_opener"
   gem "memory_profiler"
   gem "derailed_benchmarks"
+  gem 'i18n-tasks', '~> 0.9.30'
 end
 
 group :production do

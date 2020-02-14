@@ -5,7 +5,7 @@ module ApplicationHelper
   end
 
   def service_keys
-    # TODO: Cache results!
+    # TODO: Change detect method!
     [
       "#DEV#",
       service_key(Rails.application.config.service_path)

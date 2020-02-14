@@ -1,6 +1,6 @@
 class PackagesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_package, only: [:show, :edit, :update, :destroy]
+  before_action :set_package, except: [:index]
 
   # GET /packages
   # GET /packages.json
@@ -45,23 +45,17 @@ class PackagesController < ApplicationController
   # PATCH/PUT /packages/1.json
   def update
     respond_to do |format|
-      if @package.user != current_user
-        format.html { render :edit }
-        format.json { render json: @package.errors, status: :forbidden }
-      else
+      if (@package.user == current_user) && @package.update(package_params)
         @package.files.purge if (params[:filename] == '')
         if params[:file].present?
           @package.files.attach(params[:file])
           @package.filename = nil
         end
-
-        if @package.update(package_params)
-          format.html { redirect_to @package, notice: 'Package was successfully updated.' }
-          format.json { render :show, status: :ok, location: @package }
-        else
-          format.html { render :edit }
-          format.json { render json: @package.errors, status: :unprocessable_entity }
-        end
+        format.html { redirect_to @package, notice: 'Package was successfully updated.' }
+        format.json { render :show, status: :ok, location: @package }
+      else
+        format.html { render :edit }
+        format.json { render json: @package.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -70,13 +64,39 @@ class PackagesController < ApplicationController
   # DELETE /packages/1.json
   def destroy
     respond_to do |format|
-      if @package.user != current_user
-        format.html { render :edit }
-        format.json { render json: @package.errors, status: :unprocessable_entity }
-      else
-        @package.discard
+      if (@package.user == current_user) && @package.discard
         format.html { redirect_to packages_url, notice: 'Package was successfully destroyed.' }
         format.json { head :no_content }
+      else
+        format.html { render :edit }
+        format.json { render json: @package.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # TODO: Allow only for API!
+  def install
+    @setting = current_user.endpoint.settings.new(package: @package)
+    respond_to do |format|
+      if @setting.save
+        format.html { redirect_to packages_url, notice: 'Package soon will be installed.' }
+        format.json { render :show, status: :created, location: @package }
+      else
+        format.html { render :show }
+        format.json { render json: @setting.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def uninstall
+    @setting = current_user.endpoint.settings.find_by(package: @package)
+    respond_to do |format|
+      if @setting&.destroy
+        format.html { redirect_to packages_url, notice: 'Package was successfully uninstalled.' }
+        format.json { render :show, status: :created, location: @package }
+      else
+        format.html { render :show }
+        format.json { head :no_content, status: :unprocessable_entity }
       end
     end
   end

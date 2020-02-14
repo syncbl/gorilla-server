@@ -1,6 +1,0 @@
-@services.map do |service|
-  {
-    id: service.id,
-    url: service_url(service, format: :json)
-  }
-end

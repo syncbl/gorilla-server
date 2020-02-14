@@ -7,7 +7,6 @@ class Auth::SessionsController < Devise::SessionsController
         self.resource = warden.authenticate!(auth_options)
         sign_in(resource_name, resource)
         authenticate_endpoint(resource, params)
-        # TODO: Registration through API.
       end
     end
   end

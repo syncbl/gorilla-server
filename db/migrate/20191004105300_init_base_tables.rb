@@ -86,12 +86,5 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.index [:endpoint_id, :package_id], unique: true
     end
-    # ----------
-    create_table :services do |t|
-      t.string :name, null: false
-      t.string :key, null: false, index: true
-
-      t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-    end
   end
 end

@@ -22,13 +22,16 @@ class Package < ApplicationRecord
 
   # For really big archive we need to split it to chunks. I think 50mb will be enough.
   has_many_attached :files
+  # TODO: May be move manifest to text field?
   has_one_attached :manifest
 
-  validates :name, presence: true, format: { with: /\A[A-Za-z0-9\d\-_ ]*\z/ },
+  validates :name, presence: true, format: { with: /\A[A-Za-z\d\-\_]*\z/ }, length: { maximum: 100 },
     uniqueness: { scope: :user_id, case_sensitive: false }
-  validates :alias, format: { with: /\A[A-Za-z0-9\d\-_ ]*\z/ },
+  validates :alias, format: { with: /\A[A-Za-z\d\-\_]*\z/ },
     uniqueness: { case_sensitive: false }
   validates :key, length: {is: 36}, allow_blank: true
+
+  # TODO: GET updated = updated.at > settings.updated_at -> in packages/endpoints/settings?
 
   # TODO:
   #default_scope -> {
