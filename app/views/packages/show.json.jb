@@ -2,7 +2,7 @@ json = render 'layouts/header'
 
 json[:package] = render 'packages/show', package: @package
 
-json[:package][:dependencies] = @package.all_dependencies.map do |dependent|
+json[:package][:dependencies] = Package.all_dependencies(@package).map do |dependent|
   render 'show', package: dependent
 end
 

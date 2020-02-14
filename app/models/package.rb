@@ -42,15 +42,15 @@ class Package < ApplicationRecord
   #  .with_attached_icon
   #}
 
-  def all_dependencies(packages = [])
-    dependencies.kept.map do |p|
+  def self.all_dependencies(current, packages = [])
+    current.dependencies.kept.map do |p|
       if !packages.include?(p)
         if p.dependencies.any?
           packages << p
         else
           packages.unshift(p)
         end
-        all_dependencies(packages)
+        Package.all_dependencies(p, packages)
       end
     end
     packages

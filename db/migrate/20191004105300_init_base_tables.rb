@@ -79,7 +79,7 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.text :log
       # TODO: Purchase information
       t.boolean :dependent, null: false, default: false
-      t.boolean :synced, null: false, default: false
+      t.boolean :installed, null: false, default: false
 
       t.belongs_to :endpoint
       t.belongs_to :package

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :settings
   devise_for :users, controllers: {sessions: 'auth/sessions', registrations: 'auth/registrations'}
 
   # TODO: Get only installed apps with updates

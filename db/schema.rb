@@ -97,7 +97,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.text "data"
     t.text "log"
     t.boolean "dependent", default: false, null: false
-    t.boolean "synced", default: false, null: false
+    t.boolean "installed", default: false, null: false
     t.bigint "endpoint_id"
     t.bigint "package_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false

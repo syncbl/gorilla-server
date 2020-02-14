@@ -1,6 +1,4 @@
 class Endpoint < ApplicationRecord
-  after_touch :actualize!
-
   has_secure_token :authentication_token
 
   belongs_to :user
@@ -10,11 +8,14 @@ class Endpoint < ApplicationRecord
   validates :key, length: {is: 36}, allow_blank: true
 
   def actualize!
-    all_packages = []
-    settings.includes(:package).map { |s| s.package.all_dependencies(all_packages) }
-    settings.where.not(package: all_packages).where.not(dependent: false).discard_all
-    settings.includes(:package).map { |s| all_packages.delete(s.package) }
-    all_packages.each { |p| settings.create(package: p, dependent: true) }
+    discarded_packages = []
+    installed_packages = []
+    settings.discarded.where(dependent: false).map { |s| Package.all_dependencies(s.package, discarded_packages) }
+    settings.kept.where(dependent: false).map { |s| Package.all_dependencies(s.package, installed_packages) }
+    discarded_packages.delete_if { |p| installed_packages.include?(p) }
+    settings.kept.where(package: discarded_packages).where(dependent: true).discard_all
+    settings.kept.map { |s| installed_packages.delete(s.package) }
+    installed_packages.each { |p| settings.create(package: p, dependent: true) }
   end
 
   def to_param
