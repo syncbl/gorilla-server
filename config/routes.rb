@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-  resources :settings
   devise_for :users, controllers: {sessions: 'auth/sessions', registrations: 'auth/registrations'}
 
   # TODO: Get only installed apps with updates
@@ -18,11 +17,11 @@ Rails.application.routes.draw do
     root to: 'packages#index', as: :authenticated_root #'users#dashboard'
     get 'user', to: 'users#show'
     #put 'install(/:id)', to: 'packages#install'
-
+    resources :settings, only: [:index, :show]
     resources :packages do
       member do
-        patch 'install', to: 'packages#install'
-        patch 'uninstall', to: 'packages#uninstall'
+        put 'install', to: 'packages#install'
+        put 'uninstall', to: 'packages#uninstall'
       end
     end
     get 'endpoint', to: 'endpoints#show'
