@@ -1,13 +1,6 @@
 Rails.application.routes.draw do
 
   devise_for :users, controllers: {sessions: 'auth/sessions', registrations: 'auth/registrations'}
-    #,skip: [:sessions] do
-    #  get '/login': "devise/sessions#new", :as => :new_user_session
-    #  post '/login': 'devise/sessions#create', :as => :user_session
-    #  get '/logout': 'devise/sessions#destroy', :as => :destroy_user_session
-    #  get "/register": "users/registrations#new", :as => :new_user_registration
-    #end
-  #devise_for :endpoints, controllers: {sessions: 'auth/sessions'}
 
   # TODO: Get only installed apps with updates
   # !!! It's better to update like Steam - only by date, allowing to recover files manually

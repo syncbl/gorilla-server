@@ -76,7 +76,9 @@ class PackagesController < ApplicationController
 
   # TODO: Allow only for API!
   def install
-    setting = current_user.endpoint.settings.new(package: @package)
+    setting = current_user.endpoint.settings.discarded.find_by(package: @package) ||
+      current_user.endpoint.settings.new(package: @package)
+    setting.discarded_at = nil
     respond_to do |format|
       if setting.save
         format.html { redirect_to packages_url, notice: 'Package soon will be installed.' }

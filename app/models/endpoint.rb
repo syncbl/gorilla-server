@@ -11,9 +11,9 @@ class Endpoint < ApplicationRecord
 
   def actualize!
     all_packages = []
-    settings.map { |s| s.package.all_dependencies(all_packages) }
+    settings.includes(:package).map { |s| s.package.all_dependencies(all_packages) }
     settings.where.not(package: all_packages).where.not(dependent: false).discard_all
-    settings.map { |s| all_packages.delete(s.package) }
+    settings.includes(:package).map { |s| all_packages.delete(s.package) }
     all_packages.each { |p| settings.create(package: p, dependent: true) }
   end
 
