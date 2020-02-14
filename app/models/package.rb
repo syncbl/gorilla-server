@@ -1,7 +1,10 @@
 class Package < ApplicationRecord
   include Discard::Model
+  after_discard do
+    settings.discard_all
+  end
 
-  has_many :settings, dependent: :destroy
+  has_many :settings
   has_many :endpoints, through: :settings
   has_and_belongs_to_many :dependencies,
     class_name: "Package",
@@ -28,7 +31,7 @@ class Package < ApplicationRecord
   validates :name, presence: true, format: { with: /\A[A-Za-z\d\-\_]*\z/ }, length: { maximum: 100 },
     uniqueness: { scope: :user_id, case_sensitive: false }
   validates :alias, format: { with: /\A[A-Za-z\d\-\_]*\z/ },
-    uniqueness: { case_sensitive: false }
+    uniqueness: { case_sensitive: false }, allow_blank: true
   validates :key, length: {is: 36}, allow_blank: true
 
   # TODO: GET updated = updated.at > settings.updated_at -> in packages/endpoints/settings?

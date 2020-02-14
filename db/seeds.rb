@@ -8,11 +8,14 @@
 
 case Rails.env
 when "development"
-  User.create name: 'Test', email: 'test@example.com', password: '123456', company: (Company.create name: 'Test')
-  p = Package.create name: 'openssl-1.0.3', alias: 'openssl', trusted: true
-  Package.create name: 'openssl-1.0.1'
-  Package.create name: 'openssl-dev', trusted: true
-  p.dependencies << Package.last
+  Company.create name: 'Test'
+  User.create name: 'Test', email: 'test@example.com', password: '123456'
+  Package.create([{name: 'openssl-1_0', alias: 'openssl', trusted: true},
+  {name: 'openssl-1_1'}, {name: 'openssl-1_2'}, {name: 'openssl-1_3'},
+  {name: 'openssl-1_4'}, {name: 'openssl-1_5'}, {name: 'openssl-1_6'},
+  {name: 'openssl-1_7'}, {name: 'openssl-dev', trusted: true}])
+  Package.first.dependencies << Package.last
+  Package.last.dependencies << Package.find_by(name: 'openssl-1_5')
   #p.archive.attach(io: File.open('storage/README.md'), filename: 'README.md')
   Endpoint.create name: 'Test', user: User.first
 end

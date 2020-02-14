@@ -41,7 +41,7 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
     # ----------
     create_table :packages do |t|
       t.string :name, null: false
-      t.string :alias, unique: true
+      t.string :alias, index: true, optional: true
       t.string :text
       t.string :version
       t.string :key, index: true, null: false, limit: 36, default: -> { 'gen_random_uuid()' }
@@ -78,12 +78,15 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       # Log tails etc.
       t.text :log
       # TODO: Purchase information
+      t.boolean :dependent, null: false, default: false
+      t.boolean :synced, null: false, default: false
 
       t.belongs_to :endpoint
       t.belongs_to :package
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :discarded_at, index: true
       t.index [:endpoint_id, :package_id], unique: true
     end
   end

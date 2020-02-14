@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.string "name"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["name"], name: "index_companies_on_name"
   end
 
   create_table "dependencies", force: :cascade do |t|
@@ -84,6 +85,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "discarded_at"
+    t.index ["alias"], name: "index_packages_on_alias"
     t.index ["discarded_at"], name: "index_packages_on_discarded_at"
     t.index ["key"], name: "index_packages_on_key"
     t.index ["package_id"], name: "index_packages_on_package_id"
@@ -91,20 +93,17 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.index ["user_id"], name: "index_packages_on_user_id"
   end
 
-  create_table "services", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "key", null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["key"], name: "index_services_on_key"
-  end
-
   create_table "settings", force: :cascade do |t|
     t.text "data"
     t.text "log"
+    t.boolean "dependent", default: false, null: false
+    t.boolean "synced", default: false, null: false
     t.bigint "endpoint_id"
     t.bigint "package_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "discarded_at"
+    t.index ["discarded_at"], name: "index_settings_on_discarded_at"
     t.index ["endpoint_id", "package_id"], name: "index_settings_on_endpoint_id_and_package_id", unique: true
     t.index ["endpoint_id"], name: "index_settings_on_endpoint_id"
     t.index ["package_id"], name: "index_settings_on_package_id"

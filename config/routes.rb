@@ -20,8 +20,6 @@ Rails.application.routes.draw do
   # and disallow direct access to endpoints and settings
 
   # TODO: Dashboard, endpoints and user settings only
-  root to: redirect('/users/sign_in') #'users#landing'
-
   authenticated :user do
     root to: 'packages#index', as: :authenticated_root #'users#dashboard'
     get 'user', to: 'users#show'
@@ -36,6 +34,7 @@ Rails.application.routes.draw do
     get 'endpoint', to: 'endpoints#show'
     put 'endpoint', to: 'endpoints#update'
   end
+  root to: redirect('/users/sign_in') #'users#landing'
 
   #namespace :api, defaults: { format: :json }, constraints: { subdomain: 'api' }, path: '/' do
   #  list of resources

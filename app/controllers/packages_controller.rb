@@ -1,6 +1,6 @@
 class PackagesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_package, except: [:index]
+  before_action :set_package, except: [:index, :new, :create]
 
   # GET /packages
   # GET /packages.json
@@ -76,27 +76,27 @@ class PackagesController < ApplicationController
 
   # TODO: Allow only for API!
   def install
-    @setting = current_user.endpoint.settings.new(package: @package)
+    setting = current_user.endpoint.settings.new(package: @package)
     respond_to do |format|
-      if @setting.save
+      if setting.save
         format.html { redirect_to packages_url, notice: 'Package soon will be installed.' }
         format.json { render :show, status: :created, location: @package }
       else
         format.html { render :show }
-        format.json { render json: @setting.errors, status: :unprocessable_entity }
+        format.json { render json: setting.errors, status: :unprocessable_entity }
       end
     end
   end
 
   def uninstall
-    @setting = current_user.endpoint.settings.find_by(package: @package)
+    setting = current_user.endpoint.settings.find_by(package: @package)
     respond_to do |format|
-      if @setting&.destroy
+      if setting&.discard
         format.html { redirect_to packages_url, notice: 'Package was successfully uninstalled.' }
         format.json { render :show, status: :created, location: @package }
       else
         format.html { render :show }
-        format.json { head :no_content, status: :unprocessable_entity }
+        format.json { render json: @package.errors, status: :unprocessable_entity }
       end
     end
   end
