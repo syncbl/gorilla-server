@@ -6,20 +6,22 @@
 
     <title><%= content_for?(:title) ? "GP - " + yield(:title) : "GP" %></title>
 
-    <%= stylesheet_link_tag 'application' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= csrf_meta_tags %>
   </head>
   <body>
     <%= render 'layouts/header' %>
 
-    <% flash.each do |name, msg| %>
-      <%= content_tag :div, msg, class: ['alert', 'alert-dismissible', 'fade', 'show', alert_for(name)] %>
-    <% end %>
-
-    <div class="">
-      <div class="container">
-        <%= yield %>
+    <div class="container-fluid">
+      <% flash.each do |name, msg| %>
+        <%= content_tag :div, msg, class: ['alert', 'alert-dismissible', 'fade', 'show', alert_for(name)] %>
+      <% end %>
+      <div class="">
+        <div class="container">
+          <%= yield %>
+        </div>
       </div>
     </div>
     </body>
