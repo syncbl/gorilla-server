@@ -12,7 +12,6 @@ class ApplicationController < ActionController::Base
   protected
 
   # TODO: I18n
-
   def api_check_version
     render_error_json('E_API_VERSION', ' wrong version ', :forbidden) if
       request.headers['X-API-Version'] != Rails.application.config.api_version
@@ -23,6 +22,7 @@ class ApplicationController < ActionController::Base
       service_keys.include?(request.headers['X-API-Service'])
   end
 
+  # TODO: Change and resend token on random query
   def api_sign_in_endpoint
     return true if request.headers['X-API-Token'].blank?
     endpoint = Endpoint.find_by(authentication_token: request.headers['X-API-Token'])

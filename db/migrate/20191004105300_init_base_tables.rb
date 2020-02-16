@@ -7,6 +7,7 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :discarded_at, index: true
     end
     # ----------
     create_table :users do |t|
@@ -21,6 +22,7 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :discarded_at, index: true
     end
     # ----------
     create_table :endpoints do |t|
@@ -73,19 +75,15 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
     end
     # ----------
     create_table :settings do |t|
-      # Application related variables and settings
-      t.text :data
-      # Log tails etc.
-      t.text :log
-      # TODO: Purchase information
+      # TODO: Purchase information, logs, other data, variables and settings
       t.boolean :dependent, null: false, default: false
-      t.boolean :installed, null: false, default: false
 
       t.belongs_to :endpoint
       t.belongs_to :package
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :installed_at
       t.datetime :discarded_at, index: true
       t.index [:endpoint_id, :package_id], unique: true
     end

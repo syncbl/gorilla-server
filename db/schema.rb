@@ -94,18 +94,17 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
   end
 
   create_table "settings", force: :cascade do |t|
-    t.text "data"
-    t.text "log"
     t.boolean "dependent", default: false, null: false
-    t.boolean "installed", default: false, null: false
     t.bigint "endpoint_id"
     t.bigint "package_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "installed_at"
     t.datetime "discarded_at"
     t.index ["discarded_at"], name: "index_settings_on_discarded_at"
     t.index ["endpoint_id", "package_id"], name: "index_settings_on_endpoint_id_and_package_id", unique: true
     t.index ["endpoint_id"], name: "index_settings_on_endpoint_id"
+    t.index ["installed_at"], name: "index_settings_on_installed_at"
     t.index ["package_id"], name: "index_settings_on_package_id"
   end
 

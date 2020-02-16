@@ -7,6 +7,7 @@ class Endpoint < ApplicationRecord
 
   validates :key, length: {is: 36}, allow_blank: true
 
+  # TODO: Optimize
   def actualize!
     discarded_packages = []
     installed_packages = []

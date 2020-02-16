@@ -13,7 +13,9 @@
   <body>
     <%= render 'layouts/header' %>
 
-    <%# TODO: Flash alerts %>
+    <% flash.each do |name, msg| %>
+      <%= content_tag :div, msg, class: ['alert', 'alert-dismissible', 'fade', 'show', alert_for(name)] %>
+    <% end %>
 
     <div class="">
       <div class="container">

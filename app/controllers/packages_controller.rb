@@ -104,11 +104,11 @@ class PackagesController < ApplicationController
   end
 
   def sync
-
+    # ???
   end
 
   def settings
-
+    # ???
   end
 
   private
