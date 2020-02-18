@@ -12,20 +12,20 @@ Rails.application.routes.draw do
   # TODO: Render commands like INSTALL, UNINSTALL, UPDATE etc. on packages
   # and disallow direct access to endpoints and settings
 
+  resources :packages do
+    member do
+      put 'install', to: 'packages#install'
+      put 'uninstall', to: 'packages#uninstall'
+    end
+  end
+  get 'endpoint', to: 'endpoints#show'
+  put 'endpoint', to: 'endpoints#update'
+  resources :settings, only: [:index, :show]
+  get 'user', to: 'users#show'
+
   # TODO: Dashboard, endpoints and user settings only
   authenticated :user do
     root to: 'packages#index', as: :authenticated_root #'users#dashboard'
-    get 'user', to: 'users#show'
-    #put 'install(/:id)', to: 'packages#install'
-    resources :settings, only: [:index, :show]
-    resources :packages do
-      member do
-        put 'install', to: 'packages#install'
-        put 'uninstall', to: 'packages#uninstall'
-      end
-    end
-    get 'endpoint', to: 'endpoints#show'
-    put 'endpoint', to: 'endpoints#update'
   end
   root to: redirect('/users/sign_in') #'users#landing'
 

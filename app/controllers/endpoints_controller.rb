@@ -1,4 +1,5 @@
 class EndpointsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_endpoint, only: [:show, :edit, :update, :destroy]
 
   # GET /endpoints
