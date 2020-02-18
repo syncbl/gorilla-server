@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   get 'endpoint', to: 'endpoints#show'
   put 'endpoint', to: 'endpoints#update'
   resources :settings, only: [:index, :show]
-  get 'user', to: 'users#show'
+  resource :user, only: [:show]
 
   # TODO: Dashboard, endpoints and user settings only
   authenticated :user do
