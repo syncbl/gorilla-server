@@ -31,6 +31,6 @@ module GpServer
     # Custom application parameters
     config.api_version = '864456aa'
     config.service_path = 'storage/README.md'
-    config.api_session_limit = 2.weeks
+    config.api_session_limit = 1.minute
   end
 end
