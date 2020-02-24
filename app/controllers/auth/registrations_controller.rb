@@ -10,7 +10,7 @@ class Auth::RegistrationsController < Devise::RegistrationsController
           sign_in @user
           authenticate_endpoint(@user, params)
         else
-          render_error_json('E_API_REGISTER', ' cant register ', :unauthorized)
+          render json: @user.errors, status: :unauthorized
         end
       end
     end

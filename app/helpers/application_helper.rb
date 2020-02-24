@@ -12,17 +12,9 @@ module ApplicationHelper
     ]
   end
 
-  def render_error_json(event, error, status)
-    render json: {
-      version: Rails.application.config.api_version,
-      event: event,
-      error: I18n.t(error),
-    }, status: status
-  end
-
   def respond_with_endpoint_token(endpoint)
     render json: {
-      version: Rails.application.config.api_version,
+      fingerprint: Rails.application.config.api_fingerprint,
       session: {
         endpoint: endpoint.key,
         token: endpoint.authentication_token
