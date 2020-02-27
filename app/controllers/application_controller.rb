@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
 
   protect_from_forgery with: :exception, unless: -> { request.format.json? }
+  before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :api_check_fingerprint, if: -> { request.format.json? }
   before_action :api_check_service, if: -> { request.format.json? && Rails.env.production? }
   before_action :api_sign_in_endpoint, if: -> { request.format.json? && !devise_controller? }
@@ -36,11 +37,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # TODO: To check license
-  #User.find_by(email: request.headers['X-User-Email']).endpoints.size <= MAXIMUM
-
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :locale])
     devise_parameter_sanitizer.permit(:account_update, keys: [:name, :locale])
   end
+
+  # TODO: To check license
+  #User.find_by(email: request.headers['X-User-Email']).endpoints.size <= MAXIMUM
 end

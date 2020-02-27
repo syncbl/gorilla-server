@@ -1,5 +1,5 @@
 class Auth::RegistrationsController < Devise::RegistrationsController
-  before_action :configure_permitted_parameters, if: :devise_controller?
+
 
   def create
     respond_to do |format|
