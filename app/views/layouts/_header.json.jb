@@ -1,3 +1,13 @@
 json = {
-  version: Rails.application.config.api_fingerprint,
+  session: {}
 }
+
+if current_user
+  json[:session][:locale] = current_user&.locale
+end
+
+if current_user&.endpoint&.token_changed
+  json[:session][:token] = current_user&.endpoint&.authentication_token
+end
+
+json

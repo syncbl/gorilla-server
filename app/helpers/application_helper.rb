@@ -14,7 +14,6 @@ module ApplicationHelper
 
   def respond_with_endpoint_token(endpoint)
     render json: {
-      fingerprint: Rails.application.config.api_fingerprint,
       session: {
         endpoint: endpoint.key,
         token: endpoint.authentication_token
@@ -24,7 +23,7 @@ module ApplicationHelper
 
   def authenticate_endpoint(user, params)
     endpoint = Endpoint.find_by(user: user, key: params[:endpoint][:key]) ||
-               Endpoint.new(user: user) # Can't use param key, because of security issue
+               Endpoint.new(user: user)
     endpoint.name = params[:endpoint][:name]
     if endpoint.new_record?
       endpoint.save

@@ -7,6 +7,8 @@ class Endpoint < ApplicationRecord
 
   validates :key, length: {is: 36}, allow_blank: true
 
+  attr_accessor :token_changed
+
   # TODO: Optimize
   def actualize!
     discarded_packages = []
