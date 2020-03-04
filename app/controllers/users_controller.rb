@@ -21,7 +21,7 @@ class UsersController < ApplicationController
 
   # TODO: Dashboard
   def dashboard
-    if current_user
+    if user_signed_in?
       #
     else
       #

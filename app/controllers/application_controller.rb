@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :api_check_fingerprint, if: -> { request.format.json? }
   before_action :api_check_service, if: -> { request.format.json? && Rails.env.production? }
-  before_action :api_check_endpoint, if: -> { request.format.json? && !devise_controller? }
+  before_action :api_check_endpoint, if: -> { request.format.json? && !devise_controller? && user_signed_in? }
 
   protected
 

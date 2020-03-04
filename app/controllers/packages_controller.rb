@@ -1,5 +1,4 @@
 class PackagesController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_package, except: [:index, :new, :create]
 
   # GET /packages
@@ -7,7 +6,11 @@ class PackagesController < ApplicationController
   def index
     #if current_user.company
     #  @packages = Package.where(user: current_user.company.users)
-    @packages = Package.kept.where(user: current_user, trusted: false).or(Package.where(trusted: true))
+    if user_signed_in?
+      @packages = Package.kept.where(user: current_user, trusted: false).or(Package.where(trusted: true))
+    else
+      @packages = Package.kept.where(trusted: true)
+    end
   end
 
   # GET /packages/1
