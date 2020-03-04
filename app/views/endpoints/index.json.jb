@@ -1,0 +1,5 @@
+json = render 'layouts/header'
+
+json[:endpoints] = render 'endpoints/index', endpoints: @endpoints
+
+json

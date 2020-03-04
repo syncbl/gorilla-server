@@ -18,9 +18,9 @@ Rails.application.routes.draw do
       put 'uninstall', to: 'packages#uninstall'
     end
   end
-  get 'endpoint', to: 'endpoints#show'
-  put 'endpoint', to: 'endpoints#update'
-  resources :settings, only: [:index, :show]
+  resource :endpoint, only: [:show, :update]
+  resources :endpoints, only: [:index]
+  resources :settings, only: [:show]
   resource :user, only: [:show]
 
   # TODO: Dashboard, endpoints and user settings only

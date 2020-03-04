@@ -1,6 +1,5 @@
 class Auth::RegistrationsController < Devise::RegistrationsController
 
-
   def create
     respond_to do |format|
       format.any(*navigational_formats) { super }

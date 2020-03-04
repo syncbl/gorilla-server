@@ -1,13 +1,8 @@
-json = {
-  session: {}
-}
+json = {}
 
-if current_user
-  json[:session][:locale] = current_user&.locale
-end
+json_session = {}
+json_session[:token] = current_user.authentication_token if current_user&.token_changed
 
-if current_user&.endpoint&.token_changed
-  json[:session][:token] = current_user&.endpoint&.authentication_token
-end
+json[:session] = json_session if json_session.any?
 
 json

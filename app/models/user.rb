@@ -14,7 +14,9 @@ class User < ApplicationRecord
             uniqueness: { case_sensitive: false },
             format: { with: VALID_EMAIL_REGEX }
 
-  attr_accessor :endpoint
+  attr_accessor :endpoint_key
+  attr_accessor :endpoint_token
+  attr_accessor :token_changed
   # TODO: Everyone can create packages, but we need to add permissions for company members later
 
   def readable_name

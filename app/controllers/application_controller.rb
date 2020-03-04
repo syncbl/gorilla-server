@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :api_check_fingerprint, if: -> { request.format.json? }
   before_action :api_check_service, if: -> { request.format.json? && Rails.env.production? }
-  before_action :api_sign_in_endpoint, if: -> { request.format.json? && !devise_controller? }
+  before_action :api_check_endpoint, if: -> { request.format.json? && !devise_controller? }
 
   protected
 
@@ -22,19 +22,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # TODO: Change and resend token on random query
-  def api_sign_in_endpoint
-    return true if request.headers['X-API-Endpoint'].blank? || request.headers['X-API-Token'].blank?
-    endpoint = Endpoint.find_by(key: request.headers['X-API-Endpoint'], authentication_token: request.headers['X-API-Token'])
-    if (current_user && endpoint)
-      if (Rails.application.config.token_regen_random > 0) && (rand(Rails.application.config.token_regen_random) == 0)
-        endpoint.regenerate_authentication_token
-        endpoint.token_changed = true
-      end
-      current_user.endpoint = endpoint
-    else
-      head :forbidden
-    end
+  def api_check_endpoint
+    # TODO: JWT? Just to include specific endpoint info
+    current_user.endpoint_key = request.headers['X-API-Endpoint']
+    current_user.endpoint_token = request.headers['X-API-Token']
   end
 
   def configure_permitted_parameters

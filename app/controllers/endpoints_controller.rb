@@ -6,7 +6,7 @@ class EndpointsController < ApplicationController
   # GET /endpoints.json
   def index
     # TODO: Add company
-    @endpoints = current_user.endpoints
+    @endpoints = current_user.endpoints.actual
   end
 
   # GET /endpoints/1
@@ -66,7 +66,14 @@ class EndpointsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_endpoint
-      @endpoint = current_user.endpoint
+      @endpoint = Endpoint.find_by(key: current_user.endpoint_key, authentication_token: current_user.endpoint_token)
+      if @endpoint.nil?
+        head :forbidden
+      elsif (Rails.application.config.token_regen_random > 0) && (rand(Rails.application.config.token_regen_random) == 0)
+        @endpoint.regenerate_authentication_token
+        current_user.endpoint_token = @endpoint.authentication_token
+        current_user.token_changed = true
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

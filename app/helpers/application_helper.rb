@@ -7,31 +7,41 @@ module ApplicationHelper
   def service_keys
     # TODO: Change detect method!
     [
-      "#DEV#",
       service_key(Rails.application.config.service_path)
     ]
   end
 
-  def respond_with_endpoint_token(endpoint)
-    render json: {
-      session: {
-        endpoint: endpoint.key,
-        token: endpoint.authentication_token
+  def respond_with_session(endpoint)
+    if endpoint.nil?
+      render json: {
+        session: {
+          scope: 'user'
+        }
       }
-    }
+    else
+      render json: {
+        session: {
+          scope: 'endpoint',
+          endpoint: endpoint.key,
+          token: endpoint.authentication_token
+        }
+      }
+    end
   end
 
   def authenticate_endpoint(user, params)
-    endpoint = Endpoint.find_by(user: user, key: params[:endpoint][:key]) ||
-               Endpoint.new(user: user)
-    endpoint.name = params[:endpoint][:name]
-    if endpoint.new_record?
-      endpoint.save
-      endpoint.reload
-    else
-      endpoint.regenerate_authentication_token
+    if params[:endpoint].present?
+      endpoint = Endpoint.find_by(user: user, key: params[:endpoint][:key]) ||
+                 Endpoint.new(user: user)
+      endpoint.name = params[:endpoint][:name]
+      if endpoint.new_record?
+        endpoint.save
+        endpoint.reload
+      else
+        endpoint.regenerate_authentication_token
+      end
     end
-    respond_with_endpoint_token(endpoint)
+    respond_with_session(endpoint)
   end
 
   def alert_for(flash_type)
