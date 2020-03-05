@@ -11,24 +11,7 @@ module ApplicationHelper
     ]
   end
 
-  def respond_with_session(endpoint)
-    if endpoint.nil?
-      render json: {
-        session: {
-          scope: 'user'
-        }
-      }
-    else
-      render json: {
-        session: {
-          scope: 'endpoint',
-          endpoint: endpoint.key,
-          token: endpoint.authentication_token
-        }
-      }
-    end
-  end
-
+  # TODO: Lists of MD5 split by scopes. Service = endpoint, desktop = user.
   def authenticate_endpoint(user, params)
     if params[:endpoint].present?
       endpoint = Endpoint.find_by(user: user, key: params[:endpoint][:key]) ||
@@ -40,8 +23,26 @@ module ApplicationHelper
       else
         endpoint.regenerate_authentication_token
       end
+      render json: {
+        session: {
+          scope: 'endpoint',
+          endpoint: endpoint.key,
+          token: endpoint.authentication_token
+        }
+      }
+    elsif user.company.present?
+      render json: {
+        session: {
+          scope: 'company'
+        }
+      }
+    else
+      render json: {
+        session: {
+          scope: 'user'
+        }
+      }
     end
-    respond_with_session(endpoint)
   end
 
   def alert_for(flash_type)

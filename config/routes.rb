@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   end
   resource :endpoint, only: [:show, :update]
   resources :endpoints, only: [:index]
-  resources :settings, only: [:show]
+  resources :settings, only: [:index, :show]
   resource :user, only: [:show]
 
   # TODO: Dashboard, endpoints and user settings only

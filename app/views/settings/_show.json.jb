@@ -1,7 +1,7 @@
 json = {
-  discarded: setting.discarded?,
-  installed: setting.installed,
   dependent: setting.dependent,
+  installed_at: setting.installed_at.to_i,
+  discarded_at: setting.installed_at.to_i,
   created_at: setting.created_at.to_i,
   updated_at: setting.updated_at.to_i
 }

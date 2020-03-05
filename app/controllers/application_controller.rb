@@ -24,8 +24,11 @@ class ApplicationController < ActionController::Base
 
   def api_check_endpoint
     # TODO: JWT? Just to include specific endpoint info
-    current_user.endpoint_key = request.headers['X-API-Endpoint']
-    current_user.endpoint_token = request.headers['X-API-Token']
+    current_user.endpoint = Endpoint.find_by(
+      key: request.headers['X-API-Endpoint'],
+      authentication_token: request.headers['X-API-Token'],
+      user: current_user
+    )
   end
 
   def configure_permitted_parameters

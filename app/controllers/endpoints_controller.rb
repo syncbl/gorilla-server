@@ -66,13 +66,12 @@ class EndpointsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_endpoint
-      @endpoint = Endpoint.find_by(key: current_user.endpoint_key, authentication_token: current_user.endpoint_token)
+      @endpoint = current_user.endpoint
       if @endpoint.nil?
         head :forbidden
       elsif (Rails.application.config.token_regen_random > 0) && (rand(Rails.application.config.token_regen_random) == 0)
         @endpoint.regenerate_authentication_token
-        current_user.endpoint_token = @endpoint.authentication_token
-        current_user.token_changed = true
+        current_user.endpoint_new_token = @endpoint.authentication_token
       end
     end
 
