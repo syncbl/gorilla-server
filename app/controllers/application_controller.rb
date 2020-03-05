@@ -24,8 +24,7 @@ class ApplicationController < ActionController::Base
 
   def api_check_endpoint
     # TODO: JWT? Just to include specific endpoint info
-    payload = JsonWebToken.decode_to_payload(request.headers['X-API-Token'])
-    if payload.present? && (payload[:issued] + Rails.application.config.endpoint_expiration_time.to_i > Time.current.to_i)
+    if payload = JsonWebToken.decode(request.headers['X-API-Token'])
       current_user.endpoint = current_user.endpoints.find_by(
         key: payload[:key],
         authentication_token: payload[:token]

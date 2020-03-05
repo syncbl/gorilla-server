@@ -8,7 +8,7 @@ class Endpoint < ApplicationRecord
   validates :key, length: {is: 36}, allow_blank: true
 
   scope :actual, -> {
-    where(Endpoint.arel_table[:updated_at].gt(Time.current - Rails.application.config.endpoint_expiration_time))
+    where(Endpoint.arel_table[:updated_at].gt(Time.current - Rails.application.config.token_expiration_time))
   }
 
   # TODO: Optimize
