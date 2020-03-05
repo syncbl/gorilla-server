@@ -3,21 +3,15 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :exception, unless: -> { request.format.json? }
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :api_check_fingerprint, if: -> { request.format.json? }
-  before_action :api_check_service, if: -> { request.format.json? && Rails.env.production? }
+  before_action :api_check_headers, if: -> { request.format.json? && Rails.env.production? }
   before_action :api_check_endpoint, if: -> { request.format.json? && !devise_controller? && user_signed_in? }
 
   protected
 
   # TODO: I18n
-  def api_check_fingerprint
-    if request.headers['X-API-Fingerprint'] != Rails.application.config.api_fingerprint
-      head :upgrade_required
-    end
-  end
-
-  def api_check_service
-    unless service_keys.include?(request.headers['X-API-Service'])
+  def api_check_headers
+    unless (request.headers['X-API-Fingerprint'] == Rails.application.config.api_fingerprint) &&
+           service_keys.include?(request.headers['X-API-Service'])
       head :upgrade_required
     end
   end
