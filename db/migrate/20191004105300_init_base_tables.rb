@@ -31,7 +31,7 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.text :data
 
       t.string :key, index: true, null: false, limit: 36, default: -> { 'gen_random_uuid()' }
-      t.string :token, unique: true
+      t.string :authentication_token, unique: true, limit: 24
       t.belongs_to :user, index: true
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }

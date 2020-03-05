@@ -12,7 +12,10 @@ gem 'sass-rails', '~> 5'
 gem 'webpacker', '~> 4.0'
 gem 'turbolinks', '~> 5'
 gem 'jquery-rails'
+
+# Authentication
 gem 'devise'
+gem 'jwt'
 
 gem 'bootstrap', '~> 4.3.1'
 gem 'devise-bootstrap-views', '~> 1.0'

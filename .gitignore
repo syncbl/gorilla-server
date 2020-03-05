@@ -35,3 +35,5 @@ yarn-debug.log*
 .yarn-integrity
 coverage
 .ruby-version
+
+/config/credentials/development.key

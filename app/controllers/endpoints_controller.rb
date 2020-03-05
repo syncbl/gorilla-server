@@ -69,9 +69,9 @@ class EndpointsController < ApplicationController
       @endpoint = current_user.endpoint
       if @endpoint.nil?
         head :forbidden
-      elsif (Rails.application.config.token_regen_random > 0) && (rand(Rails.application.config.token_regen_random) == 0)
+      else
         @endpoint.regenerate_authentication_token
-        current_user.endpoint_new_token = @endpoint.authentication_token
+        current_user.endpoint_new_token = JsonWebToken.encode(@endpoint)
       end
     end
 

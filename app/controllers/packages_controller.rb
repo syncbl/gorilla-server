@@ -79,12 +79,13 @@ class PackagesController < ApplicationController
   end
 
   # TODO: Allow only for API!
+  # TODO: How to install that from web, when no endpoint set???
   def install
     if current_user&.endpoint&.nil?
       head :forbidden
     else
       setting = current_user.endpoint.settings.find_by(package: @package) ||
-        current_user.endpoint.settings.new(package: @package)
+                current_user.endpoint.settings.new(package: @package)
       setting.installed_at = Time.current
       setting.discarded_at = nil
       respond_to do |format|

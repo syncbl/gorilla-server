@@ -24,11 +24,15 @@ class ApplicationController < ActionController::Base
 
   def api_check_endpoint
     # TODO: JWT? Just to include specific endpoint info
-    current_user.endpoint = Endpoint.find_by(
-      key: request.headers['X-API-Endpoint'],
-      authentication_token: request.headers['X-API-Token'],
-      user: current_user
-    )
+    payload = JsonWebToken.decode_to_payload(request.headers['X-API-Token'])
+    if payload.present? && (payload[:issued] + Rails.application.config.endpoint_expiration_time.to_i > Time.current.to_i)
+      current_user.endpoint = current_user.endpoints.find_by(
+        key: payload[:key],
+        authentication_token: payload[:token]
+      )
+    else
+      false
+    end
   end
 
   def configure_permitted_parameters

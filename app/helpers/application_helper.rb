@@ -26,8 +26,7 @@ module ApplicationHelper
       render json: {
         session: {
           scope: 'endpoint',
-          endpoint: endpoint.key,
-          token: endpoint.authentication_token
+          token: JsonWebToken.encode(endpoint)
         }
       }
     elsif user.company.present?
