@@ -5,6 +5,9 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
     create_table :companies do |t|
       t.string :name, index: true
 
+      t.datetime :blocked_at
+      t.string :block_reason
+
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :discarded_at, index: true
@@ -20,6 +23,9 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
 
       t.belongs_to :company, index: true, optional: true
 
+      t.datetime :blocked_at
+      t.string :block_reason
+
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :discarded_at, index: true
@@ -33,6 +39,9 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.string :key, index: true, null: false, limit: 36, default: -> { 'gen_random_uuid()' }
       t.string :authentication_token, unique: true, limit: 24
       t.belongs_to :user, index: true
+
+      t.datetime :blocked_at
+      t.string :block_reason
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }

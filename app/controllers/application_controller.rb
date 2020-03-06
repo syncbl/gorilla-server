@@ -17,14 +17,16 @@ class ApplicationController < ActionController::Base
   end
 
   def api_check_endpoint
-    # TODO: JWT? Just to include specific endpoint info
     if payload = JsonWebToken.decode(request.headers['X-API-Token'])
-      current_user.endpoint = current_user.endpoints.find_by(
+      endpoint = current_user.endpoints.find_by(
         key: payload[:key],
         authentication_token: payload[:token]
       )
-    else
-      false
+      if endpoint.nil?
+        current_user.endpoints.find_by(key: payload[:key])&.block! ' stolen token '
+      else
+        current_user.endpoint = endpoint
+      end
     end
   end
 

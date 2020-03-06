@@ -14,29 +14,8 @@ class EndpointsController < ApplicationController
   def show
   end
 
-  # GET /endpoints/new
-  def new
-    @endpoint = Endpoint.new
-  end
-
   # GET /endpoints/1/edit
   def edit
-  end
-
-  # POST /endpoints
-  # POST /endpoints.json
-  def create
-    @endpoint = Endpoint.new(endpoint_params)
-
-    respond_to do |format|
-      if @endpoint.save
-        format.html { redirect_to @endpoint, notice: 'Endpoint was successfully created.' }
-        format.json { render :show, status: :created, location: @endpoint }
-      else
-        format.html { render :new }
-        format.json { render json: @endpoint.errors, status: :unprocessable_entity }
-      end
-    end
   end
 
   # PATCH/PUT /endpoints/1
@@ -65,6 +44,7 @@ class EndpointsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    # TODO: Differ access from API and access from web.
     def set_endpoint
       @endpoint = current_user.endpoint
       if @endpoint.nil?

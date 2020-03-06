@@ -23,6 +23,11 @@ class Endpoint < ApplicationRecord
     installed_packages.each { |p| settings.create(package: p, dependent: true) }
   end
 
+  def block!(reason = nil)
+    self.blocked_at = Time.current
+    self.block_reason = reason
+  end
+
   def to_param
     key
   end
