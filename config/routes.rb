@@ -18,7 +18,11 @@ Rails.application.routes.draw do
       put 'uninstall', to: 'packages#uninstall'
     end
   end
-  resource :endpoint, only: [:show, :update]
+  resource :endpoint, only: [:show, :update] do
+    member do
+      put 'uninstall', to: 'endpoints#uninstall'
+    end
+  end
   resources :endpoints, only: [:index]
   resources :settings, only: [:index, :show]
   resource :user, only: [:show]
@@ -27,7 +31,7 @@ Rails.application.routes.draw do
   authenticated :user do
     root to: 'packages#index', as: :authenticated_root #'users#dashboard'
   end
-  root to: redirect('/users/sign_in') #'users#landing'
+  root to: 'packages#index' #redirect('/users/sign_in') #'users#landing'
 
   #namespace :api, defaults: { format: :json }, constraints: { subdomain: 'api' }, path: '/' do
   #  list of resources

@@ -42,6 +42,30 @@ class EndpointsController < ApplicationController
     end
   end
 
+  def install
+    respond_to do |format|
+      if @endpoint.install(params[:package])
+        format.html { redirect_to endpoints_url, notice: 'Package soon will be installed.' }
+        format.json { render :show, status: :created, location: @endpoint }
+      else
+        format.html { render :show }
+        format.json { render json: @endpoint.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def uninstall
+    respond_to do |format|
+      if @endpoint.uninstall(params[:package])
+        format.html { redirect_to endpoints_url, notice: 'Package was successfully uninstalled.' }
+        format.json { render :show, status: :created, location: @endpoint }
+      else
+        format.html { render :show }
+        format.json { render json: @endpoint.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     # TODO: Differ access from API and access from web.

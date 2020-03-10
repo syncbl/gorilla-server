@@ -28,6 +28,19 @@ class Endpoint < ApplicationRecord
     self.block_reason = reason
   end
 
+  def install(package)
+    # TODO: Check if pakcage can be installed?
+    setting = settings.find_by(package: package) ||
+              settings.new(package: package)
+    setting.installed_at = Time.current
+    setting.discarded_at = nil
+    setting.save
+  end
+
+  def uninstall(package)
+    settings.find_by(package: package)&.discard
+  end
+
   def to_param
     key
   end
