@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   end
   resource :endpoint, only: [:show, :update] do
     member do
+      put 'install', to: 'endpoints#install'
       put 'uninstall', to: 'endpoints#uninstall'
     end
   end

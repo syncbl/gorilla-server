@@ -15,14 +15,7 @@ module ApplicationHelper
   def authenticate_endpoint(user, params)
     if params[:endpoint].present?
       endpoint = Endpoint.find_by(user: user, key: params[:endpoint][:key]) ||
-                 Endpoint.new(user: user)
-      endpoint.name = params[:endpoint][:name]
-      if endpoint.new_record?
-        endpoint.save
-        endpoint.reload
-      else
-        endpoint.regenerate_authentication_token
-      end
+                 Endpoint.create(user: user, name: params[:endpoint][:name])
       render json: {
         session: {
           scope: 'endpoint',

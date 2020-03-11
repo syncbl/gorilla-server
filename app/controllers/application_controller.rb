@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception, unless: -> { request.format.json? }
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :api_check_headers, if: -> { request.format.json? && Rails.env.production? }
-  before_action :api_check_endpoint, if: -> { request.format.json? && !devise_controller? && user_signed_in? }
+  before_action :api_check_endpoint, if: -> { request.format.json? && !devise_controller? }
 
   protected
 
@@ -18,13 +18,14 @@ class ApplicationController < ActionController::Base
 
   def api_check_endpoint
     if payload = JsonWebToken.decode(request.headers['X-API-Token'])
-      endpoint = current_user.endpoints.find_by(
+      endpoint = Endpoint.find_by(
         key: payload[:key],
         authentication_token: payload[:token]
       )
       if endpoint.nil?
-        current_user.endpoints.find_by(key: payload[:key])&.block! ' stolen token '
+        Endpoint.find_by(key: payload[:key])&.block! ' stolen token '
       else
+        bypass_sign_in(endpoint.user)
         current_user.endpoint = endpoint
       end
     end

@@ -78,6 +78,30 @@ class PackagesController < ApplicationController
     end
   end
 
+  def install
+    respond_to do |format|
+      if @package.install_to(current_user.endpoint)
+        format.html { redirect_to packages_url, notice: 'Package soon will be installed.' }
+        format.json { render :show, status: :created, location: @package }
+      else
+        format.html { render :show }
+        format.json { render json: @package.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def uninstall
+    respond_to do |format|
+      if @package.uninstall_from(current_user.endpoint)
+        format.html { redirect_to packages_url, notice: 'Package was successfully uninstalled.' }
+        format.json { render :show, status: :created, location: @package }
+      else
+        format.html { render :show }
+        format.json { render json: @package.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def sync
     # ???
   end

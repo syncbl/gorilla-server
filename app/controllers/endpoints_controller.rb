@@ -73,7 +73,7 @@ class EndpointsController < ApplicationController
       @endpoint = current_user.endpoint
       if @endpoint.nil?
         head :forbidden
-      else
+      else # TODO: Randomize
         @endpoint.regenerate_authentication_token
         current_user.endpoint_new_token = JsonWebToken.encode(@endpoint)
       end
