@@ -20,6 +20,7 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.boolean :admin, default: false
       t.boolean :developer, default: false
       #t.boolean :group, default: false
+      # TODO: Purchases table for user or company
 
       t.belongs_to :company, index: true, optional: true
 
@@ -84,7 +85,7 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
     end
     # ----------
     create_table :settings do |t|
-      # TODO: Purchase information, logs, other data, variables and settings
+      # TODO: Logs, other data, variables and settings
       t.boolean :dependent, null: false, default: false
 
       t.belongs_to :endpoint

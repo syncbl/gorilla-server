@@ -10,8 +10,5 @@ json = {
   created_at: package.created_at.to_i,
   updated_at: package.updated_at.to_i
 
-  # Icon to Product! icon: url_for(package.icon)
-
-  # TODO: Render user
-  # TODO: Render dependencies
+  # TODO: Icon to Product! icon: url_for(package.icon)
 }

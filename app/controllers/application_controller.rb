@@ -23,6 +23,7 @@ class ApplicationController < ActionController::Base
         authentication_token: payload[:token]
       )
       if endpoint.nil?
+        # TODO: Also IPs from separate table to see source of attack
         Endpoint.find_by(key: payload[:key])&.block! ' stolen token '
       else
         bypass_sign_in(endpoint.user) unless user_signed_in?
