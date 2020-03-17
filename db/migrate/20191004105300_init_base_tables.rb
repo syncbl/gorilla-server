@@ -3,14 +3,15 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
     enable_extension 'pgcrypto'
     # ----------
     create_table :companies do |t|
-      t.string :name, index: true
+      t.string :name
 
       t.datetime :blocked_at
       t.string :block_reason
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :discarded_at, index: true
+
+      t.index [:name], unique: true
     end
     # ----------
     create_table :users do |t|
@@ -22,14 +23,13 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       #t.boolean :group, default: false
       # TODO: Purchases table for user or company
 
-      t.belongs_to :company, index: true, optional: true
+      t.belongs_to :company, optional: true
 
       t.datetime :blocked_at
       t.string :block_reason
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :discarded_at, index: true
     end
     # ----------
     create_table :endpoints do |t|
@@ -37,40 +37,45 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       # TODO: Store PC parameters here
       t.text :data
 
-      t.string :key, index: true, null: false, limit: 36, default: -> { 'gen_random_uuid()' }
-      t.string :authentication_token, unique: true, limit: 24
-      t.belongs_to :user, index: true
+      t.string :key, null: false, limit: 36, default: -> { 'gen_random_uuid()' }
+      t.string :authentication_token, limit: 24
+      t.belongs_to :user
 
       t.datetime :blocked_at
       t.string :block_reason
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :discarded_at, index: true
-      # To make computers individual
-      #t.index [:user_id, :name], unique: true # ...
+
+      t.index [:key], unique: true
     end
     # ----------
     create_table :packages do |t|
       t.string :name, null: false
-      t.string :alias, index: true, optional: true
+      t.string :alias, optional: true
       t.string :text
       t.string :version
-      t.string :key, index: true, null: false, limit: 36, default: -> { 'gen_random_uuid()' }
+      t.string :key, null: false, limit: 36, default: -> { 'gen_random_uuid()' }
+
+      # TODO: Do we need that?
       t.string :filename
       t.string :checksum
 
       t.boolean :trusted, null: false, default: false
 
-      t.belongs_to :user, index: true, optional: true
+      t.belongs_to :user, optional: true
       # You can link packages one to another to chain updates
-      t.belongs_to :package, index: true, optional: true
+      t.belongs_to :package, optional: true
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :discarded_at, index: true
+      t.datetime :discarded_at
       # Packages will be unique for everyone or for selected user
+
+      t.index [:discarded_at]
       t.index [:user_id, :name], unique: true
+      t.index [:alias], unique: true
+      t.index [:key], unique: true
     end
     # ----------
     create_table :dependencies do |t|
@@ -80,7 +85,7 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :discarded_at, index: true
+
       t.index [:package_id, :dependent_package_id], unique: true
     end
     # ----------
@@ -94,8 +99,11 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :installed_at
-      t.datetime :discarded_at, index: true
+      t.datetime :discarded_at
+
       t.index [:endpoint_id, :package_id], unique: true
+      t.index [:installed_at]
+      t.index [:discarded_at]
     end
   end
 end

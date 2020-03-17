@@ -1,6 +1,7 @@
 class PackagesController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_package, except: [:new, :create]
+  before_action :authenticate_user!, except: [:index]
+  before_action :set_package, except: [:index, :new, :create]
+  before_action :limit_scope, only: [:edit, :update, :delete]
 
   # GET /packages
   # GET /packages.json
@@ -49,7 +50,7 @@ class PackagesController < ApplicationController
   # PATCH/PUT /packages/1.json
   def update
     respond_to do |format|
-      if (@package.user == current_user) && @package.update(package_params)
+      if @package.update(package_params)
         @package.files.purge if (params[:filename] == '')
         if params[:file].present?
           @package.files.attach(params[:file])
@@ -68,7 +69,7 @@ class PackagesController < ApplicationController
   # DELETE /packages/1.json
   def destroy
     respond_to do |format|
-      if (@package.user == current_user) && @package.discard
+      if @package.discard
         format.html { redirect_to packages_url, notice: 'Package was successfully destroyed.' }
         format.json { head :no_content }
       else
@@ -113,7 +114,13 @@ class PackagesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_package
-      @package = Package.find_by('key = ? OR alias = ?', params[:id], params[:id])
+      @package = Package.find_by!('key = ? OR alias = ?', params[:id], params[:id])
+    end
+
+    def limit_scope
+      if current_user.endpoint.present? || (@package.user != current_user)
+        head :forbidden
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

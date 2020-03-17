@@ -9,13 +9,15 @@
 case Rails.env
 when "development"
   Company.create name: 'Test'
+  User.create name: 'Eldar', email: 'eldar.avatov@gmail.com', password: '111111'
   User.create name: 'Test', email: 'test@example.com', password: '123456'
-  Package.create([{name: 'openssl-1_0', alias: 'openssl', trusted: true},
+  Package.create([{name: 'openssl-1_0', alias: 'openssl', trusted: true, filename: 'README.md', checksum: 'unEvcyl4ivYhL6DcjJckkg==', user: User.first},
   {name: 'openssl-1_1'}, {name: 'openssl-1_2'}, {name: 'openssl-1_3'},
-  {name: 'openssl-1_4'}, {name: 'openssl-1_5'}, {name: 'openssl-1_6'},
+  {name: 'openssl-1_4'}, {name: 'openssl-1_5', user: User.first}, {name: 'openssl-1_6'},
   {name: 'openssl-1_7'}, {name: 'openssl-dev', trusted: true}])
   Package.first.dependencies << Package.last
   Package.last.dependencies << Package.find_by(name: 'openssl-1_5')
-  #p.archive.attach(io: File.open('storage/README.md'), filename: 'README.md')
+  Package.first.files.attach(io: File.open('storage/README.md'), filename: 'README.md')
   Endpoint.create name: 'Test', user: User.first
+  Endpoint.create name: 'Test2', user: User.last, key: '253307f5-0e4f-4a76-9b04-da35ba6345d5'
 end

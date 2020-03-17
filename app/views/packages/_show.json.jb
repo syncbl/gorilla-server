@@ -3,8 +3,6 @@ json = {
   text: package.text,
   key: package.key,
   version: package.version,
-  filename: package.filename,
-  checksum: package.checksum,
   discarded: package.discarded?,
   trusted: package.trusted,
   created_at: package.created_at.to_i,

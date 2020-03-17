@@ -50,8 +50,9 @@ class SettingsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    # ActiveRecord::RecordNotFound only with find_by
     def set_setting
-      @setting = current_user.endpoint.settings.find_by(package: Package.find_by('key = ? OR alias = ?', params[:id], params[:id]))
+      @setting = current_user.endpoint.settings.find_by!(package: Package.find_by('key = ? OR alias = ?', params[:id], params[:id]))
     end
 
     # Only allow a trusted parameter "white list" through.

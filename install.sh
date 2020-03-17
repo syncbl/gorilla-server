@@ -7,4 +7,4 @@ sudo apt-get update && sudo apt-get install yarn
 yarn install --check-files
 yarn add jquery popper.js bootstrap
 bundle install
-rails db:create db:migrate db:seed assets:precompile
+rake db:create db:migrate db:seed assets:precompile tmp:cache:clear

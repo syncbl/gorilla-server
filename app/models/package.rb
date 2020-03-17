@@ -28,7 +28,7 @@ class Package < ApplicationRecord
   # TODO: May be move manifest to text field?
   has_one_attached :manifest
 
-  validates :name, presence: true, format: { with: /\A[A-Za-z\d\-\_]*\z/ }, length: { maximum: 100 },
+  validates :name, presence: true, format: { with: /\A[A-Za-z\d\-\_ ]*\z/ }, length: { maximum: 100 },
     uniqueness: { scope: :user_id, case_sensitive: false }
   validates :alias, format: { with: /\A[A-Za-z\d\-\_]*\z/ },
     uniqueness: { case_sensitive: false }, allow_blank: true

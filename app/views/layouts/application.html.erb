@@ -16,7 +16,7 @@
 
     <div class="container-fluid">
       <% flash.each do |name, msg| %>
-        <%= content_tag :div, msg, class: [:alert, alert_for(name)] %>
+        <%= content_tag :div, '[' + name + '] ' + msg, class: [:alert, alert_for(name)] %>
       <% end %>
       <div class="">
         <div class="container">

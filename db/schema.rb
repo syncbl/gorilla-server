@@ -39,9 +39,11 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
 
   create_table "companies", force: :cascade do |t|
     t.string "name"
+    t.datetime "blocked_at"
+    t.string "block_reason"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["name"], name: "index_companies_on_name"
+    t.index ["name"], name: "index_companies_on_name", unique: true
   end
 
   create_table "dependencies", force: :cascade do |t|
@@ -49,9 +51,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.bigint "package_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "discarded_at"
     t.index ["dependent_package_id"], name: "index_dependencies_on_dependent_package_id"
-    t.index ["discarded_at"], name: "index_dependencies_on_discarded_at"
     t.index ["package_id", "dependent_package_id"], name: "index_dependencies_on_package_id_and_dependent_package_id", unique: true
     t.index ["package_id"], name: "index_dependencies_on_package_id"
   end
@@ -62,12 +62,11 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.string "key", limit: 36, default: -> { "gen_random_uuid()" }, null: false
     t.string "authentication_token", limit: 24
     t.bigint "user_id"
+    t.datetime "blocked_at"
+    t.string "block_reason"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "discarded_at"
-    t.index ["authentication_token"], name: "index_endpoints_on_authentication_token"
-    t.index ["discarded_at"], name: "index_endpoints_on_discarded_at"
-    t.index ["key"], name: "index_endpoints_on_key"
+    t.index ["key"], name: "index_endpoints_on_key", unique: true
     t.index ["user_id"], name: "index_endpoints_on_user_id"
   end
 
@@ -85,9 +84,9 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "discarded_at"
-    t.index ["alias"], name: "index_packages_on_alias"
+    t.index ["alias"], name: "index_packages_on_alias", unique: true
     t.index ["discarded_at"], name: "index_packages_on_discarded_at"
-    t.index ["key"], name: "index_packages_on_key"
+    t.index ["key"], name: "index_packages_on_key", unique: true
     t.index ["package_id"], name: "index_packages_on_package_id"
     t.index ["user_id", "name"], name: "index_packages_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_packages_on_user_id"
@@ -115,6 +114,8 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.boolean "admin", default: false
     t.boolean "developer", default: false
     t.bigint "company_id"
+    t.datetime "blocked_at"
+    t.string "block_reason"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "email", default: "", null: false

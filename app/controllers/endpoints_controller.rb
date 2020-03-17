@@ -1,5 +1,6 @@
 class EndpointsController < ApplicationController
   before_action :authenticate_user!
+  before_action :limit_scope, except: [:index]
   before_action :set_endpoint, only: [:show, :edit, :update, :destroy]
 
   # GET /endpoints
@@ -69,13 +70,16 @@ class EndpointsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     # TODO: Differ access from API and access from web.
+    # ActiveRecord::RecordNotFound only with find_by
     def set_endpoint
       @endpoint = current_user.endpoint
-      if @endpoint.nil?
+      @endpoint.regenerate_authentication_token
+      current_user.endpoint_new_token = JsonWebToken.encode(@endpoint)
+    end
+
+    def limit_scope
+      if current_user.endpoint.nil?
         head :forbidden
-      else # TODO: Randomize
-        @endpoint.regenerate_authentication_token
-        current_user.endpoint_new_token = JsonWebToken.encode(@endpoint)
       end
     end
 
