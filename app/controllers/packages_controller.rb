@@ -1,7 +1,7 @@
 class PackagesController < ApplicationController
   before_action :authenticate_user!, except: [:index]
   before_action :set_package, except: [:index, :new, :create]
-  before_action :limit_scope, only: [:edit, :update, :delete]
+  before_action :limit_scope, only: [:create, :edit, :update, :delete]
 
   # GET /packages
   # GET /packages.json
@@ -81,7 +81,7 @@ class PackagesController < ApplicationController
 
   def install
     respond_to do |format|
-      if @package.install_to(current_user.endpoint)
+      if current_user.endpoint.install(@package)
         format.html { redirect_to packages_url, notice: 'Package soon will be installed.' }
         format.json { render :show, status: :created, location: @package }
       else
@@ -93,7 +93,7 @@ class PackagesController < ApplicationController
 
   def uninstall
     respond_to do |format|
-      if @package.uninstall_from(current_user.endpoint)
+      if current_user.endpoint.uninstall(@package)
         format.html { redirect_to packages_url, notice: 'Package was successfully uninstalled.' }
         format.json { render :show, status: :created, location: @package }
       else

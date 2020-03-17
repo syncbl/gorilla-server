@@ -56,18 +56,6 @@ class Package < ApplicationRecord
     packages
   end
 
-  def installed_on?(endpoint)
-    endpoint.installed?(self)
-  end
-
-  def install_to(endpoint)
-    endpoint.install(self)
-  end
-
-  def uninstall_from(endpoint)
-    endpoint.uninstall(self)
-  end
-
   def to_param
     key
   end
