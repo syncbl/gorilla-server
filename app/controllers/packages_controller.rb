@@ -79,6 +79,7 @@ class PackagesController < ApplicationController
     end
   end
 
+  # TODO: Remove!
   def install
     respond_to do |format|
       if current_user.endpoint.install(@package)
@@ -103,14 +104,6 @@ class PackagesController < ApplicationController
     end
   end
 
-  def sync
-    # ???
-  end
-
-  def settings
-    # ???
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_package
@@ -125,6 +118,6 @@ class PackagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def package_params
-      params.permit(:name, :text, :version, :discarded_at, :filename, :checksum, :manifest)
+      params.permit(:name, :text, :version, :filename, :checksum, :manifest)
     end
 end

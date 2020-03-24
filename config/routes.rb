@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     member do
       put 'install', to: 'packages#install'
       put 'uninstall', to: 'packages#uninstall'
+      get 'settings', to: 'packages#settings'
     end
   end
   resource :endpoint, only: [:show, :update] do

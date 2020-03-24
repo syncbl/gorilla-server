@@ -5,7 +5,7 @@ class SettingsController < ApplicationController
   # GET /settings
   def index
     current_user.endpoint.actualize!
-    @settings = current_user.endpoint.settings.all
+    @settings = current_user.endpoint.settings.kept.all
   end
 
   # GET /settings/1

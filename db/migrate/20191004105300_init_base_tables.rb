@@ -28,8 +28,11 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.datetime :blocked_at
       t.string :block_reason
 
+      t.datetime :discarded_at
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+
+      t.index [:discarded_at]
     end
     # ----------
     create_table :endpoints do |t|
@@ -44,9 +47,11 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.datetime :blocked_at
       t.string :block_reason
 
+      t.datetime :discarded_at
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
 
+      t.index [:discarded_at]
       t.index [:key], unique: true
     end
     # ----------
@@ -67,9 +72,9 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       # You can link packages one to another to chain updates
       t.belongs_to :package, optional: true
 
+      t.datetime :discarded_at
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :discarded_at
       # Packages will be unique for everyone or for selected user
 
       t.index [:discarded_at]
@@ -98,11 +103,9 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
 
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :installed_at
       t.datetime :discarded_at
 
       t.index [:endpoint_id, :package_id], unique: true
-      t.index [:installed_at]
       t.index [:discarded_at]
     end
   end

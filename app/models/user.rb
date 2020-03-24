@@ -1,4 +1,12 @@
 class User < ApplicationRecord
+  include Discard::Model
+  after_discard do
+    if company.nil?
+      endpoints.discard_all
+      packages.discard.all
+    end
+  end
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable,
@@ -20,6 +28,10 @@ class User < ApplicationRecord
 
   def readable_name
     name || email
+  end
+
+  def active_for_authentication?
+    super && blocked_at.nil? && discarded_at.nil?
   end
 
 end

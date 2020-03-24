@@ -1,4 +1,6 @@
 class Endpoint < ApplicationRecord
+  include Discard::Model
+
   has_secure_token :authentication_token
 
   belongs_to :user
@@ -26,21 +28,23 @@ class Endpoint < ApplicationRecord
   def block!(reason = nil)
     self.blocked_at = Time.current
     self.block_reason = reason
+    save!
   end
 
   def installed?(package)
-    settings.find_by(package: package).present?
+    settings.kept.find_by(package: package).present?
   end
 
+  # TODO: Check save! for correct error
+  # TODO: Move settings to other type of db!
   def install(package)
     setting = settings.discarded.find_by(package: package) || settings.new(package: package)
-    setting.installed_at = Time.current
     setting.discarded_at = nil
-    setting.save
+    setting.save!
   end
 
   def uninstall(package)
-    settings.kept.find_by(package: package)&.discard
+    settings.kept.find_by(package: package)&.discard!
   end
 
   def to_param
