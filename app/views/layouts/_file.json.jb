@@ -1,6 +1,7 @@
 json = {
   filename: file.filename,
   size: file.byte_size,
+  h_size: number_to_human_size(@package.archive.byte_size),
   checksum: file.checksum,
   url: url_for(file),
   created_at: file.created_at.to_i

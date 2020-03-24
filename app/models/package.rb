@@ -25,8 +25,7 @@ class Package < ApplicationRecord
 
   # For really big archive we need to split it to chunks. I think 50mb will be enough.
   has_many_attached :files
-  # TODO: May be move manifest to text field?
-  has_one_attached :manifest
+  has_one_attached :archive
 
   validates :name, presence: true, format: { with: /\A[A-Za-z\d\-\_ ]*\z/ }, length: { maximum: 100 },
     uniqueness: { scope: :user_id, case_sensitive: false }
