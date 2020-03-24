@@ -51,10 +51,15 @@ class PackagesController < ApplicationController
   def update
     respond_to do |format|
       if @package.update(package_params)
-        @package.files.purge if (params[:filename] == '')
-        if params[:file].present?
+        if params[:attachment] == 'purge'
+          @package.files.purge_later
+        elsif params[:attachment] == 'store'
+          @package.filename = Time.now.strftime('%Y%m%d%H%M%S')
+          @package.save
+        elsif params[:file].present?
           @package.files.attach(params[:file])
           @package.filename = nil
+          @package.save
         end
         format.html { redirect_to @package, notice: 'Package was successfully updated.' }
         format.json { render :show, status: :ok, location: @package }
@@ -107,7 +112,7 @@ class PackagesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_package
-      @package = Package.find_by(id: params[:id]) || Package.find_by(alias: params[:id])
+      @package = Package.find_by(id: params[:id]) || Package.find_by!(alias: params[:id])
     end
 
     def limit_scope
@@ -118,6 +123,6 @@ class PackagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def package_params
-      params.permit(:name, :text, :version, :filename, :checksum, :manifest)
+      params.permit(:name, :text, :version, :checksum, :manifest)
     end
 end
