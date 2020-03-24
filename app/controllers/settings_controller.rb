@@ -1,5 +1,6 @@
 class SettingsController < ApplicationController
   before_action :authenticate_user!
+  before_action :limit_scope
   before_action :set_setting, only: [:show, :edit, :update, :destroy]
 
   # GET /settings
@@ -24,7 +25,6 @@ class SettingsController < ApplicationController
   # POST /settings
   def create
     @setting = Setting.new(setting_params)
-
     if @setting.save
       redirect_to @setting, notice: 'Setting was successfully created.'
     else
@@ -52,7 +52,13 @@ class SettingsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     # ActiveRecord::RecordNotFound only with find_by
     def set_setting
-      @setting = current_user.endpoint.settings.find_by!(package: Package.find_by('key = ? OR alias = ?', params[:id], params[:id]))
+      @setting = current_user.endpoint.settings.find_by!(package: Package.find_by!(id: params[:id]))
+    end
+
+    def limit_scope
+      if current_user.endpoint.nil?
+        head :forbidden
+      end
     end
 
     # Only allow a trusted parameter "white list" through.

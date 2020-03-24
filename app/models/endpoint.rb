@@ -7,8 +7,6 @@ class Endpoint < ApplicationRecord
   has_many :settings, dependent: :destroy
   has_many :packages, through: :settings
 
-  validates :key, length: {is: 36}, allow_blank: true, uniqueness: { case_sensitive: false }
-
   scope :actual, -> {
     where(Endpoint.arel_table[:updated_at].gt(Time.current - Rails.application.config.token_expiration_time))
   }
@@ -45,9 +43,5 @@ class Endpoint < ApplicationRecord
 
   def uninstall(package)
     settings.kept.find_by(package: package)&.discard!
-  end
-
-  def to_param
-    key
   end
 end

@@ -47,46 +47,42 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
   end
 
   create_table "dependencies", force: :cascade do |t|
-    t.integer "dependent_package_id"
-    t.bigint "package_id"
+    t.uuid "package_id", null: false
+    t.uuid "dependent_package_id", null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["dependent_package_id"], name: "index_dependencies_on_dependent_package_id"
-    t.index ["package_id", "dependent_package_id"], name: "index_dependencies_on_package_id_and_dependent_package_id", unique: true
     t.index ["package_id"], name: "index_dependencies_on_package_id"
   end
 
-  create_table "endpoints", force: :cascade do |t|
+  create_table "endpoints", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.text "data"
-    t.string "key", limit: 36, default: -> { "gen_random_uuid()" }, null: false
     t.string "authentication_token", limit: 24
     t.bigint "user_id"
     t.datetime "blocked_at"
     t.string "block_reason"
+    t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["key"], name: "index_endpoints_on_key", unique: true
+    t.index ["discarded_at"], name: "index_endpoints_on_discarded_at"
     t.index ["user_id"], name: "index_endpoints_on_user_id"
   end
 
-  create_table "packages", force: :cascade do |t|
+  create_table "packages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.string "alias"
     t.string "text"
     t.string "version"
-    t.string "key", limit: 36, default: -> { "gen_random_uuid()" }, null: false
     t.string "filename"
     t.string "checksum"
     t.boolean "trusted", default: false, null: false
     t.bigint "user_id"
-    t.bigint "package_id"
+    t.uuid "package_id"
+    t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "discarded_at"
     t.index ["alias"], name: "index_packages_on_alias", unique: true
     t.index ["discarded_at"], name: "index_packages_on_discarded_at"
-    t.index ["key"], name: "index_packages_on_key", unique: true
     t.index ["package_id"], name: "index_packages_on_package_id"
     t.index ["user_id", "name"], name: "index_packages_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_packages_on_user_id"
@@ -94,16 +90,14 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
 
   create_table "settings", force: :cascade do |t|
     t.boolean "dependent", default: false, null: false
-    t.bigint "endpoint_id"
-    t.bigint "package_id"
+    t.uuid "endpoint_id", null: false
+    t.uuid "package_id", null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "installed_at"
     t.datetime "discarded_at"
     t.index ["discarded_at"], name: "index_settings_on_discarded_at"
     t.index ["endpoint_id", "package_id"], name: "index_settings_on_endpoint_id_and_package_id", unique: true
     t.index ["endpoint_id"], name: "index_settings_on_endpoint_id"
-    t.index ["installed_at"], name: "index_settings_on_installed_at"
     t.index ["package_id"], name: "index_settings_on_package_id"
   end
 
@@ -116,6 +110,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.bigint "company_id"
     t.datetime "blocked_at"
     t.string "block_reason"
+    t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "email", default: "", null: false
@@ -127,9 +122,14 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.string "unlock_token"
     t.datetime "locked_at"
     t.index ["company_id"], name: "index_users_on_company_id"
+    t.index ["discarded_at"], name: "index_users_on_discarded_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "dependencies", "packages"
+  add_foreign_key "packages", "packages"
+  add_foreign_key "settings", "endpoints"
+  add_foreign_key "settings", "packages"
 end

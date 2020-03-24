@@ -14,8 +14,8 @@ module ApplicationHelper
   # TODO: Lists of MD5 split by scopes. Service = endpoint, desktop = user.
   def authenticate_endpoint(user, params)
     if params[:endpoint].present?
-      endpoint = Endpoint.find_by(user: user, key: params[:endpoint][:key]) ||
-                 Endpoint.create(user: user, name: params[:endpoint][:name])
+      endpoint = user.endpoints.find_by(id: params[:endpoint][:uuid]) ||
+                 user.endpoints.create(name: params[:endpoint][:name])
       render json: {
         session: {
           scope: 'endpoint',
