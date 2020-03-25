@@ -59,10 +59,6 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.string :text
       t.string :version
 
-      # TODO: Do we need that?
-      t.string :filename
-      t.string :checksum
-
       t.boolean :trusted, null: false, default: false
 
       t.belongs_to :user

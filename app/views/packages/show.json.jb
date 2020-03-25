@@ -6,6 +6,16 @@ json[:package][:dependencies] = Package.all_dependencies(@package).map do |depen
   render 'show', package: dependent
 end
 
+if @package.files.size > 0
+  size = 0
+  json[:package][:files] = @package.files.map do |file|
+    size += file.byte_size
+    render 'layouts/file', file: file
+  end
+  json[:package][:size] = size
+  json[:package][:h_size] = number_to_human_size(size)
+end
+
 if @package.archive.attached?
   json[:package][:archive] = render 'layouts/file', file: @package.archive
 end
