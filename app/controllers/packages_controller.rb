@@ -52,11 +52,11 @@ class PackagesController < ApplicationController
     respond_to do |format|
       if @package.update(package_params)
         if params[:attachment] == 'purge'
-          @package.archive.purge_later
+          # We can't purge files, just because some of the customers can be in a middle of update
           @package.parts.purge_later
         elsif params[:attachment] == 'store'
           # TODO: Move to files to keep all versions for this package
-          JoinPartsToArchiveJob.perform_later(@package)
+          JoinPartsToFileJob.perform_later(@package)
         elsif params[:part].present?
           @package.parts.attach(params[:part])
         end

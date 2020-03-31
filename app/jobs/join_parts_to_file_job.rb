@@ -1,4 +1,4 @@
-class JoinPartsToArchiveJob < ApplicationJob
+class JoinPartsToFileJob < ApplicationJob
   queue_as :urgent
 
   def perform(package)
@@ -11,7 +11,7 @@ class JoinPartsToArchiveJob < ApplicationJob
       end
     end
     package.parts.purge
-    package.archive.attach(io: File.open(tmpfilename), filename: Time.now.strftime('%Y%m%d%H%M%S') + '.zip')
+    package.files.attach(io: File.open(tmpfilename), filename: Time.now.strftime('%Y%m%d%H%M%S') + '.zip')
     File.delete(tmpfilename)
   end
 end

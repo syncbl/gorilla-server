@@ -17,7 +17,7 @@ when "development"
   {name: 'openssl-1_7'}, {name: 'openssl-dev', trusted: true}])
   Package.first.dependencies << Package.last
   Package.last.dependencies << Package.find_by(name: 'openssl-1_5')
-  Package.first.files.attach(io: File.open('storage/README.md'), filename: 'README.md')
+  #Package.first.files.attach(io: File.open('storage/README.md'), filename: 'README.md')
   Endpoint.create name: 'Test', user: User.last
   Endpoint.create name: 'Test2', user: User.first, id: '253307f5-0e4f-4a76-9b04-da35ba6345d5'
 end

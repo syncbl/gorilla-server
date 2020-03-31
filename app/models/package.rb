@@ -26,7 +26,6 @@ class Package < ApplicationRecord
   # For really big archive we need to split it to chunks. I think 50mb will be enough.
   has_many_attached :files
   has_many_attached :parts
-  has_one_attached :archive
 
   validates :name, presence: true, format: { with: /\A[A-Za-z\d\-\_ ]*\z/ }, length: { maximum: 100 },
     uniqueness: { scope: :user_id, case_sensitive: false }
@@ -54,4 +53,11 @@ class Package < ApplicationRecord
     end
     packages
   end
+
+  def ready?
+    parts.empty? && files.any?
+  end
+
+
+
 end
