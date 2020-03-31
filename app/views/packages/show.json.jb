@@ -16,6 +16,8 @@ if @package.files.size > 0
   json[:package][:h_size] = number_to_human_size(size)
 end
 
+# TODO: Move to files to keep all versions for this package
+# + Archive is a good flag of readiness but for files we need additional flag (parts are empty)
 if @package.archive.attached?
   json[:package][:archive] = render 'layouts/file', file: @package.archive
 end

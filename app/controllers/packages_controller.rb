@@ -53,25 +53,12 @@ class PackagesController < ApplicationController
       if @package.update(package_params)
         if params[:attachment] == 'purge'
           @package.archive.purge_later
-          @package.files.purge_later
+          @package.parts.purge_later
         elsif params[:attachment] == 'store'
-          @package.filename = Time.now.strftime('%Y%m%d%H%M%S') + '.zip'
-          @package.save
-          tmpfilename = Dir::Tmpname.create(['gp-', '.tmp']) {}
-          File.open(tmpfilename, 'wb') do |tmpfile|
-            @package.files.each do |file|
-              file.open do |f|
-                tmpfile.write(File.open(f.path, 'rb').read)
-              end
-            end
-          end
-          @package.files.purge
-          @package.archive.attach(io: File.open(tmpfilename), filename: @package.filename)
-          File.delete(tmpfilename)
-        elsif params[:file].present?
-          @package.files.attach(params[:file])
-          @package.filename = nil
-          @package.save
+          # TODO: Move to files to keep all versions for this package
+          JoinPartsToArchiveJob.perform_later(@package)
+        elsif params[:part].present?
+          @package.parts.attach(params[:part])
         end
         format.html { redirect_to @package, notice: 'Package was successfully updated.' }
         format.json { render :show, status: :ok, location: @package }
