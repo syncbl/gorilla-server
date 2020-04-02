@@ -61,6 +61,8 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
 
       t.boolean :trusted, null: false, default: false
 
+      t.text :manifest
+
       t.belongs_to :user
       # You can link packages one to another to chain updates
       t.belongs_to :package, type: :uuid, foreign_key: true, index: true

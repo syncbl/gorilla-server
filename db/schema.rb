@@ -34,7 +34,6 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.bigint "byte_size", null: false
     t.string "checksum", null: false
     t.datetime "created_at", null: false
-    t.string "manifest"
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
@@ -75,6 +74,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.string "text"
     t.string "version"
     t.boolean "trusted", default: false, null: false
+    t.text "manifest"
     t.bigint "user_id"
     t.uuid "package_id"
     t.datetime "discarded_at"

@@ -10,9 +10,6 @@ class CreateActiveStorageTables < ActiveRecord::Migration[6.0]
       t.string   :checksum,   null: false
       t.datetime :created_at, null: false
 
-      # Manifest for zip-file
-      t.string   :manifest
-
       t.index [ :key ], unique: true
     end
 
