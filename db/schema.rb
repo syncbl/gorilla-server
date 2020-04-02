@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
-    t.bigint "record_id", null: false
+    t.uuid "record_id", null: false
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.bigint "byte_size", null: false
     t.string "checksum", null: false
     t.datetime "created_at", null: false
+    t.string "manifest"
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
@@ -73,8 +74,6 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.string "alias"
     t.string "text"
     t.string "version"
-    t.string "filename"
-    t.string "checksum"
     t.boolean "trusted", default: false, null: false
     t.bigint "user_id"
     t.uuid "package_id"

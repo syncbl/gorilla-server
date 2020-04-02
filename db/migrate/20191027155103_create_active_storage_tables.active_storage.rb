@@ -10,12 +10,15 @@ class CreateActiveStorageTables < ActiveRecord::Migration[6.0]
       t.string   :checksum,   null: false
       t.datetime :created_at, null: false
 
+      # Manifest for zip-file
+      t.string   :manifest
+
       t.index [ :key ], unique: true
     end
 
     create_table :active_storage_attachments do |t|
       t.string     :name,     null: false
-      t.references :record,   null: false, polymorphic: true, index: false
+      t.references :record,   null: false, polymorphic: true, index: false, type: :uuid
       t.references :blob,     null: false
 
       t.datetime :created_at, null: false

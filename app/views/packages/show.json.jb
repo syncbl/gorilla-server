@@ -14,8 +14,6 @@ if @package.files.size > 0
   end
   json[:package][:size] = size
   json[:package][:h_size] = number_to_human_size(size)
-  json[:package][:count] = @package.endpoints.size
-  json[:package][:h_count] = number_to_human(@package.endpoints.size)
 end
 
 json

@@ -33,10 +33,8 @@ gem 'aws-sdk'
 
 # CRON scheduling
 #gem 'whenever', require: false
-# HTML parsing for download link detection
-#gem "nokogiri"
 # String sanitazing
-#gem "sanitize"
+#gem 'sanitize'
 # Use ActiveStorage variant
 #gem 'mini_magick', '~> 4.8'
 # Foreman for workers
@@ -44,9 +42,8 @@ gem 'aws-sdk'
 # Soft delete for all records
 gem 'discard', '~> 1.0'
 # Stream zip as file container
-#gem 'zip_tricks'
+gem 'zip_tricks'
 # Pack parts to zip
-# ???
 gem 'rubyzip', require: 'zip'
 # Translate packages
 #gem 'globalize', '~> 5.1.0'

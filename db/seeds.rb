@@ -11,7 +11,7 @@ when "development"
   Company.create name: 'Test'
   User.create name: 'Eldar', email: 'eldar.avatov@gmail.com', password: '111111'
   User.create name: 'Test', email: 'test@example.com', password: '123456'
-  Package.create([{name: 'openssl-1_0', alias: 'openssl', trusted: true, filename: 'README.md', checksum: 'unEvcyl4ivYhL6DcjJckkg==', user: User.first},
+  Package.create([{name: 'openssl-1_0', alias: 'openssl', trusted: true, user: User.first},
   {name: 'openssl-1_1'}, {name: 'openssl-1_2'}, {name: 'openssl-1_3'},
   {name: 'openssl-1_4'}, {name: 'openssl-1_5', user: User.first}, {name: 'openssl-1_6'},
   {name: 'openssl-1_7'}, {name: 'openssl-dev', trusted: true}])

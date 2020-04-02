@@ -54,10 +54,9 @@ class Package < ApplicationRecord
     packages
   end
 
-  def ready?
+  def attachments_ready?
     parts.empty? && files.any?
   end
-
 
 
 end
