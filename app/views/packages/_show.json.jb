@@ -5,7 +5,7 @@ json = {
   version: package.version,
   discarded: package.discarded?,
   trusted: package.trusted,
-  ready: package.attachments_ready?,
+  ready: package.ready?,
   count: package.endpoints.size,
   h_count: number_to_human(package.endpoints.size),
   created_at: package.created_at.to_i,

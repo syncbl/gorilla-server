@@ -58,13 +58,15 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.string "name"
     t.text "data"
     t.string "authentication_token", limit: 24
-    t.bigint "user_id"
+    t.uuid "user_id"
     t.datetime "blocked_at"
     t.string "block_reason"
     t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["created_at"], name: "index_endpoints_on_created_at"
     t.index ["discarded_at"], name: "index_endpoints_on_discarded_at"
+    t.index ["updated_at"], name: "index_endpoints_on_updated_at"
     t.index ["user_id"], name: "index_endpoints_on_user_id"
   end
 
@@ -75,14 +77,16 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.string "version"
     t.boolean "trusted", default: false, null: false
     t.text "manifest"
-    t.bigint "user_id"
+    t.uuid "user_id"
     t.uuid "package_id"
     t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["alias"], name: "index_packages_on_alias", unique: true
+    t.index ["created_at"], name: "index_packages_on_created_at"
     t.index ["discarded_at"], name: "index_packages_on_discarded_at"
     t.index ["package_id"], name: "index_packages_on_package_id"
+    t.index ["updated_at"], name: "index_packages_on_updated_at"
     t.index ["user_id", "name"], name: "index_packages_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_packages_on_user_id"
   end
@@ -100,7 +104,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.index ["package_id"], name: "index_settings_on_package_id"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.string "locale", limit: 10
     t.boolean "trusted", default: false
@@ -121,14 +125,18 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.string "unlock_token"
     t.datetime "locked_at"
     t.index ["company_id"], name: "index_users_on_company_id"
+    t.index ["created_at"], name: "index_users_on_created_at"
     t.index ["discarded_at"], name: "index_users_on_discarded_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["updated_at"], name: "index_users_on_updated_at"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "dependencies", "packages"
+  add_foreign_key "endpoints", "users"
   add_foreign_key "packages", "packages"
+  add_foreign_key "packages", "users"
   add_foreign_key "settings", "endpoints"
   add_foreign_key "settings", "packages"
 end

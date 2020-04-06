@@ -1,7 +1,7 @@
 class EndpointsController < ApplicationController
   before_action :authenticate_user!
   before_action :limit_scope, except: [:index]
-  before_action :set_endpoint, only: [:show, :edit, :update, :destroy]
+  before_action :set_endpoint, except: [:index]
 
   # GET /endpoints
   # GET /endpoints.json
@@ -43,9 +43,11 @@ class EndpointsController < ApplicationController
     end
   end
 
+  # PUT /endpoint/install.json
+  # PUT /endpoints/1/install.json
   def install
     respond_to do |format|
-      if @endpoint.install(params[:package])
+      if @endpoint.install(Package.allowed_to(current_user).find(params[:package]))
         format.html { redirect_to endpoints_url, notice: 'Package soon will be installed.' }
         format.json { render :show, status: :created, location: @endpoint }
       else
@@ -55,9 +57,11 @@ class EndpointsController < ApplicationController
     end
   end
 
+  # PUT /endpoint/uninstall.json
+  # PUT /endpoints/1/uninstall.json
   def uninstall
     respond_to do |format|
-      if @endpoint.uninstall(params[:package])
+      if @endpoint.uninstall(Package.allowed_to(current_user).find(params[:package]))
         format.html { redirect_to endpoints_url, notice: 'Package was successfully uninstalled.' }
         format.json { render :show, status: :created, location: @endpoint }
       else
@@ -72,9 +76,13 @@ class EndpointsController < ApplicationController
     # TODO: Differ access from API and access from web.
     # ActiveRecord::RecordNotFound only with find_by
     def set_endpoint
-      @endpoint = current_user.endpoint
-      @endpoint.regenerate_authentication_token
-      current_user.endpoint_new_token = JsonWebToken.encode(@endpoint)
+      if current_user.endpoint
+        @endpoint = current_user.endpoint
+        @endpoint.regenerate_authentication_token
+        current_user.endpoint_new_token = JsonWebToken.encode(@endpoint)
+      else
+        @endpoint = current_user.endpoints.find(id: params[:id])
+      end
     end
 
     def limit_scope

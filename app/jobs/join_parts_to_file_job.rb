@@ -17,9 +17,8 @@ class JoinPartsToFileJob < ApplicationJob
     #end
     package.parts.purge
     package.files.attach(io: File.open(tmpfilename), filename: Time.now.strftime('%Y%m%d%H%M%S') + '.zip')
-    f = package.files.last
-    f.manifest = 'test'
-    f.save
+    package.manifest = 'test'
+    package.save
     File.delete(tmpfilename)
   end
 end

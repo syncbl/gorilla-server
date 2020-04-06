@@ -14,7 +14,7 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.index [:name], unique: true
     end
     # ----------
-    create_table :users do |t|
+    create_table :users, id: :uuid, default: 'gen_random_uuid()' do |t|
       t.string :name
       t.string :locale, limit: 10
       t.boolean :trusted, default: false
@@ -33,6 +33,8 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
 
       t.index [:discarded_at]
+      t.index [:created_at]
+      t.index [:updated_at]
     end
     # ----------
     create_table :endpoints, id: :uuid, default: 'gen_random_uuid()' do |t|
@@ -41,7 +43,7 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.text :data
 
       t.string :authentication_token, limit: 24
-      t.belongs_to :user
+      t.belongs_to :user, type: :uuid, foreign_key: true, index: true
 
       t.datetime :blocked_at
       t.string :block_reason
@@ -51,6 +53,8 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
 
       t.index [:discarded_at]
+      t.index [:created_at]
+      t.index [:updated_at]
     end
     # ----------
     create_table :packages, id: :uuid, default: 'gen_random_uuid()' do |t|
@@ -63,7 +67,7 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
 
       t.text :manifest
 
-      t.belongs_to :user
+      t.belongs_to :user, type: :uuid, foreign_key: true, index: true
       # You can link packages one to another to chain updates
       t.belongs_to :package, type: :uuid, foreign_key: true, index: true
 
@@ -73,6 +77,8 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       # Packages will be unique for everyone or for selected user
 
       t.index [:discarded_at]
+      t.index [:created_at]
+      t.index [:updated_at]
       t.index [:user_id, :name], unique: true
       t.index [:alias], unique: true
     end

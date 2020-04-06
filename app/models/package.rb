@@ -40,6 +40,15 @@ class Package < ApplicationRecord
   #  .with_attached_icon
   #}
 
+  scope :allowed_to(user), -> {
+    kept.where(user: user, trusted: false).or(Package.where(trusted: true))
+  }
+
+  scope :only_trusted, -> {
+    kept.where(trusted: true)
+  }
+
+
   def self.all_dependencies(current, packages = [])
     current.dependencies.kept.map do |p|
       if !packages.include?(p)
@@ -54,8 +63,12 @@ class Package < ApplicationRecord
     packages
   end
 
-  def attachments_ready?
+  def ready?
     parts.empty? && files.any?
+  end
+
+  def manifest_from_zip(filename)
+    # TODO
   end
 
 

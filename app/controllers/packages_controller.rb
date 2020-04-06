@@ -9,9 +9,9 @@ class PackagesController < ApplicationController
     #if current_user.company
     #  @packages = Package.where(user: current_user.company.users)
     if user_signed_in?
-      @packages = Package.kept.where(user: current_user, trusted: false).or(Package.where(trusted: true))
+      @packages = Package.allowed_to(current_user)
     else
-      @packages = Package.kept.where(trusted: true)
+      @packages = Package.only_trusted
     end
   end
 
@@ -60,6 +60,7 @@ class PackagesController < ApplicationController
         elsif params[:part].present?
           @package.parts.attach(params[:part])
         end
+        @package.save
         format.html { redirect_to @package, notice: 'Package was successfully updated.' }
         format.json { render :show, status: :ok, location: @package }
       else
@@ -83,31 +84,6 @@ class PackagesController < ApplicationController
     end
   end
 
-  # TODO: Remove!
-  def install
-    respond_to do |format|
-      if current_user.endpoint.install(@package)
-        format.html { redirect_to packages_url, notice: 'Package soon will be installed.' }
-        format.json { render :show, status: :created, location: @package }
-      else
-        format.html { render :show }
-        format.json { render json: @package.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def uninstall
-    respond_to do |format|
-      if current_user.endpoint.uninstall(@package)
-        format.html { redirect_to packages_url, notice: 'Package was successfully uninstalled.' }
-        format.json { render :show, status: :created, location: @package }
-      else
-        format.html { render :show }
-        format.json { render json: @package.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_package
@@ -122,6 +98,6 @@ class PackagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def package_params
-      params.permit(:name, :text, :version, :checksum, :manifest)
+      params.permit(:name, :text, :version)
     end
 end

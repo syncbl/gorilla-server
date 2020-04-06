@@ -37,8 +37,7 @@ class Endpoint < ApplicationRecord
   # TODO: Move settings to other type of db!
   def install(package)
     setting = settings.discarded.find_by(package: package) || settings.new(package: package)
-    setting.discarded_at = nil
-    setting.save!
+    setting.undiscard
   end
 
   def uninstall(package)
