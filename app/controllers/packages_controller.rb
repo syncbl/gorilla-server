@@ -1,18 +1,14 @@
 class PackagesController < ApplicationController
   before_action :authenticate_user!, except: [:index]
   before_action :set_package, except: [:index, :new, :create]
-  before_action :limit_scope_user, only: [:create, :edit, :update, :delete]
+  before_action :limit_scope, only: [:edit, :update, :delete]
 
   # GET /packages
   # GET /packages.json
   def index
     #if current_user.company
     #  @packages = Package.where(user: current_user.company.users)
-    if user_signed_in?
-      @packages = Package.allowed_to(current_user)
-    else
-      @packages = Package.for_all
-    end
+    @packages = user_signed_in? ? Package.allowed_to(current_user) : Package.for_all
   end
 
   # GET /packages/1
@@ -93,7 +89,7 @@ class PackagesController < ApplicationController
       @package = Package.find_by(id: params[:id]) || Package.find_by!(alias: params[:id])
     end
 
-    def limit_scope_user
+    def limit_scope
       head :forbidden if (current_user.endpoint.present? || (@package.user != current_user))
     end
 

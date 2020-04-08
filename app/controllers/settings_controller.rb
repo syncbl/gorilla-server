@@ -1,6 +1,6 @@
 class SettingsController < ApplicationController
   before_action :authenticate_user!
-  before_action :limit_scope_endpoint, except: [:index]
+  before_action :authenticate_endpoint!, except: [:index]
   before_action :set_setting, only: [:show, :edit, :update, :destroy]
 
   # GET /settings
@@ -53,10 +53,6 @@ class SettingsController < ApplicationController
     # ActiveRecord::RecordNotFound only with find_by
     def set_setting
       @setting = current_user.endpoint.settings.find_by!(package: Package.find_by!(id: params[:id]))
-    end
-
-    def limit_scope_endpoint
-      head :forbidden if current_user.endpoint.nil?
     end
 
     # Only allow a trusted parameter "white list" through.

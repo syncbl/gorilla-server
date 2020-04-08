@@ -44,5 +44,10 @@ module ApplicationHelper
       alert: 'alert-warning',
       notice: 'alert-info'
     }[flash_type.to_sym] || flash_type.to_s
-end
+  end
+
+  def authenticate_endpoint!
+    head :forbidden if current_user.endpoint.nil?
+  end
+
 end
