@@ -3,7 +3,7 @@ class JoinPartsToFileJob < ApplicationJob
   queue_as :urgent
 
   # TODO: We are sending :checksum, need to include it in perform to check is checksum = real checksum
-  def perform(package)
+  def perform(package, checksum)
     tmpfilename = Dir::Tmpname.create(['gp-', '.tmp']) {}
     File.open(tmpfilename, 'wb') do |tmpfile|
       package.parts.each do |file|
@@ -12,13 +12,20 @@ class JoinPartsToFileJob < ApplicationJob
         end
       end
     end
+    # TODO: Make sure zip is OK
     #Zip::File.open(tmpfilename) do |z|
 
     #end
     package.parts.purge
     package.files.attach(io: File.open(tmpfilename), filename: Time.now.strftime('%Y%m%d%H%M%S') + '.zip')
-    package.manifest = 'test'
-    package.save
     File.delete(tmpfilename)
+    if package.files.last.checksum == checksum
+    # TODO: Update manifest
+      package.manifest = 'test'
+      package.save
+    else
+      # TODO: Block package/user, inform admin
+      package.files.last.destroy
+    end
   end
 end

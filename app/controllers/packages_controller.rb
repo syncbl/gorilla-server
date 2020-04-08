@@ -1,7 +1,7 @@
 class PackagesController < ApplicationController
   before_action :authenticate_user!, except: [:index]
   before_action :set_package, except: [:index, :new, :create]
-  before_action :limit_scope, only: [:create, :edit, :update, :delete]
+  before_action :limit_scope_user, only: [:create, :edit, :update, :delete]
 
   # GET /packages
   # GET /packages.json
@@ -11,7 +11,7 @@ class PackagesController < ApplicationController
     if user_signed_in?
       @packages = Package.allowed_to(current_user)
     else
-      @packages = Package.only_trusted
+      @packages = Package.for_all
     end
   end
 
@@ -49,23 +49,26 @@ class PackagesController < ApplicationController
   # PATCH/PUT /packages/1
   # PATCH/PUT /packages/1.json
   def update
-    respond_to do |format|
-      if @package.update(package_params)
-        if params[:attachment] == 'purge'
-          # We can't purge files, just because some of the customers can be in a middle of update
-          @package.parts.purge_later
-        elsif params[:attachment] == 'store'
-          # TODO: Move to files to keep all versions for this package
-          JoinPartsToFileJob.perform_later(@package)
-        elsif params[:part].present?
-          @package.parts.attach(params[:part])
+    if params[:attachment] == 'purge'
+      # We can't purge files, just because some of the customers can be in a middle of update
+      @package.parts.purge_later
+      head :no_content
+    elsif params[:attachment] == 'store'
+      # TODO: Move to files to keep all versions for this package
+      JoinPartsToFileJob.perform_later(@package, params[:checksum])
+      head :no_content
+    elsif params[:part].present?
+      @package.parts.attach(params[:part])
+      head :no_content
+    else
+      respond_to do |format|
+        if @package.update(package_params)
+          format.html { redirect_to @package, notice: 'Package was successfully updated.' }
+          format.json { render :show, status: :ok, location: @package }
+        else
+          format.html { render :edit }
+          format.json { render json: @package.errors, status: :unprocessable_entity }
         end
-        @package.save
-        format.html { redirect_to @package, notice: 'Package was successfully updated.' }
-        format.json { render :show, status: :ok, location: @package }
-      else
-        format.html { render :edit }
-        format.json { render json: @package.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -90,10 +93,8 @@ class PackagesController < ApplicationController
       @package = Package.find_by(id: params[:id]) || Package.find_by!(alias: params[:id])
     end
 
-    def limit_scope
-      if current_user.endpoint.present? || (@package.user != current_user)
-        head :forbidden
-      end
+    def limit_scope_user
+      head :forbidden if (current_user.endpoint.present? || (@package.user != current_user))
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

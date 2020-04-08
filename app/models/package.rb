@@ -40,11 +40,11 @@ class Package < ApplicationRecord
   #  .with_attached_icon
   #}
 
-  scope :allowed_to(user), -> {
+  scope :allowed_to, -> (user) {
     kept.where(user: user, trusted: false).or(Package.where(trusted: true))
   }
 
-  scope :only_trusted, -> {
+  scope :for_all, -> {
     kept.where(trusted: true)
   }
 

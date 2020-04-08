@@ -1,6 +1,7 @@
 class EndpointsController < ApplicationController
   before_action :authenticate_user!
-  before_action :limit_scope, except: [:index]
+  before_action :limit_scope_endpoint, except: [:index]
+  before_action :limit_scope_user, only: [:index]
   before_action :set_endpoint, except: [:index]
 
   # GET /endpoints
@@ -85,10 +86,12 @@ class EndpointsController < ApplicationController
       end
     end
 
-    def limit_scope
-      if current_user.endpoint.nil?
-        head :forbidden
-      end
+    def limit_scope_endpoint
+      head :forbidden if current_user.endpoint.nil?
+    end
+
+    def limit_scope_user
+      head :forbidden unless current_user.endpoint.nil?
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
