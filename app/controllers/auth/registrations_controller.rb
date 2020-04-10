@@ -7,7 +7,7 @@ class Auth::RegistrationsController < Devise::RegistrationsController
         @user = User.new(registration_params)
         if @user.save
           sign_in @user
-          authenticate_endpoint(@user, params)
+          sign_in_endpoint(@user, params)
         else
           render json: @user.errors, status: :unauthorized
         end

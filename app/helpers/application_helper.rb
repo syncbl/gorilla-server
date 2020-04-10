@@ -12,7 +12,7 @@ module ApplicationHelper
   end
 
   # TODO: Lists of MD5 split by scopes. Service = endpoint, desktop = user.
-  def authenticate_endpoint(user, params)
+  def sign_in_endpoint(user, params)
     if params[:endpoint].present?
       endpoint = user.endpoints.find_by(id: params[:endpoint][:uuid]) ||
                  user.endpoints.create(name: params[:endpoint][:name])

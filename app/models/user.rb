@@ -30,7 +30,7 @@ class User < ApplicationRecord
     name || email
   end
 
-  def active_for_authentication?
+  def ready_for_authentication?
     super && blocked_at.nil? && discarded_at.nil?
   end
 
