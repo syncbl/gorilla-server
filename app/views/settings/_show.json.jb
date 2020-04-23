@@ -5,6 +5,7 @@ json = {
   updated_at: setting.updated_at.to_i
 }
 
+# TODO: Move this data to settings, don't need parse package for endpoint
 json[:package] = render 'packages/show', package: setting.package
 
 json

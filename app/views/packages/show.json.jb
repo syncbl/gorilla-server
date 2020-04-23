@@ -6,6 +6,7 @@ json[:package][:dependencies] = Package.all_dependencies(@package).map do |depen
   render 'show', package: dependent
 end
 
+# TODO: Size for real files, not for all updates
 size = 0
 json[:package][:files] = @package.files.map do |file|
   size += file.byte_size

@@ -37,3 +37,4 @@ coverage
 .ruby-version
 
 /config/credentials/development.key
+.solargraph.yml
