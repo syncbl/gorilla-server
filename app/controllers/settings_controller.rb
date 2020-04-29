@@ -1,6 +1,6 @@
 class SettingsController < ApplicationController
   before_action :authenticate_user!
-  before_action :authenticate_endpoint!, except: [:index]
+  before_action :authenticate_endpoint!
   before_action :set_setting, only: [:show, :edit, :update, :destroy]
 
   # GET /settings

@@ -31,7 +31,7 @@ class User < ApplicationRecord
   end
 
   def ready_for_authentication?
-    super && blocked_at.nil? && discarded_at.nil?
+    blocked_at.nil? && discarded_at.nil?
   end
 
 end

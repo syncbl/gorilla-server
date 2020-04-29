@@ -18,10 +18,11 @@ class ApplicationController < ActionController::Base
 
   def api_check_endpoint
     if payload = JsonWebToken.decode(request.headers['X-API-Token'])
-      if endpoint = Endpoint.kept.find_by(id: payload[:uuid], authentication_token: payload[:token])
+      unless endpoint = Endpoint.kept.find_by(id: payload[:uuid], authentication_token: payload[:token])
         # TODO: Also IPs from separate table to see source of attack
         Endpoint.find(payload[:uuid])&.block! ' stolen token '
-      elsif endpoint.user.ready_for_authentication?
+      end
+      if endpoint&.user&.ready_for_authentication?
         bypass_sign_in(endpoint.user) unless user_signed_in?
         current_user.endpoint = endpoint
       end
