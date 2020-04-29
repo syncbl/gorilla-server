@@ -48,7 +48,6 @@ class Package < ApplicationRecord
     kept.where(trusted: true)
   }
 
-
   def self.all_dependencies(current, packages = [])
     current.dependencies.kept.map do |p|
       if !packages.include?(p)
@@ -61,10 +60,6 @@ class Package < ApplicationRecord
       end
     end
     packages
-  end
-
-  def ready?
-    parts.empty? && files.any?
   end
 
   def manifest_from_zip(filename)

@@ -33,6 +33,6 @@ module GpServer
     config.api_fingerprint = '864456aa'
     config.service_path = 'storage/README.md'
     config.token_expiration_time = 1.month
-    config.token_regen_random = 3
+    config.token_regen_random = 5
   end
 end

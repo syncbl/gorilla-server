@@ -88,6 +88,10 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
     create_table :dependencies do |t|
       t.belongs_to :package, type: :uuid, foreign_key: true, index: true, null: false
       t.belongs_to :dependent_package, class_name: 'Package', type: :uuid, index: true, null: false
+      
+      # TODO: Some of the dependencies can be selected by user before master package installation
+      t.boolean :optional, null: false, default: false
+      
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       #t.index [:package_id, :dependent_package_id], unique: true
     end
