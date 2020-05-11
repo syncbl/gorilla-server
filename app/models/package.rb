@@ -47,9 +47,4 @@ class Package < ApplicationRecord
     packages
   end
 
-  def manifest_from_zip(filename)
-    # TODO
-  end
-
-
 end

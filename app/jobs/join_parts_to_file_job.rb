@@ -1,9 +1,11 @@
 class JoinPartsToFileJob < ApplicationJob
   # TODO: ???
-  queue_as :urgent
+  queue_as :default
 
   # TODO: We are sending :checksum, need to include it in perform to check is checksum = real checksum
   def perform(package, checksum)
+    return false if package.parts.size > 0
+  
     tmpfilename = Dir::Tmpname.create(['gp-', '.tmp']) {}
     File.open(tmpfilename, 'wb') do |tmpfile|
       package.parts.each do |file|

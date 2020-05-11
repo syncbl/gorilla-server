@@ -51,5 +51,4 @@ module ApplicationHelper
       head :unauthorized 
     end
   end
-
 end
