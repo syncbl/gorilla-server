@@ -41,29 +41,33 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.string "name"
     t.datetime "blocked_at"
     t.string "block_reason"
+    t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["discarded_at"], name: "index_companies_on_discarded_at"
     t.index ["name"], name: "index_companies_on_name", unique: true
   end
 
-  create_table "dependencies", force: :cascade do |t|
+  create_table "dependencies", id: false, force: :cascade do |t|
     t.uuid "package_id", null: false
     t.uuid "dependent_package_id", null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.boolean "optional", default: false, null: false
     t.index ["dependent_package_id"], name: "index_dependencies_on_dependent_package_id"
+    t.index ["package_id", "dependent_package_id"], name: "index_dependencies_on_package_id_and_dependent_package_id", unique: true
     t.index ["package_id"], name: "index_dependencies_on_package_id"
   end
 
   create_table "endpoints", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
-    t.text "data"
     t.string "authentication_token", limit: 24
-    t.uuid "user_id"
+    t.bigint "user_id"
+    t.bigint "company_id"
     t.datetime "blocked_at"
     t.string "block_reason"
     t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["company_id"], name: "index_endpoints_on_company_id"
     t.index ["created_at"], name: "index_endpoints_on_created_at"
     t.index ["discarded_at"], name: "index_endpoints_on_discarded_at"
     t.index ["updated_at"], name: "index_endpoints_on_updated_at"
@@ -73,11 +77,10 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
   create_table "packages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.string "alias"
-    t.string "text"
     t.string "version"
     t.boolean "trusted", default: false, null: false
-    t.text "manifest"
-    t.uuid "user_id"
+    t.jsonb "manifest"
+    t.bigint "user_id"
     t.uuid "package_id"
     t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -91,20 +94,22 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.index ["user_id"], name: "index_packages_on_user_id"
   end
 
-  create_table "settings", force: :cascade do |t|
+  create_table "settings", id: false, force: :cascade do |t|
     t.boolean "dependent", default: false, null: false
     t.uuid "endpoint_id", null: false
     t.uuid "package_id", null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "discarded_at"
+    t.index ["created_at"], name: "index_settings_on_created_at"
     t.index ["discarded_at"], name: "index_settings_on_discarded_at"
     t.index ["endpoint_id", "package_id"], name: "index_settings_on_endpoint_id_and_package_id", unique: true
     t.index ["endpoint_id"], name: "index_settings_on_endpoint_id"
     t.index ["package_id"], name: "index_settings_on_package_id"
+    t.index ["updated_at"], name: "index_settings_on_updated_at"
   end
 
-  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "locale", limit: 10
     t.boolean "trusted", default: false
@@ -134,6 +139,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "dependencies", "packages"
+  add_foreign_key "endpoints", "companies"
   add_foreign_key "endpoints", "users"
   add_foreign_key "packages", "packages"
   add_foreign_key "packages", "users"

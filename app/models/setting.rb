@@ -1,6 +1,8 @@
 class Setting < ApplicationRecord
   include Discard::Model
 
+  self.implicit_order_column = :updated_at
+
   before_save :check_package
 
   belongs_to :package

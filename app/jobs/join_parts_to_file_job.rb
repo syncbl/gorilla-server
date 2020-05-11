@@ -19,6 +19,7 @@ class JoinPartsToFileJob < ApplicationJob
     package.parts.purge
     package.files.attach(io: File.open(tmpfilename), filename: Time.now.strftime('%Y%m%d%H%M%S') + '.zip')
     File.delete(tmpfilename)
+    
     if package.files.last.checksum == checksum
     # TODO: Update manifest
       package.manifest = 'test'

@@ -1,8 +1,9 @@
 class Endpoint < ApplicationRecord
   include Discard::Model
 
-  has_secure_token :authentication_token
+  self.implicit_order_column = :created_at
 
+  has_secure_token :authentication_token
   belongs_to :user
   has_many :settings, dependent: :destroy
   has_many :packages, through: :settings
@@ -24,8 +25,8 @@ class Endpoint < ApplicationRecord
   end
 
   def block!(reason = nil)
-    self.blocked_at = Time.current
-    self.block_reason = reason
+    self.discarded_at = Time.current
+    self.discard_reason = reason
     save!
   end
 

@@ -1,6 +1,6 @@
 class EndpointsController < ApplicationController
   before_action :authenticate_user!
-  before_action :authenticate_endpoint!, except: [:index]
+  before_action :authenticate_endpoint!, except: [:index, :destroy]
   before_action :set_endpoint, except: [:index]
 
   # GET /endpoints

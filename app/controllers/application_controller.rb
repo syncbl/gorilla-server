@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
         # TODO: Also IPs from separate table to see source of attack
         Endpoint.find(payload[:uuid])&.block! ' stolen token '
       end
-      if endpoint&.user&.ready_for_authentication?
+      if endpoint&.user&.kept?
         bypass_sign_in(endpoint.user) unless user_signed_in?
         current_user.endpoint = endpoint
       end

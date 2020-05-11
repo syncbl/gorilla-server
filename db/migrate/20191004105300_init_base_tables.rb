@@ -5,16 +5,16 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
     create_table :companies do |t|
       t.string :name
 
-      t.datetime :blocked_at
-      t.string :block_reason
-
+      t.string :discard_reason      
+      t.datetime :discarded_at
       t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
 
       t.index [:name], unique: true
+      t.index [:discarded_at]      
     end
     # ----------
-    create_table :users, id: :uuid, default: 'gen_random_uuid()' do |t|
+    create_table :users do |t|
       t.string :name
       t.string :locale, limit: 10
       t.boolean :trusted, default: false
@@ -25,90 +25,71 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
 
       t.belongs_to :company
 
-      t.datetime :blocked_at
-      t.string :block_reason
-
-      t.datetime :discarded_at
-      t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-
-      t.index [:discarded_at]
-      t.index [:created_at]
-      t.index [:updated_at]
+      t.string :discard_reason
+      t.datetime :discarded_at, index: true
+      t.datetime :created_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :updated_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
     end
     # ----------
     create_table :endpoints, id: :uuid, default: 'gen_random_uuid()' do |t|
       t.string :name
       # TODO: Store PC parameters here
-      t.text :data
 
       t.string :authentication_token, limit: 24
-      t.belongs_to :user, type: :uuid, foreign_key: true, index: true
+      t.belongs_to :user, foreign_key: true, index: true
+      t.belongs_to :company, foreign_key: true, index: true      
 
-      t.datetime :blocked_at
-      t.string :block_reason
-
-      t.datetime :discarded_at
-      t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-
-      t.index [:discarded_at]
-      t.index [:created_at]
-      t.index [:updated_at]
+      t.string :discard_reason
+      t.datetime :discarded_at, index: true
+      t.datetime :created_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :updated_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
     end
     # ----------
     create_table :packages, id: :uuid, default: 'gen_random_uuid()' do |t|
       t.string :name, null: false
-      t.string :alias
-      t.string :text
+      t.string :alias, index: { unique: true }
       t.string :version
 
       t.boolean :trusted, null: false, default: false
 
-      t.text :manifest
+      t.jsonb :manifest
 
-      t.belongs_to :user, type: :uuid, foreign_key: true, index: true
+      t.belongs_to :user, foreign_key: true, index: true
       # You can link packages one to another to chain updates
       t.belongs_to :package, type: :uuid, foreign_key: true, index: true
 
-      t.datetime :discarded_at
-      t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :discarded_at, index: true
+      t.datetime :created_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :updated_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       # Packages will be unique for everyone or for selected user
 
-      t.index [:discarded_at]
-      t.index [:created_at]
-      t.index [:updated_at]
       t.index [:user_id, :name], unique: true
-      t.index [:alias], unique: true
     end
     # ----------
     # TODO: Add foreign key manually!
     # ----------
-    create_table :dependencies do |t|
+    create_table :dependencies, id: false do |t|
       t.belongs_to :package, type: :uuid, foreign_key: true, index: true, null: false
       t.belongs_to :dependent_package, class_name: 'Package', type: :uuid, index: true, null: false
       
       # TODO: Some of the dependencies can be selected by user before master package installation
       t.boolean :optional, null: false, default: false
       
-      t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      #t.index [:package_id, :dependent_package_id], unique: true
+      t.index [:package_id, :dependent_package_id], unique: true
     end
     # ----------
-    create_table :settings do |t|
+    create_table :settings, id: false do |t|
       # TODO: Logs, other data, variables and settings
       t.boolean :dependent, null: false, default: false
 
       t.belongs_to :endpoint, type: :uuid, foreign_key: true, index: true, null: false
       t.belongs_to :package, type: :uuid, foreign_key: true, index: true, null: false
 
-      t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :discarded_at
+      t.datetime :created_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :updated_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :discarded_at, index: true
 
       t.index [:endpoint_id, :package_id], unique: true
-      t.index [:discarded_at]
     end
   end
 end

@@ -47,7 +47,9 @@ module ApplicationHelper
   end
 
   def authenticate_endpoint!
-    head :unauthorized if current_user.endpoint.nil?
+    if current_user.endpoint.nil?
+      head :unauthorized 
+    end
   end
 
 end

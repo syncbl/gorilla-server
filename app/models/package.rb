@@ -1,8 +1,7 @@
 class Package < ApplicationRecord
   include Discard::Model
-  after_discard do
-    settings.discard_all
-  end
+
+  self.implicit_order_column = :created_at
 
   has_many :settings
   has_many :endpoints, through: :settings
@@ -12,16 +11,6 @@ class Package < ApplicationRecord
     foreign_key: :package_id,
     association_foreign_key: :dependent_package_id
   belongs_to :user, optional: true
-  #has_one_attached :icon
-  # TODO: So, here is a logic:
-  # - Every package has one main file, containing manifest and ONE hardcoded directory.
-  # - We can suppose, that for some files user can choose destination, for some not.
-  # - /files
-  # -       /0
-  # -       /1
-  # - ...
-  # - Manifest YAML contains crc, path, settings, shortcut info etc.
-  # - AND SIGNED!
 
   # For really big archive we need to split it to chunks. I think 50mb will be enough.
   has_many_attached :files
@@ -32,13 +21,9 @@ class Package < ApplicationRecord
   validates :alias, format: { with: /\A[A-Za-z\d\-\_]*\z/ },
     uniqueness: { case_sensitive: false }, allow_blank: true
 
-  # TODO: GET updated = updated.at > settings.updated_at -> in packages/endpoints/settings?
-
-  # TODO:
-  #default_scope -> {
-  #  kept
-  #  .with_attached_icon
-  #}
+  after_discard do
+    settings.discard_all
+  end
 
   scope :allowed_to, -> (user) {
     kept.where(user: user, trusted: false).or(Package.where(trusted: true))

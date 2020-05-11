@@ -1,8 +1,10 @@
-* Taggable
+Endpoint:
 
-published
-unstable
-banned
-alpha
-beta
-stable
+Settings
+  Params from package
+  Files
+
+User:
+
+Packages
+Endpoints
