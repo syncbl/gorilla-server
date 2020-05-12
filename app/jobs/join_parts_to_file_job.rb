@@ -4,9 +4,9 @@ class JoinPartsToFileJob < ApplicationJob
 
   # TODO: We are sending :checksum, need to include it in perform to check is checksum = real checksum
   def perform(package, checksum)
-    return false if package.parts.size > 0
+    return false if package.parts.empty?
   
-    tmpfilename = Dir::Tmpname.create(['gp-', '.tmp']) {}
+    tmpfilename = Dir::Tmpname.create(['sncbl-', '.tmp']) {}
     File.open(tmpfilename, 'wb') do |tmpfile|
       package.parts.each do |file|
         file.open do |f|
