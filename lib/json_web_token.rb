@@ -1,11 +1,11 @@
 class JsonWebToken
   require 'jwt'
 
-  def self.encode(resource)
+  def self.encode(endpoint)
     payload = {
-      key: resource.key,
-      token: resource.authentication_token,
-      exp: Time.current.to_i - Rails.application.config.token_expiration_time.to_i
+      uuid: endpoint.id,
+      token: endpoint.authentication_token,
+      exp: Time.current.to_i + Rails.application.config.token_expiration_time.to_i
     }
     JWT.encode(payload.to_a.shuffle.to_h, Rails.application.credentials.hmac_secret_key, 'HS256')
   end

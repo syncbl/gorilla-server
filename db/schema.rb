@@ -39,8 +39,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
 
   create_table "companies", force: :cascade do |t|
     t.string "name"
-    t.datetime "blocked_at"
-    t.string "block_reason"
+    t.string "discard_reason"
     t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -62,8 +61,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.string "authentication_token", limit: 24
     t.bigint "user_id"
     t.bigint "company_id"
-    t.datetime "blocked_at"
-    t.string "block_reason"
+    t.string "discard_reason"
     t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -116,8 +114,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.boolean "admin", default: false
     t.boolean "developer", default: false
     t.bigint "company_id"
-    t.datetime "blocked_at"
-    t.string "block_reason"
+    t.string "discard_reason"
     t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
