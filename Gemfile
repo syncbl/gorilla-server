@@ -9,7 +9,7 @@ gem 'puma', '~> 4.2'
 gem 'bcrypt', '~> 3.1.7'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'sass-rails', '~> 5'
-gem 'webpacker', '~> 4.0'
+gem 'webpacker', '~> 5'
 gem 'turbolinks', '~> 5'
 gem 'jquery-rails'
 gem 'uglifier', '>= 1.3.0'

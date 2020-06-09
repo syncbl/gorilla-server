@@ -47,7 +47,7 @@ class EndpointsController < ApplicationController
   # PUT /endpoints/1/install.json
   def install
     respond_to do |format|
-      if @endpoint.install(Package.allowed_to(current_user).find(params[:package]))
+      if @endpoint.install(Package.allowed_for(current_user).find(params[:package]))
         format.html { redirect_to endpoints_url, notice: 'Package soon will be installed.' }
         format.json { render :show, status: :created, location: @endpoint }
       else
@@ -61,7 +61,7 @@ class EndpointsController < ApplicationController
   # PUT /endpoints/1/uninstall.json
   def uninstall
     respond_to do |format|
-      if @endpoint.uninstall(Package.allowed_to(current_user).find(params[:package]))
+      if @endpoint.uninstall(Package.allowed_for(current_user).find(params[:package]))
         format.html { redirect_to endpoints_url, notice: 'Package was successfully uninstalled.' }
         format.json { render :show, status: :created, location: @endpoint }
       else

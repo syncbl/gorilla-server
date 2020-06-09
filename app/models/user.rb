@@ -1,11 +1,5 @@
 class User < ApplicationRecord
   include Discard::Model
-  after_discard do
-    if company.nil?
-      endpoints.discard_all
-      packages.discard.all
-    end
-  end
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :trackable and :omniauthable
@@ -17,6 +11,13 @@ class User < ApplicationRecord
   has_many :packages, dependent: :nullify
   has_many :endpoints, dependent: :nullify
 
+  after_discard do
+    if company.nil?
+      endpoints.discard_all
+      packages.discard.all
+    end
+  end 
+
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, length: { maximum: 105 },
             uniqueness: { case_sensitive: false },
@@ -24,6 +25,7 @@ class User < ApplicationRecord
 
   attr_accessor :endpoint
   attr_accessor :endpoint_new_token
+
   # TODO: Everyone can create packages, but we need to add permissions for company members later
 
   def readable_name

@@ -8,7 +8,7 @@ class PackagesController < ApplicationController
   def index
     #if current_user.company
     #  @packages = Package.where(user: current_user.company.users)
-    @packages = user_signed_in? ? Package.allowed_to(current_user) : Package.for_all
+    @packages = user_signed_in? ? Package.allowed_for(current_user) : Package.allowed_for_all
   end
 
   # GET /packages/1

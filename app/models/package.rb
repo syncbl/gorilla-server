@@ -16,23 +16,23 @@ class Package < ApplicationRecord
   has_many_attached :files
   has_many_attached :parts
 
+  after_discard do
+    settings.discard_all
+  end
+
   validates :name, presence: true, format: { with: /\A[A-Za-z\d\-\_ ]*\z/ }, length: { maximum: 100 },
     uniqueness: { scope: :user_id, case_sensitive: false }
   validates :alias, format: { with: /\A[A-Za-z\d\-\_]*\z/ },
     uniqueness: { case_sensitive: false }, allow_blank: true
 
-  after_discard do
-    settings.discard_all
-  end
-
-  scope :allowed_to, -> (user) {
-    kept.where(user: user, trusted: false).or(Package.where(trusted: true))
-  }
-
-  scope :for_all, -> {
+  scope :allowed_for_all, -> {
     kept.where(trusted: true)
-  }
+  }  
 
+  scope :allowed_for, -> (user) {
+    kept.where(user: user, trusted: false).or(Package.allowed_for_all)
+  }
+ 
   def self.all_dependencies(current, packages = [])
     current.dependencies.kept.map do |p|
       if !packages.include?(p)
