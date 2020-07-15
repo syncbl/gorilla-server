@@ -37,16 +37,6 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "companies", force: :cascade do |t|
-    t.string "name"
-    t.string "discard_reason"
-    t.datetime "discarded_at"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["discarded_at"], name: "index_companies_on_discarded_at"
-    t.index ["name"], name: "index_companies_on_name", unique: true
-  end
-
   create_table "dependencies", id: false, force: :cascade do |t|
     t.uuid "package_id", null: false
     t.uuid "dependent_package_id", null: false
@@ -59,17 +49,25 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
   create_table "endpoints", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.string "authentication_token", limit: 24
-    t.bigint "user_id"
-    t.bigint "company_id"
+    t.uuid "user_id", null: false
     t.string "discard_reason"
     t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["company_id"], name: "index_endpoints_on_company_id"
     t.index ["created_at"], name: "index_endpoints_on_created_at"
     t.index ["discarded_at"], name: "index_endpoints_on_discarded_at"
     t.index ["updated_at"], name: "index_endpoints_on_updated_at"
     t.index ["user_id"], name: "index_endpoints_on_user_id"
+  end
+
+  create_table "groups", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.string "discard_reason"
+    t.datetime "discarded_at"
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["discarded_at"], name: "index_groups_on_discarded_at"
+    t.index ["name"], name: "index_groups_on_name", unique: true
   end
 
   create_table "packages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -78,7 +76,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.string "version"
     t.boolean "trusted", default: false, null: false
     t.jsonb "manifest"
-    t.bigint "user_id"
+    t.uuid "user_id", null: false
     t.uuid "package_id"
     t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -107,13 +105,14 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.index ["updated_at"], name: "index_settings_on_updated_at"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.string "locale", limit: 10
     t.boolean "trusted", default: false
     t.boolean "admin", default: false
     t.boolean "developer", default: false
-    t.bigint "company_id"
+    t.string "authentication_token", limit: 24
+    t.uuid "group_id"
     t.string "discard_reason"
     t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -126,20 +125,20 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.integer "failed_attempts", default: 0, null: false
     t.string "unlock_token"
     t.datetime "locked_at"
-    t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["created_at"], name: "index_users_on_created_at"
     t.index ["discarded_at"], name: "index_users_on_discarded_at"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["group_id"], name: "index_users_on_group_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["updated_at"], name: "index_users_on_updated_at"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "dependencies", "packages"
-  add_foreign_key "endpoints", "companies"
   add_foreign_key "endpoints", "users"
   add_foreign_key "packages", "packages"
   add_foreign_key "packages", "users"
   add_foreign_key "settings", "endpoints"
   add_foreign_key "settings", "packages"
+  add_foreign_key "users", "groups"
 end

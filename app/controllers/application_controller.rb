@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception, unless: -> { request.format.json? }
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :api_check_headers, if: -> { request.format.json? && Rails.env.production? }
-  before_action :api_check_endpoint, if: -> { request.format.json? && !devise_controller? }
+  before_action :api_check_token, if: -> { request.format.json? && !devise_controller? }
 
   protected
 
@@ -16,16 +16,18 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def api_check_endpoint
-    if payload = JsonWebToken.decode(request.headers['X-API-Token'])
-      unless endpoint = Endpoint.kept.find_by(id: payload[:uuid], authentication_token: payload[:token])
-        # TODO: Also IPs from separate table to see source of attack
-        Endpoint.find(payload[:uuid])&.block! ' stolen token '
-      end
+  def api_check_token
+    return nil unless payload = JsonWebToken.decode(request.headers['X-API-Token'])
+    if endpoint = Endpoint.kept.find_by(id: payload[:uuid], authentication_token: payload[:token])
       if endpoint&.user&.kept?
         bypass_sign_in(endpoint.user) unless user_signed_in?
         current_user.endpoint = endpoint
       end
+    elsif user = User.kept.find_by(id: payload[:uuid], authentication_token: payload[:token])
+      bypass_sign_in(user) unless user_signed_in?
+    else
+      Endpoint.find_by(id: payload[:uuid])&.block! ' stolen token '
+      User.find_by(id: payload[:uuid])&.block! ' stolen token '
     end
   end
 

@@ -6,17 +6,18 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable, :rememberable,
          :validatable, :timeoutable, :lockable
 
+  has_secure_token :authentication_token
+
   # Because of company support and installed packages we can't allow to delete resources
-  belongs_to :company, optional: true
+  # has_many (as on Git) OR belongs_to :group, optional: true
   has_many :packages, dependent: :nullify
   has_many :endpoints, dependent: :nullify
 
   after_discard do
-    if company.nil?
-      endpoints.discard_all
-      packages.discard.all
-    end
-  end 
+    # if group.nil?
+    endpoints.discard_all
+    packages.discard_all
+  end
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, length: { maximum: 105 },

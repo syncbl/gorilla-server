@@ -32,7 +32,8 @@ module GpServer
     # Custom application parameters
     config.api_fingerprint = '864456aa'
     config.service_path = 'storage/README.md'
-    config.token_expiration_time = 1.month
-    config.token_regen_random = 5
+    config.user_token_expiration_time = 1.minute # TODO: 1.day
+    config.endpoint_token_expiration_time = 1.month
+    config.endpoint_token_regen_random = 5
   end
 end

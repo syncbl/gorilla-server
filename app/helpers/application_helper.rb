@@ -11,12 +11,11 @@ module ApplicationHelper
     ]
   end
 
-  def register_endpoint(endpoint_params)
-    if endpoint_params.present?
-      endpoint = current_user.endpoints.find_by(id: endpoint_params[:uuid]) ||
-                 current_user.endpoints.create(name: endpoint_params[:name])
+  def register_endpoint(params)
+    if params.present?
+      endpoint = current_user.endpoints.find_by(id: params[:uuid]) ||
+                 current_user.endpoints.create(name: params[:name])
     end
-
     if endpoint
       render json: {
         session: {
@@ -24,17 +23,11 @@ module ApplicationHelper
           token: JsonWebToken.encode(endpoint)
         }
       }
-    # TODO: Remove non-endpoint authorization
-    elsif current_user&.company.present?
-      render json: {
-        session: {
-          scope: 'company'
-        }
-      }
     else
       render json: {
         session: {
-          scope: 'user'
+          scope: 'user',
+          token: JsonWebToken.encode(current_user)
         }
       }
     end

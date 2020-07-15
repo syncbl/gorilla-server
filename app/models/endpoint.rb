@@ -9,7 +9,7 @@ class Endpoint < ApplicationRecord
   has_many :packages, through: :settings
 
   scope :actual, -> {
-    where(Endpoint.arel_table[:updated_at].gt(Time.current - Rails.application.config.token_expiration_time))
+    where(Endpoint.arel_table[:updated_at].gt(Time.current - Rails.application.config.endpoint_token_expiration_time))
   }
 
   # TODO: Optimize

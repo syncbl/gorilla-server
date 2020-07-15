@@ -6,7 +6,7 @@ class EndpointsController < ApplicationController
   # GET /endpoints
   # GET /endpoints.json
   def index
-    # TODO: Add company
+    # TODO: Add group
     @endpoints = current_user.endpoints.actual
   end
 
@@ -78,7 +78,7 @@ class EndpointsController < ApplicationController
     def set_endpoint
       if current_user.endpoint
         @endpoint = current_user.endpoint
-        if rand(Rails.application.config.token_regen_random) == 0
+        if rand(Rails.application.config.endpoint_token_regen_random) == 0
           @endpoint.regenerate_authentication_token
           current_user.endpoint_new_token = JsonWebToken.encode(@endpoint)
         end

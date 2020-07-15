@@ -6,8 +6,8 @@ class PackagesController < ApplicationController
   # GET /packages
   # GET /packages.json
   def index
-    #if current_user.company
-    #  @packages = Package.where(user: current_user.company.users)
+    #if current_user.group
+    #  @packages = Package.where(user: current_user.group.users)
     @packages = user_signed_in? ? Package.allowed_for(current_user) : Package.allowed_for_all
   end
 

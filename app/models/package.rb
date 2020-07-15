@@ -27,12 +27,12 @@ class Package < ApplicationRecord
 
   scope :allowed_for_all, -> {
     kept.where(trusted: true)
-  }  
+  }
 
   scope :allowed_for, -> (user) {
     kept.where(user: user, trusted: false).or(Package.allowed_for_all)
   }
- 
+
   def self.all_dependencies(current, packages = [])
     current.dependencies.kept.map do |p|
       if !packages.include?(p)
@@ -44,7 +44,7 @@ class Package < ApplicationRecord
         Package.all_dependencies(p, packages)
       end
     end
-    packages
+    return packages
   end
 
 end

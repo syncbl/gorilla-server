@@ -2,28 +2,15 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
   def change
     enable_extension 'pgcrypto'
     # ----------
-    create_table :companies do |t|
-      t.string :name
-
-      t.string :discard_reason      
-      t.datetime :discarded_at
-      t.datetime :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-
-      t.index [:name], unique: true
-      t.index [:discarded_at]      
-    end
-    # ----------
-    create_table :users do |t|
+    create_table :users, id: :uuid, default: 'gen_random_uuid()' do |t|
       t.string :name
       t.string :locale, limit: 10
       t.boolean :trusted, default: false
       t.boolean :admin, default: false
       t.boolean :developer, default: false
-      #t.boolean :group, default: false
       # TODO: Purchases table for user or company
 
-      t.belongs_to :company
+      t.string :authentication_token, limit: 24
 
       t.string :discard_reason
       t.datetime :discarded_at, index: true
@@ -36,8 +23,8 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       # TODO: Store PC parameters here
 
       t.string :authentication_token, limit: 24
-      t.belongs_to :user, foreign_key: true, index: true
-      t.belongs_to :company, foreign_key: true, index: true      
+
+      t.belongs_to :user, type: :uuid, foreign_key: true, index: true, null: false
 
       t.string :discard_reason
       t.datetime :discarded_at, index: true
@@ -54,7 +41,7 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
 
       t.jsonb :manifest
 
-      t.belongs_to :user, foreign_key: true, index: true
+      t.belongs_to :user, type: :uuid, foreign_key: true, index: true, null: false
       # You can link packages one to another to chain updates
       t.belongs_to :package, type: :uuid, foreign_key: true, index: true
 
@@ -71,10 +58,10 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
     create_table :dependencies, id: false do |t|
       t.belongs_to :package, type: :uuid, foreign_key: true, index: true, null: false
       t.belongs_to :dependent_package, class_name: 'Package', type: :uuid, index: true, null: false
-      
+
       # TODO: Some of the dependencies can be selected by user before master package installation
       t.boolean :optional, null: false, default: false
-      
+
       t.index [:package_id, :dependent_package_id], unique: true
     end
     # ----------
