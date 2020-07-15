@@ -7,7 +7,7 @@ class Auth::RegistrationsController < Devise::RegistrationsController
         @user = User.new(registration_params)
         if @user.save
           sign_in @user
-          sign_in_endpoint(@user, params)
+          register_endpoint(params[:user][:endpoint])
         else
           render json: @user.errors, status: :unauthorized
         end
@@ -19,6 +19,7 @@ class Auth::RegistrationsController < Devise::RegistrationsController
 
   def registration_params
     # TODO: Sanitize endpoint
-    params.require(:user).permit(:email, :password, :password_confirmation, :name, :locale)
+    params.require(:user).permit(:email, :password, :password_confirmation, :name, :locale, :endpoint)
+    #params.permit(:endpoint).permit(:uuid, :name)
   end
 end

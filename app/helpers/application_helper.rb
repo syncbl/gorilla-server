@@ -11,18 +11,21 @@ module ApplicationHelper
     ]
   end
 
-  # TODO: Lists of MD5 split by scopes. Service = endpoint, desktop = user.
-  def sign_in_endpoint(user, params)
-    if params[:endpoint].present?
-      endpoint = user.endpoints.find_by(id: params[:endpoint][:uuid]) ||
-                 user.endpoints.create(name: params[:endpoint][:name])
+  def register_endpoint(endpoint_params)
+    if endpoint_params.present?
+      endpoint = current_user.endpoints.find_by(id: endpoint_params[:uuid]) ||
+                 current_user.endpoints.create(name: endpoint_params[:name])
+    end
+
+    if endpoint
       render json: {
         session: {
           scope: 'endpoint',
           token: JsonWebToken.encode(endpoint)
         }
       }
-    elsif user.company.present?
+    # TODO: Remove non-endpoint authorization
+    elsif current_user&.company.present?
       render json: {
         session: {
           scope: 'company'

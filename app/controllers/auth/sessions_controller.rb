@@ -9,7 +9,7 @@ class Auth::SessionsController < Devise::SessionsController
       format.json do
         self.resource = warden.authenticate!(auth_options)
         sign_in(resource_name, resource)
-        sign_in_endpoint(resource, params)
+        register_endpoint(params[:user][:endpoint])
       end
     end
   end
