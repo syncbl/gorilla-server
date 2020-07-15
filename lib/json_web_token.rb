@@ -8,12 +8,12 @@ class JsonWebToken
         token: resource.authentication_token,
         exp: Time.current.to_i + Rails.application.config.token_expiration_time.to_i
       }
-      JWT.encode(payload.to_a.shuffle.to_h, Rails.application.credentials.secret_key_base, 'HS256')
     end
+    JWT.encode(payload.to_a.shuffle.to_h, Rails.application.credentials.secret_key_base, 'HS256') if payload
   end
 
   def self.decode(token)
-    payload = JWT.decode(token, Rails.application.credentials.secret_key_base, true, { algorithm: 'HS256' })&.
+    JWT.decode(token, Rails.application.credentials.secret_key_base, true, { algorithm: 'HS256' })&.
       first&.with_indifferent_access
   rescue JWT::ExpiredSignature, JWT::DecodeError
     false
