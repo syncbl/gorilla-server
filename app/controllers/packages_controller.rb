@@ -45,16 +45,16 @@ class PackagesController < ApplicationController
   # PATCH/PUT /packages/1
   # PATCH/PUT /packages/1.json
   def update
-    if params[:attachment] == 'purge'
+    if package_params[:attachment] == 'purge'
       # We can't purge files, just because some of the customers can be in a middle of update
       @package.parts.purge_later
       head :no_content
-    elsif params[:attachment] == 'store'
+    elsif package_params[:attachment] == 'store'
       # TODO: Move to files to keep all versions for this package
-      JoinPartsToFileJob.perform_later(@package, params[:checksum])
+      JoinPartsToFileJob.perform_later(@package, package_params[:checksum])
       head :no_content
-    elsif params[:part].present?
-      @package.parts.attach(params[:part])
+    elsif package_params[:part].present?
+      @package.parts.attach(package_params[:part])
       head :no_content
     else
       respond_to do |format|
@@ -86,7 +86,7 @@ class PackagesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_package
-      @package = Package.find_by(id: params[:id]) || Package.find_by!(alias: params[:id])
+      @package = Package.find_by(id: package_params[:id]) || Package.find_by!(alias: package_params[:id])
     end
 
     def limit_edit
@@ -94,7 +94,9 @@ class PackagesController < ApplicationController
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
+    # TODO: require(:package)
+    # <input type="text" name="client[name]" value="Acme" />
     def package_params
-      params.permit(:name, :text, :version)
+      params.permit(:id, :name, :text, :version, :attachment, :part, :checksum)
     end
 end
