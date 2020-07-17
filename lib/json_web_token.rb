@@ -13,6 +13,7 @@ class JsonWebToken
       token: resource.authentication_token,
       exp: exp
     }
+    # TODO: Generate key in order to send it after login
     JWT.encode(payload.to_a.shuffle.to_h, Rails.application.credentials.secret_key_base, 'HS256') if payload
   end
 

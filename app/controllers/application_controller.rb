@@ -8,7 +8,6 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  # TODO: I18n
   def api_check_headers
     unless (request.headers['X-API-Fingerprint'] == Rails.application.config.api_fingerprint) &&
            service_keys.include?(request.headers['X-API-Service'])
@@ -17,12 +16,11 @@ class ApplicationController < ActionController::Base
   end
 
   def api_check_token
-    return nil unless payload = JsonWebToken.decode(request.headers['X-API-Token'])
+    # TODO: Move uuid to query from token?
+    return false unless payload = JsonWebToken.decode(request.headers['X-API-Token'])
     if endpoint = Endpoint.kept.find_by(id: payload[:uuid], authentication_token: payload[:token])
-      if endpoint&.user&.kept?
-        bypass_sign_in(endpoint.user) unless user_signed_in?
-        current_user.endpoint = endpoint
-      end
+      bypass_sign_in(endpoint.user) unless user_signed_in?
+      current_user.endpoint = endpoint
     elsif user = User.kept.find_by(id: payload[:uuid], authentication_token: payload[:token])
       bypass_sign_in(user) unless user_signed_in?
     else
