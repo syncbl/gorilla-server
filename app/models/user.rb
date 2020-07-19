@@ -19,10 +19,9 @@ class User < ApplicationRecord
     packages.discard_all
   end
 
-  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, length: { maximum: 105 },
             uniqueness: { case_sensitive: false },
-            format: { with: VALID_EMAIL_REGEX }
+            format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }
 
   attr_accessor :endpoint
   attr_accessor :endpoint_new_token

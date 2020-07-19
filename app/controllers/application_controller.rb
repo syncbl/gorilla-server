@@ -18,14 +18,20 @@ class ApplicationController < ActionController::Base
   def api_check_token
     # TODO: Move uuid to query from token?
     return false unless payload = JsonWebToken.decode(request.headers['X-API-Token'])
-    if endpoint = Endpoint.kept.find_by(id: payload[:uuid], authentication_token: payload[:token])
-      bypass_sign_in(endpoint.user) unless user_signed_in?
-      current_user.endpoint = endpoint
-    elsif user = User.kept.find_by(id: payload[:uuid], authentication_token: payload[:token])
-      bypass_sign_in(user) unless user_signed_in?
-    else
-      Endpoint.find_by(id: payload[:uuid])&.block! ' stolen token '
-      User.find_by(id: payload[:uuid])&.block! ' stolen token '
+    case payload[:scope]
+    when 'endpoint'
+      if endpoint = Endpoint.kept.find_by(id: payload[:uuid], authentication_token: payload[:token])
+        bypass_sign_in(endpoint.user) unless user_signed_in?
+        current_user.endpoint = endpoint
+      else
+        Endpoint.find_by(id: payload[:uuid])&.block! ' stolen token '
+      end
+    when 'user'
+      if user = User.kept.find_by(id: payload[:uuid], authentication_token: payload[:token])
+        bypass_sign_in(user) unless user_signed_in?
+      else
+        User.find_by(id: payload[:uuid])&.block! ' stolen token '
+      end
     end
   end
 

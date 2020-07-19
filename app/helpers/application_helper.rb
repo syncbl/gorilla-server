@@ -15,18 +15,14 @@ module ApplicationHelper
     if params.present?
       endpoint = current_user.endpoints.find_by(id: params[:uuid]) ||
                  current_user.endpoints.create(name: params[:name])
-    end
-    if endpoint
       render json: {
         session: {
-          scope: 'endpoint',
           token: JsonWebToken.encode(endpoint)
         }
       }
     else
       render json: {
         session: {
-          scope: 'user',
           token: JsonWebToken.encode(current_user)
         }
       }

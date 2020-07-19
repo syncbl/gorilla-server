@@ -60,16 +60,6 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.index ["user_id"], name: "index_endpoints_on_user_id"
   end
 
-  create_table "groups", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "name"
-    t.string "discard_reason"
-    t.datetime "discarded_at"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["discarded_at"], name: "index_groups_on_discarded_at"
-    t.index ["name"], name: "index_groups_on_name", unique: true
-  end
-
   create_table "packages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.string "alias"
@@ -112,7 +102,6 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.boolean "admin", default: false
     t.boolean "developer", default: false
     t.string "authentication_token", limit: 24
-    t.uuid "group_id"
     t.string "discard_reason"
     t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -128,7 +117,6 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.index ["created_at"], name: "index_users_on_created_at"
     t.index ["discarded_at"], name: "index_users_on_discarded_at"
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["group_id"], name: "index_users_on_group_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["updated_at"], name: "index_users_on_updated_at"
   end
@@ -140,5 +128,4 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
   add_foreign_key "packages", "users"
   add_foreign_key "settings", "endpoints"
   add_foreign_key "settings", "packages"
-  add_foreign_key "users", "groups"
 end
