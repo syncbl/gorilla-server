@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
       else
         Endpoint.find_by(id: payload[:uuid])&.block! ' stolen token '
       end
-    when 'user'
+    when User.class.name
       if user = User.kept.find_by(id: payload[:uuid], authentication_token: payload[:token])
         bypass_sign_in(user) unless user_signed_in?
       end
