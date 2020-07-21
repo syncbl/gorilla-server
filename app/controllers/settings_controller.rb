@@ -1,6 +1,6 @@
 class SettingsController < ApplicationController
   before_action :authenticate_user!
-  before_action :authenticate_endpoint!
+  before_action :require_endpoint!
   before_action :set_setting, only: [:show, :edit, :update, :destroy]
 
   # GET /settings
@@ -49,14 +49,16 @@ class SettingsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    # ActiveRecord::RecordNotFound only with find_by
-    def set_setting
-      @setting = current_user.endpoint.settings.find_by!(package: Package.find_by!(id: params[:id]))
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def setting_params
-      params.fetch(:setting, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  # ActiveRecord::RecordNotFound only with find_by
+  def set_setting
+    @setting = current_user.endpoint.settings.find_by!(package: Package.find_by!(id: params[:id]))
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def setting_params
+    params.fetch(:setting, {})
+  end
+
 end

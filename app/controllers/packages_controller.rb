@@ -84,20 +84,22 @@ class PackagesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_package
-      @package = Package.allowed_for(current_user).find_by(id: package_params[:id]) ||
-        Package.allowed_for(current_user).find_by!(alias: package_params[:id])
-    end
 
-    def limit_edit
-      head :forbidden if (current_user.endpoint.present? || (@package.user != current_user))
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_package
+    @package = Package.allowed_for(current_user).find_by(id: package_params[:id]) ||
+      Package.allowed_for(current_user).find_by!(alias: package_params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    # TODO: require(:package)
-    # <input type="text" name="client[name]" value="Acme" />
-    def package_params
-      params.permit(:id, :name, :text, :version, :attachment, :part, :checksum)
-    end
+  def limit_edit
+    head :forbidden if (current_user.endpoint.present? || (@package.user != current_user))
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  # TODO: require(:package)
+  # <input type="text" name="client[name]" value="Acme" />
+  def package_params
+    params.permit(:id, :name, :text, :version, :attachment, :part, :checksum)
+  end
+
 end

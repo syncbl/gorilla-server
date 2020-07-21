@@ -1,18 +1,25 @@
 module ApplicationHelper
 
-  def service_key(path)
+  def app_key(path)
     "#{File.basename(path)}:#{Digest::MD5.file(path).base64digest}"
   end
 
   def service_keys
     # TODO: Add dictionary of available services
     [
-      service_key(Rails.application.config.service_path)
+      app_key(Rails.application.config.service_path)
+    ]
+  end
+
+  def anonymous_keys
+    # TODO: Add dictionary of available services
+    [
+      app_key(Rails.application.config.service_path)
     ]
   end
 
   def register_endpoint(params)
-    if params.present?
+    if params
       endpoint = current_user.endpoints.find_by(id: params[:uuid]) ||
                  current_user.endpoints.create(name: params[:name])
       render json: {
@@ -38,9 +45,15 @@ module ApplicationHelper
     }[flash_type.to_sym] || flash_type.to_s
   end
 
-  def authenticate_endpoint!
-    if current_user.endpoint.nil?
-      head :unauthorized 
+  def require_endpoint!
+    unless current_user.endpoint
+      head :unauthorized
+    end
+  end
+
+  def deny_endpoint!
+    if current_user.endpoint
+      head :forbidden
     end
   end
 end

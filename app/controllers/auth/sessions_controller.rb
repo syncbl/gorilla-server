@@ -14,13 +14,4 @@ class Auth::SessionsController < Devise::SessionsController
     end
   end
 
-  # TODO: Do we ever need that?
-  #def destroy
-  #  respond_to do |format|
-  #    format.any(*navigational_formats) { super }
-  #    format.json do
-  #      current_user&.endpoint&.regenerate_authentication_token
-  #    end
-  #  end
-  #end
 end

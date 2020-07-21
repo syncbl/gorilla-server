@@ -1,6 +1,7 @@
 class EndpointsController < ApplicationController
   before_action :authenticate_user!
-  before_action :authenticate_endpoint!, except: [:index, :destroy]
+  before_action :require_endpoint!, only: [:edit]
+  before_action :deny_endpoint!, except: [:show, :edit]
   before_action :set_endpoint, except: [:index]
 
   # GET /endpoints
@@ -72,23 +73,25 @@ class EndpointsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    # TODO: Differ access from API and access from web.
-    # ActiveRecord::RecordNotFound only with find_by
-    def set_endpoint
-      if current_user.endpoint
-        @endpoint = current_user.endpoint
-        if rand(Rails.application.config.endpoint_token_regen_random) == 0
-          @endpoint.regenerate_authentication_token
-          current_user.endpoint_new_token = JsonWebToken.encode(@endpoint)
-        end
-      else
-        @endpoint = current_user.endpoints.find(id: params[:id])
-      end
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def endpoint_params
-      params.fetch(:endpoint, {})
+  # Use callbacks to share common setup or constraints between actions.
+  # TODO: Differ access from API and access from web.
+  # ActiveRecord::RecordNotFound only with find_by
+  def set_endpoint
+    if current_user.endpoint
+      @endpoint = current_user.endpoint
+      if rand(Rails.application.config.endpoint_token_regen_random) == 0
+        @endpoint.regenerate_authentication_token
+        current_user.endpoint_new_token = JsonWebToken.encode(@endpoint)
+      end
+    else
+      @endpoint = current_user.endpoints.find(id: params[:id])
     end
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def endpoint_params
+    params.fetch(:endpoint, {})
+  end
+
 end

@@ -18,8 +18,7 @@ class Auth::RegistrationsController < Devise::RegistrationsController
   protected
 
   def registration_params
-    # TODO: Sanitize endpoint
     params.require(:user).permit(:email, :password, :password_confirmation, :name, :locale, :endpoint)
-    #params.permit(:endpoint).permit(:uuid, :name)
   end
+
 end
