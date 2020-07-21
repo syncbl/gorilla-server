@@ -8,7 +8,7 @@ class PackagesController < ApplicationController
   def index
     #if current_user.group
     #  @packages = Package.where(user: current_user.group.users)
-    @packages = user_signed_in? ? Package.allowed_for(current_user) : Package.allowed_for_all
+    @packages = Package.allowed_for(current_user)
   end
 
   # GET /packages/1
@@ -86,7 +86,8 @@ class PackagesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_package
-      @package = Package.find_by(id: package_params[:id]) || Package.find_by!(alias: package_params[:id])
+      @package = Package.allowed_for(current_user).find_by(id: package_params[:id]) ||
+        Package.allowed_for(current_user).find_by!(alias: package_params[:id])
     end
 
     def limit_edit

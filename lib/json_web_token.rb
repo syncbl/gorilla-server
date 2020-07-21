@@ -8,7 +8,7 @@ class JsonWebToken
       exp = Time.current.to_i + Rails.application.config.user_token_expiration_time.to_i
     end
     payload = {
-      scope: resource.class.name.downcase,
+      scope: resource.class.name,
       uuid: resource.id,
       token: resource.authentication_token,
       exp: exp

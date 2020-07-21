@@ -35,5 +35,7 @@ yarn-debug.log*
 .yarn-integrity
 coverage
 .ruby-version
+
+/config/credentials/development.key
 .solargraph.yml
-config/credentials.yml.enc
+/config/credentials.yml.enc

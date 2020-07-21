@@ -30,7 +30,6 @@ module GpServer
     config.active_storage.routes_prefix = '/'
 
     # Custom application parameters
-    config.api_fingerprint = '864456aa'
     config.service_path = 'storage/README.md'
     config.user_token_expiration_time = 1.minute # TODO: 1.day
     config.endpoint_token_expiration_time = 1.month

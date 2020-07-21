@@ -9,17 +9,16 @@ class ApplicationController < ActionController::Base
   protected
 
   def api_check_headers
-    unless (request.headers['X-API-Fingerprint'] == Rails.application.config.api_fingerprint) &&
-           service_keys.include?(request.headers['X-API-Service'])
+    unless service_keys.include?(request.headers['X-API-Service'])
       head :upgrade_required
     end
   end
 
   def api_check_token
-    # TODO: Move uuid to query from token?
+    # TODO: Add anonymous login i.e. for public installations?
     return false unless payload = JsonWebToken.decode(request.headers['X-API-Token'])
     case payload[:scope]
-    when 'endpoint'
+    when Endpoint.class.name
       if endpoint = Endpoint.kept.find_by(id: payload[:uuid], authentication_token: payload[:token])
         bypass_sign_in(endpoint.user) unless user_signed_in?
         current_user.endpoint = endpoint
@@ -29,8 +28,6 @@ class ApplicationController < ActionController::Base
     when 'user'
       if user = User.kept.find_by(id: payload[:uuid], authentication_token: payload[:token])
         bypass_sign_in(user) unless user_signed_in?
-      else
-        User.find_by(id: payload[:uuid])&.block! ' stolen token '
       end
     end
   end

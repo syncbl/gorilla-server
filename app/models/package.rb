@@ -25,12 +25,12 @@ class Package < ApplicationRecord
   validates :alias, format: { with: /\A[A-Za-z\d\-\_]*\z/ },
     uniqueness: { case_sensitive: false }, allow_blank: true
 
-  scope :allowed_for_all, -> {
-    kept.where(trusted: true)
-  }
-
   scope :allowed_for, -> (user) {
-    kept.where(user: user, trusted: false).or(Package.allowed_for_all)
+    if user
+      kept.where(user: user, trusted: false).or(where(trusted: true))
+    else
+      kept.where(trusted: true)
+    end
   }
 
   def self.all_dependencies(current, packages = [])

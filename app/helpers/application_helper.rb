@@ -5,7 +5,7 @@ module ApplicationHelper
   end
 
   def service_keys
-    # TODO: Change detect method!
+    # TODO: Add dictionary of available services
     [
       service_key(Rails.application.config.service_path)
     ]
