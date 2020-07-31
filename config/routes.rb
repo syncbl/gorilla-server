@@ -17,7 +17,7 @@ Rails.application.routes.draw do
       #get 'settings', to: 'packages#settings'
     end
   end
-  resource :endpoint, only: [:show, :update] do
+  resource :endpoint, only: [:show, :update, :destroy] do
     put 'install', to: 'endpoints#install'
     put 'uninstall', to: 'endpoints#uninstall'
   end

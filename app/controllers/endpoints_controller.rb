@@ -1,7 +1,7 @@
 class EndpointsController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_endpoint!, only: [:edit]
-  before_action :deny_endpoint!, except: [:show, :edit]
+  before_action :require_endpoint!, except: [:index]
+  before_action :deny_endpoint!, except: [:show, :edit, :destroy]
   before_action :set_endpoint, except: [:index]
 
   # GET /endpoints
@@ -37,7 +37,11 @@ class EndpointsController < ApplicationController
   # DELETE /endpoints/1
   # DELETE /endpoints/1.json
   def destroy
-    @endpoint.destroy
+    @endpoint.update_attribute(:authentication_token, '')
+    # TODO: Do we need to keep this PC or delete it? May be it can be good to keep
+    # in order to show list after login with available endpoints
+    #@endpoint.discard
+    sign_out current_user
     respond_to do |format|
       format.html { redirect_to endpoints_url, notice: 'Endpoint was successfully destroyed.' }
       format.json { head :no_content }
@@ -81,7 +85,7 @@ class EndpointsController < ApplicationController
     if current_user.endpoint
       @endpoint = current_user.endpoint
       if rand(Rails.application.config.endpoint_token_regen_random) == 0
-        @endpoint.regenerate_authentication_token
+        @endpoint.update_attribute(:authentication_token, nil)
         current_user.endpoint_new_token = JsonWebToken.encode(@endpoint)
       end
     else
