@@ -1,5 +1,4 @@
 class Auth::SessionsController < Devise::SessionsController
-  skip_before_action :verify_signed_out_user, only: :destroy
 
   def create
     old_session = session.to_hash
@@ -10,14 +9,9 @@ class Auth::SessionsController < Devise::SessionsController
       format.json do
         self.resource = warden.authenticate!(auth_options)
         sign_in(resource_name, resource)
-        register_endpoint(params[:user][:endpoint])
+        generate_token
       end
     end
-  end
-
-  def destroy
-    current_user.endpoint.update_attribute(:authentication_token, '')
-    super
   end
 
 end

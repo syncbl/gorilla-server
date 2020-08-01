@@ -10,20 +10,18 @@ class ApplicationController < ActionController::Base
   def api_check_headers
     if service_keys.include?(request.headers['X-API-Service']) || Rails.env.development?
       if request.headers['X-API-Token']
-        payload = JsonWebToken.decode(request.headers['X-API-Token'])
+        return true unless payload = JsonWebToken.decode(request.headers['X-API-Token'])
         case payload[:scope]
         when 'Endpoint'
-          puts 'Endpoint'
           if endpoint = Endpoint.kept.find_by(id: payload[:uuid], authentication_token: payload[:token])
-            bypass_sign_in(endpoint.user) unless user_signed_in?
+            bypass_sign_in(endpoint.user)
             current_user.endpoint = endpoint
           else
             Endpoint.find_by(id: payload[:uuid])&.block! reason: "#{payload[:uuid]}|#{payload[:token]}"
           end
         when 'User'
-          puts 'User'
           if user = User.kept.find_by(id: payload[:uuid], authentication_token: payload[:token])
-            bypass_sign_in(user) unless user_signed_in?
+            bypass_sign_in(user)
           end
         end
       end

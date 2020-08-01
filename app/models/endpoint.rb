@@ -5,8 +5,10 @@ class Endpoint < ApplicationRecord
 
   has_secure_token :authentication_token
   belongs_to :user
-  has_many :settings, dependent: :destroy
   has_many :packages, through: :settings
+  has_and_belongs_to_many :packages,
+   join_table: :settings,
+   dependent: :destroy
 
   scope :actual, -> {
     where(Endpoint.arel_table[:updated_at].gt(Time.current - Rails.application.config.endpoint_token_expiration_time))
@@ -37,11 +39,12 @@ class Endpoint < ApplicationRecord
   # TODO: Check save! for correct error
   # TODO: Move settings to other type of db!
   def install(package)
-    setting = settings.discarded.find_by(package: package) || settings.new(package: package)
-    setting.undiscard
+    packages << package
+  rescue
+    false
   end
 
   def uninstall(package)
-    settings.kept.find_by(package: package)&.discard!
+    packages.kept.find_by(package: package)&.discard!
   end
 end

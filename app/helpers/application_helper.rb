@@ -18,9 +18,9 @@ module ApplicationHelper
     ]
   end
 
-  def register_endpoint(params)
+  def generate_token(params = nil)
     if params
-      endpoint = current_user.endpoints.find_by(id: params[:uuid]) ||
+      endpoint = current_user.endpoints.find_by(id: params[:id]) ||
                  current_user.endpoints.create(name: params[:name])
       render json: {
         session: {

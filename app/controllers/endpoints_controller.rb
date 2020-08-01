@@ -1,19 +1,20 @@
 class EndpointsController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_endpoint!, except: [:index]
-  before_action :deny_endpoint!, except: [:show, :edit, :destroy]
-  before_action :set_endpoint, except: [:index]
+  before_action :require_endpoint!, except: [:index, :use]
+  before_action :deny_endpoint!, only: [:index, :use]
+  before_action :set_endpoint, except: [:index, :use]
 
   # GET /endpoints
   # GET /endpoints.json
   def index
     # TODO: Add group
-    @endpoints = current_user.endpoints.actual
+    #@endpoints = current_user.endpoints.actual
   end
 
   # GET /endpoints/1
   # GET /endpoints/1.json
   def show
+    @endpoint.actualize!
   end
 
   # GET /endpoints/1/edit
@@ -52,7 +53,7 @@ class EndpointsController < ApplicationController
   # PUT /endpoints/1/install.json
   def install
     respond_to do |format|
-      if @endpoint.install(Package.allowed_for(current_user).find(params[:package]))
+      if @endpoint.install(Package.allowed_for(current_user).find(params[:id]))
         format.html { redirect_to endpoints_url, notice: 'Package soon will be installed.' }
         format.json { render :show, status: :created, location: @endpoint }
       else
@@ -66,13 +67,19 @@ class EndpointsController < ApplicationController
   # PUT /endpoints/1/uninstall.json
   def uninstall
     respond_to do |format|
-      if @endpoint.uninstall(Package.allowed_for(current_user).find(params[:package]))
+      if @endpoint.uninstall(Package.allowed_for(current_user).find(params[:id]))
         format.html { redirect_to endpoints_url, notice: 'Package was successfully uninstalled.' }
         format.json { render :show, status: :created, location: @endpoint }
       else
         format.html { render :show }
         format.json { render json: @endpoint.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def use
+    if request.format.json?
+      generate_token(params)
     end
   end
 
@@ -89,13 +96,13 @@ class EndpointsController < ApplicationController
         current_user.endpoint_new_token = JsonWebToken.encode(@endpoint)
       end
     else
-      @endpoint = current_user.endpoints.find(id: params[:id])
+      @endpoint = current_user.endpoints.find(params[:id])
     end
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def endpoint_params
-    params.fetch(:endpoint, {})
+    params.permit(:id, :name)
   end
 
 end
