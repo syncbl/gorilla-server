@@ -24,11 +24,15 @@ class SettingsController < ApplicationController
 
   # POST /settings
   def create
-    @setting = Setting.new(setting_params)
-    if @setting.save
-      redirect_to @setting, notice: 'Setting was successfully created.'
-    else
-      render :new
+    @setting = current_user.endpoint.install(Package.allowed_for(current_user).find(setting_params[:package]))
+    respond_to do |format|
+      if @setting
+        format.html { redirect_to settings_url, notice: 'Package soon will be installed.' }
+        format.json { render :show, status: :created, location: @setting }
+      else
+        format.html { render :show }
+        format.json { head :unprocessable_entity }
+      end
     end
   end
 
@@ -44,8 +48,16 @@ class SettingsController < ApplicationController
 
   # DELETE /settings/1
   def destroy
-    @setting.destroy
-    redirect_to settings_url, notice: 'Setting was successfully destroyed.'
+    @setting = current_user.endpoint.uninstall(Package.allowed_for(current_user).find(setting_params[:id]))
+    respond_to do |format|
+      if @setting
+        format.html { redirect_to endpoints_url, notice: 'Package was successfully uninstalled.' }
+        format.json { render :show, status: :created, location: @setting }
+      else
+        format.html { render :show }
+        format.json { head :unprocessable_entity }
+      end
+    end
   end
 
   private
@@ -53,12 +65,12 @@ class SettingsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   # ActiveRecord::RecordNotFound only with find_by
   def set_setting
-    @setting = current_user.endpoint.settings.find_by!(package: Package.find_by!(id: params[:id]))
+    @setting = current_user.endpoint.settings.find_by!(package: Package.find_by!(id: setting_params[:id]))
   end
 
   # Only allow a trusted parameter "white list" through.
   def setting_params
-    params.fetch(:setting, {})
+    params.permit(:id, :package)
   end
 
 end

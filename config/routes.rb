@@ -19,7 +19,7 @@ Rails.application.routes.draw do
     put 'remove', to: 'endpoints#remove'
   end
   resources :endpoints, only: [:index, :create, :update]
-  resources :settings, only: [:index]
+  resources :settings, only: [:index, :create, :destroy]
   resource :user, only: [:show]
 
   # TODO: Dashboard, endpoints and user settings only

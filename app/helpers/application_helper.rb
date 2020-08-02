@@ -21,9 +21,15 @@ module ApplicationHelper
   def generate_token(params = nil)
     if params
       endpoint = current_user.endpoints.find_by(id: params[:id]) ||
-                 current_user.endpoints.new(name: params[:name])
-      status = endpoint.new_record? ? :created : :accepted
-      endpoint.save!
+                 current_user.endpoints.new
+      if endpoint.new_record?
+        status = :created
+        puts "!!! #{params.to_s}"
+        endpoint.name = params[:name]
+        endpoint.save!
+      else
+        status = :accepted
+      end
       render json: {
         session: {
           token: JsonWebToken.encode(endpoint)
@@ -34,7 +40,7 @@ module ApplicationHelper
         session: {
           token: JsonWebToken.encode(current_user)
         }
-      }, status: :accepted
+      }, status: :ok
     end
   end
 

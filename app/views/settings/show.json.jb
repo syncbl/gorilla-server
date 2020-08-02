@@ -1,0 +1,5 @@
+json = render 'layouts/header'
+
+json[:endpoint] = render 'settings/show', setting: @setting
+
+json

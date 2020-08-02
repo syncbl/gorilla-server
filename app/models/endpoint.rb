@@ -38,16 +38,20 @@ class Endpoint < ApplicationRecord
   end
 
   def install(package)
-    settings.kept.find_by(package: package)&.undiscard || packages << package
+    setting = settings.find_by(package: package)
+    setting&.undiscard! || packages << package
+    return setting.reload
   rescue
-    false
+    nil
   end
 
   # NOTE: This method is not supposed to be runned from site OR must be changed
   def uninstall(package)
-    settings.kept.find_by(package: package).discard!
+    setting = settings.find_by(package: package)
+    setting.discard!
+    return setting.reload
   rescue
-    false
+    nil
   end
 
   def remove(package)

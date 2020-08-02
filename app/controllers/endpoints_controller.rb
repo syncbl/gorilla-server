@@ -17,15 +17,18 @@ class EndpointsController < ApplicationController
 
   # POST /endpoints.json
   def create
-    if request.format.json?
-      generate_token({})
+    respond_to do |format|
+      format.html { redirect_to endpoints_url }
+      format.json { generate_token(endpoint_params.to_hash.with_indifferent_access.except!(:id)) }
     end
   end
 
   # PATCH/PUT /endpoints/1.json
   def update
-    if request.format.json?
-      generate_token(endpoint_params)
+    # TODO: Update 
+    respond_to do |format|
+      format.html { redirect_to endpoints_url }
+      format.json { generate_token(endpoint_params.to_hash.with_indifferent_access) }
     end
   end
 
@@ -40,34 +43,6 @@ class EndpointsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to endpoints_url, notice: 'Endpoint was successfully destroyed.' }
       format.json { head :no_content }
-    end
-  end
-
-  # PUT /endpoint/install.json
-  # PUT /endpoints/1/install.json
-  def install
-    respond_to do |format|
-      if @endpoint.install(Package.allowed_for(current_user).find(params[:id]))
-        format.html { redirect_to endpoints_url, notice: 'Package soon will be installed.' }
-        format.json { render :show, status: :created, location: @endpoint }
-      else
-        format.html { render :show }
-        format.json { render json: @endpoint.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PUT /endpoint/uninstall.json
-  # PUT /endpoints/1/uninstall.json
-  def uninstall
-    respond_to do |format|
-      if @endpoint.uninstall(Package.allowed_for(current_user).find(params[:id]))
-        format.html { redirect_to endpoints_url, notice: 'Package was successfully uninstalled.' }
-        format.json { render :show, status: :created, location: @endpoint }
-      else
-        format.html { render :show }
-        format.json { render json: @endpoint.errors, status: :unprocessable_entity }
-      end
     end
   end
 
@@ -90,7 +65,7 @@ class EndpointsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def endpoint_params
-    params.permit(:id, :name)
+    params.require(:endpoint).permit(:id, :name)
   end
 
 end
