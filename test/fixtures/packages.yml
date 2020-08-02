@@ -5,10 +5,12 @@
 # below each fixture, per the syntax in the comments below
 #
 one:
- name: 'openssl-1.0.3'
- alias: 'openssl'
- trusted: true
+  name: 'openssl-1.0.3'
+  alias: 'openssl'
+  trusted: true
+  user: one
 
 two:
   name: 'openssl-dev'
   trusted: true
+  user: one
