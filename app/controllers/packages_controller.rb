@@ -86,8 +86,7 @@ class PackagesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_package
-    @package = Package.allowed_for(current_user).find_by(id: package_params[:id]) ||
-      Package.allowed_for(current_user).find_by!(alias: package_params[:id])
+    @package = Package.find_by_alias(current_user, package_params[:id])
   end
 
   def limit_edit

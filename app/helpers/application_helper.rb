@@ -24,7 +24,6 @@ module ApplicationHelper
                  current_user.endpoints.new
       if endpoint.new_record?
         status = :created
-        puts "!!! #{params.to_s}"
         endpoint.name = params[:name]
         endpoint.save!
       else

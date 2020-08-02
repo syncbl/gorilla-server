@@ -19,15 +19,6 @@ class EndpointsController < ApplicationController
   def create
     respond_to do |format|
       format.html { redirect_to endpoints_url }
-      format.json { generate_token(endpoint_params.to_hash.with_indifferent_access.except!(:id)) }
-    end
-  end
-
-  # PATCH/PUT /endpoints/1.json
-  def update
-    # TODO: Update 
-    respond_to do |format|
-      format.html { redirect_to endpoints_url }
       format.json { generate_token(endpoint_params.to_hash.with_indifferent_access) }
     end
   end
@@ -49,8 +40,6 @@ class EndpointsController < ApplicationController
   private
 
   # Use callbacks to share common setup or constraints between actions.
-  # TODO: Differ access from API and access from web.
-  # ActiveRecord::RecordNotFound only with find_by
   def set_endpoint
     if current_user.endpoint
       @endpoint = current_user.endpoint

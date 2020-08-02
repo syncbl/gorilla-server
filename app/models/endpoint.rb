@@ -38,9 +38,10 @@ class Endpoint < ApplicationRecord
   end
 
   def install(package)
-    setting = settings.find_by(package: package)
-    setting&.undiscard! || packages << package
-    return setting.reload
+    unless settings.find_by(package: package)&.undiscard
+      packages << package
+    end
+    return settings.kept.find_by(package: package)
   rescue
     nil
   end
@@ -55,7 +56,7 @@ class Endpoint < ApplicationRecord
   end
 
   def remove(package)
-    packages.discarded.delete(package)
+    settings.discarded.find_by(package: package).destroy
   rescue
     false
   end

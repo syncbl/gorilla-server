@@ -24,11 +24,15 @@ class SettingsController < ApplicationController
 
   # POST /settings
   def create
-    @setting = current_user.endpoint.install(Package.allowed_for(current_user).find(setting_params[:package]))
     respond_to do |format|
-      if @setting
+      if setting_params[:install] &&
+          @setting = current_user.endpoint.install(Package.find_by_alias(current_user, setting_params[:install]))
         format.html { redirect_to settings_url, notice: 'Package soon will be installed.' }
         format.json { render :show, status: :created, location: @setting }
+      elsif setting_params[:uninstall] &&
+          @setting = current_user.endpoint.uninstall(Package.find_by_alias(current_user, setting_params[:uninstall]))
+        format.html { redirect_to settings_url, notice: 'Package soon will be uninstalled.' }
+        format.json { render :show, status: :accepted, location: @setting }
       else
         format.html { render :show }
         format.json { head :unprocessable_entity }
@@ -48,11 +52,11 @@ class SettingsController < ApplicationController
 
   # DELETE /settings/1
   def destroy
-    @setting = current_user.endpoint.uninstall(Package.allowed_for(current_user).find(setting_params[:id]))
+    @setting = current_user.endpoint.remove(Package.find_by_alias(current_user, setting_params[:id]))
     respond_to do |format|
       if @setting
-        format.html { redirect_to endpoints_url, notice: 'Package was successfully uninstalled.' }
-        format.json { render :show, status: :created, location: @setting }
+        format.html { redirect_to settings_url, notice: 'Package was successfully removed.' }
+        format.json { head :no_content }
       else
         format.html { render :show }
         format.json { head :unprocessable_entity }
@@ -70,7 +74,7 @@ class SettingsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def setting_params
-    params.permit(:id, :package)
+    params.permit(:id, :install, :uninstall)
   end
 
 end

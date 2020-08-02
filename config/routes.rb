@@ -13,12 +13,8 @@ Rails.application.routes.draw do
   # and disallow direct access to endpoints and settings
 
   resources :packages
-  resource :endpoint, only: [:show, :destroy] do
-    put 'install', to: 'endpoints#install'
-    put 'uninstall', to: 'endpoints#uninstall'
-    put 'remove', to: 'endpoints#remove'
-  end
-  resources :endpoints, only: [:index, :create, :update]
+  resource :endpoint, only: [:show, :destroy]
+  resources :endpoints, only: [:index, :create]
   resources :settings, only: [:index, :create, :destroy]
   resource :user, only: [:show]
 

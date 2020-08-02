@@ -47,4 +47,10 @@ class Package < ApplicationRecord
     return packages
   end
 
+  def self.find_by_alias(user, id_or_alias)
+    # TODO: Change to one query
+    Package.allowed_for(user).find_by(id: id_or_alias) ||
+      Package.allowed_for(user).find_by!(alias: id_or_alias)
+  end
+
 end
