@@ -31,7 +31,7 @@ module GpServer
 
     # Custom application parameters
     config.service_path = 'storage/README.md'
-    config.user_token_expiration_time = 1.minute # TODO: 1.day
+    config.user_token_expiration_time = 1.day
     config.endpoint_token_expiration_time = 1.month
     config.endpoint_token_regen_random = 5
   end

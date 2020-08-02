@@ -12,13 +12,14 @@ Rails.application.routes.draw do
   # TODO: Render commands like INSTALL, UNINSTALL, UPDATE etc. on packages
   # and disallow direct access to endpoints and settings
 
-  resource :endpoint, only: [:show, :update, :destroy] do
-    put 'use/:id', to: 'endpoints#use'
+  resources :packages
+  resource :endpoint, only: [:show, :destroy] do
     put 'install', to: 'endpoints#install'
     put 'uninstall', to: 'endpoints#uninstall'
-    get 'installed', to: 'settings#index'
+    put 'remove', to: 'endpoints#remove'
   end
-  resources :endpoints, only: [:index]
+  resources :endpoints, only: [:index, :create, :update]
+  resources :settings, only: [:index]
   resource :user, only: [:show]
 
   # TODO: Dashboard, endpoints and user settings only

@@ -5,6 +5,7 @@ class Endpoint < ApplicationRecord
 
   has_secure_token :authentication_token
   belongs_to :user
+  has_many :settings
   has_many :packages, through: :settings
   has_and_belongs_to_many :packages,
    join_table: :settings,
@@ -36,15 +37,23 @@ class Endpoint < ApplicationRecord
     settings.kept.find_by(package: package).present?
   end
 
-  # TODO: Check save! for correct error
-  # TODO: Move settings to other type of db!
   def install(package)
-    packages << package
+    settings.kept.find_by(package: package)&.undiscard || packages << package
   rescue
     false
   end
 
+  # NOTE: This method is not supposed to be runned from site OR must be changed
   def uninstall(package)
-    packages.kept.find_by(package: package)&.discard!
+    settings.kept.find_by(package: package).discard!
+  rescue
+    false
   end
+
+  def remove(package)
+    packages.discarded.delete(package)
+  rescue
+    false
+  end
+
 end

@@ -1,37 +1,31 @@
 class EndpointsController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_endpoint!, except: [:index, :use]
-  before_action :deny_endpoint!, only: [:index, :use]
-  before_action :set_endpoint, except: [:index, :use]
+  before_action :deny_endpoint!, only: [:index, :create, :update]
+  before_action :set_endpoint, except: [:index, :create, :update]
 
   # GET /endpoints
   # GET /endpoints.json
   def index
     # TODO: Add group
-    #@endpoints = current_user.endpoints.actual
+    @endpoints = current_user.endpoints.actual
   end
 
   # GET /endpoints/1
   # GET /endpoints/1.json
   def show
-    @endpoint.actualize!
   end
 
-  # GET /endpoints/1/edit
-  def edit
+  # POST /endpoints.json
+  def create
+    if request.format.json?
+      generate_token({})
+    end
   end
 
-  # PATCH/PUT /endpoints/1
   # PATCH/PUT /endpoints/1.json
   def update
-    respond_to do |format|
-      if @endpoint.update(endpoint_params)
-        format.html { redirect_to @endpoint, notice: 'Endpoint was successfully updated.' }
-        format.json { render :show, status: :ok, location: @endpoint }
-      else
-        format.html { render :edit }
-        format.json { render json: @endpoint.errors, status: :unprocessable_entity }
-      end
+    if request.format.json?
+      generate_token(endpoint_params)
     end
   end
 
@@ -77,12 +71,6 @@ class EndpointsController < ApplicationController
     end
   end
 
-  def use
-    if request.format.json?
-      generate_token(params)
-    end
-  end
-
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -96,7 +84,7 @@ class EndpointsController < ApplicationController
         current_user.endpoint_new_token = JsonWebToken.encode(@endpoint)
       end
     else
-      @endpoint = current_user.endpoints.find(params[:id])
+      head :unauthorized
     end
   end
 

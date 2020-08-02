@@ -17,7 +17,8 @@ class ApplicationController < ActionController::Base
             bypass_sign_in(endpoint.user)
             current_user.endpoint = endpoint
           else
-            Endpoint.find_by(id: payload[:uuid])&.block! reason: "#{payload[:uuid]}|#{payload[:token]}"
+            puts "!!!!! BLOCK !!!!! #{payload[:uuid]}|#{payload[:token]}"
+            #Endpoint.find_by(id: payload[:uuid])&.block! reason: "#{payload[:uuid]}|#{payload[:token]}"
           end
         when 'User'
           if user = User.kept.find_by(id: payload[:uuid], authentication_token: payload[:token])

@@ -3,6 +3,7 @@ class Package < ApplicationRecord
 
   self.implicit_order_column = :created_at
 
+  has_many :settings
   has_many :endpoints, through: :settings
   has_and_belongs_to_many :dependencies,
     class_name: "Package",

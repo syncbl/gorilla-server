@@ -65,7 +65,9 @@ class InitBaseTables < ActiveRecord::Migration[6.0]
       t.index [:package_id, :dependent_package_id], unique: true
     end
     # ----------
-    create_table :settings, id: false do |t|
+    # TODO: id?
+    # ----------
+    create_table :settings do |t|
       # TODO: Logs, other data, variables and settings
       t.boolean :dependent, null: false, default: false
 

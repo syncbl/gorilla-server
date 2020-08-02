@@ -80,7 +80,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.index ["user_id"], name: "index_packages_on_user_id"
   end
 
-  create_table "settings", id: false, force: :cascade do |t|
+  create_table "settings", force: :cascade do |t|
     t.boolean "dependent", default: false, null: false
     t.uuid "endpoint_id", null: false
     t.uuid "package_id", null: false
