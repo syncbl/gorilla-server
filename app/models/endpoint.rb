@@ -46,7 +46,6 @@ class Endpoint < ApplicationRecord
     nil
   end
 
-  # NOTE: This method is not supposed to be runned from site OR must be changed
   def uninstall(package)
     setting = settings.find_by(package: package)
     setting.discard!
