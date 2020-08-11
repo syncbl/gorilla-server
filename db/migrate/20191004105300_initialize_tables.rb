@@ -1,4 +1,4 @@
-class InitBaseTables < ActiveRecord::Migration[6.0]
+class InitializeTables < ActiveRecord::Migration[6.0]
   def change
     enable_extension 'pgcrypto'
     # ----------
