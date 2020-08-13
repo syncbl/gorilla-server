@@ -15,9 +15,10 @@ Rails.application.routes.draw do
   resources :packages
   resource :endpoint, only: [:show, :update, :destroy] do
     member do
-      put :install
-      put :uninstall
-      put :remove
+      post :install
+      post :uninstall
+      post :clean
+      get :settings
     end
   end
   resources :endpoints, only: [:index, :create]

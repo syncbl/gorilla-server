@@ -54,7 +54,7 @@ class Endpoint < ApplicationRecord
     nil
   end
 
-  def remove(package)
+  def clean(package)
     settings.discarded.find_by(package: package).destroy
   rescue
     false

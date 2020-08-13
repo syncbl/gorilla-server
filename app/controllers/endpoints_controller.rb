@@ -78,10 +78,10 @@ class EndpointsController < ApplicationController
     end
   end
 
-  def remove
+  def clean
     respond_to do |format|
-      if @endpoint.remove(Package.find_by_alias(current_user, params[:package]))
-        format.html { redirect_to endpoint_url, notice: 'Package soon will be removed.' }
+      if @endpoint.clean(Package.find_by_alias(current_user, params[:package]))
+        format.html { redirect_to endpoint_url, notice: 'Package soon will be cleaned.' }
         format.json { render :show, status: :accepted, location: @endpoint }
       else
         format.html { render :edit }

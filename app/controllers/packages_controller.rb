@@ -44,17 +44,17 @@ class PackagesController < ApplicationController
   # PATCH/PUT /packages/1
   # PATCH/PUT /packages/1.json
   def update
-    if package_params[:attachment] == 'purge'
+    if package_params[:attachment] == 'clean'
       # We can't purge files, just because some of the customers can be in a middle of update
       @package.parts.purge_later
-      head :no_content
+      head :accepted
     elsif package_params[:attachment] == 'store'
       # TODO: Move to files to keep all versions for this package
       JoinPartsToFileJob.perform_later(@package, package_params[:checksum])
-      head :no_content
+      head :accepted
     elsif package_params[:part].present?
       @package.parts.attach(package_params[:part])
-      head :no_content
+      head :accepted
     else
       respond_to do |format|
         if @package.update(package_params)
