@@ -24,20 +24,6 @@ class SettingsController < ApplicationController
 
   # POST /settings
   def create
-    respond_to do |format|
-      if setting_params[:install] &&
-          @setting = current_user.endpoint.install(Package.find_by_alias(current_user, setting_params[:install]))
-        format.html { redirect_to settings_url, notice: 'Package soon will be installed.' }
-        format.json { render :show, status: :created, location: @setting }
-      elsif setting_params[:uninstall] &&
-          @setting = current_user.endpoint.uninstall(Package.find_by_alias(current_user, setting_params[:uninstall]))
-        format.html { redirect_to settings_url, notice: 'Package soon will be uninstalled.' }
-        format.json { render :show, status: :accepted, location: @setting }
-      else
-        format.html { render :show }
-        format.json { head :unprocessable_entity }
-      end
-    end
   end
 
   # PATCH/PUT /settings/1
@@ -74,7 +60,7 @@ class SettingsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def setting_params
-    params.permit(:id, :install, :uninstall)
+    params.permit(:id)
   end
 
 end

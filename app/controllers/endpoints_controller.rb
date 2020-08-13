@@ -1,7 +1,7 @@
 class EndpointsController < ApplicationController
   before_action :authenticate_user!
-  before_action :deny_endpoint!, only: [:index, :create, :update]
-  before_action :set_endpoint, except: [:index, :create, :update]
+  before_action :deny_endpoint!, only: [:index, :create]
+  before_action :set_endpoint, except: [:index, :create]
 
   # GET /endpoints
   # GET /endpoints.json
@@ -23,6 +23,20 @@ class EndpointsController < ApplicationController
     end
   end
 
+  # PATCH/PUT /endpoint
+  # PATCH/PUT /endpoint.json
+  def update
+    respond_to do |format|
+      if @package.update(package_params)
+        format.html { redirect_to @package, notice: 'Endpoint was successfully updated.' }
+        format.json { render :show, status: :ok, location: @package }
+      else
+        format.html { render :edit }
+        format.json { render json: @package.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # DELETE /endpoints/1
   # DELETE /endpoints/1.json
   def destroy
@@ -34,6 +48,45 @@ class EndpointsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to endpoints_url, notice: 'Endpoint was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  # API METHODS
+
+  # TODO: Sync render with client API
+  def install
+    respond_to do |format|
+      if @endpoint.install(Package.find_by_alias(current_user, params[:package]))
+        format.html { redirect_to endpoint_url, notice: 'Package soon will be installed.' }
+        format.json { render :show, status: :accepted, location: @endpoint }
+      else
+        format.html { render :edit }
+        format.json { render json: @endpoint.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def uninstall
+    respond_to do |format|
+      if @endpoint.uninstall(Package.find_by_alias(current_user, params[:package]))
+        format.html { redirect_to endpoint_url, notice: 'Package soon will be uninstalled.' }
+        format.json { render :show, status: :accepted, location: @endpoint }
+      else
+        format.html { render :edit }
+        format.json { render json: @endpoint.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def remove
+    respond_to do |format|
+      if @endpoint.remove(Package.find_by_alias(current_user, params[:package]))
+        format.html { redirect_to endpoint_url, notice: 'Package soon will be removed.' }
+        format.json { render :show, status: :accepted, location: @endpoint }
+      else
+        format.html { render :edit }
+        format.json { render json: @endpoint.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -54,7 +107,7 @@ class EndpointsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def endpoint_params
-    params.require(:endpoint).permit(:id, :name)
+    params.require(:endpoint).permit(:id, :name, :package)
   end
 
 end
