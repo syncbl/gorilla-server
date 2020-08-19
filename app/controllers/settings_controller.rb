@@ -6,7 +6,7 @@ class SettingsController < ApplicationController
   # GET /settings
   def index
     current_user.endpoint.actualize!
-    @settings = current_user.endpoint.settings.all
+    @settings = current_user.endpoint.settings.includes(:package).all
   end
 
   # GET /settings/1
@@ -55,7 +55,8 @@ class SettingsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   # ActiveRecord::RecordNotFound only with find_by
   def set_setting
-    @setting = current_user.endpoint.settings.find_by!(package: Package.find_by!(id: setting_params[:id]))
+    @setting = current_user.endpoint.settings.includes(:package)
+      .find_by!(package: Package.find_by!(id: setting_params[:id]))
   end
 
   # Only allow a trusted parameter "white list" through.

@@ -1,11 +1,13 @@
+count = package.endpoints.size
+
 json = {
-  name: (package.alias || package.name),
+  name: package.name,
   id: package.id,
   version: package.version,
   discarded: package.discarded?,
   trusted: package.trusted,
-  count: package.endpoints.size,
-  h_count: number_to_human(package.endpoints.size),
+  count: count,
+  h_count: number_to_human(count),
   created_at: package.created_at.to_i,
   updated_at: package.updated_at.to_i
 

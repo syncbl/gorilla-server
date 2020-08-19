@@ -20,7 +20,7 @@ class Package < ApplicationRecord
     settings.discard_all
   end
 
-  validates :name, presence: true, format: { with: /\A[A-Za-z\d\-\_ ]*\z/ }, length: { maximum: 100 },
+  validates :name, presence: true, length: { maximum: 100 },
     uniqueness: { scope: :user_id, case_sensitive: false }
   validates :alias, format: { with: /\A[A-Za-z\d\-\_]*\z/ },
     uniqueness: { case_sensitive: false }, allow_blank: true
@@ -32,6 +32,10 @@ class Package < ApplicationRecord
       kept.where(trusted: true)
     end
   }
+
+  def all_dependencies(packages = [])
+    Package.all_dependencies(self, packages)
+  end
 
   def self.all_dependencies(current, packages = [])
     current.dependencies.kept.map do |p|

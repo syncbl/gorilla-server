@@ -3,7 +3,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     enable_extension 'pgcrypto'
     # ----------
     create_table :users, id: :uuid, default: 'gen_random_uuid()' do |t|
-      t.string :name
+      t.string :name, limit: 100
       t.string :locale, limit: 10
       t.boolean :trusted, default: false
       t.boolean :admin, default: false
@@ -19,7 +19,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     end
     # ----------
     create_table :endpoints, id: :uuid, default: 'gen_random_uuid()' do |t|
-      t.string :name
+      t.string :name, limit: 100
       # TODO: Store PC parameters here
 
       t.string :authentication_token, limit: 24
@@ -33,13 +33,13 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     end
     # ----------
     create_table :packages, id: :uuid, default: 'gen_random_uuid()' do |t|
-      t.string :name, null: false
-      t.string :alias, index: { unique: true }
-      t.string :version
+      t.string :name, limit: 100, null: false
+      t.string :alias, limit: 100
+      t.string :version, limit: 100
 
       t.boolean :trusted, null: false, default: false
 
-      t.jsonb :manifest
+      t.jsonb :data
 
       t.belongs_to :user, type: :uuid, foreign_key: true, index: true, null: false
       # You can link packages one to another to chain updates
@@ -50,10 +50,9 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.datetime :updated_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       # Packages will be unique for everyone or for selected user
 
+      t.index [:alias], unique: true
       t.index [:user_id, :name], unique: true
     end
-    # ----------
-    # TODO: Add foreign key manually!
     # ----------
     create_table :dependencies, id: false do |t|
       t.belongs_to :package, type: :uuid, foreign_key: true, index: true, null: false
