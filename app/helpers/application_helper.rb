@@ -1,5 +1,6 @@
 module ApplicationHelper
 
+  # TODO: Rebuild this part
   def app_key(path)
     "#{File.basename(path)}:#{Digest::MD5.file(path).base64digest}"
   end
@@ -21,10 +22,10 @@ module ApplicationHelper
   def generate_token(params = nil)
     if params
       endpoint = current_user.endpoints.find_by(id: params[:id]) ||
-                 current_user.endpoints.new
+                 current_user.endpoints.new(name: params[:name])
       if endpoint.new_record?
         status = :created
-        endpoint.name = params[:name]
+        # TODO: Touch
         endpoint.save!
       else
         status = :accepted

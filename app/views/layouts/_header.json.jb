@@ -1,8 +1,9 @@
-json = {}
-
-json_session = {}
-json_session[:token] = current_user.endpoint_new_token if current_user&.endpoint_new_token.present?
-
-json[:session] = json_session if json_session.any?
-
-json
+if current_user&.endpoint_new_token.present?
+  json = {
+    session: {
+      token: current_user.endpoint_new_token
+    }
+  }
+else
+  json = {}
+end
