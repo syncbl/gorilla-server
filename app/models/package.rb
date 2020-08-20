@@ -48,7 +48,7 @@ class Package < ApplicationRecord
         Package.all_dependencies(p, packages)
       end
     end
-    return packages
+    packages
   end
 
   def self.find_by_alias(user, id_or_alias)
