@@ -13,7 +13,8 @@ class Endpoint < ApplicationRecord
    dependent: :destroy
 
   scope :actual, -> {
-    where(Endpoint.arel_table[:updated_at].gt(Time.current - Rails.application.config.endpoint_token_expiration_time))
+    where(Endpoint.arel_table[:updated_at]
+      .gt(Time.current - Rails.application.config.endpoint_token_expiration_time))
   }
 
   # TODO: Redo, it doesn't working as supposed
