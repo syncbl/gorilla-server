@@ -53,36 +53,12 @@ class EndpointsController < ApplicationController
 
   # API METHODS
 
-  # TODO: Sync render with client API
+  # TODO: Change render to package ???
   def install
     respond_to do |format|
       if @endpoint.install(Package.find_by_alias(current_user, params[:package]))
         format.html { redirect_to endpoint_url, notice: 'Package soon will be installed.' }
-        format.json { render :show, status: :accepted, location: @endpoint }
-      else
-        format.html { render :edit }
-        format.json { render json: @endpoint.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def uninstall
-    respond_to do |format|
-      if @endpoint.uninstall(Package.find_by_alias(current_user, params[:package]))
-        format.html { redirect_to endpoint_url, notice: 'Package soon will be uninstalled.' }
-        format.json { render :show, status: :accepted, location: @endpoint }
-      else
-        format.html { render :edit }
-        format.json { render json: @endpoint.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def clean
-    respond_to do |format|
-      if @endpoint.clean(Package.find_by_alias(current_user, params[:package]))
-        format.html { redirect_to endpoint_url, notice: 'Package soon will be cleaned.' }
-        format.json { render :show, status: :accepted, location: @endpoint }
+        format.json { head :accepted }
       else
         format.html { render :edit }
         format.json { render json: @endpoint.errors, status: :unprocessable_entity }
@@ -94,12 +70,14 @@ class EndpointsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_endpoint
-    if current_user.endpoint
+    if user_is_endpoint?
       @endpoint = current_user.endpoint
       if rand(Rails.application.config.endpoint_token_regen_random) == 0
         @endpoint.update_attribute(:authentication_token, nil)
         current_user.endpoint_new_token = JsonWebToken.encode(@endpoint)
       end
+    elsif
+      @endpoint = current_user.endpoints.find(endpoint_params[:id])
     else
       head :unauthorized
     end

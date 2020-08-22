@@ -47,30 +47,11 @@ class Endpoint < ApplicationRecord
   end
 
   def installed?(package)
-    settings.kept.find_by(package: package).present?
+    settings.exists?(package: package)
   end
 
   def install(package)
-    unless settings.find_by(package: package)&.undiscard
-      packages << package
-    end
-    return settings.kept.find_by(package: package)
-  rescue
-    nil
-  end
-
-  def uninstall(package)
-    setting = settings.find_by(package: package)
-    setting.discard!
-    return setting.reload
-  rescue
-    nil
-  end
-
-  def clean(package)
-    settings.discarded.find_by(package: package).destroy
-  rescue
-    false
+    settings.find_by(package: package)&.touch || packages << package
   end
 
 end

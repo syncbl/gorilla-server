@@ -90,7 +90,7 @@ class PackagesController < ApplicationController
   end
 
   def limit_edit
-    head :forbidden if (current_user.endpoint.present? || (@package.user != current_user))
+    head :forbidden if (user_is_endpoint? || (@package.user != current_user))
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

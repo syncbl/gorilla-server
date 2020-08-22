@@ -53,15 +53,20 @@ module ApplicationHelper
     }[flash_type.to_sym] || flash_type.to_s
   end
 
+  def user_is_endpoint?
+    current_user.endpoint.present?
+  end
+
   def require_endpoint!
-    unless current_user.endpoint
+    unless user_is_endpoint?
       head :unauthorized
     end
   end
 
   def deny_endpoint!
-    if current_user.endpoint
+    if user_is_endpoint?
       head :forbidden
     end
   end
+
 end

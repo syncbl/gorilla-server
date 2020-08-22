@@ -9,19 +9,21 @@ Rails.application.routes.draw do
 
   # TODO: Remove html declaration for api-only controllers
 
-  # TODO: Render commands like INSTALL, UNINSTALL, UPDATE etc. on packages
+  # TODO: Render commands like INSTALL, UPDATE etc. on packages
   # and disallow direct access to endpoints and settings
 
   resources :packages
   resource :endpoint, only: [:show, :update, :destroy] do
     collection do
       post :install
-      post :uninstall
-      post :clean
       get :settings
     end
   end
-  resources :endpoints, only: [:index, :create]
+  resources :endpoints, only: [:index, :create] do
+    member do
+      post :install
+    end
+  end
   resources :settings, only: [:index]
   resource :user, only: [:show]
 
