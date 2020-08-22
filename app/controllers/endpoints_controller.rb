@@ -53,12 +53,12 @@ class EndpointsController < ApplicationController
 
   # API METHODS
 
-  # TODO: Change render to package ???
+  # TODO: Change render to package or settings or even outside ???
   def install
     respond_to do |format|
       if @endpoint.install(Package.find_by_alias(current_user, params[:package]))
         format.html { redirect_to endpoint_url, notice: 'Package soon will be installed.' }
-        format.json { head :accepted }
+        format.json { render :show, status: :accepted, location: @endpoint }
       else
         format.html { render :edit }
         format.json { render json: @endpoint.errors, status: :unprocessable_entity }
