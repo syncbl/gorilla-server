@@ -1,11 +1,11 @@
-class JoinPartsToFileJob < ApplicationJob
+class ProccessPartsJob < ApplicationJob
   # TODO: ???
   queue_as :default
 
   # TODO: We are sending :checksum, need to include it in perform to check is checksum = real checksum
   def perform(package, checksum)
     return false if package.parts.empty?
-  
+
     tmpfilename = Dir::Tmpname.create(['sncbl-', '.tmp']) {}
     File.open(tmpfilename, 'wb') do |tmpfile|
       package.parts.each do |file|
@@ -16,12 +16,13 @@ class JoinPartsToFileJob < ApplicationJob
     end
     # TODO: Make sure zip is OK
     #Zip::File.open(tmpfilename) do |z|
-
+    #  zip.each do |z|
+    #    puts "+++ #{z.name}"
+    #  end
     #end
     package.parts.purge
     package.files.attach(io: File.open(tmpfilename), filename: Time.now.strftime('%Y%m%d%H%M%S') + '.zip')
     File.delete(tmpfilename)
-    
     if package.files.last.checksum == checksum
     # TODO: Update manifest
       package.manifest = 'test'

@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
   end
 
   create_table "endpoints", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "name"
+    t.string "name", limit: 100
     t.string "authentication_token", limit: 24
     t.uuid "user_id", null: false
     t.string "discard_reason"
@@ -61,11 +61,11 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
   end
 
   create_table "packages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "name", null: false
-    t.string "alias"
-    t.string "version"
+    t.string "name", limit: 100, null: false
+    t.string "alias", limit: 100
+    t.string "version", limit: 100
     t.boolean "trusted", default: false, null: false
-    t.jsonb "manifest"
+    t.jsonb "data"
     t.uuid "user_id", null: false
     t.uuid "package_id"
     t.datetime "discarded_at"
@@ -96,7 +96,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "name"
+    t.string "name", limit: 100
     t.string "locale", limit: 10
     t.boolean "trusted", default: false
     t.boolean "admin", default: false

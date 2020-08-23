@@ -15,6 +15,7 @@ class Package < ApplicationRecord
   # For really big archive we need to split it to chunks. I think 50mb will be enough.
   has_many_attached :files
   has_many_attached :parts
+  has_one_attached :icon
 
   after_discard do
     settings.discard_all

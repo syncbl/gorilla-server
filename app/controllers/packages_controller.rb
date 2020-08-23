@@ -50,7 +50,7 @@ class PackagesController < ApplicationController
       head :accepted
     elsif package_params[:method] == 'store'
       # TODO: Move to files to keep all versions for this package
-      JoinPartsToFileJob.perform_later(@package, package_params[:checksum])
+      ProccessPartsJob.perform_later(@package, package_params[:checksum])
       head :accepted
     elsif package_params[:part].present?
       @package.parts.attach(package_params[:part])

@@ -12,12 +12,16 @@ when "development"
   User.create name: 'Eldar', email: 'eldar.avatov@gmail.com', password: '111111'
   User.create name: 'Test', email: 'test@example.com', password: '123456'
   Package.create([{name: 'openssl-1_0', alias: 'openssl', trusted: true, user: User.first},
-  {name: 'openssl-1_1', user: User.first}, {name: 'openssl-1_2', user: User.first}, {name: 'openssl-1_3', user: User.first},
-  {name: 'openssl-1_4', user: User.first}, {name: 'openssl-1_5', user: User.first}, {name: 'openssl-1_6', user: User.first},
-  {name: 'openssl-1_7', user: User.first}, {name: 'openssl-dev', user: User.first, trusted: true}])
+    {name: 'openssl-1_1', user: User.first},
+    {name: 'openssl-1_2', user: User.first},
+    {name: 'openssl-1_3', user: User.first},
+    {name: 'openssl-1_4', user: User.first},
+    {name: 'openssl-1_5', user: User.first},
+    {name: 'openssl-dev', user: User.first, trusted: true}])
   Package.first.dependencies << Package.last
   Package.last.dependencies << Package.find_by(name: 'openssl-1_5')
-  #Package.first.files.attach(io: File.open('storage/README.md'), filename: 'README.md')
+  Package.first.files.attach(io: File.open('public/404.html'), filename: '404.html')
+  Package.first.icon.attach(io: File.open('public/apple-touch-icon.png'), filename: 'apple-touch-icon.png')
   Endpoint.create name: 'Test', user: User.last
   Endpoint.create name: 'Test2', user: User.first, id: '253307f5-0e4f-4a76-9b04-da35ba6345d5'
 end
