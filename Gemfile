@@ -67,7 +67,7 @@ group :development do
   gem 'memory_profiler'
   gem 'derailed_benchmarks'
   gem 'i18n-tasks', '~> 0.9.30'
-  gem "bullet"
+  #gem "bullet"
 end
 
 group :production do

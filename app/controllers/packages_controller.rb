@@ -50,7 +50,7 @@ class PackagesController < ApplicationController
       head :accepted
     elsif package_params[:method] == 'store'
       # TODO: Move to files to keep all versions for this package
-      ProccessPartsJob.perform_later(@package, package_params[:checksum])
+      ProcessPartsJob.perform_later(@package, package_params[:checksum])
       head :accepted
     elsif package_params[:part].present?
       @package.parts.attach(package_params[:part])
@@ -85,8 +85,9 @@ class PackagesController < ApplicationController
   private
 
   # Use callbacks to share common setup or constraints between actions.
+  # TODO: Remove includes from most of queries. Reuse bullet.
   def set_package
-    @package = Package.includes([:icon_attachment]).find_by_alias(current_user, package_params[:id])
+    @package = Package.find_by_alias(current_user, package_params[:id])
   end
 
   def limit_edit
@@ -97,7 +98,7 @@ class PackagesController < ApplicationController
   # TODO: require(:package)
   # <input type="text" name="client[name]" value="Acme" />
   def package_params
-    params.permit(:id, :name, :text, :attachment, :part, :checksum)
+    params.permit(:id, :name, :text, :attachment, :part, :checksum, :method)
   end
 
 end

@@ -1,4 +1,4 @@
-class ProccessPartsJob < ApplicationJob
+class ProcessPartsJob < ApplicationJob
   # TODO: ???
   queue_as :default
 
@@ -25,7 +25,7 @@ class ProccessPartsJob < ApplicationJob
     File.delete(tmpfilename)
     if package.files.last.checksum == checksum
     # TODO: Update manifest
-      package.manifest = 'test'
+      #package.manifest = 'test'
       package.save
     else
       # TODO: Block package/user, inform admin

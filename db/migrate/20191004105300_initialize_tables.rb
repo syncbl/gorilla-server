@@ -2,7 +2,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
   def change
     enable_extension 'pgcrypto'
     # ----------
-    create_table :users, id: :uuid, default: 'gen_random_uuid()' do |t|
+    create_table :users, id: :uuid do |t|
       t.string :name, limit: 100
       t.string :locale, limit: 10
       t.boolean :trusted, default: false
@@ -18,7 +18,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.datetime :updated_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
     end
     # ----------
-    create_table :endpoints, id: :uuid, default: 'gen_random_uuid()' do |t|
+    create_table :endpoints, id: :uuid do |t|
       t.string :name, limit: 100
       # TODO: Store PC parameters here
 
@@ -32,7 +32,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.datetime :updated_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
     end
     # ----------
-    create_table :packages, id: :uuid, default: 'gen_random_uuid()' do |t|
+    create_table :packages, id: :uuid do |t|
       t.string :name, limit: 100, null: false
       t.string :alias, limit: 100
 
