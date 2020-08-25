@@ -63,7 +63,6 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
   create_table "packages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", limit: 100, null: false
     t.string "alias", limit: 100
-    t.string "version", limit: 100
     t.boolean "trusted", default: false, null: false
     t.jsonb "data"
     t.uuid "user_id", null: false

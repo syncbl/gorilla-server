@@ -1,15 +1,19 @@
 count = package.endpoints.size
 
 json = {
-  name: package.name,
   id: package.id,
-  version: package.version,
-  discarded: package.discarded?,
-  trusted: package.trusted,
-  count: count,
-  h_count: number_to_human(count),
+  name: package.name,
+  # trusted: package.trusted,
+  install_count: count,
+  h_install_count: number_to_human(count),
   created_at: package.created_at.to_i,
   updated_at: package.updated_at.to_i
 
   # TODO: Icon to Product! icon: url_for(package.icon)
 }
+
+if package.icon.present?
+  json[:icon] = render 'layouts/file', file: package.icon
+end
+
+json

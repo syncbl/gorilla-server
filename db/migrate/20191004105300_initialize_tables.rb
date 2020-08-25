@@ -35,7 +35,6 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     create_table :packages, id: :uuid, default: 'gen_random_uuid()' do |t|
       t.string :name, limit: 100, null: false
       t.string :alias, limit: 100
-      t.string :version, limit: 100
 
       t.boolean :trusted, null: false, default: false
 

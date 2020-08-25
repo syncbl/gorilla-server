@@ -97,7 +97,7 @@ class PackagesController < ApplicationController
   # TODO: require(:package)
   # <input type="text" name="client[name]" value="Acme" />
   def package_params
-    params.permit(:id, :name, :text, :version, :attachment, :part, :checksum)
+    params.permit(:id, :name, :text, :attachment, :part, :checksum)
   end
 
 end

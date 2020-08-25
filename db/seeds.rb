@@ -20,8 +20,8 @@ when "development"
     {name: 'openssl-dev', user: User.first, trusted: true}])
   Package.first.dependencies << Package.last
   Package.last.dependencies << Package.find_by(name: 'openssl-1_5')
-  Package.first.files.attach(io: File.open('public/404.html'), filename: '404.html')
-  Package.first.icon.attach(io: File.open('public/apple-touch-icon.png'), filename: 'apple-touch-icon.png')
+  Package.first.files.attach(io: File.open('files/hqdefault.jpg'), filename: 'hqdefault.jpg')
+  Package.first.icon.attach(io: File.open('files/hqdefault.jpg'), filename: 'hqdefault.jpg')
   Endpoint.create name: 'Test', user: User.last
   Endpoint.create name: 'Test2', user: User.first, id: '253307f5-0e4f-4a76-9b04-da35ba6345d5'
 end
