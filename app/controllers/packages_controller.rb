@@ -7,7 +7,7 @@ class PackagesController < ApplicationController
   # GET /packages
   # GET /packages.json
   def index
-    @packages = Package.allowed_for(current_user)
+    @packages = Package.allowed_for(current_user).includes([:icon_attachment])
   end
 
   # GET /packages/1
@@ -86,7 +86,7 @@ class PackagesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_package
-    @package = Package.find_by_alias(current_user, package_params[:id])
+    @package = Package.includes([:icon_attachment]).find_by_alias(current_user, package_params[:id])
   end
 
   def limit_edit

@@ -21,7 +21,7 @@ class Endpoint < ApplicationRecord
   def actualize!
     discarded_packages = []
     installed_packages = []
-    settings.where(dependent: false).map { |s|
+    settings.with_package.where(dependent: false).map { |s|
       if s.discarded?
         s.package.all_dependencies(discarded_packages)
       else
@@ -32,7 +32,7 @@ class Endpoint < ApplicationRecord
       installed_packages.include?(p)
     }
     settings.kept.where(package: discarded_packages, dependent: true).discard_all
-    settings.kept.map { |s|
+    settings.with_package.kept.map { |s|
       installed_packages.delete(s.package)
     }
     installed_packages.each {
