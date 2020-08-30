@@ -7,7 +7,7 @@ class PackagesController < ApplicationController
   # GET /packages
   # GET /packages.json
   def index
-    @packages = Package.allowed_for(current_user).includes([:icon_attachment])
+    @pagy, @packages = pagy(Package.allowed_for(current_user).includes([:icon_attachment]))
   end
 
   # GET /packages/1

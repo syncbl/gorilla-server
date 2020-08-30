@@ -1,4 +1,5 @@
 module ApplicationHelper
+  include Pagy::Frontend
 
   # TODO: Rebuild this part
   def app_key(path)

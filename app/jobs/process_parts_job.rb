@@ -14,14 +14,14 @@ class ProcessPartsJob < ApplicationJob
         end
       end
     end
-    # TODO: Make sure zip is OK
+    # TODO: Make sure zip is OK and build packet structure
     #Zip::File.open(tmpfilename) do |z|
     #  zip.each do |z|
     #    puts "+++ #{z.name}"
     #  end
     #end
     package.parts.purge
-    package.files.attach(io: File.open(tmpfilename), filename: Time.now.strftime('%Y%m%d%H%M%S') + '.zip')
+    package.files.attach(io: File.open(tmpfilename), filename: Time.now.strftime('%Y%m%d%H%M%S') + '.spz')
     File.delete(tmpfilename)
     if package.files.last.checksum == checksum
     # TODO: Update manifest
