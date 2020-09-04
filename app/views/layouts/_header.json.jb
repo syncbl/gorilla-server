@@ -8,11 +8,11 @@ else
   json = {}
 end
 
-if pagy.present?
-  json[:page] = pagy.page
-  json[:pages] = pagy.pages
-  json[:from] = pagy.from
-  json[:to] = pagy.to
+unless @pagy.nil?
+  json[:page] = @pagy.page
+  json[:pages] = @pagy.pages
+  json[:from] = @pagy.from
+  json[:to] = @pagy.to
 end
 
 json
