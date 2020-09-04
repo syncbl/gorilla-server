@@ -2,7 +2,8 @@ class PackagesController < ApplicationController
   # We allowing anonymous access
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_package, except: [:index, :new, :create]
-  before_action :limit_edit, only: [:edit, :update, :delete]
+  before_action :deny_endpoint!, except: [:index, :show]
+  before_action :check_permissions!, only: [:edit, :update, :delete]
 
   # GET /packages
   # GET /packages.json
@@ -89,8 +90,11 @@ class PackagesController < ApplicationController
     @package = Package.find_by_alias(current_user, package_params[:id])
   end
 
-  def limit_edit
-    head :forbidden if (user_is_endpoint? || (@package.user != current_user))
+  def check_permissions!
+    # TODO: Permissions
+    unless @package.user == current_user
+      head :forbidden
+    end
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
