@@ -6,15 +6,18 @@ json[:package][:dependencies] = @package.all_dependencies.map do |dependent|
   render 'show', package: dependent
 end
 
-# TODO: Size for real files, not for all updates
 size = 0
-json[:package][:files] = @package.files.map do |file|
-  size += file.byte_size
-  render 'layouts/file', file: file
+if @package.archive.attached?
+  size = @package.archive.byte_size
+  json[:package][:archive] = render 'layouts/file', file: @package.archive
 end
+
 json[:package][:size] = size
 json[:package][:h_size] = number_to_human_size(size)
 
+json[:package][:updates] = @package.updates.map do |update|
+  render 'layouts/file', file: update
+end
 json[:package][:parts] = @package.parts.map do |part|
   render 'layouts/file', file: part
 end

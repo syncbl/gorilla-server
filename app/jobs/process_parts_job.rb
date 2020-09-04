@@ -1,8 +1,7 @@
 class ProcessPartsJob < ApplicationJob
-  # TODO: ???
+  # TODO: Choose which queue manager to use
   queue_as :default
 
-  # TODO: We are sending :checksum, need to include it in perform to check is checksum = real checksum
   def perform(package, checksum)
     return false if package.parts.empty?
 
@@ -21,15 +20,26 @@ class ProcessPartsJob < ApplicationJob
     #  end
     #end
     package.parts.purge
-    package.files.attach(io: File.open(tmpfilename), filename: Time.now.strftime('%Y%m%d%H%M%S') + '.spz')
-    File.delete(tmpfilename)
-    if package.files.last.checksum == checksum
-    # TODO: Update manifest
-      #package.manifest = 'test'
-      package.save
+    filename = Time.now.strftime('%Y%m%d%H%M%S') + '.spz'
+    if package.archive.attached?
+      package.archive.attach(io: File.open(tmpfilename), filename: filename)
+      if package.archive.checksum == checksum
+        # TODO: Update manifest
+        #package.save
+      else
+        # TODO: Block package/user, inform admin
+        package.archive.destroy
+      end
     else
-      # TODO: Block package/user, inform admin
-      package.files.last.destroy
+      package.updates.attach(io: File.open(tmpfilename), filename: filename)
+      if package.updates.last.checksum == checksum
+        # TODO: Update manifest
+        #package.save
+      else
+        # TODO: Block package/user, inform admin
+        package.updates.last.destroy
+      end
     end
+    File.delete(tmpfilename)
   end
 end

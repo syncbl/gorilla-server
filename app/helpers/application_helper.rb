@@ -21,12 +21,11 @@ module ApplicationHelper
   end
 
   def generate_token(params = nil)
-    if params
+    unless params.nil?
       endpoint = current_user.endpoints.find_by(id: params[:id]) ||
                  current_user.endpoints.new(name: params[:name])
       if endpoint.new_record?
         status = :created
-        # TODO: Touch
         endpoint.save!
       else
         status = :accepted

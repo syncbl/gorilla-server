@@ -54,6 +54,7 @@ class EndpointsController < ApplicationController
   # API METHODS
 
   # TODO: Change render to package or settings or even outside ???
+  # TODO: install_later ?
   def install
     respond_to do |format|
       if @endpoint.install(Package.find_by_alias(current_user, params[:package]))

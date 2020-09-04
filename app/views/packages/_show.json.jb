@@ -8,8 +8,6 @@ json = {
   h_install_count: number_to_human(count),
   created_at: package.created_at.to_i,
   updated_at: package.updated_at.to_i
-
-  # TODO: Icon to Product! icon: url_for(package.icon)
 }
 
 if package.icon.present?

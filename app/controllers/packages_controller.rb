@@ -7,7 +7,8 @@ class PackagesController < ApplicationController
   # GET /packages
   # GET /packages.json
   def index
-    @pagy, @packages = pagy(Package.allowed_for(current_user).includes([:icon_attachment]))
+    @pagy, @packages = pagy(Package.allowed_for(current_user).includes([:icon_attachment]),
+      items: package_params[:items])
   end
 
   # GET /packages/1
@@ -45,11 +46,9 @@ class PackagesController < ApplicationController
   # PATCH/PUT /packages/1.json
   def update
     if package_params[:method] == 'clean'
-      # We can't purge files, just because some of the customers can be in a middle of update
       @package.parts.purge_later
       head :accepted
     elsif package_params[:method] == 'store'
-      # TODO: Move to files to keep all versions for this package
       ProcessPartsJob.perform_later(@package, package_params[:checksum])
       head :accepted
     elsif package_params[:part].present?
@@ -85,7 +84,7 @@ class PackagesController < ApplicationController
   private
 
   # Use callbacks to share common setup or constraints between actions.
-  # TODO: Remove includes from most of queries. Reuse bullet.
+
   def set_package
     @package = Package.find_by_alias(current_user, package_params[:id])
   end
@@ -98,7 +97,7 @@ class PackagesController < ApplicationController
   # TODO: require(:package)
   # <input type="text" name="client[name]" value="Acme" />
   def package_params
-    params.permit(:id, :name, :text, :attachment, :part, :checksum, :method)
+    params.permit(:id, :name, :text, :attachment, :part, :checksum, :method, :items)
   end
 
 end

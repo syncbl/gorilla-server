@@ -17,7 +17,6 @@ class Endpoint < ApplicationRecord
       .gt(Time.current - Rails.application.config.endpoint_token_expiration_time))
   }
 
-  # TODO: Redo, it doesn't working as supposed
   def actualize!
     discarded_packages = []
     installed_packages = []

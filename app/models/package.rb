@@ -13,7 +13,8 @@ class Package < ApplicationRecord
   belongs_to :user, optional: true
 
   # For really big archive we need to split it to chunks. I think 50mb will be enough.
-  has_many_attached :files
+  has_one_attached :archive
+  has_many_attached :updates
   has_many_attached :parts
   has_one_attached :icon
 
@@ -53,7 +54,6 @@ class Package < ApplicationRecord
   end
 
   def self.find_by_alias(user, id_or_alias)
-    # TODO: Change to one query
     Package.allowed_for(user).find_by(id: id_or_alias) ||
       Package.allowed_for(user).find_by!(alias: id_or_alias)
   end

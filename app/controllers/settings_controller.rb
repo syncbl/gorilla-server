@@ -3,7 +3,6 @@ class SettingsController < ApplicationController
   before_action :require_endpoint!
   before_action :set_setting, only: [:show, :edit, :update, :destroy]
 
-  # TODO: Paginate
   # GET /settings
   def index
     current_user.endpoint.actualize!
