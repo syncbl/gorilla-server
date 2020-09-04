@@ -59,10 +59,11 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  # TODO: ?
-  #config.after_initialize do
-  #  Bullet.enable = true
-  #  Bullet.bullet_logger = true
-  #  Bullet.raise = true # raise an error if an n+1 query occurs
-  #send
+  if defined?(Bullet)
+    config.after_initialize do
+      Bullet.enable = true
+      Bullet.bullet_logger = true
+      Bullet.raise = true # raise an error if an n+1 query occurs
+    end
+  end
 end
