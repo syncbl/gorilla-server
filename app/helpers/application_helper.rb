@@ -20,21 +20,14 @@ module ApplicationHelper
     ]
   end
 
-  def generate_token(params = nil)
-    unless params.nil?
-      endpoint = current_user.endpoints.find_by(id: params[:id]) ||
-                 current_user.endpoints.new(name: params[:name])
-      if endpoint.new_record?
-        status = :created
-        endpoint.save!
-      else
-        status = :accepted
-      end
+  # TODO: Authorization token for endpoint
+  def generate_token
+    unless @endpoint.nil?
       render json: {
         session: {
-          token: JsonWebToken.encode(endpoint)
+          token: JsonWebToken.encode(@endpoint)
         }
-      }, status: status
+      }, status: :accepted
     else
       render json: {
         session: {

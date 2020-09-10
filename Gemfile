@@ -30,7 +30,9 @@ gem 'pg', '~> 1'
 gem 'redis', '~> 4.0'
 gem 'hiredis'
 # S3 buckets for Active Storage
-#gem 'aws-sdk'
+gem 'aws-sdk-s3'
+# Avoid N+1
+gem 'goldiloader'
 
 # CRON scheduling
 #gem 'whenever', require: false

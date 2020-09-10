@@ -21,7 +21,7 @@ class ProcessPartsJob < ApplicationJob
     #end
     package.parts.purge
     filename = Time.now.strftime('%Y%m%d%H%M%S') + '.spz'
-    if package.archive.attached?
+    unless package.archive.attached?
       package.archive.attach(io: File.open(tmpfilename), filename: filename)
       if package.archive.checksum == checksum
         # TODO: Update manifest

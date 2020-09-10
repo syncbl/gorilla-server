@@ -17,9 +17,11 @@ class EndpointsController < ApplicationController
 
   # POST /endpoints.json
   def create
+    @endpoint = current_user.endpoints.find_by(id: endpoint_params[:id]) ||
+                current_user.endpoints.create(name: endpoint_params[:name])
     respond_to do |format|
       format.html { redirect_to endpoints_url }
-      format.json { generate_token(endpoint_params.to_hash.with_indifferent_access) }
+      format.json { generate_token }
     end
   end
 

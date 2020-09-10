@@ -46,11 +46,17 @@ class PackagesController < ApplicationController
   # PATCH/PUT /packages/1
   # PATCH/PUT /packages/1.json
   def update
-    if package_params[:method] == 'clean'
+    if package_params[:method] == 'clear_parts'
       @package.parts.purge_later
       head :accepted
-    elsif package_params[:method] == 'store'
+    elsif package_params[:method] == 'clear_all'
+      @package.parts.purge_later
+      @package.updates.purge_later
+      @package.archive.purge_later
+      head :accepted
+    elsif package_params[:method] == 'store_parts'
       ProcessPartsJob.perform_later(@package, package_params[:checksum])
+      #FlattenUpdatesJob.perform_later(@package)
       head :accepted
     elsif package_params[:part].present?
       @package.parts.attach(package_params[:part])
@@ -92,7 +98,7 @@ class PackagesController < ApplicationController
 
   def check_permissions!
     # TODO: Permissions
-    unless @package.user == current_user
+    if @package.user.id != current_user.id
       head :forbidden
     end
   end
