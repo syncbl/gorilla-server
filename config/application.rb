@@ -32,7 +32,7 @@ module GpServer
     # Custom application parameters
     config.service_path = 'files/hqdefault.jpg'
     config.user_token_expiration_time = 1.day
-    config.endpoint_token_expiration_time = 1.month
-    config.endpoint_token_regen_random = 5
+    config.endpoint_token_expiration_time = 1.week
+    config.endpoint_token_regen_random = 10
   end
 end
