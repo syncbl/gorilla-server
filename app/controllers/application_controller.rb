@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def api_check_headers
+    reset_session
     if service_keys.include?(request.headers['X-API-Service']) || Rails.env.development?
       if request.headers['X-API-Token']
         return true unless payload = JsonWebToken.decode(request.headers['X-API-Token'])
