@@ -11,6 +11,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       # TODO: Purchases table for user or company
 
       t.string :authentication_token, limit: 24
+      #t.string :secret, limit: 24, default: { 'substr(md5(random()::text), 0, 24)' }, null: false
 
       t.string :discard_reason
       t.datetime :discarded_at, index: true
