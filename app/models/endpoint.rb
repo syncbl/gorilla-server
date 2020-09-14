@@ -14,7 +14,7 @@ class Endpoint < ApplicationRecord
 
   scope :actual, -> {
     where(Endpoint.arel_table[:updated_at]
-      .gt(Time.current - Rails.application.config.endpoint_token_expiration_time))
+      .gt(Time.current - Rails.application.config.syncable.endpoint_token_expiration_time))
   }
 
   def actualize!

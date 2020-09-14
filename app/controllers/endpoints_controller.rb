@@ -75,7 +75,7 @@ class EndpointsController < ApplicationController
   def set_endpoint
     if user_is_endpoint?
       @endpoint = current_user.endpoint
-      if rand(Rails.application.config.endpoint_token_regen_random) == 0
+      if rand(Rails.application.config.syncable.endpoint_token_regen_random) == 0
         @endpoint.update_attribute(:authentication_token, nil)
         current_user.endpoint_new_token = JsonWebToken.encode(@endpoint)
       end

@@ -30,9 +30,9 @@ module GpServer
     config.active_storage.routes_prefix = '/'
 
     # Custom application parameters
-    config.service_path = 'files/hqdefault.jpg'
-    config.user_token_expiration_time = 1.day
-    config.endpoint_token_expiration_time = 1.week
-    config.endpoint_token_regen_random = 10
+    config.syncable.service_path = 'files/hqdefault.jpg'
+    config.syncable.user_token_expiration_time = 1.day
+    config.syncable.endpoint_token_expiration_time = 1.week
+    config.syncable.endpoint_token_regen_random = 10
   end
 end
