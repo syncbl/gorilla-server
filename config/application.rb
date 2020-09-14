@@ -30,6 +30,7 @@ module GpServer
     config.active_storage.routes_prefix = '/'
 
     # Custom application parameters
+    config.syncable = ActiveSupport::OrderedOptions.new
     config.syncable.service_path = 'files/hqdefault.jpg'
     config.syncable.user_token_expiration_time = 1.day
     config.syncable.endpoint_token_expiration_time = 1.week
