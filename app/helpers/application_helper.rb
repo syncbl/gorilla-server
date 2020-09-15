@@ -47,7 +47,7 @@ module ApplicationHelper
   end
 
   def user_is_endpoint?
-    current_user.endpoint.present?
+    !current_user.endpoint.nil?
   end
 
   def require_endpoint!
