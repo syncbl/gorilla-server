@@ -55,6 +55,7 @@ class PackagesController < ApplicationController
       @package.archive.purge_later
       head :accepted
     elsif package_params[:method] == 'store_parts'
+      # TODO: Update marker in package to check if jobs were successful
       ProcessPartsJob.perform_later(@package, package_params[:checksum])
       #FlattenUpdatesJob.perform_later(@package)
       head :accepted

@@ -11,6 +11,7 @@ class Package < ApplicationRecord
     foreign_key: :package_id,
     association_foreign_key: :dependent_package_id
   belongs_to :user, optional: true
+  belongs_to :replacement, class_name: "Package"
 
   # For really big archive we need to split it to chunks. I think 50mb will be enough.
   has_one_attached :archive
@@ -56,6 +57,20 @@ class Package < ApplicationRecord
   def self.find_by_alias(user, id_or_alias)
     Package.allowed_for(user).find_by(id: id_or_alias) ||
       Package.allowed_for(user).find_by!(alias: id_or_alias)
+  end
+
+  def replaced_by
+    internal_replaced_by unless replacement.nil?
+  end
+
+  private
+
+  def internal_replaced_by
+    if replacement.nil?
+      self
+    else
+      replacement.replaced_by
+    end
   end
 
 end
