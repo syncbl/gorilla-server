@@ -56,7 +56,8 @@ class PackagesController < ApplicationController
       head :accepted
     elsif package_params[:method] == 'store_parts'
       # TODO: Update marker in package to check if jobs were successful
-      ProcessPartsJob.perform_later(@package, package_params[:checksum])
+      ProcessPartsJob.perform_later(package: @package, checksum: package_params[:checksum],
+        replace: package_params[:replace].present?)
       #FlattenUpdatesJob.perform_later(@package)
       head :accepted
     elsif package_params[:part].present?
@@ -108,7 +109,7 @@ class PackagesController < ApplicationController
   # TODO: require(:package)
   # <input type="text" name="client[name]" value="Acme" />
   def package_params
-    params.permit(:id, :name, :text, :attachment, :part, :checksum, :method, :items)
+    params.permit(:id, :name, :text, :attachment, :part, :checksum, :method, :items, :replace)
   end
 
 end
