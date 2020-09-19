@@ -10,8 +10,8 @@ class Package < ApplicationRecord
     join_table: :dependencies,
     foreign_key: :package_id,
     association_foreign_key: :dependent_package_id
-  belongs_to :user, optional: true
-  belongs_to :replacement, class_name: "Package"
+  belongs_to :user
+  belongs_to :replacement, class_name: "Package", optional: true
 
   # For really big archive we need to split it to chunks. I think 50mb will be enough.
   has_one_attached :archive

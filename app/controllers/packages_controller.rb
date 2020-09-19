@@ -29,7 +29,7 @@ class PackagesController < ApplicationController
   # POST /packages
   # POST /packages.json
   def create
-    @package = Package.new(package_params)
+    @package = Package.new(package_post_params)
     @package.user = current_user
     respond_to do |format|
       if @package.save
@@ -56,8 +56,7 @@ class PackagesController < ApplicationController
       head :accepted
     elsif package_params[:method] == 'store_parts'
       # TODO: Update marker in package to check if jobs were successful
-      ProcessPartsJob.perform_later(package: @package, checksum: package_params[:checksum],
-        replace: package_params[:replace].present?)
+      ProcessPartsJob.perform_later(@package, package_params[:checksum], package_params[:replace].present?)
       #FlattenUpdatesJob.perform_later(@package)
       head :accepted
     elsif package_params[:part].present?
@@ -65,7 +64,7 @@ class PackagesController < ApplicationController
       head :accepted
     else
       respond_to do |format|
-        if @package.update(package_params)
+        if @package.update(package_post_params)
           format.html { redirect_to @package, notice: 'Package was successfully updated.' }
           format.json { render :show, status: :ok, location: @package }
         else
@@ -108,8 +107,12 @@ class PackagesController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   # TODO: require(:package)
   # <input type="text" name="client[name]" value="Acme" />
+  def package_post_params
+    params.require(:package).permit(:name)
+  end
+
   def package_params
-    params.permit(:id, :name, :text, :attachment, :part, :checksum, :method, :items, :replace)
+    params.permit(:id, :text, :attachment, :part, :checksum, :method, :items, :replace)
   end
 
 end
