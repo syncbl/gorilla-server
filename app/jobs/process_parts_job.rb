@@ -21,7 +21,7 @@ class ProcessPartsJob < ApplicationJob
     #end
 
     package.parts.purge
-    filename = Time.now.strftime('%Y%m%d%H%M%S') + '.spz'
+    filename = Time.now.strftime('%Y%m%d%H%M%S') + '.sncz'
     if (replace == true) || !package.archive.attached?
       package.archive.attach(io: File.open(tmpfilename), filename: filename)
       if package.archive.checksum == checksum
