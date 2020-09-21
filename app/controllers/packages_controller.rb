@@ -108,11 +108,11 @@ class PackagesController < ApplicationController
   # TODO: require(:package)
   # <input type="text" name="client[name]" value="Acme" />
   def package_post_params
-    params.require(:package).permit(:name)
+    params.require(:package).permit(:name, :external_url, :alias)
   end
 
   def package_params
-    params.permit(:id, :text, :attachment, :part, :checksum, :method, :items, :replace)
+    params.permit(:id, :attachment, :part, :checksum, :method, :items, :replace)
   end
 
 end

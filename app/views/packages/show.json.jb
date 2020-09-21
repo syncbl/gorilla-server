@@ -2,24 +2,28 @@ json = render 'layouts/header'
 
 json[:package] = render 'packages/show', package: @package
 
-json[:package][:dependencies] = @package.all_dependencies.map do |dependent|
+json_package[:dependencies] = @package.all_dependencies.map do |dependent|
   render 'show', package: dependent
 end
 
 size = 0
 if @package.archive.attached?
   size = @package.archive.byte_size
-  json[:package][:archive] = render 'layouts/file', file: @package.archive
+  json_package[:archive] = render 'layouts/file', file: @package.archive
+else
+  json_package[:external_url] = @package.external_url
 end
 
-json[:package][:size] = size
-json[:package][:h_size] = number_to_human_size(size)
+json_package[:size] = size
+json_package[:h_size] = number_to_human_size(size)
 
-json[:package][:updates] = @package.updates.map do |update|
+json_package[:updates] = @package.updates.map do |update|
   render 'layouts/file', file: update
 end
-json[:package][:parts] = @package.parts.map do |part|
+json_package[:parts] = @package.parts.map do |part|
   render 'layouts/file', file: part
 end
+
+json[:package] = json_package
 
 json

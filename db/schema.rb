@@ -63,10 +63,11 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
   create_table "packages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", limit: 100, null: false
     t.string "alias", limit: 100
+    t.string "group_name", limit: 100
+    t.string "external_url"
     t.boolean "trusted", default: false, null: false
     t.jsonb "data"
     t.uuid "user_id", null: false
-    t.uuid "package_id"
     t.uuid "replacement_id"
     t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -74,7 +75,6 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.index ["alias"], name: "index_packages_on_alias", unique: true
     t.index ["created_at"], name: "index_packages_on_created_at"
     t.index ["discarded_at"], name: "index_packages_on_discarded_at"
-    t.index ["package_id"], name: "index_packages_on_package_id"
     t.index ["replacement_id"], name: "index_packages_on_replacement_id"
     t.index ["updated_at"], name: "index_packages_on_updated_at"
     t.index ["user_id", "name"], name: "index_packages_on_user_id_and_name", unique: true
@@ -125,7 +125,6 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "dependencies", "packages"
   add_foreign_key "endpoints", "users"
-  add_foreign_key "packages", "packages"
   add_foreign_key "packages", "packages", column: "replacement_id"
   add_foreign_key "packages", "users"
   add_foreign_key "settings", "endpoints"

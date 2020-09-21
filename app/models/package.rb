@@ -27,6 +27,8 @@ class Package < ApplicationRecord
     uniqueness: { scope: :user_id, case_sensitive: false }
   validates :alias, format: { with: /\A[A-Za-z\d\-\_]*\z/ },
     uniqueness: { case_sensitive: false }, allow_blank: true
+  validates :external_url, format: URI::regexp(%w[http https]),
+    uniqueness: { scope: :user_id }, allow_blank: true
 
   scope :allowed_for, -> (user) {
     if user

@@ -36,14 +36,14 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     create_table :packages, id: :uuid do |t|
       t.string :name, limit: 100, null: false
       t.string :alias, limit: 100
+      t.string :group_name, limit: 100
 
+      t.string :external_url
       t.boolean :trusted, null: false, default: false
 
       t.jsonb :data
 
       t.belongs_to :user, type: :uuid, foreign_key: true, index: true, null: false
-      # You can link packages one to another to chain updates
-      t.belongs_to :package, type: :uuid, foreign_key: true, index: true
       t.belongs_to :replacement, type: :uuid, foreign_key: { to_table: :packages }, index: true
 
       t.datetime :discarded_at, index: true
