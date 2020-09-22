@@ -6,16 +6,11 @@ json_package[:dependencies] = @package.all_dependencies.map do |dependent|
   render 'show', package: dependent
 end
 
-size = 0
 if @package.archive.attached?
-  size = @package.archive.byte_size
   json_package[:archive] = render 'layouts/file', file: @package.archive
-else
+elsif @package.external_url.present?
   json_package[:external_url] = @package.external_url
 end
-
-json_package[:size] = size
-json_package[:h_size] = number_to_human_size(size)
 
 json_package[:updates] = @package.updates.map do |update|
   render 'layouts/file', file: update

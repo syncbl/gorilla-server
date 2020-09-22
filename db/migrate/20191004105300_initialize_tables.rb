@@ -37,6 +37,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.string :name, limit: 100, null: false
       t.string :alias, limit: 100
       t.string :group_name, limit: 100
+      t.bigint :size, null: false, default: 0
 
       t.string :external_url
       t.boolean :trusted, null: false, default: false
@@ -52,6 +53,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       # Packages will be unique for everyone or for selected user
 
       t.index [:alias], unique: true
+      t.index [:user_id, :group_name]
       t.index [:user_id, :name], unique: true
     end
     # ----------

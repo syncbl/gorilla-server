@@ -2,9 +2,9 @@ class User < ApplicationRecord
   include Discard::Model
 
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :trackable and :omniauthable
+  # :validatable, :confirmable, :lockable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable,
-         :validatable, :timeoutable, :lockable
+         :timeoutable, :lockable
 
   has_secure_token :authentication_token
 

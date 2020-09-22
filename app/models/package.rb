@@ -13,11 +13,10 @@ class Package < ApplicationRecord
   belongs_to :user
   belongs_to :replacement, class_name: "Package", optional: true
 
-  # For really big archive we need to split it to chunks. I think 50mb will be enough.
+  has_one_attached :icon
   has_one_attached :archive
   has_many_attached :updates
   has_many_attached :parts
-  has_one_attached :icon
 
   after_discard do
     settings.discard_all

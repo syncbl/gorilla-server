@@ -12,10 +12,11 @@ when "development"
   u = User.create name: 'Eldar', email: 'eldar.avatov@gmail.com', password: '111111'
   User.create name: 'Test', email: 'test@example.com', password: '123456'
   Package.create([
-    {name: 'openssl-1_0', alias: 'openssl', trusted: true, user: u},
-    {name: 'openssl-1_1', user: u},
+    {name: 'openssl-1_0', alias: 'openssl', trusted: true, user: u, group_name: 'Test'},
+    {name: 'openssl-1_1', user: u, group_name: 'Test'},
     {name: 'openssl-1_2', user: u},
-    {name: 'openssl-dev', user: u, external_url: 'https://www.heidisql.com/installers/HeidiSQL_11.0.0.5919_Setup.exe', trusted: true}
+    {name: 'openssl-dev', user: u, group_name: 'Test',
+      external_url: 'https://www.heidisql.com/installers/HeidiSQL_11.0.0.5919_Setup.exe', trusted: true}
     ])
   Package.first.dependencies << Package.last
   Package.last.dependencies << Package.find_by(name: 'openssl-1_1')
