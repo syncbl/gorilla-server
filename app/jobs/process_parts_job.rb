@@ -21,7 +21,7 @@ class ProcessPartsJob < ApplicationJob
     #  end
     #end
 
-    filename = Time.now.strftime('%Y%m%d%H%M%S') + '.sncz'
+    filename = Time.now.strftime('%Y%m%d%H%M%S') + '.sncbl-package'
     if (replace == true) || !package.archive.attached?
       package.archive.purge
       package.archive.attach(io: File.open(tmpfilename), filename: filename)
