@@ -26,6 +26,8 @@ gem 'pagy', '~> 3.8'
 gem 'jb'
 # PostgreSQL will be used for data storage
 gem 'pg', '~> 1'
+# Materialized views
+gem 'scenic'
 # Redis for cache
 gem 'redis', '~> 4.0'
 gem 'hiredis'

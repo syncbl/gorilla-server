@@ -6,8 +6,7 @@ json = {
   group_name: package.name,
   # trusted: package.trusted,
   size: package.size,
-  h_size: number_to_human_size(package.size)
-
+  h_size: number_to_human_size(package.size),
   install_count: count,
   h_install_count: number_to_human(count),
   created_at: package.created_at.to_i,

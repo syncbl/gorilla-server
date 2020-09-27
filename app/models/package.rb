@@ -56,8 +56,8 @@ class Package < ApplicationRecord
   end
 
   def self.find_by_alias(user, id_or_alias)
-    Package.allowed_for(user).find_by(id: id_or_alias) ||
-      Package.allowed_for(user).find_by!(alias: id_or_alias)
+    packages = Package.allowed_for(user)
+    packages.find_by(id: id_or_alias) || packages.find_by!(alias: id_or_alias)
   end
 
   def replaced_by

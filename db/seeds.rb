@@ -11,7 +11,7 @@ when "development"
   #Group.create name: 'test'
   u = User.create name: 'Eldar', email: 'eldar.avatov@gmail.com', password: '111111'
   User.create name: 'Test', email: 'test@example.com', password: '123456'
-  Package.create([
+  puts Package.create([
     {name: 'openssl-1_0', alias: 'openssl', trusted: true, user: u, group_name: 'Test'},
     {name: 'openssl-1_1', user: u, group_name: 'Test'},
     {name: 'openssl-1_2', user: u},

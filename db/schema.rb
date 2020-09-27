@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.string "name", limit: 100, null: false
     t.string "alias", limit: 100
     t.string "group_name", limit: 100
+    t.bigint "size", default: 0, null: false
     t.string "external_url"
     t.boolean "trusted", default: false, null: false
     t.jsonb "data"
@@ -77,6 +78,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.index ["discarded_at"], name: "index_packages_on_discarded_at"
     t.index ["replacement_id"], name: "index_packages_on_replacement_id"
     t.index ["updated_at"], name: "index_packages_on_updated_at"
+    t.index ["user_id", "group_name"], name: "index_packages_on_user_id_and_group_name"
     t.index ["user_id", "name"], name: "index_packages_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_packages_on_user_id"
   end
