@@ -28,6 +28,8 @@ gem 'jb'
 gem 'pg', '~> 1'
 # Materialized views
 gem 'scenic'
+# Full-text search
+gem 'pg_search'
 # Redis for cache
 gem 'redis', '~> 4.0'
 gem 'hiredis'
@@ -38,16 +40,10 @@ gem 'goldiloader'
 
 # CRON scheduling
 #gem 'whenever', require: false
-# String sanitazing
-#gem 'sanitize'
-# Use ActiveStorage variant
-#gem 'mini_magick', '~> 4.8'
 # Foreman for workers
 #gem "foreman"
 # Soft delete for all records
 gem 'discard', '~> 1.0'
-# Stream zip as file container
-gem 'zip_tricks'
 # Pack parts to zip
 gem 'rubyzip', require: 'zip'
 # Translate packages
