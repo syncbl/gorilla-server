@@ -2,15 +2,7 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: {sessions: 'auth/sessions', registrations: 'auth/registrations'}
 
-  # TODO: Get only installed apps with updates
-  # !!! It's better to update like Steam - only by date, allowing to recover files manually
-  #post 'update', to: 'users#auth', constraints: lambda { |req| req.format == :json }
-  #get 'package(/:id)', to: 'packages#show'
-
   # TODO: Remove html declaration for api-only controllers
-
-  # TODO: Render commands like INSTALL, UPDATE etc. on packages
-  # and disallow direct access to endpoints and settings
 
   resources :packages
   resource :endpoint, only: [:show, :update, :destroy] do

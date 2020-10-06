@@ -17,28 +17,6 @@ class Endpoint < ApplicationRecord
       .gt(Time.current - Rails.application.config.syncable.endpoint_token_expiration_time))
   }
 
-  def actualize!
-    discarded_packages = []
-    installed_packages = []
-    settings.with_package.where(dependent: false).map { |s|
-      if s.discarded?
-        s.package.all_dependencies(discarded_packages)
-      else
-        s.package.all_dependencies(installed_packages)
-      end
-    }
-    discarded_packages.delete_if { |p|
-      installed_packages.include?(p)
-    }
-    settings.kept.where(package: discarded_packages, dependent: true).discard_all
-    settings.with_package.kept.map { |s|
-      installed_packages.delete(s.package)
-    }
-    installed_packages.each {
-      |p| settings.create(package: p, dependent: true)
-    }
-  end
-
   def block!(reason = nil)
     self.discarded_at = Time.current
     self.discard_reason = reason

@@ -60,6 +60,10 @@ class Package < ApplicationRecord
     packages.find_by(id: id_or_alias) || packages.find_by!(alias: id_or_alias)
   end
 
+  def replaced?
+    replacement.present?
+  end
+
   def replaced_by
     internal_replaced_by unless replacement.nil?
   end

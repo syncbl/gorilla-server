@@ -4,6 +4,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     # ----------
     create_table :users, id: :uuid do |t|
       t.string :name, limit: 100
+      t.string :username, limit: 100
       t.string :locale, limit: 10
       t.boolean :trusted, default: false
       t.boolean :admin, default: false
@@ -61,15 +62,12 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.belongs_to :package, type: :uuid, foreign_key: true, index: true, null: false
       t.belongs_to :dependent_package, class_name: 'Package', type: :uuid, index: true, null: false
 
-      # TODO: Some of the dependencies can be selected by user before master package installation
-      t.boolean :optional, null: false, default: false
-
       t.index [:package_id, :dependent_package_id], unique: true
     end
     # ----------
     # TODO: id?
     # ----------
-    create_table :settings do |t|
+    create_table :settings, id: :uuid do |t|
       # TODO: Logs, other data, variables and settings
       t.boolean :dependent, null: false, default: false
 
