@@ -17,4 +17,8 @@ if package.icon.present?
   json[:icon] = render 'layouts/file', file: package.icon
 end
 
+if package.replaced?
+  json[:replaced_by] = package.replacement_id
+end
+
 json

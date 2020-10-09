@@ -15,9 +15,11 @@ end
 json_package[:updates] = @package.updates.map do |update|
   render 'layouts/file', file: update
 end
-json_package[:parts] = @package.parts.map do |part|
-  render 'layouts/file', file: part
-end
+
+# TODO: Remove parts from API
+# json_package[:parts] = @package.parts.map do |part|
+#   render 'layouts/file', file: part
+# end
 
 json[:package] = json_package
 

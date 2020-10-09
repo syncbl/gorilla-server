@@ -5,8 +5,14 @@ class SettingsController < ApplicationController
 
   # GET /settings
   def index
-    current_user.endpoint.actualize!
-    @pagy, @settings = pagy(current_user.endpoint.settings.includes(:package).all)
+    settings = current_user.endpoint.settings.with_package
+    settings.actualize!
+    # TODO: Check for reload and optimize query
+    if params[:updates].nil?
+      @pagy, @settings = pagy(settings.select { |s| s.updated_at < s.package.updated_at })
+    else
+      @pagy, @settings = pagy(settings.all)
+    end
   end
 
   # GET /settings/1
@@ -60,7 +66,7 @@ class SettingsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def setting_params
-    params.permit(:id)
+    params.permit(:id, :updates)
   end
 
 end
