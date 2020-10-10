@@ -189,7 +189,7 @@ GEM
       activesupport (>= 5.2)
     popper_js (1.16.0)
     public_suffix (4.0.6)
-    puma (4.3.6)
+    puma (5.0.2)
       nio4r (~> 2.0)
     rack (2.2.3)
     rack-proxy (0.6.5)
@@ -328,7 +328,7 @@ DEPENDENCIES
   pagy (~> 3.8)
   pg (~> 1)
   pg_search
-  puma (~> 4.2)
+  puma (~> 5.0)
   rails (~> 6.0)
   rails-i18n (~> 6.0)
   redis (~> 4.0)

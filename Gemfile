@@ -5,7 +5,7 @@ ruby '2.6.6'
 
 gem 'rails', '~> 6.0'
 gem 'rails-i18n', '~> 6.0'
-gem 'puma', '~> 4.2'
+gem 'puma', '~> 5.0'
 gem 'bcrypt', '~> 3.1.7'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'sass-rails', '~> 5'
