@@ -40,7 +40,6 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
   create_table "dependencies", id: false, force: :cascade do |t|
     t.uuid "package_id", null: false
     t.uuid "dependent_package_id", null: false
-    t.boolean "optional", default: false, null: false
     t.index ["dependent_package_id"], name: "index_dependencies_on_dependent_package_id"
     t.index ["package_id", "dependent_package_id"], name: "index_dependencies_on_package_id_and_dependent_package_id", unique: true
     t.index ["package_id"], name: "index_dependencies_on_package_id"
@@ -83,7 +82,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.index ["user_id"], name: "index_packages_on_user_id"
   end
 
-  create_table "settings", force: :cascade do |t|
+  create_table "settings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.boolean "dependent", default: false, null: false
     t.uuid "endpoint_id", null: false
     t.uuid "package_id", null: false
@@ -100,6 +99,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", limit: 100
+    t.string "username", limit: 100
     t.string "locale", limit: 10
     t.boolean "trusted", default: false
     t.boolean "admin", default: false

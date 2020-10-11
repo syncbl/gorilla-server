@@ -56,7 +56,7 @@ class PackagesController < ApplicationController
       head :accepted
     elsif package_params[:method] == 'store_parts'
       # TODO: Update marker in package to check if jobs were successful
-      ProcessPartsJob.perform_later(@package, package_params[:checksum], package_params[:replace].present?)
+      ProcessPartsJob.perform_later(@package, package_params[:checksum], params[:replace].present?)
       #FlattenUpdatesJob.perform_later(@package)
       head :accepted
     elsif package_params[:part].present?
@@ -94,7 +94,8 @@ class PackagesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
 
   def set_package
-    @package = Package.find_by_alias(current_user, package_params[:id])
+    @package = Package.find_by_alias(reader: current_user, owner: params[:user_id],
+      package: package_params[:id])
   end
 
   def check_permissions!
@@ -112,7 +113,7 @@ class PackagesController < ApplicationController
   end
 
   def package_params
-    params.permit(:id, :attachment, :part, :checksum, :method, :items, :replace)
+    params.permit(:id, :attachment, :part, :checksum, :method, :items)
   end
 
 end

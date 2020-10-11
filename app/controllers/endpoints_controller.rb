@@ -59,7 +59,8 @@ class EndpointsController < ApplicationController
   # TODO: install_later ?
   def install
     respond_to do |format|
-      if @endpoint.install(Package.kept.find_by_alias(current_user, params[:package]))
+      if @endpoint.install(Package.kept.find_by_alias(reader: current_user,
+          package: params[:package]))
         format.html { redirect_to endpoint_url, notice: 'Package soon will be installed.' }
         format.json { render :show, status: :accepted, location: @endpoint }
       else

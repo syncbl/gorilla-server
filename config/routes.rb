@@ -29,4 +29,7 @@ Rails.application.routes.draw do
   #  list of resources
   #end
 
+  get ':user_id/:id', to: 'packages#show'
+  get ':id', to: 'packages#show'
+
 end

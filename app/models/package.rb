@@ -55,9 +55,14 @@ class Package < ApplicationRecord
     packages
   end
 
-  def self.find_by_alias(user, id_or_alias)
-    packages = Package.allowed_for(user)
-    packages.find_by(id: id_or_alias) || packages.find_by!(alias: id_or_alias)
+  def self.find_by_alias(reader: nil, owner: nil, package: nil)
+    # TODO: Check permissions, because allowed_for can be overrided by find_by
+    packages = Package.allowed_for(reader)
+    if owner
+      packages.find_by(user: owner, id: package) || packages.find_by!(user: owner, alias: package)
+    else
+      packages.find_by(id: package) || packages.find_by!(alias: package)
+    end
   end
 
   def replaced?

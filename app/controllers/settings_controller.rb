@@ -8,7 +8,7 @@ class SettingsController < ApplicationController
     settings = current_user.endpoint.settings.with_package
     settings.actualize!
     # TODO: Check for reload and optimize query
-    if params[:updates].nil?
+    if params[:updates] == '1'
       @pagy, @settings = pagy(settings.select { |s| s.updated_at < s.package.updated_at })
     else
       @pagy, @settings = pagy(settings.all)
@@ -44,7 +44,8 @@ class SettingsController < ApplicationController
 
   # DELETE /settings/1
   def destroy
-    @setting = current_user.endpoint.remove(Package.find_by_alias(current_user, setting_params[:id]))
+    @setting = current_user.endpoint.remove(Package.find_by_alias(reader: current_user,
+      package: setting_params[:id]))
     respond_to do |format|
       if @setting
         format.html { redirect_to settings_url, notice: 'Package was successfully removed.' }
