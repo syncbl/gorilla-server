@@ -37,6 +37,16 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "attachments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "destination"
+    t.string "description"
+    t.string "external_url"
+    t.uuid "package_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["created_at"], name: "index_attachments_on_created_at"
+    t.index ["package_id"], name: "index_attachments_on_package_id"
+  end
+
   create_table "dependencies", id: false, force: :cascade do |t|
     t.uuid "package_id", null: false
     t.uuid "dependent_package_id", null: false
@@ -64,7 +74,6 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.string "alias", limit: 100
     t.string "group_name", limit: 100
     t.bigint "size", default: 0, null: false
-    t.string "external_url"
     t.boolean "trusted", default: false, null: false
     t.jsonb "data"
     t.uuid "user_id", null: false
@@ -101,9 +110,6 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.string "name", limit: 100
     t.string "username", limit: 100
     t.string "locale", limit: 10
-    t.boolean "trusted", default: false
-    t.boolean "admin", default: false
-    t.boolean "developer", default: false
     t.string "authentication_token", limit: 24
     t.string "discard_reason"
     t.datetime "discarded_at"
@@ -125,6 +131,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "attachments", "packages"
   add_foreign_key "dependencies", "packages"
   add_foreign_key "endpoints", "users"
   add_foreign_key "packages", "packages", column: "replacement_id"

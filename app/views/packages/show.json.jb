@@ -6,14 +6,17 @@ json_package[:dependencies] = @package.all_dependencies.map do |dependent|
   render 'show', package: dependent
 end
 
-if @package.archive.attached?
-  json_package[:archive] = render 'layouts/file', file: @package.archive
-elsif @package.external_url.present?
-  json_package[:external_url] = @package.external_url
-end
-
-json_package[:updates] = @package.updates.map do |update|
-  render 'layouts/file', file: update
+json_package[:attachments] = @package.attachments.map do |attachment|
+  json_attachment = {
+    destination: attachment.destination,
+    description: attachment.description
+  }
+  if attachment.external_url.present?
+    json_attachment[:external_url] = attachment.external_url
+  else
+    json_attachment[:attachment] = render 'layouts/file', file: attachment.archive
+  end
+  json_attachment
 end
 
 # TODO: Remove parts from API

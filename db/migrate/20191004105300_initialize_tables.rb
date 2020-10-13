@@ -41,7 +41,6 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.string :group_name, limit: 100
       t.bigint :size, null: false, default: 0
 
-      t.string :external_url
       t.boolean :trusted, null: false, default: false
 
       t.jsonb :data
@@ -85,6 +84,8 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     create_table :attachments, id: :uuid do |t|
       # TODO: Enum
       t.string :destination
+      t.string :description
+      t.string :external_url
 
       t.belongs_to :package, type: :uuid, foreign_key: true, index: true, null: false
 

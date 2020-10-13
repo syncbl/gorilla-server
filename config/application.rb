@@ -35,5 +35,6 @@ module GpServer
     config.syncable.user_token_expiration_time = 1.day
     config.syncable.endpoint_token_expiration_time = 1.week
     config.syncable.endpoint_token_regen_random = 10
+    config.syncable.host = 'http://localhost:3000/'
   end
 end

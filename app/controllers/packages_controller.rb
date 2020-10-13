@@ -51,12 +51,12 @@ class PackagesController < ApplicationController
       head :accepted
     elsif package_params[:method] == 'clear_all'
       @package.parts.purge_later
-      @package.updates.purge_later
-      @package.archive.purge_later
+      #@package.updates.purge_later
+      @package.attachments.delete_all
       head :accepted
     elsif package_params[:method] == 'store_parts'
       # TODO: Update marker in package to check if jobs were successful
-      ProcessPartsJob.perform_later(@package, package_params[:checksum], params[:replace].present?)
+      ProcessPartsJob.perform_later(@package, package_params[:checksum])
       #FlattenUpdatesJob.perform_later(@package)
       head :accepted
     elsif package_params[:part].present?

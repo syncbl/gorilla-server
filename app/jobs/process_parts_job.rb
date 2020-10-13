@@ -1,7 +1,7 @@
 class ProcessPartsJob < ApplicationJob
   queue_as :default
 
-  def perform(package, checksum, replace)
+  def perform(package, checksum)
     return false if package.parts.empty?
 
     tmpfilename = Dir::Tmpname.create(['sncbl-', '.tmp']) {}
@@ -22,26 +22,15 @@ class ProcessPartsJob < ApplicationJob
     #end
 
     filename = Time.now.strftime('%Y%m%d%H%M%S') + '.sncbl-package'
-    if (replace == true) || !package.archive.attached?
-      package.archive.purge
-      package.archive.attach(io: File.open(tmpfilename), filename: filename)
-      if package.archive.checksum == checksum
-        # TODO: Update manifest
-        package.size = package.archive.byte_size
-        package.save
-      else
-        # TODO: Block package/user, inform admin
-        package.archive.destroy
-      end
+    attachment = package.attachments.create
+    attachment.archive.attach(io: File.open(tmpfilename), filename: filename)
+    if attachment.archive.checksum == checksum
+      # TODO: Update manifest
+      package.size += attachment.archive.byte_size
+      package.save
     else
-      package.updates.attach(io: File.open(tmpfilename), filename: filename)
-      if package.updates.last.checksum == checksum
-        # TODO: Update manifest
-        #package.save
-      else
-        # TODO: Block package/user, inform admin
-        package.updates.last.destroy
-      end
+      # TODO: Block package/user, inform admin
+      attachment.destroy
     end
     File.delete(tmpfilename)
   end
