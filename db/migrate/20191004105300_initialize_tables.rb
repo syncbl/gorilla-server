@@ -6,9 +6,10 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.string :name, limit: 100
       t.string :username, limit: 100
       t.string :locale, limit: 10
-      t.boolean :trusted, default: false
-      t.boolean :admin, default: false
-      t.boolean :developer, default: false
+
+      #t.boolean :trusted, default: false
+      #t.boolean :admin, default: false
+      #t.boolean :developer, default: false
       # TODO: Purchases table for user or company
 
       t.string :authentication_token, limit: 24
@@ -79,6 +80,15 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.datetime :discarded_at, index: true
 
       t.index [:endpoint_id, :package_id], unique: true
+    end
+    # ----------
+    create_table :attachments, id: :uuid do |t|
+      # TODO: Enum
+      t.string :destination
+
+      t.belongs_to :package, type: :uuid, foreign_key: true, index: true, null: false
+
+      t.datetime :created_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
     end
   end
 end

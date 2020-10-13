@@ -1,0 +1,6 @@
+@attachments.map do |attachment|
+  {
+    id: attachment.id,
+    url: attachment_url(attachment, format: :json)
+  }
+end
