@@ -5,7 +5,7 @@ class Package < ApplicationRecord
 
   has_many :settings
   has_many :endpoints, through: :settings
-  has_many :attachments
+  has_many :sources
   has_and_belongs_to_many :dependencies,
     class_name: "Package",
     join_table: :dependencies,

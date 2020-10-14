@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :sources
   devise_for :users, controllers: {sessions: 'auth/sessions', registrations: 'auth/registrations'}
 
   # TODO: Remove html declaration for api-only controllers

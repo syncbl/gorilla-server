@@ -17,7 +17,7 @@ when "development"
     {name: 'openssl-1_2', user: u},
     {name: 'openssl-dev', user: u, group_name: 'Test', trusted: true}
     ])
-  Package.first.attachments.create(external_url: 'https://www.heidisql.com/installers/HeidiSQL_11.0.0.5919_Setup.exe')
+  Package.first.sources.create(external_url: 'https://www.heidisql.com/installers/HeidiSQL_11.0.0.5919_Setup.exe')
   Package.first.dependencies << Package.last
   Package.last.dependencies << Package.find_by(name: 'openssl-1_1')
   #Package.first.files.attach(io: File.open('files/hqdefault.jpg'), filename: 'hqdefault.jpg')

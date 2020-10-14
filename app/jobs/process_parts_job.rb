@@ -21,16 +21,16 @@ class ProcessPartsJob < ApplicationJob
     #  end
     #end
 
-    filename = Time.now.strftime('%Y%m%d%H%M%S') + '.sncbl-package'
-    attachment = package.attachments.create
-    attachment.archive.attach(io: File.open(tmpfilename), filename: filename)
-    if attachment.archive.checksum == checksum
+    filename = Time.now.strftime('%Y%m%d%H%M%S') + '.zip'
+    source = package.sources.create
+    source.attachment.attach(io: File.open(tmpfilename), filename: filename)
+    if source.attachment.checksum == checksum
       # TODO: Update manifest
-      package.size += attachment.archive.byte_size
+      package.size += source.attachment.byte_size
       package.save
     else
       # TODO: Block package/user, inform admin
-      attachment.destroy
+      source.destroy
     end
     File.delete(tmpfilename)
   end

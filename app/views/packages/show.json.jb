@@ -6,17 +6,8 @@ json_package[:dependencies] = @package.all_dependencies.map do |dependent|
   render 'show', package: dependent
 end
 
-json_package[:attachments] = @package.attachments.map do |attachment|
-  json_attachment = {
-    destination: attachment.destination,
-    description: attachment.description
-  }
-  if attachment.external_url.present?
-    json_attachment[:external_url] = attachment.external_url
-  else
-    json_attachment[:attachment] = render 'layouts/file', file: attachment.archive
-  end
-  json_attachment
+json_package[:sources] = @package.sources.map do |source|
+  render 'sources/show', source: source
 end
 
 # TODO: Remove parts from API
@@ -25,5 +16,9 @@ end
 # end
 
 json[:package] = json_package
+
+if Rails.env.development?
+  ap json
+end
 
 json

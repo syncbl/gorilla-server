@@ -1,0 +1,5 @@
+{
+  id: @source.id,
+  created_at: @source.created_at,
+  updated_at: @source.updated_at
+}

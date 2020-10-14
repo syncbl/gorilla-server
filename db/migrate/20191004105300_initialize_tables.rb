@@ -81,7 +81,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.index [:endpoint_id, :package_id], unique: true
     end
     # ----------
-    create_table :attachments, id: :uuid do |t|
+    create_table :sources, id: :uuid do |t|
       # TODO: Enum
       t.string :destination
       t.string :description

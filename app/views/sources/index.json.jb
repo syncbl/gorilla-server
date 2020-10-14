@@ -1,0 +1,6 @@
+@sources.map do |source|
+  {
+    id: source.id,
+    url: source_url(source, format: :json)
+  }
+end
