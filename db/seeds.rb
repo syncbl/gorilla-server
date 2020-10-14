@@ -9,8 +9,10 @@
 case Rails.env
 when "development"
   #Group.create name: 'test'
-  u = User.create name: 'Eldar', email: 'eldar.avatov@gmail.com', password: '111111'
-  User.create name: 'Test', email: 'test@example.com', password: '123456'
+  u = User.create name: 'Eldar', username: 'deadalice',
+    email: 'eldar.avatov@gmail.com', password: '111111'
+  User.create name: 'Test', username: 'test',
+    email: 'test@example.com', password: '123456'
   puts Package.create([
     {name: 'openssl-1_0', alias: 'openssl', trusted: true, user: u, group_name: 'Test'},
     {name: 'openssl-1_1', user: u, group_name: 'Test'},

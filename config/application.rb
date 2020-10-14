@@ -30,11 +30,11 @@ module GpServer
     config.active_storage.routes_prefix = '/'
 
     # Custom Syncable parameters
-    config.syncable = ActiveSupport::OrderedOptions.new
-    config.syncable.service_path = 'files/hqdefault.jpg'
-    config.syncable.user_token_expiration_time = 1.day
-    config.syncable.endpoint_token_expiration_time = 1.week
-    config.syncable.endpoint_token_regen_random = 10
-    config.syncable.host = 'http://localhost:3000/'
+    syncable = ActiveSupport::OrderedOptions.new
+    syncable.service_path = 'files/hqdefault.jpg'
+    syncable.user_token_expiration_time = 1.day
+    syncable.endpoint_token_expiration_time = 1.week
+    syncable.endpoint_token_regen_random = 10
+    config.syncable = syncable
   end
 end

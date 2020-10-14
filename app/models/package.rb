@@ -23,8 +23,8 @@ class Package < ApplicationRecord
 
   validates :name, presence: true, length: { maximum: 100 },
     uniqueness: { scope: :user_id, case_sensitive: false }
-  validates :alias, format: { with: /\A[A-Za-z\d\-\_]*\z/ },
-    uniqueness: { case_sensitive: false }, allow_blank: true
+  validates :alias, allow_blank: true, uniqueness: { case_sensitive: false },
+    format: { with: /\A[A-Za-z\d\-\_]*\z/ }
 
   scope :allowed_for, -> (user) {
     if user
