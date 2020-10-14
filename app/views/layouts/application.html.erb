@@ -4,7 +4,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title><%= content_for?(:title) ? "GP - " + yield(:title) : "GP" %></title>
+    <title>
+      <%=
+        if content_for?(:title)
+          "#{yield(:title)} - Syncable"
+        else
+          "Syncable" # TODO: I18n + Advertisement or info
+        end
+      %>
+    </title>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
@@ -15,7 +23,7 @@
 
     <div class="container-fluid">
       <% flash.each do |name, msg| %>
-        <%= content_tag :div, '[' + name + '] ' + msg, class: [:alert, alert_for(name)] %>
+        <%= content_tag :div, msg, class: ["alert", alert_for(name)] %>
       <% end %>
       <div class="">
         <div class="container">

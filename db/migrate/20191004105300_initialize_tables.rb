@@ -4,7 +4,9 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     # ----------
     create_table :users, id: :uuid do |t|
       t.string :name, limit: 100
-      t.string :username, limit: 100
+
+      # TODO: We can allow users without username, but they cannot publish repos
+      t.string :username, limit: 39, index: true
       t.string :locale, limit: 10
 
       #t.boolean :trusted, default: false

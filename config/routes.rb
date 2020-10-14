@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   #  list of resources
   #end
 
+  # This routes is only for non-API GET requests and must be in the end of route list
   get ':user_id/:id', to: 'packages#show'
   get ':id', to: 'packages#show'
 

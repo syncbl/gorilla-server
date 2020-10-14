@@ -21,7 +21,7 @@ class Package < ApplicationRecord
     settings.discard_all
   end
 
-  validates :name, presence: true, length: { maximum: 100 },
+  validates :name, presence: true, length: { maximum: 100 }, name_restrict: true,
     uniqueness: { scope: :user_id, case_sensitive: false }
   validates :alias, allow_blank: true, uniqueness: { case_sensitive: false },
     format: { with: /\A[A-Za-z\d\-\_]*\z/ }
@@ -68,6 +68,14 @@ class Package < ApplicationRecord
 
   def replaced_by
     internal_replaced_by unless replacement.nil?
+  end
+
+  def title
+    if self.alias.present?
+      "#{self.name} [#{self.alias}]"
+    else
+      self.name
+    end
   end
 
   private

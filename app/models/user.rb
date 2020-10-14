@@ -22,8 +22,9 @@ class User < ApplicationRecord
   validates :email, presence: true, length: { maximum: 105 },
     uniqueness: { case_sensitive: false },
     format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }
-  validates :alias, uniqueness: { case_sensitive: false }, allow_blank: true,
-    format: { with: /\A[A-Za-z\d\-\_]*\z/ }
+  validates :username, length: { maximum: 39 },
+    uniqueness: { case_sensitive: false }, allow_blank: true,
+    name_restrict: true, format: { with: /\A[A-Za-z\d\-\_]*\z/ }
 
   attr_accessor :endpoint
   attr_accessor :endpoint_new_token
