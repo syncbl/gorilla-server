@@ -4,7 +4,8 @@ class Setting < ApplicationRecord
   self.implicit_order_column = :created_at
 
   belongs_to :package
-  belongs_to :endpoint #, touch: true
+  belongs_to :endpoint # TODO: touch: true
+
   validates :package_id, uniqueness: { case_sensitive: false, scope: :endpoint_id }
 
   scope :with_package, -> {
