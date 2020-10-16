@@ -6,7 +6,7 @@
   if source.external_url.present?
     json[:external_url] = source.external_url
   else
-    json[:attachment] = render 'layouts/file', file: source.attachment
+    json[:internal_url] = render 'layouts/file', file: source.attachment
   end
 
   json
