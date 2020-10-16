@@ -63,7 +63,7 @@ GEM
       execjs
     awesome_print (1.8.0)
     aws-eventstream (1.1.0)
-    aws-partitions (1.381.0)
+    aws-partitions (1.382.0)
     aws-sdk-core (3.109.1)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
@@ -343,7 +343,7 @@ DEPENDENCIES
   webpacker (~> 5)
 
 RUBY VERSION
-   ruby 2.6.6p146
+   ruby 2.6.5p114
 
 BUNDLED WITH
    2.1.4
