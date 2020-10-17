@@ -3,9 +3,9 @@
     description: source.description
   }
 
-  if source.external_url.present?
+  if source.url?
     json[:external_url] = source.external_url
-  else
+  elsif source.attachment?
     json[:internal_url] = render 'layouts/file', file: source.attachment
   end
 
