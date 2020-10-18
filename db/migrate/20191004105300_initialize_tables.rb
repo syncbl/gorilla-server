@@ -84,7 +84,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     end
     # ----------
     create_table :sources, id: :uuid do |t|
-      # TODO: Enum
+      # TODO: What to do with file: run, unpack, exec
       t.string :destination
       t.string :description
       t.string :external_url
