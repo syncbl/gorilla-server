@@ -1,0 +1,20 @@
+json = render 'layouts/header'
+
+json_package = render 'packages/show', package: @package
+
+json_package[:dependencies] = @package.all_dependencies.map do |dependent|
+  render 'show', package: dependent
+end
+
+json_package[:sources] = @package.sources.map do |source|
+  render 'sources/show', source: source
+end
+
+# TODO: Copy somewhere else, we don't need to use package as destination
+json_package[:parts] = @package.parts.map do |part|
+  render 'layouts/file', file: part
+end
+
+json[:package] = json_package
+
+json

@@ -6,14 +6,14 @@ class Source < ApplicationRecord
   has_one_attached :attachment
 
   # TODO: There is a potential to make this polymorphic for internal and external resources
-  validates :external_url, format: URI::regexp(%w[http https]), allow_blank: true
+  validates :external_url, format: URI::regexp(%w[http https]), allow_nil: false
 
   def internal_file?
-    type == :internal
+    type == :internal_file
   end
 
   def external_url?
-    type == :external
+    type == :external_url
   end
 
   def undefined?
@@ -24,7 +24,8 @@ class Source < ApplicationRecord
 
   # TODO: Add task to delete all sources where no content
   def type
-    return :external_url if attachment.attached?
-    return :internal_file if external_url.present?
+    return :internal_file if attachment.attached?
+    return :external_url if external_url.present?
   end
+
 end

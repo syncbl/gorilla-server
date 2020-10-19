@@ -10,15 +10,10 @@ json_package[:sources] = @package.sources.map do |source|
   render 'sources/show', source: source
 end
 
-# TODO: Remove parts from API
-# json_package[:parts] = @package.parts.map do |part|
-#   render 'layouts/file', file: part
-# end
-
 json[:package] = json_package
 
-if Rails.env.development?
-  ap json
-end
+#if Rails.env.development?
+#  ap json
+#end
 
 json
