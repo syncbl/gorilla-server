@@ -5,8 +5,8 @@
 
   if source.external_url?
     json[:external_url] = source.external_url
-  elsif source.internal_url?
-    json[:internal_url] = render 'layouts/file', file: source.attachment
+  elsif source.internal_file?
+    json[:internal_file] = render 'layouts/file', file: source.attachment
   end
 
   json
