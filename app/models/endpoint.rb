@@ -50,7 +50,6 @@ class Endpoint < ApplicationRecord
       end
       install_packages.delete(setting.package)
     end
-    ap install_packages
     install_packages.each do |package|
       settings.create(package: package, dependent: true)
     end
