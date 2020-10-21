@@ -31,7 +31,8 @@ class Endpoint < ApplicationRecord
     settings.find_by(package: package)&.touch || packages << package
   end
 
-  def actualize_settings!
+  def actualized_settings
+    # TODO: Change behavior to flags
     discard_packages = []
     install_packages = []
     settings.with_package.map do |setting|
