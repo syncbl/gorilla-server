@@ -42,18 +42,20 @@ class Endpoint < ApplicationRecord
         setting.package.all_dependencies(install_packages)
       end
     end
-    discard_packages.delete_if { |package| install_packages.include?(package) }
-    settings.kept.where(package: discard_packages, dependent: true).discard_all
-    settings.where(package: install_packages).map do |setting|
-      if setting.discarded?
-        setting.undiscard
+    settings.all.map do |setting|
+      if setting.kept? && discard_packages.include?(setting.package)
+        setting.discard
+      elsif install_packages.include?(setting.package)
+        if setting.discarded?
+          setting.undiscard
+        end
+        install_packages.delete(setting.package)
       end
-      install_packages.delete(setting.package)
     end
     install_packages.each do |package|
       settings.create(package: package, dependent: true)
     end
-    settings
+    settings.reload
   end
 
 end

@@ -50,7 +50,7 @@ class Package < ApplicationRecord
       packages << p
       Package.all_dependencies(p, packages)
     end
-    packages
+    packages.reverse
   end
 
   def self.find_by_alias(reader: nil, owner: nil, package: nil)
