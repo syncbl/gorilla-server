@@ -33,8 +33,8 @@ class Endpoint < ApplicationRecord
 
   def actualized_settings
     # TODO: Change behavior to flags
-    discard_packages = []
-    install_packages = []
+    discard_packages = Set[]
+    install_packages = Set[]
     settings.with_package.map do |setting|
       if setting.discarded?
         setting.package.all_dependencies(discard_packages)
@@ -42,7 +42,7 @@ class Endpoint < ApplicationRecord
         setting.package.all_dependencies(install_packages)
       end
     end
-    settings.all.map do |setting|
+    settings.with_package.all.map do |setting|
       if setting.kept? && discard_packages.include?(setting.package)
         setting.discard
       elsif install_packages.include?(setting.package)

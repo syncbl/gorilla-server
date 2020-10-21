@@ -41,16 +41,16 @@ class Package < ApplicationRecord
     end
   }
 
-  def all_dependencies(packages = [])
+  def all_dependencies(packages = Set[])
     Package.all_dependencies(self, packages)
+    packages.to_a.reverse
   end
 
-  def self.all_dependencies(current, packages = [])
-    current.dependencies.kept.select { |p| !packages.include?(p) }.map do |p|
+  def self.all_dependencies(current, packages = Set[])
+    current.dependencies.kept.map do |p|
       packages << p
       Package.all_dependencies(p, packages)
     end
-    packages.reverse
   end
 
   def self.find_by_alias(reader: nil, owner: nil, package: nil)
