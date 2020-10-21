@@ -20,6 +20,11 @@ class Source < ApplicationRecord
     type.nil?
   end
 
+  def self.empty
+    Source.where(Source.arel_table[:created_at].lt(Time.current - Rails.application.config.syncable.empty_source_erase_after))
+      .select { |source| source.undefined? }
+  end
+
   private
 
   # TODO: Add task to delete all sources where no content

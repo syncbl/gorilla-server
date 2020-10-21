@@ -3,6 +3,7 @@ class Package < ApplicationRecord
 
   self.implicit_order_column = :created_at
 
+  belongs_to :user
   has_many :settings
   has_many :endpoints, through: :settings
   has_many :sources
@@ -11,14 +12,17 @@ class Package < ApplicationRecord
     join_table: :dependencies,
     foreign_key: :package_id,
     association_foreign_key: :dependent_package_id
-  belongs_to :user
-  belongs_to :replacement, class_name: "Package", optional: true
+  belongs_to :replacement,
+    class_name: "Package",
+    optional: true
 
   has_one_attached :icon
   has_many_attached :parts
 
   after_discard do
+    # TODO: Change setting discard behavior
     settings.discard_all
+    sources.destroy_all
   end
 
   validates :name, presence: true, length: { maximum: 100 }, name_restrict: true,
@@ -42,15 +46,9 @@ class Package < ApplicationRecord
   end
 
   def self.all_dependencies(current, packages = [])
-    current.dependencies.kept.map do |p|
-      if !packages.include?(p)
-        if p.dependencies.any?
-          packages << p
-        else
-          packages.unshift(p)
-        end
-        Package.all_dependencies(p, packages)
-      end
+    current.dependencies.kept.select { |p| !packages.include?(p) }.map do |p|
+      packages << p
+      Package.all_dependencies(p, packages)
     end
     packages
   end

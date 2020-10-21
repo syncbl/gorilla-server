@@ -13,12 +13,11 @@ class JsonWebToken
       token: resource.authentication_token,
       exp: exp
     }
-    # TODO: Generate key in order to send it after login
-    JWT.encode(payload.to_a.shuffle.to_h, Rails.application.credentials.secret_key_base, 'HS256') if payload
+    JWT.encode(payload.to_a.shuffle.to_h, Rails.application.credentials.jwt.secret, 'HS256') if payload
   end
 
   def self.decode(token)
-    JWT.decode(token, Rails.application.credentials.secret_key_base, true, { algorithm: 'HS256' })&.
+    JWT.decode(token, Rails.application.credentials.jwt.secret, true, { algorithm: 'HS256' })&.
       first&.with_indifferent_access
   rescue JWT::ExpiredSignature, JWT::DecodeError
     false

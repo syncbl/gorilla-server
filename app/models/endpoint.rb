@@ -31,4 +31,29 @@ class Endpoint < ApplicationRecord
     settings.find_by(package: package)&.touch || packages << package
   end
 
+  def actualize_settings!
+    discard_packages = []
+    install_packages = []
+    settings.with_package.map do |setting|
+      if setting.discarded?
+        setting.package.all_dependencies(discard_packages)
+      else
+        setting.package.all_dependencies(install_packages)
+      end
+    end
+    discard_packages.delete_if { |package| install_packages.include?(package) }
+    settings.kept.where(package: discard_packages, dependent: true).discard_all
+    settings.where(package: install_packages).map do |setting|
+      if setting.discarded?
+        setting.undiscard
+      end
+      install_packages.delete(setting.package)
+    end
+    ap install_packages
+    install_packages.each do |package|
+      settings.create(package: package, dependent: true)
+    end
+    settings
+  end
+
 end

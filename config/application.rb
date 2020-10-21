@@ -35,6 +35,7 @@ module GpServer
     syncable.user_token_expiration_time = 1.day
     syncable.endpoint_token_expiration_time = 1.week
     syncable.endpoint_token_regen_random = 10
+    syncable.empty_source_erase_after = 1.day
     config.syncable = syncable
   end
 end

@@ -5,11 +5,10 @@ class SettingsController < ApplicationController
 
   # GET /settings
   def index
-    settings = current_user.endpoint.settings.with_package
-    settings.actualize!
+    settings = current_user.endpoint.actualize_settings!
     # TODO: Check for reload and optimize query
     if params[:updates] == '1'
-      @pagy, @settings = pagy(settings.select { |s| s.updated_at < s.package.updated_at })
+      @pagy, @settings = pagy(settings.select { |setting| setting.updated_at < setting.package.updated_at })
     else
       @pagy, @settings = pagy(settings.all)
     end
