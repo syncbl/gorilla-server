@@ -1,5 +1,3 @@
-count = package.endpoints.size
-
 json = {
   id: package.id,
   name: package.name,
@@ -7,8 +5,8 @@ json = {
   # trusted: package.trusted,
   size: package.size,
   h_size: number_to_human_size(package.size),
-  install_count: count,
-  h_install_count: number_to_human(count),
+  install_count: package.endpoints.size,
+  h_install_count: number_to_human(package.endpoints.size),
   created_at: package.created_at.to_i,
   updated_at: package.updated_at.to_i
 }
