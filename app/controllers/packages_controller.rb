@@ -1,8 +1,8 @@
 class PackagesController < ApplicationController
   # We allowing anonymous access
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_package, except: [:index, :new, :create]
   before_action :deny_endpoint!, except: [:index, :show]
+  before_action :set_package, except: [:index, :new, :create]
   before_action :check_edit_permissions!, only: [:edit, :update, :delete]
 
   # GET /packages
