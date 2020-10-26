@@ -42,11 +42,10 @@ class SettingsController < ApplicationController
   end
 
   # DELETE /settings/1
+  # No need in permission check here: endpoint is already authorized
   def destroy
-    @setting = current_user.endpoint.remove(Package.find_by_alias(reader: current_user,
-      package: setting_params[:id]))
     respond_to do |format|
-      if @setting
+      if @setting.destroy
         format.html { redirect_to settings_url, notice: 'Package was successfully removed.' }
         format.json { head :no_content }
       else

@@ -59,8 +59,7 @@ class EndpointsController < ApplicationController
   # TODO: install_later ?
   def install
     respond_to do |format|
-      if @endpoint.install(Package.kept.find_by_alias(reader: current_user,
-          package: params[:package]))
+      if @endpoint.install(Package.allowed_for(current_user).find_by_alias(params[:package]))
         format.html { redirect_to endpoint_url, notice: 'Package soon will be installed.' }
         format.json { render :show, status: :accepted, location: @endpoint }
       else
@@ -80,8 +79,8 @@ class EndpointsController < ApplicationController
         @endpoint.update_attribute(:authentication_token, nil)
         current_user.endpoint_new_token = JsonWebToken.encode(@endpoint)
       end
-    elsif
-      @endpoint = current_user.endpoints.find(endpoint_params[:id])
+    elsif params[:id].present?
+      @endpoint = current_user.endpoints.find(params[:id])
     else
       head :unauthorized
     end

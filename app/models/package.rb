@@ -34,11 +34,7 @@ class Package < ApplicationRecord
   scope :allowed_for, -> (user) {
     # TODO Remove nil user, because user can't be blank
     # TODO Group permissions
-    if user
-      kept.where(user: user, trusted: false).or(where(trusted: true))
-    else
-      kept.where(trusted: true)
-    end
+    kept.where(user: user).or(where(trusted: true))
   }
 
   def all_dependencies(packages = Set[])
@@ -53,14 +49,8 @@ class Package < ApplicationRecord
     end
   end
 
-  def self.find_by_alias(reader: nil, owner: nil, package: nil)
-    # TODO: Check permissions, because allowed_for can be overrided by find_by
-    packages = Package.allowed_for(reader)
-    if owner
-      packages.find_by(user: owner, id: package) || packages.find_by!(user: owner, alias: package)
-    else
-      packages.find_by(id: package) || packages.find_by!(alias: package)
-    end
+  def self.find_by_alias(package)
+    self.find_by(id: package) || self.find_by!(alias: package)
   end
 
   def replaced?
