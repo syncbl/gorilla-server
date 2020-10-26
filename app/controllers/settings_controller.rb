@@ -8,7 +8,7 @@ class SettingsController < ApplicationController
     settings = current_user.endpoint.actualized_settings
     # TODO: Check for reload and optimize query
     if params[:updates] == '1'
-      @pagy, @settings = pagy(settings.select { |setting| setting.updated_at < setting.package.updated_at })
+      @pagy, @settings = pagy(settings.updated)
     else
       @pagy, @settings = pagy(settings.all)
     end
@@ -60,7 +60,7 @@ class SettingsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   # ActiveRecord::RecordNotFound only with find_by
   def set_setting
-    @setting = current_user.endpoint.settings.includes(:package).find_by!(package_id: setting_params[:id])
+    @setting = current_user.endpoint.settings.find_by!(package_id: setting_params[:id])
   end
 
   # Only allow a trusted parameter "white list" through.

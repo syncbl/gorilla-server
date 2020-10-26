@@ -1,4 +1,6 @@
 class ApplicationJob < ActiveJob::Base
+  # TODO: Learn about jobs
+
   # Automatically retry jobs that encountered a deadlock
   # retry_on ActiveRecord::Deadlocked
 
