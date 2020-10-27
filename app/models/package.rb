@@ -72,11 +72,7 @@ class Package < ApplicationRecord
   private
 
   def internal_replaced_by
-    if replacement.nil?
-      self
-    else
-      replacement.replaced_by
-    end
+    replacement.nil? ? self : replacement.replaced_by
   end
 
 end
