@@ -37,9 +37,18 @@ gem 'hiredis'
 gem 'aws-sdk-s3'
 # Avoid N+1
 gem 'goldiloader'
+# Enumerators
+gem 'enumerize'
+# Job management
+gem 'sidekiq'
+# Simple forms
+gem 'simple_form'
+# Encoding user settings with private key
+gem 'lockbox'
+gem 'rbnacl'
 
 # CRON scheduling
-#gem 'whenever', require: false
+gem 'whenever', require: false
 # Foreman for workers
 #gem "foreman"
 # Soft delete for all records

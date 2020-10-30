@@ -8,6 +8,8 @@ class Setting < ApplicationRecord
 
   validates :package_id, uniqueness: { case_sensitive: false, scope: :endpoint_id }
 
+  #encrypts :data, algorithm: "hybrid", encryption_key: encryption_key, decryption_key: decryption_key
+
   scope :with_package, -> {
     joins(:package)
   }
