@@ -18,7 +18,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'devise'
 gem 'jwt'
 
-gem 'bootstrap', '~> 4.3.1'
+gem 'bootstrap', '~> 4.5'
 gem 'devise-bootstrap-views', '~> 1.0'
 gem 'pagy', '~> 3.8'
 
