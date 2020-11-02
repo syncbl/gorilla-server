@@ -30,13 +30,13 @@ module GpServer
     config.active_storage.routes_prefix = '/'
 
     # Custom Syncable parameters
-    syncable = ActiveSupport::OrderedOptions.new
-    syncable.service_path = 'files/hqdefault.jpg'
-    syncable.user_token_expiration_time = 1.day
-    syncable.endpoint_token_expiration_time = 1.week
-    syncable.endpoint_token_regen_random = 10
-    syncable.empty_source_erase_after = 1.day
-    config.syncable = syncable
+    syncbl = ActiveSupport::OrderedOptions.new
+    syncbl.service_path = 'files/hqdefault.jpg'
+    syncbl.user_token_expiration_time = 1.day
+    syncbl.endpoint_token_expiration_time = 1.week
+    syncbl.endpoint_token_regen_random = 10
+    syncbl.empty_source_erase_after = 1.day
+    config.syncbl = syncbl
 
     Lockbox.master_key = Rails.application.credentials.lockbox_secret
   end
