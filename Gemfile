@@ -18,7 +18,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'devise'
 gem 'jwt'
 
-gem 'bootstrap', '~> 4.3.1'
+gem 'bootstrap', '~> 4.5'
 gem 'devise-bootstrap-views', '~> 1.0'
 gem 'pagy', '~> 3.8'
 
@@ -37,9 +37,18 @@ gem 'hiredis'
 gem 'aws-sdk-s3'
 # Avoid N+1
 gem 'goldiloader'
+# Enumerators
+gem 'enumerize'
+# Job management
+gem 'sidekiq'
+# Simple forms
+gem 'simple_form'
+# Encoding user settings with private key
+gem 'lockbox'
+gem 'rbnacl'
 
 # CRON scheduling
-#gem 'whenever', require: false
+gem 'whenever', require: false
 # Foreman for workers
 #gem "foreman"
 # Soft delete for all records

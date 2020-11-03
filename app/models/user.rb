@@ -23,7 +23,7 @@ class User < ApplicationRecord
     uniqueness: { case_sensitive: false },
     format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }
   validates :username, length: { maximum: 39 },
-    uniqueness: { case_sensitive: false }, allow_blank: true,
+    uniqueness: { case_sensitive: false }, allow_blank: true, exclusion: { in: NAME_EXCLUSIONS },
     name_restrict: true, format: { with: /\A[A-Za-z\d\-\_]*\z/ }
 
   attr_accessor :endpoint

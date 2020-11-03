@@ -21,7 +21,7 @@ class Source < ApplicationRecord
   end
 
   def self.empty
-    Source.where(Source.arel_table[:created_at].lt(Time.current - Rails.application.config.syncable.empty_source_erase_after))
+    Source.where(Source.arel_table[:created_at].lt(Time.current - Rails.application.config.syncbl.empty_source_erase_after))
       .select { |source| source.undefined? }
   end
 
