@@ -11,6 +11,15 @@
     </div>
   <% end %>
 
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name, id: :package_name %>
+  </div>
+  <div class="field">
+    <%= form.label :alias %>
+    <%= form.text_field :alias, id: :package_alias %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>

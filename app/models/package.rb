@@ -28,7 +28,7 @@ class Package < ApplicationRecord
   validates :name, presence: true, length: { maximum: 100 }, name_restrict: true,
     uniqueness: { scope: :user_id, case_sensitive: false }
   # TODO: Move aliases to table
-  validates :alias, allow_blank: true, uniqueness: { case_sensitive: false },
+  validates :alias, length: { maximum: 100 }, allow_blank: true, uniqueness: { case_sensitive: false },
     name_restrict: true, format: { with: /\A[A-Za-z\d\-\_]*\z/ }
 
   scope :allowed_for, -> (user) {

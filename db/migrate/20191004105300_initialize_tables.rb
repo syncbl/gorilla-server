@@ -40,6 +40,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     create_table :packages, id: :uuid do |t|
       t.string :name, limit: 100, null: false
       t.string :alias, limit: 100
+      # TODO: Groups
       t.string :group_name, limit: 100
       t.bigint :size, null: false, default: 0
 
