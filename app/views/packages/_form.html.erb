@@ -1,26 +1,26 @@
-<%= form_with(model: package, local: true) do |form| %>
-  <% if package.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(package.errors.count, "error") %> prohibited this package from being saved:</h2>
+<%= simple_form_for package,
+  wrapper: :horizontal_form,
+  wrapper_mappings: {
+    boolean:       :horizontal_boolean,
+    check_boxes:   :horizontal_collection,
+    date:          :horizontal_multi_select,
+    datetime:      :horizontal_multi_select,
+    file:          :horizontal_file,
+    radio_buttons: :horizontal_collection,
+    range:         :horizontal_range,
+    time:          :horizontal_multi_select
+  } do |f| %>
 
-      <ul>
-        <% package.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+  <%= f.error_notification %>
+
+  <%= f.input :name %>
+  <%= f.input :alias %>
+  <%= f.input :group_name %>
+
+  <div class="form-group row mb-0">
+    <div class="col-sm-9 offset-sm-3">
+      <%= f.button :submit, class: "btn-primary" %>
+      <%= f.button :button, "Cancel", type: "reset", class: "btn-outline-secondary" %>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name, id: :package_name %>
-  </div>
-  <div class="field">
-    <%= form.label :alias %>
-    <%= form.text_field :alias, id: :package_alias %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
   </div>
 <% end %>
