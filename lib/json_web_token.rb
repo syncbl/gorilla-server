@@ -3,9 +3,9 @@ class JsonWebToken
 
   def self.encode(resource)
     if resource.is_a? Endpoint
-      exp = Time.current.to_i + Rails.application.config.syncbl.endpoint_token_expiration_time.to_i
+      exp = Time.current.to_i + 1.month
     elsif resource.is_a? User
-      exp = Time.current.to_i + Rails.application.config.syncbl.user_token_expiration_time.to_i
+      exp = Time.current.to_i + 1.week
     end
     payload = {
       scope: resource.class.name,

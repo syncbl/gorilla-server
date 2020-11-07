@@ -19,11 +19,11 @@ class ProcessPartsJob < ApplicationJob
       end
 
       # TODO: Make sure zip is OK and build packet structure
-      #Zip::File.open(tmpfilename) do |z|
-      #  zip.each do |z|
-      #    puts "+++ #{z.name}"
-      #  end
-      #end
+      Zip::File.open(tmpfilename) do |z|
+        zip.each do |z|
+          puts "+++ #{z.name}"
+        end
+      end
 
       filename = Time.now.strftime('%Y%m%d%H%M%S') + '.zip'
       source.attachment.attach(io: File.open(tmpfilename), filename: filename)
