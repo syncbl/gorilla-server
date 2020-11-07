@@ -6,7 +6,11 @@ class Source < ApplicationRecord
   has_one_attached :attachment
 
   # TODO: There is a potential to make this polymorphic for internal and external resources
-  validates :external_url, format: URI::regexp(%w[http https]), allow_nil: false
+  validates :external_url, format: URI::regexp(%w[http https]), allow_nil: true
+
+  after_destroy do
+    attachment.purge_later
+  end
 
   def internal_file?
     type == :internal_file

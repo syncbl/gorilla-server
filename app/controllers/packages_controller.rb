@@ -51,8 +51,7 @@ class PackagesController < ApplicationController
       head :accepted
     elsif package_params[:method] == 'clear_all'
       @package.parts.purge_later
-      #@package.updates.purge_later
-      @package.sources.delete_all
+      @package.sources.destroy_all
       head :accepted
     elsif package_params[:method] == 'store_parts'
       # TODO: Update marker in package to check if jobs were successful
