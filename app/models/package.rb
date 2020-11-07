@@ -49,8 +49,8 @@ class Package < ApplicationRecord
     end
   end
 
-  def self.find_by_alias(package)
-    self.find_by(id: package) || self.find_by!(alias: package)
+  def self.find_by_alias(value)
+    self.find_by(id: value) || self.find_by!(alias: value)
   end
 
   def replaced?
@@ -62,11 +62,7 @@ class Package < ApplicationRecord
   end
 
   def title
-    if self.alias.present?
-      "#{self.name} [#{self.alias}]"
-    else
-      self.name
-    end
+    self.alias.present? ? "#{self.name} [#{self.alias}]" : self.name
   end
 
   private

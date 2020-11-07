@@ -21,6 +21,7 @@ gem 'jwt'
 gem 'bootstrap', '~> 4.5'
 gem 'devise-bootstrap-views', '~> 1.0'
 gem 'pagy', '~> 3.8'
+gem 's3_direct_upload'
 
 # JSON Builder
 gem 'jb'
@@ -34,7 +35,7 @@ gem 'pg_search'
 gem 'redis', '~> 4.0'
 gem 'hiredis'
 # S3 buckets for Active Storage
-gem 'aws-sdk-s3'
+gem 'aws-sdk-s3', require: false
 # Avoid N+1
 gem 'goldiloader'
 # Enumerators

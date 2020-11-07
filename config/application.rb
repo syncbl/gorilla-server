@@ -37,7 +37,5 @@ module GpServer
     syncbl.endpoint_token_regen_random = 10
     syncbl.empty_source_erase_after = 1.day
     config.syncbl = syncbl
-
-    Lockbox.master_key = Rails.application.credentials.lockbox_secret
   end
 end
