@@ -9,14 +9,14 @@ module ApplicationHelper
   def service_keys
     # TODO: Add dictionary of available services
     [
-      app_key(Rails.application.config.syncbl.service_path)
+      app_key('files/hqdefault.jpg')
     ]
   end
 
   def anonymous_keys
     # TODO: Add dictionary of available services
     [
-      app_key(Rails.application.config.syncbl.service_path)
+      app_key('files/hqdefault.jpg')
     ]
   end
 
