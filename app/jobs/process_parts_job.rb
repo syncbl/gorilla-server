@@ -4,10 +4,9 @@ class ProcessPartsJob < ApplicationJob
   def perform(package, checksum)
     return false if package.parts.empty?
 
-    source = package.sources.create
+    source = package.sources.new
     if attachment = ActiveStorage::Blob.find_by(checksum: checksum)
       source.attachment = attachment
-      source.save
     else
       tmpfilename = Dir::Tmpname.create(['syncbl-', '.tmp']) {}
       File.open(tmpfilename, 'wb') do |tmpfile|
@@ -15,21 +14,26 @@ class ProcessPartsJob < ApplicationJob
           file.open do |f|
             tmpfile.write(File.open(f.path, 'rb').read)
           end
+          file.destroy
         end
       end
-
-      # TODO: Make sure zip is OK and build packet structure
-      Zip::File.open(tmpfilename) do |z|
-        zip.each do |z|
-          puts "+++ #{z.name}"
-        end
-      end
-
       filename = Time.now.strftime('%Y%m%d%H%M%S') + '.zip'
+      # TODO: Make sure zip is OK and build packet structure
+      Zip::File.open(tmpfilename) do |zipfile|
+        zipfile.each do |z|
+          zipfault ||= z.size > MAX_FILE_SIZE
+          if zipfault
+            package.block_reason = "zip: #{filename}, #{z.name}, #{z.size}"
+            package.blocked_at = Time.current
+            break
+          end
+        end
+      end
       source.attachment.attach(io: File.open(tmpfilename), filename: filename)
       File.delete(tmpfilename)
     end
-    package.parts.purge_later
+    source.size = source.attachment.byte_size
+    source.save
     if source.attachment.checksum == checksum
       # TODO: Update manifest
       package.size += source.attachment.byte_size

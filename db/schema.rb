@@ -68,6 +68,8 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.jsonb "data"
     t.uuid "user_id", null: false
     t.uuid "replacement_id"
+    t.string "block_reason"
+    t.datetime "blocked_at"
     t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -100,6 +102,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.string "destination"
     t.string "description"
     t.string "external_url"
+    t.bigint "size", default: 0, null: false
     t.uuid "package_id", null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_sources_on_created_at"

@@ -65,6 +65,15 @@ class Package < ApplicationRecord
     self.alias.present? ? "#{self.name} [#{self.alias}]" : self.name
   end
 
+  def update_sources!
+    current_size = 0
+    sources.map do |source|
+      current_size += source.size
+    end
+    self.size = current_size
+    save
+  end
+
   private
 
   def internal_replaced_by
