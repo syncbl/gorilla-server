@@ -74,6 +74,12 @@ class Package < ApplicationRecord
     save
   end
 
+  def block!(reason = nil)
+    self.discarded_at = Time.current
+    self.discard_reason = reason
+    save!
+  end
+
   private
 
   def internal_replaced_by
