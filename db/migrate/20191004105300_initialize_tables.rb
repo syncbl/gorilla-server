@@ -78,9 +78,9 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.belongs_to :endpoint, type: :uuid, foreign_key: true, index: true, null: false
       t.belongs_to :package, type: :uuid, foreign_key: true, index: true, null: false
 
+      t.datetime :discarded_at, index: true
       t.datetime :created_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :discarded_at, index: true
 
       t.index [:endpoint_id, :package_id], unique: true
     end
@@ -95,6 +95,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.belongs_to :package, type: :uuid, foreign_key: true, index: true, null: false
 
       t.datetime :created_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :updated_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
     end
   end
 end
