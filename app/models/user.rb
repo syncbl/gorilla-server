@@ -19,10 +19,10 @@ class User < ApplicationRecord
     packages.discard_all
   end
 
-  validates :email, presence: true, length: { maximum: 105 },
+  validates :email, presence: true, length: { maximum: MAX_EMAIL_LENGTH },
     uniqueness: { case_sensitive: false },
     format: { with: EMAIL_FORMAT }
-  validates :username, length: { maximum: 39 },
+  validates :username, length: { maximum: MAX_NAME_LENGTH },
     uniqueness: { case_sensitive: false }, allow_blank: true, exclusion: { in: NAME_EXCLUSIONS },
     name_restrict: true, format: { with: NAME_FORMAT }
 

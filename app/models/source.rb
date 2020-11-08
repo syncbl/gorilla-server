@@ -5,7 +5,6 @@ class Source < ApplicationRecord
 
   has_one_attached :attachment
 
-  # TODO: There is a potential to make this polymorphic for internal and external resources
   validates :external_url, format: URI::regexp(%w[http https]), allow_nil: true
 
   def internal_file?
@@ -18,11 +17,6 @@ class Source < ApplicationRecord
 
   def undefined?
     type.nil?
-  end
-
-  def self.empty
-    Source.where(Source.arel_table[:created_at].lt(Time.current - 1.day))
-      .select { |source| source.undefined? }
   end
 
   private

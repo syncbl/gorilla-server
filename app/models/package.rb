@@ -25,7 +25,7 @@ class Package < ApplicationRecord
     sources.destroy_all
   end
 
-  validates :name, presence: true, length: { maximum: 100 }, name_restrict: true,
+  validates :name, presence: true, length: { maximum: MAX_PACKAGE_NAME_LENGTH }, name_restrict: true,
     uniqueness: { scope: :user_id, case_sensitive: false }, exclusion: { in: NAME_EXCLUSIONS }
   # TODO: Move aliases to table
   validates :alias, allow_blank: true, uniqueness: { case_sensitive: false },
