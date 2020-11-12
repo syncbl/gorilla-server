@@ -48,14 +48,11 @@ class Endpoint < ApplicationRecord
       if setting.kept? && discard_packages.include?(setting.package)
         setting.discard
       elsif install_packages.include?(setting.package)
-        if setting.discarded?
-          setting.undiscard
-        end
+        setting.undiscard
         install_packages.delete(setting.package)
       end
     end
-    install_packages.each do |package|
-      settings.create(package: package, dependent: true)
+    install_packages.each { |p| settings.create(package: p, dependent: true) }
     end
     settings.reload
   end
