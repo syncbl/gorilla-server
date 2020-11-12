@@ -77,7 +77,7 @@ class EndpointsController < ApplicationController
       @endpoint = current_user.endpoint
       if rand(ENDPOINT_TOKEN_REGEN_RANDOM) == 0
         @endpoint.update_attribute(:authentication_token, nil)
-        current_user.endpoint_new_token = JsonWebToken.encode(@endpoint)
+        current_user.endpoint.new_token = JsonWebToken.encode(@endpoint)
       end
     elsif params[:id].present?
       @endpoint = current_user.endpoints.find(params[:id])

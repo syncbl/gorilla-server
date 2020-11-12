@@ -17,6 +17,8 @@ class Endpoint < ApplicationRecord
       .gt(Time.current - Rails.application.config.syncbl.endpoint_token_expiration_time))
   }
 
+  attr_accessor :new_token
+
   def block!(reason = nil)
     self.discarded_at = Time.current
     self.discard_reason = reason

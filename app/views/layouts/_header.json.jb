@@ -1,7 +1,7 @@
-if current_user&.endpoint_new_token.present?
+if current_user&.endpoint&.new_token.present?
   json = {
     session: {
-      token: current_user.endpoint_new_token
+      token: current_user.endpoint.new_token
     }
   }
 else

@@ -27,7 +27,6 @@ class User < ApplicationRecord
     name_restrict: true, format: { with: NAME_FORMAT }
 
   attr_accessor :endpoint
-  attr_accessor :endpoint_new_token
 
   # TODO: Everyone can create packages, but we need to add permissions for company members later
 
