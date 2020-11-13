@@ -17,8 +17,8 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.string :authentication_token, limit: 24
       #t.string :secret, limit: 24, default: { 'substr(md5(random()::text), 0, 24)' }, null: false
 
-      t.string :discard_reason
-      t.datetime :discarded_at, index: true
+      t.datetime :blocked_at
+      t.string :block_reason
       t.datetime :created_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
     end
@@ -31,8 +31,8 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       t.belongs_to :user, type: :uuid, foreign_key: true, index: true, null: false
 
-      t.string :discard_reason
-      t.datetime :discarded_at, index: true
+      t.datetime :blocked_at
+      t.string :block_reason
       t.datetime :created_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
     end
@@ -51,8 +51,8 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.belongs_to :user, type: :uuid, foreign_key: true, index: true, null: false
       t.belongs_to :replacement, type: :uuid, foreign_key: { to_table: :packages }, index: true
 
-      t.string :discard_reason
-      t.datetime :discarded_at, index: true
+      t.datetime :blocked_at
+      t.string :block_reason
       t.datetime :created_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       # Packages will be unique for everyone or for selected user

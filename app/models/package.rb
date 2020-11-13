@@ -1,12 +1,12 @@
 class Package < ApplicationRecord
-  include Discard::Model
+  include ModelBlocker
 
   self.implicit_order_column = :created_at
 
   belongs_to :user
-  has_many :settings
+  has_many :settings, dependent: :destroy
   has_many :endpoints, through: :settings
-  has_many :sources
+  has_many :sources, dependent: :destroy
   has_and_belongs_to_many :dependencies,
     class_name: "Package",
     join_table: :dependencies,
@@ -19,12 +19,6 @@ class Package < ApplicationRecord
   has_one_attached :icon
   has_many_attached :parts
 
-  after_discard do
-    # TODO: Change setting discard behavior
-    settings.discard_all
-    sources.destroy_all
-  end
-
   validates :name, presence: true, length: { maximum: MAX_PACKAGE_NAME_LENGTH }, name_restrict: true,
     uniqueness: { scope: :user_id, case_sensitive: false }, exclusion: { in: NAME_EXCLUSIONS }
   # TODO: Move aliases to table
@@ -34,7 +28,7 @@ class Package < ApplicationRecord
   scope :allowed_for, -> (user) {
     # TODO Remove nil user, because user can't be blank
     # TODO Group permissions
-    kept.where(user: user).or(where(trusted: true))
+    where(user: user).or(where(trusted: true))
   }
 
   def all_dependencies(packages = Set[])
@@ -43,7 +37,7 @@ class Package < ApplicationRecord
   end
 
   def self.all_dependencies(current, packages = Set[])
-    current.dependencies.kept.map do |p|
+    current.dependencies.map do |p|
       packages << p
       Package.all_dependencies(p, packages)
     end
@@ -72,12 +66,6 @@ class Package < ApplicationRecord
     end
     self.size = current_size
     save
-  end
-
-  def block!(reason = nil)
-    self.discarded_at = Time.current
-    self.discard_reason = reason
-    save!
   end
 
   private

@@ -58,13 +58,14 @@ class EndpointsController < ApplicationController
   # TODO: Change render to package or settings or even outside ???
   # TODO: install_later ?
   def install
+    setting = @endpoint.install(Package.allowed_for(current_user).find_by_alias(params[:package]))
     respond_to do |format|
-      if @endpoint.install(Package.allowed_for(current_user).find_by_alias(params[:package]))
+      if setting
         format.html { redirect_to endpoint_url, notice: 'Package soon will be installed.' }
         format.json { render :show, status: :accepted, location: @endpoint }
       else
         format.html { render :edit }
-        format.json { render json: @endpoint.errors, status: :unprocessable_entity }
+        format.json { render json: setting.errors, status: :unprocessable_entity }
       end
     end
   end

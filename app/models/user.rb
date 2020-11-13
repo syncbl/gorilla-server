@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  include Discard::Model
+  include ModelBlocker
 
   # Include default devise modules. Others available are:
   # :validatable, :confirmable, :lockable, :trackable and :omniauthable
@@ -11,13 +11,7 @@ class User < ApplicationRecord
   # Because of company support and installed packages we can't allow to delete resources
   # has_many (as on Git) OR belongs_to :group, optional: true
   has_many :packages, dependent: :nullify
-  has_many :endpoints, dependent: :nullify
-
-  after_discard do
-    # if group.nil?
-    endpoints.discard_all
-    packages.discard_all
-  end
+  has_many :endpoints, dependent: :destroy
 
   validates :email, presence: true, length: { maximum: MAX_EMAIL_LENGTH },
     uniqueness: { case_sensitive: false },
@@ -32,12 +26,6 @@ class User < ApplicationRecord
 
   def readable_name
     name || email
-  end
-
-  def block!(reason = nil)
-    self.discarded_at = Time.current
-    self.discard_reason = reason
-    save!
   end
 
 end

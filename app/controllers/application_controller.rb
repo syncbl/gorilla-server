@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
         return true unless payload = JsonWebToken.decode(request.headers['X-API-Token'])
         case payload[:scope]
         when 'Endpoint'
-          if endpoint = Endpoint.kept.find_by(id: payload[:uuid], authentication_token: payload[:token])
+          if endpoint = Endpoint.active.find_by(id: payload[:uuid], authentication_token: payload[:token])
             bypass_sign_in(endpoint.user)
             current_user.endpoint = endpoint
           else
@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
             #Endpoint.find_by(id: payload[:uuid])&.block! reason: "#{payload[:uuid]}|#{payload[:token]}"
           end
         when 'User'
-          if user = User.kept.find_by(id: payload[:uuid], authentication_token: payload[:token])
+          if user = User.active.find_by(id: payload[:uuid], authentication_token: payload[:token])
             bypass_sign_in(user)
           end
         end

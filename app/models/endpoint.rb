@@ -1,6 +1,5 @@
 class Endpoint < ApplicationRecord
-  # TODO: Replace discard with state enum.
-  include Discard::Model
+  include ModelBlocker
 
   self.implicit_order_column = :created_at
 
@@ -19,18 +18,13 @@ class Endpoint < ApplicationRecord
 
   attr_accessor :new_token
 
-  def block!(reason = nil)
-    self.discarded_at = Time.current
-    self.discard_reason = reason
-    save!
-  end
-
   def installed?(package)
     settings.exists?(package: package)
   end
 
   def install(package)
-    settings.find_by(package: package)&.touch || packages << package
+    #packages << package
+    settings.find_by(package: package)&.undiscard || settings.create(package: package)
   end
 
   def actualized_settings
@@ -53,7 +47,6 @@ class Endpoint < ApplicationRecord
       end
     end
     install_packages.each { |p| settings.create(package: p, dependent: true) }
-    end
     settings.reload
   end
 

@@ -49,7 +49,8 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.string "name", limit: 100
     t.string "authentication_token", limit: 24
     t.uuid "user_id", null: false
-    t.string "discard_reason"
+    t.datetime "blocked_at"
+    t.string "block_reason"
     t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -68,8 +69,8 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.jsonb "data"
     t.uuid "user_id", null: false
     t.uuid "replacement_id"
-    t.string "block_reason"
     t.datetime "blocked_at"
+    t.string "block_reason"
     t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -87,9 +88,9 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.boolean "dependent", default: false, null: false
     t.uuid "endpoint_id", null: false
     t.uuid "package_id", null: false
+    t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "discarded_at"
     t.index ["created_at"], name: "index_settings_on_created_at"
     t.index ["discarded_at"], name: "index_settings_on_discarded_at"
     t.index ["endpoint_id", "package_id"], name: "index_settings_on_endpoint_id_and_package_id", unique: true
@@ -105,8 +106,10 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.bigint "size", default: 0, null: false
     t.uuid "package_id", null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_sources_on_created_at"
     t.index ["package_id"], name: "index_sources_on_package_id"
+    t.index ["updated_at"], name: "index_sources_on_updated_at"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -114,7 +117,8 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.string "username", limit: 39
     t.string "locale", limit: 10
     t.string "authentication_token", limit: 24
-    t.string "discard_reason"
+    t.datetime "blocked_at"
+    t.string "block_reason"
     t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false

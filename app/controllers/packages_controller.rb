@@ -78,7 +78,7 @@ class PackagesController < ApplicationController
   # DELETE /packages/1.json
   def destroy
     respond_to do |format|
-      if @package.discard
+      if @package.destroy
         format.html { redirect_to packages_url, notice: 'Package was successfully destroyed.' }
         format.json { head :no_content }
       else
