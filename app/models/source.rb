@@ -3,7 +3,7 @@ class Source < ApplicationRecord
 
   belongs_to :package
 
-  has_one_attached :attachment
+  has_one_attached :file
 
   validates :external_url, format: URI::regexp(%w[http https]), allow_nil: true
 
@@ -23,7 +23,7 @@ class Source < ApplicationRecord
 
   # TODO: Add task to delete all sources where no content
   def type
-    return :internal_file if attachment.attached?
+    return :internal_file if file.attached?
     return :external_url if external_url.present?
   end
 

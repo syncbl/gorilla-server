@@ -1,10 +1,9 @@
 namespace :sources do
   namespace :empty do
-    desc "Erase empty sources from database, once a week"
+    desc "Erase empty sources from database"
     task clear: :environment do
-      Source.where(Source.arel_table[:updated_at].lt(Time.current - 1.day))
-        .where(Source.arel_table[:updated_at].gt(Time.current - 1.week))
-        .select { |source| source.undefined? }
+      Source.joins(:file_attachment)
+        .where(external_url: nil, active_storage_attachments: { record_id: nil })
         .map { |s| s.destroy }
     end
   end

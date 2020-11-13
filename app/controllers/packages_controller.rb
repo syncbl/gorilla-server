@@ -111,7 +111,7 @@ class PackagesController < ApplicationController
   end
 
   def package_params
-    params.permit(:id, :attachment, :part, :checksum, :method, :items)
+    params.permit(:id, :file, :part, :checksum, :method, :items)
   end
 
 end

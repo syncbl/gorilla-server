@@ -5,8 +5,8 @@ class ProcessPartsJob < ApplicationJob
     return false if package.parts.empty?
 
     source = package.sources.new
-    if attachment = ActiveStorage::Blob.find_by(checksum: checksum)
-      source.attachment = attachment
+    if file = ActiveStorage::Blob.find_by(checksum: checksum)
+      source.file = file
     else
       tmpfilename = Dir::Tmpname.create(['syncbl-', '.tmp']) {}
       File.open(tmpfilename, 'wb') do |tmpfile|
@@ -29,14 +29,14 @@ class ProcessPartsJob < ApplicationJob
           end
         end
       end
-      source.attachment.attach(io: File.open(tmpfilename), filename: filename)
+      source.file.attach(io: File.open(tmpfilename), filename: filename)
       File.delete(tmpfilename)
     end
-    source.size = source.attachment.byte_size
+    source.size = source.file.byte_size
     source.save
-    if source.attachment.checksum == checksum
+    if source.file.checksum == checksum
       # TODO: Update manifest
-      package.size += source.attachment.byte_size
+      package.size += source.file.byte_size
       package.save
     else
       # TODO: Block package/user, inform admin
