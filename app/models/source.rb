@@ -5,6 +5,7 @@ class Source < ApplicationRecord
 
   has_one_attached :file
 
+  # TODO: Check link for content disposition
   validates :external_url, format: URI::regexp(%w[http https]), allow_nil: true
 
   def internal_file?
