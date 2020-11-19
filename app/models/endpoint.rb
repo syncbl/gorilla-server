@@ -38,7 +38,7 @@ class Endpoint < ApplicationRecord
         setting.package.all_dependencies(install_packages)
       end
     end
-    settings.with_package.all.map do |setting|
+    settings.with_package.map do |setting|
       if setting.kept? && discard_packages.include?(setting.package)
         setting.discard
       elsif install_packages.include?(setting.package)

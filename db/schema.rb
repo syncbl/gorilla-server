@@ -51,11 +51,9 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.uuid "user_id", null: false
     t.datetime "blocked_at"
     t.string "block_reason"
-    t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_endpoints_on_created_at"
-    t.index ["discarded_at"], name: "index_endpoints_on_discarded_at"
     t.index ["updated_at"], name: "index_endpoints_on_updated_at"
     t.index ["user_id"], name: "index_endpoints_on_user_id"
   end
@@ -71,12 +69,10 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.uuid "replacement_id"
     t.datetime "blocked_at"
     t.string "block_reason"
-    t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["alias"], name: "index_packages_on_alias", unique: true
     t.index ["created_at"], name: "index_packages_on_created_at"
-    t.index ["discarded_at"], name: "index_packages_on_discarded_at"
     t.index ["replacement_id"], name: "index_packages_on_replacement_id"
     t.index ["updated_at"], name: "index_packages_on_updated_at"
     t.index ["user_id", "group_name"], name: "index_packages_on_user_id_and_group_name"
@@ -119,7 +115,6 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.string "authentication_token", limit: 24
     t.datetime "blocked_at"
     t.string "block_reason"
-    t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "email", default: "", null: false
@@ -131,7 +126,6 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.string "unlock_token"
     t.datetime "locked_at"
     t.index ["created_at"], name: "index_users_on_created_at"
-    t.index ["discarded_at"], name: "index_users_on_discarded_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["updated_at"], name: "index_users_on_updated_at"
