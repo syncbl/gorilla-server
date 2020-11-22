@@ -24,6 +24,8 @@ class Package < ApplicationRecord
   # TODO: Move aliases to table
   validates :alias, allow_blank: true, uniqueness: { case_sensitive: false },
     name_restrict: true, format: { with: NAME_FORMAT }, exclusion: { in: NAME_EXCLUSIONS }
+  validates :icon, size: { less_than: 1.megabyte }
+  validates :parts, content_type: 'application/zip', size: { less_than: 1.gigabyte }
 
   scope :allowed_for, -> (user) {
     # TODO Remove nil user, because user can't be blank

@@ -7,6 +7,7 @@ class Source < ApplicationRecord
 
   # TODO: Check link for content disposition
   validates :external_url, format: URI::regexp(%w[http https]), allow_nil: true
+  validates :file, content_type: 'application/zip', size: { less_than: 1.gigabyte }
 
   def internal_file?
     type == :internal_file
