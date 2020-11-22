@@ -18,11 +18,10 @@ class ProcessPartsJob < ApplicationJob
         end
       end
       filename = Time.now.strftime('%Y%m%d%H%M%S') + '.zip'
-      # TODO: Make sure zip is OK and build packet structure
+      # TODO: Make sure zip is deleted if fault
       Zip::File.open(tmpfilename) do |zipfile|
         zipfile.each do |z|
-          zipfault ||= z.size > MAX_FILE_SIZE
-          if zipfault
+          if z.size > MAX_FILE_SIZE
             package.block_reason = "zip: #{filename}, #{z.name}, #{z.size}"
             package.blocked_at = Time.current
             break
