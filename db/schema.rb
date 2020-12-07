@@ -99,7 +99,6 @@ ActiveRecord::Schema.define(version: 2019_11_19_005009) do
     t.string "destination"
     t.string "description"
     t.string "external_url"
-    t.bigint "size", default: 0, null: false
     t.uuid "package_id", null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
