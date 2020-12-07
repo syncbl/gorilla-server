@@ -12,7 +12,7 @@ class User < ApplicationRecord
 
   # Because of company support and installed packages we can't allow to delete resources
   # has_many (as on Git) OR belongs_to :group, optional: true
-  has_many :packages, dependent: :nullify
+  has_many :packages, dependent: :destroy # TODO: :nullify
   has_many :endpoints, dependent: :destroy
 
   validates :email, presence: true, length: { maximum: MAX_EMAIL_LENGTH },
@@ -27,10 +27,7 @@ class User < ApplicationRecord
   # TODO: Everyone can create packages, but we need to add permissions for company members later
 
   def set_username
-    self.username = "#{self.email[/^[^@]+/]}"
-    while User.find_by(username: self.username) do
-      self.username = "#{self.email[/^[^@]+/]}-#{rand(10000)}"
-    end
+    self.username = "#{self.email[/^[^@]+/]}-#{rand(10000)}"
   end
 
 end
