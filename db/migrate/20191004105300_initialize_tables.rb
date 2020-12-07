@@ -90,7 +90,6 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.string :destination
       t.string :description
       t.string :external_url
-      t.bigint :size, null: false, default: 0
 
       t.belongs_to :package, type: :uuid, foreign_key: true, index: true, null: false
 
