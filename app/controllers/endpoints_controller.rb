@@ -7,7 +7,7 @@ class EndpointsController < ApplicationController
   # GET /endpoints.json
   def index
     # TODO: Add group
-    @pagy, @endpoints = pagy(current_user.endpoints.actual)
+    @pagy, @endpoints = pagy(current_user.endpoints)
   end
 
   # GET /endpoints/1

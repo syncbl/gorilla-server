@@ -11,10 +11,11 @@ class Endpoint < ApplicationRecord
    join_table: :settings,
    dependent: :destroy
 
-  scope :actual, -> {
-    where(Endpoint.arel_table[:updated_at]
-      .gt(Time.current - Rails.application.config.syncbl.endpoint_token_expiration_time))
-  }
+  # TODO: Move to method in order to show inactive status in list
+   #scope :actual, -> {
+  #  where(Endpoint.arel_table[:updated_at]
+  #    .gt(Time.current - Rails.application.config.syncbl.endpoint_token_expiration_time))
+  #}
 
   attr_accessor :new_token
 
