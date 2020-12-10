@@ -3,7 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.7.2'
 
-gem 'rails', '~> 6.0'
+gem 'rails', '~> 6.1'
 gem 'rails-i18n', '~> 6.0'
 gem 'puma', '~> 5.0'
 gem 'bcrypt', '~> 3.1.7'
@@ -37,8 +37,6 @@ gem 'redis', '~> 4.0'
 gem 'hiredis'
 # S3 buckets for Active Storage
 gem 'aws-sdk-s3', require: false
-# Avoid N+1
-gem 'goldiloader'
 # Enumerators
 gem 'enumerize'
 # Job management
@@ -78,6 +76,7 @@ group :development do
   gem 'memory_profiler'
   gem 'derailed_benchmarks'
   gem 'i18n-tasks', '~> 0.9.30'
+  #gem 'goldiloader'
   #gem "bullet"
 end
 
