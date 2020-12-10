@@ -22,7 +22,7 @@ class User < ApplicationRecord
     format: { with: EMAIL_FORMAT }
   validates :username,
     presence: true,
-    length: { maximum: MAX_NAME_LENGTH },
+    length: { minimum: MIN_NAME_LENGTH, maximum: MAX_NAME_LENGTH },
     uniqueness: { case_sensitive: false },
     exclusion: { in: NAME_EXCLUSIONS },
     format: { with: NAME_FORMAT }
@@ -32,7 +32,9 @@ class User < ApplicationRecord
   # TODO: Everyone can create packages, but we need to add permissions for company members later
 
   def set_username
-    self.username = "#{self.email[/^[^@]+/]}#{rand(10000)}" if self.username.nil?
+    if username.nil? || (username.size < MIN_NAME_LENGTH)
+      self.username = "#{self.email[/^[^@]+/]}#{rand(10000)}"
+    end
   end
 
 end

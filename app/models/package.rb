@@ -21,13 +21,14 @@ class Package < ApplicationRecord
 
   validates :name,
     presence: true,
-    length: { maximum: MAX_PACKAGE_NAME_LENGTH },
+    length: { minimum: MIN_NAME_LENGTH, maximum: MAX_PACKAGE_NAME_LENGTH },
     uniqueness: { scope: :user_id, case_sensitive: false },
     format: { with: NAME_FORMAT },
     exclusion: { in: NAME_EXCLUSIONS }
   # TODO: Move aliases to table
   validates :alias,
     allow_blank: true,
+    length: { minimum: MIN_NAME_LENGTH, maximum: MAX_PACKAGE_NAME_LENGTH },
     uniqueness: { case_sensitive: false },
     format: { with: NAME_FORMAT },
     exclusion: { in: NAME_EXCLUSIONS }
