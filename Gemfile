@@ -78,6 +78,7 @@ group :development do
   gem 'i18n-tasks', '~> 0.9.30'
   #gem 'goldiloader'
   #gem "bullet"
+  gem 'prettier'
 end
 
 group :production do
