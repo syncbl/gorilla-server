@@ -1,21 +1,23 @@
 class PackagesController < ApplicationController
   # We allowing anonymous access
-  before_action :authenticate_user!, except: [:index, :show]
-  before_action :deny_endpoint!, except: [:index, :show]
-  before_action :set_package, except: [:index, :new, :create]
-  before_action :check_edit_permissions!, only: [:edit, :update, :delete]
+  before_action :authenticate_user!, except: %i[index show]
+  before_action :deny_endpoint!, except: %i[index show]
+  before_action :set_package, except: %i[index new create]
+  before_action :check_edit_permissions!, only: %i[edit update delete]
 
   # GET /packages
   # GET /packages.json
   def index
-    @pagy, @packages = pagy(Package.allowed_for(current_user).includes([:icon_attachment]),
-      items: package_params[:items])
+    @pagy, @packages =
+      pagy(
+        Package.allowed_for(current_user).includes([:icon_attachment]),
+        items: package_params[:items]
+      )
   end
 
   # GET /packages/1
   # GET /packages/1.json
-  def show
-  end
+  def show; end
 
   # GET /packages/new
   def new
@@ -23,8 +25,7 @@ class PackagesController < ApplicationController
   end
 
   # GET /packages/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /packages
   # POST /packages.json
@@ -34,11 +35,15 @@ class PackagesController < ApplicationController
     respond_to do |format|
       if @package.save
         @package.reload
-        format.html { redirect_to @package, notice: 'Package was successfully created.' }
+        format.html do
+          redirect_to @package, notice: 'Package was successfully created.'
+        end
         format.json { render :show, status: :created, location: @package }
       else
         format.html { render :new }
-        format.json { render json: @package.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @package.errors, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -56,6 +61,7 @@ class PackagesController < ApplicationController
     elsif package_params[:method] == 'store_parts'
       # TODO: Update marker in package to check if jobs were successful
       ProcessPartsJob.perform_later(@package, package_params[:checksum])
+
       #FlattenUpdatesJob.perform_later(@package)
       head :accepted
     elsif package_params[:part].present?
@@ -64,11 +70,15 @@ class PackagesController < ApplicationController
     else
       respond_to do |format|
         if @package.update(package_post_params)
-          format.html { redirect_to @package, notice: 'Package was successfully updated.' }
+          format.html do
+            redirect_to @package, notice: 'Package was successfully updated.'
+          end
           format.json { render :show, status: :ok, location: @package }
         else
           format.html { render :edit }
-          format.json { render json: @package.errors, status: :unprocessable_entity }
+          format.json do
+            render json: @package.errors, status: :unprocessable_entity
+          end
         end
       end
     end
@@ -79,11 +89,16 @@ class PackagesController < ApplicationController
   def destroy
     respond_to do |format|
       if @package.destroy
-        format.html { redirect_to packages_url, notice: 'Package was successfully destroyed.' }
+        format.html do
+          redirect_to packages_url,
+                      notice: 'Package was successfully destroyed.'
+        end
         format.json { head :no_content }
       else
         format.html { render :edit }
-        format.json { render json: @package.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @package.errors, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -93,14 +108,13 @@ class PackagesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
 
   def set_package
-    @package = Package.allowed_for(current_user).find_by_alias(package_params[:id])
+    @package =
+      Package.allowed_for(current_user).find_by_alias(package_params[:id])
   end
 
   def check_edit_permissions!
     # TODO: Permissions
-    if @package.user.id != current_user.id
-      head :forbidden
-    end
+    head :forbidden if @package.user.id != current_user.id
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
@@ -113,5 +127,4 @@ class PackagesController < ApplicationController
   def package_params
     params.permit(:id, :file, :part, :checksum, :method, :items)
   end
-
 end

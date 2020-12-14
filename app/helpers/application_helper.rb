@@ -8,32 +8,22 @@ module ApplicationHelper
 
   def service_keys
     # TODO: Add dictionary of available services
-    [
-      app_key('files/hqdefault.jpg')
-    ]
+    [app_key('files/hqdefault.jpg')]
   end
 
   def anonymous_keys
     # TODO: Add dictionary of available services
-    [
-      app_key('files/hqdefault.jpg')
-    ]
+    [app_key('files/hqdefault.jpg')]
   end
 
   # TODO: Authorization token for endpoint
   def generate_token
     unless @endpoint.nil?
-      render json: {
-        session: {
-          token: JsonWebToken.encode(@endpoint)
-        }
-      }, status: :accepted
+      render json: { session: { token: JsonWebToken.encode(@endpoint) } },
+             status: :accepted
     else
-      render json: {
-        session: {
-          token: JsonWebToken.encode(current_user)
-        }
-      }, status: :ok
+      render json: { session: { token: JsonWebToken.encode(current_user) } },
+             status: :ok
     end
   end
 
@@ -43,7 +33,9 @@ module ApplicationHelper
       error: 'alert-danger',
       alert: 'alert-warning',
       notice: 'alert-info'
-    }[flash_type.to_sym] || flash_type.to_s
+    }[
+      flash_type.to_sym
+    ] || flash_type.to_s
   end
 
   def user_is_endpoint?
@@ -51,15 +43,10 @@ module ApplicationHelper
   end
 
   def require_endpoint!
-    unless user_is_endpoint?
-      head :unauthorized
-    end
+    head :unauthorized unless user_is_endpoint?
   end
 
   def deny_endpoint!
-    if user_is_endpoint?
-      head :forbidden
-    end
+    head :forbidden if user_is_endpoint?
   end
-
 end

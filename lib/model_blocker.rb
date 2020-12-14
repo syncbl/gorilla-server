@@ -1,5 +1,4 @@
 module ModelBlocker
-
   def block!(reason = nil)
     self.blocked_at = Time.current
     self.block_reason = reason
@@ -13,9 +12,6 @@ module ModelBlocker
   end
 
   def self.included(base)
-    base.class_eval do
-      scope :active, lambda { where(blocked_at: nil) }
-    end
+    base.class_eval { scope :active, lambda { where(blocked_at: nil) } }
   end
-
 end

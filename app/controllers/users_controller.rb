@@ -1,15 +1,13 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :deny_endpoint!
-  before_action :set_user, only: [:show, :edit, :update]
+  before_action :set_user, only: %i[show edit update]
 
   # GET /users/1
-  def show
-  end
+  def show; end
 
   # GET /users/1/edit
-  def edit
-  end
+  def edit; end
 
   # PATCH/PUT /users/1
   def update
@@ -40,5 +38,4 @@ class UsersController < ApplicationController
   def user_params
     params.fetch(:user, {})
   end
-
 end

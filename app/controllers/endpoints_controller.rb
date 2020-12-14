@@ -1,7 +1,7 @@
 class EndpointsController < ApplicationController
   before_action :authenticate_user!
-  before_action :deny_endpoint!, only: [:index, :create]
-  before_action :set_endpoint, except: [:index, :create]
+  before_action :deny_endpoint!, only: %i[index create]
+  before_action :set_endpoint, except: %i[index create]
 
   # GET /endpoints
   # GET /endpoints.json
@@ -12,13 +12,13 @@ class EndpointsController < ApplicationController
 
   # GET /endpoints/1
   # GET /endpoints/1.json
-  def show
-  end
+  def show; end
 
   # POST /endpoints.json
   def create
-    @endpoint = current_user.endpoints.find_by(id: endpoint_params[:id]) ||
-                current_user.endpoints.create(name: endpoint_params[:name])
+    @endpoint =
+      current_user.endpoints.find_by(id: endpoint_params[:id]) ||
+        current_user.endpoints.create(name: endpoint_params[:name])
     respond_to do |format|
       format.html { redirect_to endpoints_url }
       format.json { generate_token }
@@ -30,11 +30,15 @@ class EndpointsController < ApplicationController
   def update
     respond_to do |format|
       if @package.update(package_params)
-        format.html { redirect_to @package, notice: 'Endpoint was successfully updated.' }
+        format.html do
+          redirect_to @package, notice: 'Endpoint was successfully updated.'
+        end
         format.json { render :show, status: :ok, location: @package }
       else
         format.html { render :edit }
-        format.json { render json: @package.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @package.errors, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -43,12 +47,16 @@ class EndpointsController < ApplicationController
   # DELETE /endpoints/1.json
   def destroy
     @endpoint.update_attribute(:authentication_token, '')
+
     # TODO: Do we need to keep this PC or delete it? May be it can be good to keep
     # in order to show list after login with available endpoints
     #@endpoint.discard
     sign_out current_user
     respond_to do |format|
-      format.html { redirect_to endpoints_url, notice: 'Endpoint was successfully destroyed.' }
+      format.html do
+        redirect_to endpoints_url,
+                    notice: 'Endpoint was successfully destroyed.'
+      end
       format.json { head :no_content }
     end
   end
@@ -58,14 +66,21 @@ class EndpointsController < ApplicationController
   # TODO: Change render to package or settings or even outside ???
   # TODO: install_later ?
   def install
-    setting = @endpoint.install(Package.allowed_for(current_user).find_by_alias(params[:package]))
+    setting =
+      @endpoint.install(
+        Package.allowed_for(current_user).find_by_alias(params[:package])
+      )
     respond_to do |format|
       if setting
-        format.html { redirect_to endpoint_url, notice: 'Package soon will be installed.' }
+        format.html do
+          redirect_to endpoint_url, notice: 'Package soon will be installed.'
+        end
         format.json { render :show, status: :accepted, location: @endpoint }
       else
         format.html { render :edit }
-        format.json { render json: setting.errors, status: :unprocessable_entity }
+        format.json do
+          render json: setting.errors, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -91,5 +106,4 @@ class EndpointsController < ApplicationController
   def endpoint_params
     params.require(:endpoint).permit(:id, :name, :package)
   end
-
 end

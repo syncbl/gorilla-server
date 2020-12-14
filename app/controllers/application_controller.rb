@@ -10,12 +10,19 @@ class ApplicationController < ActionController::Base
 
   def api_check_headers
     reset_session
-    if service_keys.include?(request.headers['X-API-Service']) || Rails.env.development?
+    if service_keys.include?(request.headers['X-API-Service']) ||
+         Rails.env.development?
       if request.headers['X-API-Token']
-        return true unless payload = JsonWebToken.decode(request.headers['X-API-Token'])
+        unless payload = JsonWebToken.decode(request.headers['X-API-Token'])
+          return true
+        end
         case payload[:scope]
         when 'Endpoint'
-          if endpoint = Endpoint.active.find_by(id: payload[:uuid], authentication_token: payload[:token])
+          if endpoint =
+               Endpoint.active.find_by(
+                 id: payload[:uuid],
+                 authentication_token: payload[:token]
+               )
             bypass_sign_in(endpoint.user)
             current_user.endpoint = endpoint
           else
@@ -23,7 +30,11 @@ class ApplicationController < ActionController::Base
             #Endpoint.find_by(id: payload[:uuid])&.block! reason: "#{payload[:uuid]}|#{payload[:token]}"
           end
         when 'User'
-          if user = User.active.find_by(id: payload[:uuid], authentication_token: payload[:token])
+          if user =
+               User.active.find_by(
+                 id: payload[:uuid],
+                 authentication_token: payload[:token]
+               )
             bypass_sign_in(user)
           end
         end
@@ -36,8 +47,8 @@ class ApplicationController < ActionController::Base
   end
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :locale])
-    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :locale])
+    devise_parameter_sanitizer.permit(:sign_up, keys: %i[name locale])
+    devise_parameter_sanitizer.permit(:account_update, keys: %i[name locale])
   end
 
   # TODO: To check license

@@ -5,8 +5,12 @@ class User < ApplicationRecord
 
   # Include default devise modules. Others available are:
   # :validatable, :confirmable, :lockable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable,
-         :timeoutable, :lockable
+  devise :database_authenticatable,
+         :registerable,
+         :recoverable,
+         :rememberable,
+         :timeoutable,
+         :lockable
 
   has_secure_token :authentication_token
 
@@ -16,16 +20,16 @@ class User < ApplicationRecord
   has_many :endpoints, dependent: :destroy
 
   validates :email,
-    presence: true,
-    length: { maximum: MAX_EMAIL_LENGTH },
-    uniqueness: { case_sensitive: false },
-    format: { with: EMAIL_FORMAT }
+            presence: true,
+            length: { maximum: MAX_EMAIL_LENGTH },
+            uniqueness: { case_sensitive: false },
+            format: { with: EMAIL_FORMAT }
   validates :username,
-    presence: true,
-    length: { minimum: MIN_NAME_LENGTH, maximum: MAX_NAME_LENGTH },
-    uniqueness: { case_sensitive: false },
-    exclusion: { in: NAME_EXCLUSIONS },
-    format: { with: NAME_FORMAT }
+            presence: true,
+            length: { minimum: MIN_NAME_LENGTH, maximum: MAX_NAME_LENGTH },
+            uniqueness: { case_sensitive: false },
+            exclusion: { in: NAME_EXCLUSIONS },
+            format: { with: NAME_FORMAT }
 
   attr_accessor :endpoint
 
@@ -33,8 +37,7 @@ class User < ApplicationRecord
 
   def set_username
     if username.nil? || (username.size < MIN_NAME_LENGTH)
-      self.username = "#{self.email[/^[^@]+/]}#{rand(10000)}"
+      self.username = "#{self.email[/^[^@]+/]}#{rand(10_000)}"
     end
   end
-
 end

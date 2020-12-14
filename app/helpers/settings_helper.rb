@@ -1,2 +1,1 @@
-module SettingsHelper
-end
+module SettingsHelper; end

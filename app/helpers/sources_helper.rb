@@ -1,2 +1,1 @@
-module SourcesHelper
-end
+module SourcesHelper; end

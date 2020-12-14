@@ -1,5 +1,4 @@
 class Auth::RegistrationsController < Devise::RegistrationsController
-
   def create
     respond_to do |format|
       format.any(*navigational_formats) { super }
@@ -18,7 +17,15 @@ class Auth::RegistrationsController < Devise::RegistrationsController
   protected
 
   def registration_params
-    params.require(:user).permit(:email, :password, :password_confirmation, :name, :locale, :endpoint)
+    params
+      .require(:user)
+      .permit(
+        :email,
+        :password,
+        :password_confirmation,
+        :name,
+        :locale,
+        :endpoint
+      )
   end
-
 end

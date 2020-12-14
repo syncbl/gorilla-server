@@ -8,38 +8,46 @@ class Package < ApplicationRecord
   has_many :endpoints, through: :settings
   has_many :sources, dependent: :destroy
   has_and_belongs_to_many :dependencies,
-    class_name: "Package",
-    join_table: :dependencies,
-    foreign_key: :package_id,
-    association_foreign_key: :dependent_package_id
-  belongs_to :replacement,
-    class_name: "Package",
-    optional: true
+                          class_name: 'Package',
+                          join_table: :dependencies,
+                          foreign_key: :package_id,
+                          association_foreign_key: :dependent_package_id
+  belongs_to :replacement, class_name: 'Package', optional: true
 
   has_one_attached :icon
   has_many_attached :parts
 
   validates :name,
-    presence: true,
-    length: { minimum: MIN_NAME_LENGTH, maximum: MAX_PACKAGE_NAME_LENGTH },
-    uniqueness: { scope: :user_id, case_sensitive: false },
-    format: { with: NAME_FORMAT },
-    exclusion: { in: NAME_EXCLUSIONS }
+            presence: true,
+            length: {
+              minimum: MIN_NAME_LENGTH,
+              maximum: MAX_PACKAGE_NAME_LENGTH
+            },
+            uniqueness: { scope: :user_id, case_sensitive: false },
+            format: { with: NAME_FORMAT },
+            exclusion: { in: NAME_EXCLUSIONS }
+
   # TODO: Move aliases to table
   validates :alias,
-    allow_blank: true,
-    length: { minimum: MIN_NAME_LENGTH, maximum: MAX_PACKAGE_NAME_LENGTH },
-    uniqueness: { case_sensitive: false },
-    format: { with: NAME_FORMAT },
-    exclusion: { in: NAME_EXCLUSIONS }
+            allow_blank: true,
+            length: {
+              minimum: MIN_NAME_LENGTH,
+              maximum: MAX_PACKAGE_NAME_LENGTH
+            },
+            uniqueness: { case_sensitive: false },
+            format: { with: NAME_FORMAT },
+            exclusion: { in: NAME_EXCLUSIONS }
   validates :icon, size: { less_than: 1.megabyte }
-  validates :parts, content_type: 'application/zip', size: { less_than: 1.gigabyte }
+  validates :parts,
+            content_type: 'application/zip',
+            size: { less_than: 1.gigabyte }
 
-  scope :allowed_for, -> (user) {
-    # TODO Remove nil user, because user can't be blank
-    # TODO Group permissions
-    where(user: user).or(where(trusted: true))
-  }
+  scope :allowed_for,
+        ->(user) {
+          # TODO Remove nil user, because user can't be blank
+          # TODO Group permissions
+          where(user: user).or(where(trusted: true))
+        }
 
   def all_dependencies(packages = Set[])
     Package.all_dependencies(self, packages)
@@ -74,5 +82,4 @@ class Package < ApplicationRecord
   def internal_replaced_by
     replacement.nil? ? self : replacement.replaced_by
   end
-
 end

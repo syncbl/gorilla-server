@@ -11,12 +11,12 @@ class Setting < ApplicationRecord
 
   #encrypts :data, algorithm: "hybrid", encryption_key: encryption_key, decryption_key: decryption_key
 
-  scope :with_package, -> {
-    joins(:package)
-  }
+  scope :with_package, -> { joins(:package) }
 
-  scope :updated, -> {
-    with_package.where(Setting.arel_table[:updated_at].lt(Package.arel_table[:updated_at]))
-  }
-
+  scope :updated,
+        -> {
+          with_package.where(
+            Setting.arel_table[:updated_at].lt(Package.arel_table[:updated_at])
+          )
+        }
 end

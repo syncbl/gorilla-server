@@ -7,12 +7,10 @@ class Endpoint < ApplicationRecord
   belongs_to :user
   has_many :settings
   has_many :packages, through: :settings
-  has_and_belongs_to_many :packages,
-   join_table: :settings,
-   dependent: :destroy
+  has_and_belongs_to_many :packages, join_table: :settings, dependent: :destroy
 
   # TODO: Move to method in order to show inactive status in list
-   #scope :actual, -> {
+  #scope :actual, -> {
   #  where(Endpoint.arel_table[:updated_at]
   #    .gt(Time.current - Rails.application.config.syncbl.endpoint_token_expiration_time))
   #}
@@ -25,7 +23,8 @@ class Endpoint < ApplicationRecord
 
   def install(package)
     #packages << package
-    settings.find_by(package: package)&.undiscard || settings.create(package: package)
+    settings.find_by(package: package)&.undiscard ||
+      settings.create(package: package)
   end
 
   def actualized_settings
@@ -50,5 +49,4 @@ class Endpoint < ApplicationRecord
     install_packages.each { |p| settings.create(package: p, dependent: true) }
     settings.reload
   end
-
 end

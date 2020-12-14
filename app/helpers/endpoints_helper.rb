@@ -1,2 +1,1 @@
-module EndpointsHelper
-end
+module EndpointsHelper; end

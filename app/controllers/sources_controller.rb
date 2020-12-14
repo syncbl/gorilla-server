@@ -1,5 +1,5 @@
 class SourcesController < ApplicationController
-  before_action :set_source, only: [:show, :edit, :update, :destroy]
+  before_action :set_source, only: %i[show edit update destroy]
 
   # GET /sources
   def index
@@ -7,8 +7,7 @@ class SourcesController < ApplicationController
   end
 
   # GET /sources/1
-  def show
-  end
+  def show; end
 
   # GET /sources/new
   def new
@@ -16,8 +15,7 @@ class SourcesController < ApplicationController
   end
 
   # GET /sources/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /sources
   def create
@@ -46,13 +44,14 @@ class SourcesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_source
-      @source = Source.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def source_params
-      params.fetch(:source, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_source
+    @source = Source.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def source_params
+    params.fetch(:source, {})
+  end
 end

@@ -1,11 +1,12 @@
 class SettingsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_endpoint!
-  before_action :set_setting, only: [:show, :edit, :update, :destroy]
+  before_action :set_setting, only: %i[show edit update destroy]
 
   # GET /settings
   def index
     settings = current_user.endpoint.actualized_settings
+
     # TODO: Check for reload and optimize query
     if params[:updates] == '1'
       @pagy, @settings = pagy(settings.updated)
@@ -15,8 +16,7 @@ class SettingsController < ApplicationController
   end
 
   # GET /settings/1
-  def show
-  end
+  def show; end
 
   # GET /settings/new
   def new
@@ -24,12 +24,10 @@ class SettingsController < ApplicationController
   end
 
   # GET /settings/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /settings
-  def create
-  end
+  def create; end
 
   # PATCH/PUT /settings/1
   def update
@@ -46,7 +44,9 @@ class SettingsController < ApplicationController
   def destroy
     respond_to do |format|
       if @setting.destroy
-        format.html { redirect_to settings_url, notice: 'Package was successfully removed.' }
+        format.html do
+          redirect_to settings_url, notice: 'Package was successfully removed.'
+        end
         format.json { head :no_content }
       else
         format.html { render :show }
@@ -60,12 +60,12 @@ class SettingsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   # ActiveRecord::RecordNotFound only with find_by
   def set_setting
-    @setting = current_user.endpoint.settings.find_by!(package_id: setting_params[:id])
+    @setting =
+      current_user.endpoint.settings.find_by!(package_id: setting_params[:id])
   end
 
   # Only allow a trusted parameter "white list" through.
   def setting_params
     params.permit(:id, :updates)
   end
-
 end

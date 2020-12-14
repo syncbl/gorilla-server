@@ -1,2 +1,1 @@
-module PackagesHelper
-end
+module PackagesHelper; end

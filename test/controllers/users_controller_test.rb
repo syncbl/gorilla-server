@@ -6,12 +6,12 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     sign_in(@user)
   end
 
-  test "should get index" do
+  test 'should get index' do
     get users_url
     assert_response :success
   end
 
-  test "should show user" do
+  test 'should show user' do
     get user_url(@user)
     assert_response :success
   end

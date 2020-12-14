@@ -1,5 +1,4 @@
 class Auth::SessionsController < Devise::SessionsController
-
   def create
     old_session = session.to_hash
     reset_session
@@ -13,5 +12,4 @@ class Auth::SessionsController < Devise::SessionsController
       end
     end
   end
-
 end
