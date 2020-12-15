@@ -32,6 +32,14 @@ class Endpoint < ApplicationRecord
     discard_packages = Set[]
     install_packages = Set[]
     settings.with_package.map do |setting|
+      if setting.package.replaced?
+        # TODO: Add upgrade strategy
+        setting.discard
+        discard_packages << setting.package
+        install_packages << setting.package.replacement
+      end
+    end
+    settings.with_package.map do |setting|
       if setting.discarded?
         setting.package.all_dependencies(discard_packages)
       else
