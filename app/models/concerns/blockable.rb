@@ -1,6 +1,8 @@
 module Blockable
   extend ActiveSupport::Concern
 
+  # TODO: Add logger
+
   def block!(reason = nil)
     self.blocked_at = Time.current
     self.block_reason = reason
@@ -11,6 +13,10 @@ module Blockable
     self.blocked_at = nil
     self.block_reason = nil
     self.save!
+  end
+
+  def blocked?
+    blocked_at != nil
   end
 
   def self.included(base)
