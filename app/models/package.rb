@@ -11,6 +11,7 @@ class Package < ApplicationRecord
            as: :source,
            class_name: 'Source',
            dependent: :destroy
+  # TODO: Remove files like GIT after delete. Script? JSON?
   has_many :updates,
            as: :source,
            class_name: 'Source',
