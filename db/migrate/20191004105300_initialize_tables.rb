@@ -21,14 +21,8 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       t.datetime :blocked_at
       t.string :block_reason
-      t.datetime :created_at,
-                 index: true,
-                 null: false,
-                 default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :updated_at,
-                 index: true,
-                 null: false,
-                 default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :created_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :updated_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
     end
 
     # ----------
@@ -39,22 +33,12 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       t.string :authentication_token, limit: 24
 
-      t.belongs_to :user,
-                   type: :uuid,
-                   foreign_key: true,
-                   index: true,
-                   null: false
+      t.belongs_to :user, type: :uuid, foreign_key: true, index: true, null: false
 
       t.datetime :blocked_at
       t.string :block_reason
-      t.datetime :created_at,
-                 index: true,
-                 null: false,
-                 default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :updated_at,
-                 index: true,
-                 null: false,
-                 default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :created_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :updated_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
     end
 
     # ----------
@@ -70,26 +54,14 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       t.jsonb :data
 
-      t.belongs_to :user,
-                   type: :uuid,
-                   foreign_key: true,
-                   index: true,
-                   null: false
-      t.belongs_to :replacement,
-                   type: :uuid,
-                   foreign_key: { to_table: :packages },
-                   index: true
+      t.belongs_to :user, type: :uuid, index: true, null: false, foreign_key: true
+      t.belongs_to :replacement, type: :uuid, index: true, foreign_key: { to_table: :packages }
+
 
       t.datetime :blocked_at
       t.string :block_reason
-      t.datetime :created_at,
-                 index: true,
-                 null: false,
-                 default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :updated_at,
-                 index: true,
-                 null: false,
-                 default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :created_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :updated_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
 
       # Packages will be unique for everyone or for selected user
 
@@ -100,16 +72,8 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
     # ----------
     create_table :dependencies, id: false do |t|
-      t.belongs_to :package,
-                   type: :uuid,
-                   foreign_key: true,
-                   index: true,
-                   null: false
-      t.belongs_to :dependent_package,
-                   class_name: 'Package',
-                   type: :uuid,
-                   index: true,
-                   null: false
+      t.belongs_to :package, type: :uuid, index: true, null: false, foreign_key: true
+      t.belongs_to :dependent_package, class_name: 'Package', type: :uuid, index: true, null: false
 
       t.index %i[package_id dependent_package_id], unique: true
     end
@@ -121,26 +85,12 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       # TODO: Logs, other data, variables and settings
       t.boolean :dependent, null: false, default: false
 
-      t.belongs_to :endpoint,
-                   type: :uuid,
-                   foreign_key: true,
-                   index: true,
-                   null: false
-      t.belongs_to :package,
-                   type: :uuid,
-                   foreign_key: true,
-                   index: true,
-                   null: false
+      t.belongs_to :endpoint, type: :uuid, index: true, null: false, foreign_key: true
+      t.belongs_to :package, type: :uuid, index: true, null: false, foreign_key: true
 
       t.datetime :discarded_at, index: true
-      t.datetime :created_at,
-                 index: true,
-                 null: false,
-                 default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :updated_at,
-                 index: true,
-                 null: false,
-                 default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :created_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :updated_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
 
       t.index %i[endpoint_id package_id], unique: true
     end
@@ -152,20 +102,10 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.string :description
       t.string :external_url
 
-      t.belongs_to :package,
-                   type: :uuid,
-                   foreign_key: true,
-                   index: true,
-                   null: false
+      t.belongs_to :package, type: :uuid, index: true, null: false, foreign_key: true
 
-      t.datetime :created_at,
-                 index: true,
-                 null: false,
-                 default: -> { 'CURRENT_TIMESTAMP' }
-      t.datetime :updated_at,
-                 index: true,
-                 null: false,
-                 default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :created_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+      t.datetime :updated_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
     end
   end
 end
