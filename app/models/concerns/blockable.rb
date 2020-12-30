@@ -1,4 +1,6 @@
-module ModelBlocker
+module Blockable
+  extend ActiveSupport::Concern
+
   def block!(reason = nil)
     self.blocked_at = Time.current
     self.block_reason = reason

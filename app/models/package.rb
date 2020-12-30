@@ -1,5 +1,5 @@
 class Package < ApplicationRecord
-  include ModelBlocker
+  include Blockable
 
   self.implicit_order_column = :created_at
 

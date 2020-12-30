@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  include ModelBlocker
+  include Blockable
 
   before_create :set_username
 
