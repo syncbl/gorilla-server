@@ -1,14 +1,18 @@
 class NameRestrictValidator < ActiveModel::EachValidator
   RESTRICTED_NAMES = %w[
+    sign_in
+    sign_out
+    package
     packages
-    endpoint
     user
     users
     endpoint
     endpoints
+    setting
     settings
-    sign_in
-    sign_out
+    source
+    sources
+    storage
   ]
 
   def validate_each(record, attribute, value)

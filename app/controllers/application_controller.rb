@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
             current_user.endpoint = endpoint
           else
             puts "!!!!! BLOCK !!!!! #{payload[:uuid]}|#{payload[:token]}"
-            #Endpoint.find_by(id: payload[:uuid])&.block! reason: "#{payload[:uuid]}|#{payload[:token]}"
+            # TODO: Endpoint.find_by(id: payload[:uuid])&.block! reason: "#{payload[:uuid]}|#{payload[:token]}"
           end
         when 'User'
           if user =

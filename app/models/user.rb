@@ -25,10 +25,10 @@ class User < ApplicationRecord
             uniqueness: { case_sensitive: false },
             format: { with: EMAIL_FORMAT }
   validates :username,
+            name_restrict: true,
             presence: true,
             length: { minimum: MIN_NAME_LENGTH, maximum: MAX_NAME_LENGTH },
             uniqueness: { case_sensitive: false },
-            exclusion: { in: NAME_EXCLUSIONS },
             format: { with: NAME_FORMAT }
 
   attr_accessor :endpoint

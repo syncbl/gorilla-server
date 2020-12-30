@@ -18,25 +18,24 @@ class Package < ApplicationRecord
   has_many_attached :parts
 
   validates :name,
+            name_restrict: true,
             presence: true,
             length: {
               minimum: MIN_NAME_LENGTH,
               maximum: MAX_PACKAGE_NAME_LENGTH
             },
             uniqueness: { scope: :user_id, case_sensitive: false },
-            format: { with: NAME_FORMAT },
-            exclusion: { in: NAME_EXCLUSIONS }
-
+            format: { with: NAME_FORMAT }
   # TODO: Move aliases to table
   validates :alias,
+            name_restrict: true,
             allow_blank: true,
             length: {
               minimum: MIN_NAME_LENGTH,
               maximum: MAX_PACKAGE_NAME_LENGTH
             },
             uniqueness: { case_sensitive: false },
-            format: { with: NAME_FORMAT },
-            exclusion: { in: NAME_EXCLUSIONS }
+            format: { with: NAME_FORMAT }
   validates :icon, size: { less_than: 1.megabyte }
   validates :parts,
             content_type: 'application/zip',
