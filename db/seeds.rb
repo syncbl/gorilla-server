@@ -34,7 +34,7 @@ when 'development'
        )
   Package
     .first
-    .sources
+    .files
     .create(
       external_url:
         'https://www.heidisql.com/installers/HeidiSQL_11.0.0.5919_Setup.exe'

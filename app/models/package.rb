@@ -6,7 +6,16 @@ class Package < ApplicationRecord
   belongs_to :user
   has_many :settings, dependent: :destroy
   has_many :endpoints, through: :settings
-  has_many :sources, dependent: :destroy
+
+  has_many :files,
+           as: :source,
+           class_name: 'Source',
+           dependent: :destroy
+  has_many :updates,
+           as: :source,
+           class_name: 'Source',
+           dependent: :destroy
+
   has_and_belongs_to_many :dependencies,
                           class_name: 'Package',
                           join_table: :dependencies,

@@ -57,7 +57,6 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.belongs_to :user, type: :uuid, index: true, null: false, foreign_key: true
       t.belongs_to :replacement, type: :uuid, index: true, foreign_key: { to_table: :packages }
 
-
       t.datetime :blocked_at
       t.string :block_reason
       t.datetime :created_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
@@ -102,7 +101,9 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.string :description
       t.string :external_url
 
-      t.belongs_to :package, type: :uuid, index: true, null: false, foreign_key: true
+      # TODO: Allow for unused files?
+      # t.belongs_to :package, type: :uuid, index: true, null: false, foreign_key: true
+      t.references :source, type: :uuid, null: false, index: true, polymorphic: true
 
       t.datetime :created_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }

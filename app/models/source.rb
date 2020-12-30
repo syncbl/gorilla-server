@@ -1,7 +1,7 @@
 class Source < ApplicationRecord
   self.implicit_order_column = :created_at
 
-  belongs_to :package
+  belongs_to :package, polymorphic: true
 
   has_one_attached :file
 

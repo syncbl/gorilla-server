@@ -4,7 +4,7 @@ class ProcessPartsJob < ApplicationJob
   def perform(package, checksum)
     return false if package.parts.empty?
 
-    source = package.sources.new
+    source = package.files.new
     if file = ActiveStorage::Blob.find_by(checksum: checksum)
       source.file = file
     else

@@ -106,11 +106,12 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.string "destination"
     t.string "description"
     t.string "external_url"
-    t.uuid "package_id", null: false
+    t.string "source_type", null: false
+    t.uuid "source_id", null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_sources_on_created_at"
-    t.index ["package_id"], name: "index_sources_on_package_id"
+    t.index ["source_type", "source_id"], name: "index_sources_on_source_type_and_source_id"
     t.index ["updated_at"], name: "index_sources_on_updated_at"
   end
 
@@ -146,5 +147,4 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   add_foreign_key "packages", "users"
   add_foreign_key "settings", "endpoints"
   add_foreign_key "settings", "packages"
-  add_foreign_key "sources", "packages"
 end
