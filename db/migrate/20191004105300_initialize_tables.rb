@@ -96,6 +96,8 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
     # ----------
     create_table :sources, id: :uuid do |t|
+      t.boolean :enabled, null: false, default: false
+
       # TODO: What to do with file: run, unpack, exec
       t.string :destination
       t.string :description

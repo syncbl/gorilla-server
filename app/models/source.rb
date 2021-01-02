@@ -13,6 +13,11 @@ class Source < ApplicationRecord
             content_type: 'application/zip',
             size: { less_than: 1.gigabyte }
 
+  scope :enabled,
+  -> {
+    where(enabled: true)
+  }
+
   def internal_file?
     type == :internal_file
   end
