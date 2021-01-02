@@ -23,15 +23,12 @@ class JsonWebToken
   end
 
   def self.decode(token)
-    JWT
-      .decode(
-        token,
-        Rails.application.credentials.jwt_secret,
-        true,
-        { algorithm: 'HS256' }
-      )
-      &.first
-      &.with_indifferent_access
+    JWT.decode(
+      token,
+      Rails.application.credentials.jwt_secret,
+      true,
+      { algorithm: 'HS256' }
+    )&.first&.with_indifferent_access
   rescue JWT::ExpiredSignature, JWT::DecodeError
     false
   end

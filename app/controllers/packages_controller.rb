@@ -51,20 +51,17 @@ class PackagesController < ApplicationController
   # PATCH/PUT /packages/1
   # PATCH/PUT /packages/1.json
   def update
-    if package_params[:method] == 'clear_parts'
+    if package_params[:method] == 'clear'
       @package.parts.purge_later
       head :accepted
-    elsif package_params[:method] == 'clear_all'
-      @package.parts.purge_later
-      @package.files.destroy_all
-      head :accepted
-    elsif package_params[:method] == 'store_parts'
+    elsif package_params[:method] == 'store' and package_params[:destination].present?
       # TODO: Update marker in package to check if jobs were successful
-      ProcessPartsJob.perform_later(@package, package_params[:checksum])
-
-      #FlattenUpdatesJob.perform_later(@package)
+      ProcessPartsJob.perform_later(@package,
+        destination: package_params[:destination].to_sym,
+        checksum: package_params[:checksum]
+      )
       head :accepted
-    elsif package_params[:part].present?
+    elsif package_params[:part].present? && (@package.parts.size <= MAX_PARTS_COUNT)
       @package.parts.attach(package_params[:part])
       head :accepted
     else
@@ -125,6 +122,6 @@ class PackagesController < ApplicationController
   end
 
   def package_params
-    params.permit(:id, :file, :part, :checksum, :method, :items)
+    params.permit(:id, :part, :checksum, :method, :items, :source)
   end
 end

@@ -1,10 +1,21 @@
 class ProcessPartsJob < ApplicationJob
   queue_as :default
 
-  def perform(package, checksum)
-    return false if package.parts.empty?
+  def perform(package, **args)
+    destination = args[:destination]
+    checksum = args[:checksum]
 
-    source = package.files.new
+    if package.parts.empty? || !%i[files updates].inlcude?(destination) || checksum.empty?
+      return false
+    end
+
+    case destination
+    when :files
+      source = package.files.create
+    when :updates
+      source = package.updates.create
+    end
+
     if file = ActiveStorage::Blob.find_by(checksum: checksum)
       source.file = file
     else
@@ -37,6 +48,7 @@ class ProcessPartsJob < ApplicationJob
       source.save
       package.size += unpacked_size
       package.save
+      # TODO: Inform user
     else
       # TODO: Block package/user, inform admin
       source.destroy

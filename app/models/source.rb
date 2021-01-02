@@ -6,7 +6,9 @@ class Source < ApplicationRecord
   has_one_attached :file
 
   # TODO: Check link for content disposition
-  validates :external_url, format: URI.regexp(%w[http https]), allow_nil: true
+  validates :external_url,
+            format: URI.regexp(%w[http https]),
+            allow_nil: true
   validates :file,
             content_type: 'application/zip',
             size: { less_than: 1.gigabyte }
@@ -19,6 +21,7 @@ class Source < ApplicationRecord
     type == :external_url
   end
 
+  # While parts is being processed, undefined is a state of progress
   def undefined?
     type.nil?
   end

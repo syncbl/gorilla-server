@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
           return true
         end
         case payload[:scope]
-        when 'Endpoint'
+        when Endpoint.name
           if endpoint =
                Endpoint.active.find_by(
                  id: payload[:uuid],
@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
             puts "!!!!! BLOCK !!!!! #{payload[:uuid]}|#{payload[:token]}"
             # TODO: Endpoint.find_by(id: payload[:uuid])&.block! reason: "#{payload[:uuid]}|#{payload[:token]}"
           end
-        when 'User'
+        when User.name
           if user =
                User.active.find_by(
                  id: payload[:uuid],
