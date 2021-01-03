@@ -5,6 +5,8 @@ json = {
   description: source.description
 }
 
-json[:file] = render 'layouts/file', file: source.file
+if source.file.attached?
+  json[:file] = render 'layouts/file', file: source.file
+end
 
 json

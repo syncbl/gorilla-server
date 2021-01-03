@@ -50,18 +50,19 @@ class PackagesController < ApplicationController
 
   # PATCH/PUT /packages/1
   # PATCH/PUT /packages/1.json
+  # TODO: Move to sources controller
   def update
     if package_params[:method] == 'clear'
       @package.parts.purge_later
       head :accepted
-    elsif package_params[:method] == 'store' and package_params[:destination].present?
+    elsif package_params[:method] == 'store'
       # TODO: Update marker in package to check if jobs were successful
       ProcessPartsJob.perform_later(@package,
-        destination: package_params[:destination].to_sym,
         checksum: package_params[:checksum]
       )
       head :accepted
-    elsif package_params[:part].present? && (@package.parts.size <= MAX_PARTS_COUNT)
+    elsif package_params[:part].present?
+      #return false if @package.external? || (@package.parts.size <= MAX_PARTS_COUNT)
       @package.parts.attach(package_params[:part])
       head :accepted
     else

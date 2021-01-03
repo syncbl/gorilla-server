@@ -2,19 +2,14 @@ class ProcessPartsJob < ApplicationJob
   queue_as :default
 
   def perform(package, **args)
-    destination = args[:destination]
     checksum = args[:checksum]
 
-    if package.parts.empty? || !%i[files updates].inlcude?(destination) || checksum.empty?
+    if package.parts.empty? || checksum.empty?
       return false
     end
 
-    case destination
-    when :files
-      source = package.files.create
-    when :updates
-      source = package.updates.create
-    end
+    source = package.sources.create
+    unpacked_size = 0
 
     if file = ActiveStorage::Blob.find_by(checksum: checksum)
       source.file = file
@@ -22,6 +17,9 @@ class ProcessPartsJob < ApplicationJob
       tmpfilename = Dir::Tmpname.create(%w[syncbl- .tmp]) {}
       File.open(tmpfilename, 'wb') do |tmpfile|
         package.parts.each do |file|
+
+          !!! FIXME !!!
+
           file.open { |f| tmpfile.write(File.open(f.path, 'rb').read) }
           file.destroy
         end
@@ -29,7 +27,7 @@ class ProcessPartsJob < ApplicationJob
       filename = Time.now.strftime('%Y%m%d%H%M%S') + '.zip'
 
       # TODO: Make sure zip is deleted if fault
-      unpacked_size = 0
+      filelist = {}
       Zip::File.open(tmpfilename) do |zipfile|
         zipfile.each do |z|
           if (z.size > MAX_FILE_SIZE)
@@ -37,6 +35,7 @@ class ProcessPartsJob < ApplicationJob
             package.blocked_at = Time.current
             break
           end
+          byebug
           unpacked_size += z.size
         end
       end

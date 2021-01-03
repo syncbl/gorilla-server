@@ -99,8 +99,9 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     # ----------
     create_table :sources, id: :uuid do |t|
       # TODO: What to do with file: run, unpack, exec
-      t.string :destination
-      t.string :description
+      t.string :destination, null: false, default: ""
+      t.string :description, null: false, default: ""
+      t.jsonb :filelist
 
       # TODO: Allow for unused files?
       t.belongs_to :package, type: :uuid, index: true, null: false, foreign_key: true

@@ -7,7 +7,7 @@ json_package[:dependencies] = @package.all_dependencies.map do |dependent|
 end
 
 if @package.internal?
-  json_package[:sources] = @package.files.map do |source|
+  json_package[:sources] = @package.sources.map do |source|
     render 'sources/show', source: source
   end
 elsif @package.external?

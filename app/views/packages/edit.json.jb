@@ -6,7 +6,7 @@ json_package[:dependencies] = @package.all_dependencies.map do |dependent|
   render 'show', package: dependent
 end
 
-json_package[:sources] = @package.files.map do |source|
+json_package[:sources] = @package.sources.map do |source|
   render 'sources/show', source: source
 end
 

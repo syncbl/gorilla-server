@@ -41,7 +41,6 @@ class Package < ApplicationRecord
             format: { with: NAME_FORMAT }
   validates :icon, size: { less_than: 1.megabyte }
   validates :parts,
-            content_type: 'application/zip',
             size: { less_than: 1.gigabyte }
   # TODO: Check link for content disposition
   validates :external_url,
