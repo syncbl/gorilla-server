@@ -25,6 +25,7 @@ class ApplicationController < ActionController::Base
                )
             bypass_sign_in(endpoint.user)
             current_user.endpoint = endpoint
+            # TODO: Store request.remote_ip
           else
             puts "!!!!! BLOCK !!!!! #{payload[:uuid]}|#{payload[:token]}"
             # TODO: Endpoint.find_by(id: payload[:uuid])&.block! reason: "#{payload[:uuid]}|#{payload[:token]}"
