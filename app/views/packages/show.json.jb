@@ -6,9 +6,14 @@ json_package[:dependencies] = @package.all_dependencies.map do |dependent|
   render 'show', package: dependent
 end
 
-json_package[:sources] = @package.files.map do |source|
-  render 'sources/show', source: source
+if @package.internal?
+  json_package[:sources] = @package.files.map do |source|
+    render 'sources/show', source: source
+  end
+elsif @package.external?
+  json_package[:external_url] = @package.external_url
 end
+
 
 json[:package] = json_package
 

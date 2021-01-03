@@ -1,5 +1,8 @@
 class SourcesController < ApplicationController
-  before_action :set_source, only: %i[show edit update destroy]
+  before_action :authenticate_user!, except: %i[index show]
+  before_action :deny_endpoint!, except: %i[index show]
+  before_action :set_source, except: %i[index new create]
+  before_action :check_edit_permissions!, only: %i[edit update delete]
 
   # GET /sources
   def index
@@ -46,6 +49,7 @@ class SourcesController < ApplicationController
   private
 
   # Use callbacks to share common setup or constraints between actions.
+  # TODO: Ensure, we can access there only after authorization
   def set_source
     @source = Source.find(params[:id])
   end
@@ -53,5 +57,10 @@ class SourcesController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   def source_params
     params.fetch(:source, {})
+  end
+
+  def check_edit_permissions!
+    # TODO: Permissions
+    head :forbidden if @source.package.user.id != current_user.id
   end
 end

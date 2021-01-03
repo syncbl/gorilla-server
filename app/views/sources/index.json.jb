@@ -1,5 +1,5 @@
 # Only active sources allowed in API
-@sources.enabled.map do |source|
+@sources.map do |source|
   {
     id: source.id,
     url: source_url(source, format: :json)

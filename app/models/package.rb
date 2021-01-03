@@ -7,15 +7,8 @@ class Package < ApplicationRecord
   has_many :settings, dependent: :destroy
   has_many :endpoints, through: :settings
 
-  has_many :files,
-           as: :source,
-           class_name: 'Source',
-           dependent: :destroy
+  has_many :sources, dependent: :destroy
   # TODO: Remove files like GIT after delete. Script? JSON?
-  has_many :updates,
-           as: :source,
-           class_name: 'Source',
-           dependent: :destroy
 
   has_and_belongs_to_many :dependencies,
                           class_name: 'Package',
@@ -50,6 +43,10 @@ class Package < ApplicationRecord
   validates :parts,
             content_type: 'application/zip',
             size: { less_than: 1.gigabyte }
+  # TODO: Check link for content disposition
+  validates :external_url,
+            format: URI.regexp(%w[http https]),
+            allow_nil: true
 
   scope :allowed_for,
         ->(user) {
@@ -84,6 +81,14 @@ class Package < ApplicationRecord
 
   def title
     self.alias.present? ? "#{self.name} [#{self.alias}]" : self.name
+  end
+
+  def internal?
+    external_url.nil? && sources.any?
+  end
+
+  def external?
+    external_url.present?
   end
 
   private

@@ -48,7 +48,9 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       # TODO: Groups
       t.string :group_name, limit: 100
+      # TODO: Check size by HEAD for external URLs
       t.bigint :size, null: false, default: 0
+      t.string :external_url
 
       t.boolean :trusted, null: false, default: false
 
@@ -96,16 +98,13 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
     # ----------
     create_table :sources, id: :uuid do |t|
-      t.boolean :enabled, null: false, default: false
-
       # TODO: What to do with file: run, unpack, exec
       t.string :destination
       t.string :description
-      t.string :external_url
 
       # TODO: Allow for unused files?
-      # t.belongs_to :package, type: :uuid, index: true, null: false, foreign_key: true
-      t.references :source, type: :uuid, null: false, index: true, polymorphic: true
+      t.belongs_to :package, type: :uuid, index: true, null: false, foreign_key: true
+      #t.references :source, type: :uuid, null: false, index: true, polymorphic: true
 
       t.datetime :created_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }

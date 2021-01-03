@@ -25,28 +25,19 @@ when 'development'
              alias: 'openssl',
              trusted: true,
              user: u,
-             group_name: 'Test'
+             group_name: 'Test',
+             external_url: 'https://www.heidisql.com/installers/HeidiSQL_11.0.0.5919_Setup.exe'
            },
            { name: 'openssl-1_1', user: u, group_name: 'Test' },
            { name: 'openssl-1_2', user: u },
            { name: 'openssl-dev', user: u, group_name: 'Test', trusted: true }
          ]
        )
-  Package
-    .first
-    .files
-    .create(
-      external_url:
-        'https://www.heidisql.com/installers/HeidiSQL_11.0.0.5919_Setup.exe'
-    )
   Package.first.dependencies << Package.last
   Package.last.dependencies << Package.find_by(name: 'openssl-1_1')
 
-  #Package.first.files.attach(io: File.open('files/hqdefault.jpg'), filename: 'hqdefault.jpg')
-  Package
-    .first
-    .icon
-    .attach(io: File.open('files/hqdefault.jpg'), filename: 'hqdefault.jpg')
+  Package.last.sources.create.attach(io: File.open('files/hqdefault.jpg'), filename: 'hqdefault.jpg')
+  Package.first.icon.attach(io: File.open('files/hqdefault.jpg'), filename: 'hqdefault.jpg')
   #Endpoint.create name: 'Test2', user: u, id: '253307f5-0e4f-4a76-9b04-da35ba6345d5'
   #Endpoint.create name: 'Test5', user: User.last
 end

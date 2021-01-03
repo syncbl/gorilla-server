@@ -5,10 +5,6 @@ json = {
   description: source.description
 }
 
-if source.external_url?
-  json[:external_url] = source.external_url
-elsif source.internal_file?
-  json[:internal_file] = render 'layouts/file', file: source.file
-end
+json[:file] = render 'layouts/file', file: source.file
 
 json
