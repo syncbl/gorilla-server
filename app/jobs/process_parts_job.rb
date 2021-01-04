@@ -14,12 +14,9 @@ class ProcessPartsJob < ApplicationJob
     if file = ActiveStorage::Blob.find_by(checksum: checksum)
       source.file = file
     else
-      tmpfilename = Dir::Tmpname.create(%w[syncbl- .tmp]) {}
+      tmpfilename = Dir::Tmpname.create(%w[syncbl- .tmp.zip]) {}
       File.open(tmpfilename, 'wb') do |tmpfile|
         package.parts.each do |file|
-
-          !!! FIXME !!!
-
           file.open { |f| tmpfile.write(File.open(f.path, 'rb').read) }
           file.destroy
         end
@@ -35,7 +32,7 @@ class ProcessPartsJob < ApplicationJob
             package.blocked_at = Time.current
             break
           end
-          byebug
+          puts z.methods
           unpacked_size += z.size
         end
       end

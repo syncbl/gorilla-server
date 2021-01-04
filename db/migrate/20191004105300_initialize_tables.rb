@@ -82,7 +82,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     # ----------
     # TODO: id?
     # ----------
-    create_table :settings, id: :uuid do |t|
+    create_table :settings do |t|
       # TODO: Logs, other data, variables and settings
       t.boolean :dependent, null: false, default: false
 
