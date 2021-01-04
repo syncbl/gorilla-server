@@ -9,6 +9,7 @@ gem 'puma', '~> 5.0'
 gem 'bcrypt', '~> 3.1.7'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'sass-rails', '~> 5'
+# TODO: Decide how to use webpacker, using npm or gem?
 gem 'webpacker', '~> 5'
 gem 'turbolinks', '~> 5'
 gem 'jquery-rails'

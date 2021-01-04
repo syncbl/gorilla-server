@@ -10,7 +10,9 @@ class PackagesController < ApplicationController
   def index
     @pagy, @packages =
       pagy(
-        Package.allowed_for(current_user).includes([:icon_attachment]),
+        Package.allowed_for(current_user),
+        # TODO: ".includes([:icon_attachment])," caused error
+        # NoMethodError Exception: undefined method `first' for nil:NilClass
         items: package_params[:items]
       )
   end

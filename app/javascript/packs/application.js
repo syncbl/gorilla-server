@@ -19,5 +19,5 @@ require("channels")
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
-jQuery ->
-  $("#s3-uploader").S3Uploader()
+// TODO: jQuery ->
+//  $("#s3-uploader").S3Uploader()
