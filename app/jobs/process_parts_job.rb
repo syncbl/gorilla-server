@@ -16,6 +16,7 @@ class ProcessPartsJob < ApplicationJob
     else
       tmpfilename = Dir::Tmpname.create(%w[syncbl- .tmp.zip]) {}
       File.open(tmpfilename, 'wb') do |tmpfile|
+        # FIXME!!!
         package.parts.each do |file|
           file.open { |f| tmpfile.write(File.open(f.path, 'rb').read) }
           file.destroy
