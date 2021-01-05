@@ -10,7 +10,7 @@ json_package[:sources] = @package.sources.map do |source|
   render 'sources/show', source: source
 end
 
-# TODO: Copy somewhere else, we don't need to use package as destination
+# TODO: Check if this is editor
 json_package[:parts] = @package.parts.map do |part|
   render 'layouts/file', file: part
 end

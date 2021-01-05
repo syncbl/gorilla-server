@@ -11,7 +11,7 @@ json = {
   updated_at: package.updated_at.to_i
 }
 
-if package.icon.present?
+if package.icon.attached?
   json[:icon] = render 'layouts/file', file: package.icon
 end
 

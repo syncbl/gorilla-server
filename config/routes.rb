@@ -20,6 +20,9 @@ Rails
     resources :endpoints, only: %i[index create] do
       member { post :install }
     end
+
+    # We assuming that endpoint is set by token
+    # TODO: get and update
     resources :settings, only: [:index]
     resource :user, only: [:show]
 

@@ -6,8 +6,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     create_table :users, id: :uuid do |t|
       t.string :name, limit: 100
 
-      # TODO: We can allow users without username, but they cannot publish repos
-      t.string :username, limit: 39, index: true
+      t.string :username, limit: 39, index: true, null: false
       t.string :locale, limit: 10
 
       #t.boolean :trusted, default: false
@@ -80,12 +79,11 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     end
 
     # ----------
-    # TODO: id?
-    # ----------
     create_table :settings do |t|
       # TODO: Logs, other data, variables and settings
       t.boolean :dependent, null: false, default: false
 
+      # TODO: Route for update
       t.belongs_to :endpoint, type: :uuid, index: true, null: false, foreign_key: true
       t.belongs_to :package, type: :uuid, index: true, null: false, foreign_key: true
 
@@ -103,9 +101,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.string :description, null: false, default: ""
       t.jsonb :filelist
 
-      # TODO: Allow for unused files?
       t.belongs_to :package, type: :uuid, index: true, null: false, foreign_key: true
-      #t.references :source, type: :uuid, null: false, index: true, polymorphic: true
 
       t.datetime :created_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
