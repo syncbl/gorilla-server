@@ -106,7 +106,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   create_table "sources", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "destination", default: "", null: false
     t.string "description", default: "", null: false
-    t.jsonb "filelist"
+    t.jsonb "filelist", default: {}, null: false
     t.uuid "package_id", null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -117,7 +117,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", limit: 100
-    t.string "username", limit: 39
+    t.string "username", limit: 39, null: false
     t.string "locale", limit: 10
     t.string "authentication_token", limit: 24
     t.datetime "blocked_at"
