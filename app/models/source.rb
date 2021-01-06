@@ -13,4 +13,10 @@ class Source < ApplicationRecord
   def attach(**args)
     file.attach(args)
   end
+
+  def generate_manifest(files: nil)
+    self.manifest = {
+      files: files
+    }
+  end
 end

@@ -1,4 +1,7 @@
 class ProcessPartsJob < ApplicationJob
+  require 'timeout'
+  # TODO: Add Timeout stuff
+
   queue_as :default
 
   def perform(package, **args)
@@ -24,7 +27,7 @@ class ProcessPartsJob < ApplicationJob
       filename = Time.now.strftime('%Y%m%d%H%M%S') + '.zip'
 
       # TODO: Make sure zip is deleted if fault
-      source.filelist = {}
+      filelist = {}
       Zip::File.open(tmpfilename) do |zipfile|
         zipfile.each do |z|
           if (z.size > MAX_FILE_SIZE)
@@ -32,7 +35,7 @@ class ProcessPartsJob < ApplicationJob
             package.blocked_at = Time.current
             break
           end
-          source.filelist.store(z.name, z.crc)
+          filelist.store(z.name, z.crc)
           unpacked_size += z.size
         end
       end
@@ -40,6 +43,10 @@ class ProcessPartsJob < ApplicationJob
       File.delete(tmpfilename)
     end
     if source.file.checksum == checksum
+      # TODO: Array or list?
+      source.generate_manifest(
+        files: filelist
+      )
       source.save
       package.size += unpacked_size
       package.save
