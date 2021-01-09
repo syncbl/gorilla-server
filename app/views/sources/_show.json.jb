@@ -1,6 +1,7 @@
 json = {
-  destination: source.destination,
-  description: source.description
+  description: source.description,
+  created_at: package.created_at.to_i,
+  updated_at: package.updated_at.to_i
 }
 
 if source.file.attached?

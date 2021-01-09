@@ -44,6 +44,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     create_table :packages, id: :uuid do |t|
       t.string :name, limit: 100, null: false
       t.string :alias, limit: 100
+      t.string :destination, null: false, default: ""
 
       # TODO: Groups
       t.string :group_name, limit: 100
@@ -97,7 +98,6 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     # ----------
     create_table :sources, id: :uuid do |t|
       # TODO: What to do with file: run, unpack, exec
-      t.string :destination, null: false, default: ""
       t.string :description, null: false, default: ""
       t.jsonb :manifest, null: false, default: {}
 

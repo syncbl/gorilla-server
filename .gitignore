@@ -39,4 +39,3 @@ coverage
 /config/credentials/development.key
 .solargraph.yml
 /config/credentials.yml.enc
-gemfile.lock
