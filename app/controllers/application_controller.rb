@@ -18,12 +18,10 @@ class ApplicationController < ActionController::Base
         end
         case payload[:scope]
         when Endpoint.name
-          if endpoint =
-               Endpoint.active.find_by(
-                 id: payload[:uuid],
-                 authentication_token: payload[:token]
-               )
-            bypass_sign_in(endpoint.user)
+          # TODO: Cache endpoint
+          endpoint, user = cached_endpoint(payload[:uuid], payload[:token])
+          unless endpoint.nil? || user.nil?
+            bypass_sign_in(user)
             current_user.endpoint = endpoint
             # TODO: Store request.remote_ip
           else
@@ -31,11 +29,7 @@ class ApplicationController < ActionController::Base
             # TODO: Endpoint.find_by(id: payload[:uuid])&.block! reason: "#{payload[:uuid]}|#{payload[:token]}"
           end
         when User.name
-          if user =
-               User.active.find_by(
-                 id: payload[:uuid],
-                 authentication_token: payload[:token]
-               )
+          if user = cached_user(payload[:uuid], payload[:token])
             bypass_sign_in(user)
           end
         end

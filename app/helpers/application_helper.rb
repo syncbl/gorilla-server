@@ -49,4 +49,42 @@ module ApplicationHelper
   def deny_endpoint!
     head :forbidden if user_is_endpoint?
   end
+
+  def cached_endpoint(id, token)
+    @cached_endpoint ||= begin
+      Rails.cache.fetch(
+        "auth_endpoint_#{id}",
+        expires_in: 15.minutes
+      ) do
+        Endpoint.active.find_by(
+          id: id,
+          authentication_token: token
+        )
+      end
+    end
+    @cached_user ||= begin
+      Rails.cache.fetch(
+        "auth_endpoint_user_#{id}",
+        expires_in: 15.minutes
+      ) do
+        @cached_endpoint.user
+      end
+    end
+    return @cached_endpoint, @cached_user
+  end
+
+  def cached_user(id, token)
+    @cached_user ||= begin
+      Rails.cache.fetch(
+        "auth_user_#{id}",
+        expires_in: 15.minutes
+      ) do
+        User.active.find_by(
+          id: id,
+          authentication_token: token
+        )
+      end
+    end
+  end
+
 end
