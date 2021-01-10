@@ -56,7 +56,7 @@ module ApplicationHelper
         "endpoint_#{id}",
         expires_in: 15.minutes
       ) do
-        Endpoint.active.includes(:user).find_by(
+        Endpoint.active.with_user.find_by(
           id: id,
           authentication_token: token
         )
