@@ -8,6 +8,6 @@ if source.file.attached?
   json[:file] = render 'layouts/file', file: source.file
 end
 
-json[:state] = Rails.cache.read("source_state_#{id}")
+json[:state] = source.state
 
 json.compact
