@@ -1,5 +1,5 @@
 if file.attached?
-  {
+  json = {
     filename: file.filename,
     size: file.byte_size,
     checksum: file.checksum,
@@ -7,3 +7,9 @@ if file.attached?
     created_at: file.created_at.to_i
   }
 end
+
+if Rails.env.development?
+  ap json
+end
+
+json

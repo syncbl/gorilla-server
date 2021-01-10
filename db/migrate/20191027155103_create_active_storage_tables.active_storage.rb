@@ -16,6 +16,7 @@ class CreateActiveStorageTables < ActiveRecord::Migration[6.0]
     create_table :active_storage_attachments do |t|
       t.string :name, null: false
       t.references :record,
+                   type: :uuid,
                    null: false,
                    polymorphic: true,
                    index: false
