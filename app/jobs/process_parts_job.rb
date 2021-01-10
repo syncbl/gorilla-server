@@ -46,17 +46,18 @@ class ProcessPartsJob < ApplicationJob
         end
       end
     end
-    source.update_state "Attaching..."
-    source.file.attach(io: File.open(tmpfilename), filename: filename)
-    File.delete(tmpfilename)
     source.generate_manifest(
       files: filelist
     )
+    source.save
+    source.update_state "Attaching..."
+    source.file.attach(io: File.open(tmpfilename), filename: filename)
 
-    source.update_state
+    # TODO: Flatten before delete to save some traffic
+
+    File.delete(tmpfilename)
 
     if source.file.checksum == checksum
-      source.save
       package.size += unpacked_size
       package.save
       # TODO: Inform user
@@ -64,5 +65,6 @@ class ProcessPartsJob < ApplicationJob
       # TODO: Block package/user, inform admin
       source.block! "Checksum error"
     end
+    source.update_state
   end
 end

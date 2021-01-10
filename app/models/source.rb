@@ -1,4 +1,6 @@
 class Source < ApplicationRecord
+  include Blockable
+
   # We need to sort by created instead of updated because of FlattenSourcesJob
   self.implicit_order_column = :created_at
 
@@ -13,6 +15,7 @@ class Source < ApplicationRecord
     file.attach(args)
   end
 
+  # TODO: When generate manifest - mark files to delete or replace!
   def generate_manifest(files = nil)
     self.manifest = {
       files: files
@@ -21,10 +24,13 @@ class Source < ApplicationRecord
 
   def update_state(state = nil)
     Rails.cache.write("source_state_#{id}", state, expires_in: MODEL_CACHE_TIMEOUT)
-    puts state if !state.nil?
   end
 
   def state
     Rails.cache.read("source_state_#{id}")
+  end
+
+  def active?
+    blocked_at.nil? && state.nil? && file.attached?
   end
 end
