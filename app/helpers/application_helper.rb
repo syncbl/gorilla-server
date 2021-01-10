@@ -53,7 +53,7 @@ module ApplicationHelper
   def cached_endpoint_user(id, token)
     @cached_endpoint ||= begin
       Rails.cache.fetch(
-        "auth_endpoint_#{id}",
+        "endpoint_#{id}",
         expires_in: 15.minutes
       ) do
         Endpoint.active.includes(:user).find_by(
@@ -64,7 +64,7 @@ module ApplicationHelper
     end
     @cached_user ||= begin
       Rails.cache.fetch(
-        "auth_endpoint_user_#{id}",
+        "endpoint_user_#{id}",
         expires_in: MODEL_CACHE_TIMEOUT
       ) do
         @cached_endpoint.user
@@ -76,7 +76,7 @@ module ApplicationHelper
   def cached_user(id, token)
     @cached_user ||= begin
       Rails.cache.fetch(
-        "auth_user_#{id}",
+        "user_#{id}",
         expires_in: MODEL_CACHE_TIMEOUT
       ) do
         User.active.find_by(
