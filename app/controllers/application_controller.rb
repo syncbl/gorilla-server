@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
           # TODO: Cache endpoint
           endpoint, user = cached_endpoint_user(payload[:uuid], payload[:token])
           unless endpoint.nil? || user.nil?
-            bypass_sign_in(user)
+            sign_in(user)
             current_user.endpoint = endpoint
             # TODO: Store request.remote_ip
           else
@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
           end
         when User.name
           if user = cached_user(payload[:uuid], payload[:token])
-            bypass_sign_in(user)
+            sign_in(user)
           end
         end
       end
