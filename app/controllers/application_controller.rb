@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
         case payload[:scope]
         when Endpoint.name
           # TODO: Cache endpoint
-          endpoint, user = cached_endpoint(payload[:uuid], payload[:token])
+          endpoint, user = cached_endpoint_user(payload[:uuid], payload[:token])
           unless endpoint.nil? || user.nil?
             bypass_sign_in(user)
             current_user.endpoint = endpoint
