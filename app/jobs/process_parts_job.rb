@@ -53,9 +53,10 @@ class ProcessPartsJob < ApplicationJob
       files: filelist
     )
 
+    source.update_state
+
     if source.file.checksum == checksum
       source.save
-      source.update_state
       package.size += unpacked_size
       package.save
       # TODO: Inform user
