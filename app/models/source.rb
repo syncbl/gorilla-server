@@ -19,4 +19,8 @@ class Source < ApplicationRecord
       files: files
     }
   end
+
+  def update_state(state: nil)
+    Rails.cache.write("source_state_#{id}", expires_in: MODEL_CACHE_TIMEOUT)
+  end
 end

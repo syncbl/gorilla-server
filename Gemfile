@@ -47,6 +47,8 @@ gem 'simple_form'
 # Encoding user settings with private key
 gem 'lockbox'
 gem 'rbnacl'
+# ClamAV scan support
+gem 'clamby'
 
 # CRON scheduling
 gem 'whenever', require: false

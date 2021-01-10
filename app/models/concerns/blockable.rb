@@ -7,6 +7,7 @@ module Blockable
     self.blocked_at = Time.current
     self.block_reason = reason
     self.save!
+    Rails.cache.delete_if {|k, v| k.end_with? id }
   end
 
   def unblock!

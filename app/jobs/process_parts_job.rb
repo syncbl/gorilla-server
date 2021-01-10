@@ -17,6 +17,7 @@ class ProcessPartsJob < ApplicationJob
     if file = ActiveStorage::Blob.find_by(checksum: checksum)
       source.file = file
     else
+      source.update_state "Preparing..."
       tmpfilename = Dir::Tmpname.create(%w[syncbl- .tmp]) {}
       File.open(tmpfilename, 'wb') do |tmpfile|
         package.parts.each do |file|
@@ -26,34 +27,42 @@ class ProcessPartsJob < ApplicationJob
       end
       filename = Time.now.strftime('%Y%m%d%H%M%S') + '.zip'
 
-      # TODO: Make sure zip is deleted if fault
-      filelist = {}
-      Zip::File.open(tmpfilename) do |zipfile|
-        zipfile.each do |z|
-          if (z.size > MAX_FILE_SIZE)
-            package.block_reason = "zip: #{filename}, #{z.name}, #{z.size}"
-            package.blocked_at = Time.current
-            break
+      source.update_state "Scanning for viruses..."
+      if Clamby.virus?(filename)
+        source.block! "+++ VIRUS +++"
+        return false
+      else
+        # TODO: Make sure zip is deleted if fault
+        source.update_state "Checking files..."
+        filelist = {}
+        Zip::File.open(tmpfilename) do |zipfile|
+          zipfile.each do |z|
+            if (z.size > MAX_FILE_SIZE)
+              source.block! "zip: #{filename}, #{z.name}, #{z.size}"
+              break
+            end
+            filelist.store(z.name, z.crc)
+            unpacked_size += z.size
           end
-          filelist.store(z.name, z.crc)
-          unpacked_size += z.size
         end
       end
+      source.update_state "Attaching..."
       source.file.attach(io: File.open(tmpfilename), filename: filename)
       File.delete(tmpfilename)
     end
+
     if source.file.checksum == checksum
       # TODO: Array or list?
       source.generate_manifest(
         files: filelist
       )
-      source.save
+      source.update_state
       package.size += unpacked_size
       package.save
       # TODO: Inform user
     else
       # TODO: Block package/user, inform admin
-      source.destroy
+      source.block! "Checksum error"
     end
   end
 end
