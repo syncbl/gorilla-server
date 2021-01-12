@@ -8,3 +8,22 @@ MAX_EMAIL_LENGTH = 105
 MAX_PACKAGE_NAME_LENGTH = 100
 MAX_PARTS_COUNT = 10
 MODEL_CACHE_TIMEOUT = 15.minutes
+
+RESTRICTED_NAMES = %w[
+  sign_in
+  sign_out
+  package
+  packages
+  user
+  users
+  endpoint
+  endpoints
+  setting
+  settings
+  source
+  sources
+  storage
+  admin
+  console
+  wp-admin
+]
