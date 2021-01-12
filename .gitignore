@@ -39,3 +39,5 @@ coverage
 /config/credentials/development.key
 .solargraph.yml
 /config/credentials.yml.enc
+
+/config/nginx/*

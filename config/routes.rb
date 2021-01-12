@@ -37,6 +37,8 @@ Rails
     #end
 
     # This routes is only for non-API GET requests and must be in the end of route list
+
     get ':user_id/:id', to: 'packages#show'
     get ':id', to: 'packages#show'
+    match '*path', to: 'packages#show', via: [:get, :post]
   end

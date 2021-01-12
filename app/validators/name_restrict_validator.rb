@@ -13,6 +13,8 @@ class NameRestrictValidator < ActiveModel::EachValidator
     source
     sources
     storage
+    admin
+    console
   ]
 
   def validate_each(record, attribute, value)
