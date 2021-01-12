@@ -25,15 +25,11 @@ class Blockips
       @app.call(env)
     else
       puts "+++ Blocked #{@uri} from #{@ip}"
-      forbidden
+      [403, {}, []]
     end
   end
 
   private
-
-  def forbidden
-    [403, {}, []]
-  end
 
   def valid?(env)
     @uri = env['REQUEST_URI']
