@@ -22,7 +22,7 @@ gem 'jwt'
 gem 'bootstrap', '~> 4.5'
 gem 'devise-bootstrap-views', '~> 1.0'
 gem 'pagy', '~> 3.8'
-gem 's3_direct_upload'
+gem 's3_direct_upload' # TODO: Check compatibility
 gem 'active_storage_validations'
 
 # JSON Builder

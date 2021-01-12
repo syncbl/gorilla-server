@@ -33,6 +33,7 @@ module GpServer
     config.i18n.fallbacks = [config.i18n.default_locale]
 
     # Block scanners
-    config.middleware.use Blockips
+    config.middleware.use Blockips::Middleware
+    config.middleware.delete JQuery::FileUpload::Rails::Middleware
   end
 end
