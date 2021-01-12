@@ -5,8 +5,6 @@ class PackagesController < ApplicationController
   before_action :set_package, except: %i[index new create]
   before_action :check_edit_permissions!, only: %i[edit update delete]
 
-  rescue_from ActionController::RoutingError, with: :not_found
-
   # GET /packages
   # GET /packages.json
   def index
@@ -110,12 +108,8 @@ class PackagesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
 
   def set_package
-    unless Blockips.valid?(request.fullpath)
-      head :forbidden
-    else
-      @package =
-        Package.allowed_for(current_user).find_by_alias(package_params[:id])
-    end
+    @package =
+      Package.allowed_for(current_user).find_by_alias(package_params[:id])
   end
 
   def check_edit_permissions!
