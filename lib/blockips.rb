@@ -17,11 +17,6 @@ module Blockips
       /?XDEBUG_SESSION_START
     ]
 
-    EXCEPT_PATHS_STARTS = %w[
-      /assets/
-      /users/
-    ]
-
     def initialize(app)
       @app = app
     end
@@ -41,17 +36,7 @@ module Blockips
       @uri = env['REQUEST_URI']
       @path = env['REQUEST_PATH']
       @ip = env['HTTP_X_FORWARDED_FOR'] || env['REMOTE_ADDR']
-      except_path || (
-        valid_multipath && valid_path && valid_path_starts
-      )
-    end
-
-    def except_path
-      EXCEPT_PATHS_STARTS.any? { |s| @path.starts_with?(s) }
-    end
-
-    def valid_multipath
-      @uri.count('/') <= 1
+      valid_path && valid_path_starts
     end
 
     def valid_path
