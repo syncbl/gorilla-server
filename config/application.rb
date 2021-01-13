@@ -16,8 +16,6 @@ require 'action_view/railtie'
 #require "sprockets/railtie"
 #require "rails/test_unit/railtie"
 
-require_relative '../lib/blockips'
-
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
@@ -32,8 +30,7 @@ module GpServer
     config.i18n.default_locale = :en
     config.i18n.fallbacks = [config.i18n.default_locale]
 
-    # Block scanners
-    config.middleware.use Blockips::Middleware
-    config.middleware.delete JQuery::FileUpload::Rails::Middleware
+    # Workaround for s3_direct_uploader bug
+    #config.middleware.delete JQuery::FileUpload::Rails::Middleware
   end
 end

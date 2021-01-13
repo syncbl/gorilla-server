@@ -51,7 +51,9 @@ gem 'rbnacl'
 # ClamAV scan support
 gem 'clamby'
 # Get rid of timeouts
-gem "rack-timeout"
+#gem 'rack-timeout'
+# Blocklist
+gem 'rack-attack'
 # CRON scheduling
 gem 'whenever', require: false
 # Foreman for workers
