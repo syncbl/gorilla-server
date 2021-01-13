@@ -41,7 +41,7 @@ module Blockips
     end
 
     def valid_path
-      !RESTRICTED_PATHS.include? @path
+      !RESTRICTED_PATHS.include? @path.downcase
     end
 
     def valid_path_starts
