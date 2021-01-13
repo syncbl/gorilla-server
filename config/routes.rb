@@ -40,5 +40,5 @@ Rails
 
     get ':user_id/:id', to: 'packages#show'
     get ':id', to: 'packages#show'
-    match '*path', to: 'packages#show', via: [:get, :post]
+    #match '*path', to: 'packages#show', via: [:get, :post]
   end
