@@ -17,6 +17,7 @@ gem 'uglifier', '>= 1.3.0'
 
 # Authentication
 gem 'devise'
+gem 'devise_invitable'
 gem 'jwt'
 
 gem 'bootstrap', '~> 4.5'
@@ -49,7 +50,8 @@ gem 'lockbox'
 gem 'rbnacl'
 # ClamAV scan support
 gem 'clamby'
-
+# Get rid of timeouts
+gem "rack-timeout"
 # CRON scheduling
 gem 'whenever', require: false
 # Foreman for workers
