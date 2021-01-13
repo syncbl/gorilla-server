@@ -25,7 +25,7 @@ module Blockips
       if valid?(env)
         @app.call(env)
       else
-        puts "+++ Blocked #{@uri} from #{@ip}"
+        Rails.logger.warn "\u{21B3} Blocked #{@uri} for #{@ip}"
         [403, {}, []]
       end
     end
