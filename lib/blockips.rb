@@ -15,6 +15,7 @@ module Blockips
       /vendor/
       /solr/admin/
       /?XDEBUG_SESSION_START
+      /.
     ]
 
     def initialize(app)
@@ -26,7 +27,7 @@ module Blockips
         @app.call(env)
       else
         Rails.logger.warn "\u{21B3} Blocked #{@uri} for #{@ip}"
-        [403, {}, []]
+        [444, {}, []]
       end
     end
 
