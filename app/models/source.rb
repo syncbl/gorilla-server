@@ -24,11 +24,10 @@ class Source < ApplicationRecord
 
   def build(tmpfilename)
     filelist = {}
-    self.unpacked_size = 0
     Zip::File.open(tmpfilename) do |zipfile|
       zipfile.each do |z|
         if (z.size > MAX_FILE_SIZE)
-          block! "zip: #{filename}, #{z.name}, #{z.size}"
+          block! "zip: #{z.name}, #{z.size}"
           return false
         end
         filelist.store(z.name, z.crc)

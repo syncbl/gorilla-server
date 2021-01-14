@@ -22,7 +22,6 @@ class ProcessPartsJob < ApplicationJob
         file.purge
       end
     end
-    filename = Time.now.strftime('%Y%m%d%H%M%S') + '.zip'
 
     # TODO: clamscan
     #if Clamby.virus?(tmpfilename)
@@ -36,7 +35,7 @@ class ProcessPartsJob < ApplicationJob
     if source.build(tmpfilename)
       source.save
       source.update_state "Attaching..."
-      source.attach(io: File.open(tmpfilename), filename: filename)
+      source.attach(io: File.open(tmpfilename), filename: Time.now.strftime('%Y%m%d%H%M%S') + '.zip')
     end
 
     # TODO: Flatten before delete to save some traffic
