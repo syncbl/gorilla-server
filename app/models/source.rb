@@ -16,7 +16,7 @@ class Source < ApplicationRecord
   end
 
   # TODO: When generate manifest - mark files to delete or replace!
-  def generate_manifest(files = nil)
+  def generate_manifest(files)
     self.manifest = {
       files: files
     }
