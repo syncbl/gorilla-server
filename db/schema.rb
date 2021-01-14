@@ -107,6 +107,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   create_table "sources", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "description", default: "", null: false
     t.jsonb "manifest", default: {}, null: false
+    t.bigint "unpacked_size", default: 0, null: false
     t.uuid "package_id", null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false

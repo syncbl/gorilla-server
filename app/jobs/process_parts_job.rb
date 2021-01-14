@@ -11,14 +11,10 @@ class ProcessPartsJob < ApplicationJob
       return false
     end
 
-    source = package.sources.create
-    unpacked_size = 0
-
     if file = ActiveStorage::Blob.find_by(checksum: checksum)
       # TODO: Warn about existing file if it's own or public
     end
 
-    source.update_state "Preparing..."
     tmpfilename = Dir::Tmpname.create(%w[syncbl- .tmp]) {}
     File.open(tmpfilename, 'wb') do |tmpfile|
       package.parts.each do |file|
@@ -28,42 +24,32 @@ class ProcessPartsJob < ApplicationJob
     end
     filename = Time.now.strftime('%Y%m%d%H%M%S') + '.zip'
 
+    # TODO: clamscan
+    #if Clamby.virus?(tmpfilename)
+    #  source.block! "+++ VIRUS +++"
+    #  return false
+    #end
+
+    # TODO: Make sure zip is deleted if fault
+    source = package.sources.create
     source.update_state "Checking files..."
-    if Clamby.virus?(tmpfilename)
-      source.block! "+++ VIRUS +++"
-      return false
-    else
-      # TODO: Make sure zip is deleted if fault
-      filelist = {}
-      Zip::File.open(tmpfilename) do |zipfile|
-        zipfile.each do |z|
-          if (z.size > MAX_FILE_SIZE)
-            source.block! "zip: #{filename}, #{z.name}, #{z.size}"
-            break
-          end
-          filelist.store(z.name, z.crc)
-          unpacked_size += z.size
-        end
-      end
+    if source.build(tmpfilename)
+      source.save
+      source.update_state "Attaching..."
+      source.attach(io: File.open(tmpfilename), filename: filename)
     end
-    source.generate_manifest(
-      files: filelist
-    )
-    source.save
-    source.update_state "Attaching..."
-    source.file.attach(io: File.open(tmpfilename), filename: filename)
 
     # TODO: Flatten before delete to save some traffic
 
     File.delete(tmpfilename)
 
-    if source.file.checksum == checksum
-      package.size += unpacked_size
+    if source.file.attached? && (source.file.checksum == checksum)
+      package.size += source.unpacked_size
       package.save
       # TODO: Inform user
     else
       # TODO: Block package/user, inform admin
-      source.block! "Checksum error"
+      source.destroy
     end
     source.update_state
   end

@@ -100,6 +100,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       # TODO: What to do with file: run, unpack, exec
       t.string :description, null: false, default: ""
       t.jsonb :manifest, null: false, default: {}
+      t.bigint :unpacked_size, null: false, default: 0
 
       t.belongs_to :package, type: :uuid, index: true, null: false, foreign_key: true
 

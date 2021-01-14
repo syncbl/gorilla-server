@@ -22,6 +22,25 @@ class Source < ApplicationRecord
     }
   end
 
+  def build(tmpfilename)
+    filelist = {}
+    self.unpacked_size = 0
+    Zip::File.open(tmpfilename) do |zipfile|
+      zipfile.each do |z|
+        if (z.size > MAX_FILE_SIZE)
+          block! "zip: #{filename}, #{z.name}, #{z.size}"
+          return false
+        end
+        filelist.store(z.name, z.crc)
+        self.unpacked_size += z.size
+      end
+    end
+    generate_manifest(
+      files: filelist
+    )
+    save
+  end
+
   def update_state(state = nil)
     Rails.cache.write("source_state_#{id}", state, expires_in: MODEL_CACHE_TIMEOUT)
   end

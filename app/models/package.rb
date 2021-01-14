@@ -51,6 +51,7 @@ class Package < ApplicationRecord
         ->(user) {
           # TODO Remove nil user, because user can't be blank
           # TODO Group permissions
+     
           where(user: user).or(where(trusted: true))
         }
 

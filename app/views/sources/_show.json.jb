@@ -4,7 +4,7 @@ json = {
   updated_at: source.updated_at.to_i
 }
 
-if source.file.attached?
+if source.active?
   json[:file] = render 'layouts/file', file: source.file
 end
 

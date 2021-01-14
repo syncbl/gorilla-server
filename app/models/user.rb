@@ -5,6 +5,7 @@ class User < ApplicationRecord
 
   # Include default devise modules. Others available are:
   # :validatable, :confirmable, :lockable, :trackable and :omniauthable
+  # TODO: Invitable
   devise :database_authenticatable,
          :registerable,
          :recoverable,
