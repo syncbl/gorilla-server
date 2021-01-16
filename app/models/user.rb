@@ -36,11 +36,7 @@ class User < ApplicationRecord
 
   def generate_username
     username = "#{self.email[/^[^@]+/]}"
-    if User.find_by(username: username).nil?
-      self.username = username
-    else
-      self.username = "#{username}#{rand(10_000)}"
-    end
+    self.username =  User.find_by(username: username).nil? ? username : "#{username}#{rand(10_000)}"
   end
 
 end

@@ -121,7 +121,8 @@ class PackagesController < ApplicationController
   # TODO: require(:package)
   # <input type="text" name="client[name]" value="Acme" />
   def package_post_params
-    params.require(:package).permit(:name, :external_url, :alias)
+    # TODO: group_name
+    params.require(:package).permit(:name, :alias, :external_url)
   end
 
   def package_params

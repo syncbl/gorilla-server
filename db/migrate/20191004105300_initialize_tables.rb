@@ -7,7 +7,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.string :name, limit: 100
 
       t.string :username, limit: 39, index: true, null: false
-      t.string :locale, limit: 10
+      t.string :locale, limit: 10, null: false, default: 'en'
 
       #t.boolean :trusted, default: false
       #t.boolean :admin, default: false

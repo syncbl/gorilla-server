@@ -10,6 +10,7 @@ en:
       # html: '<abbr title="required">*</abbr>'
     error_notification:
       default_message: "Please review the problems below:"
+      package: "Please review the problems below:"
     # Examples
     # labels:
     #   defaults:

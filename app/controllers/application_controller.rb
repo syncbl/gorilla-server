@@ -43,15 +43,18 @@ class ApplicationController < ActionController::Base
   end
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: %i[name locale])
-    devise_parameter_sanitizer.permit(:account_update, keys: %i[name locale])
+    devise_parameter_sanitizer.permit(:sign_up, keys: %i[username name locale])
+    devise_parameter_sanitizer.permit(:account_update, keys: %i[username name locale])
   end
 
   def set_locale
-    if current_user.present?
-      I18n.locale = current_user.locale
+    if current_user.nil?
+      I18n.locale = session[:locale] ||
+        http_accept_language.compatible_language_from(I18n.available_locales) ||
+        I18n.default_locale.to_s
+      session[:locale] = I18n.locale
     else
-      I18n.locale = session[:locale] || http_accept_language.compatible_language_from(I18n.available_locales)
+      I18n.locale = current_user.locale
     end
   end
 

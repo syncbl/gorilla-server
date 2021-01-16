@@ -1,0 +1,6 @@
+en:
+  activerecord:
+    errors:
+      messages:
+        name_restrict: Restricted name
+        package_replacement: Replacement must be newer than original package

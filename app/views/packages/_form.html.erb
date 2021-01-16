@@ -11,20 +11,20 @@
     time:          :horizontal_multi_select
   } do |f| %>
 
-  <%= f.error_notification %>
+    <%= f.error_notification %>
 
-  <%= f.input :name %>
-  <%= f.input :alias %>
-  <%= f.input :group_name %>
+    <%= f.input :name %>
+    <%= f.input :alias %>
+    <%= f.input :group_name %>
 
-  <%= s3_uploader_form callback_url: nil, callback_param: "model[image_url]", id: "s3-uploader" do %>
-    <%= file_field_tag :file, multiple: false %>
-  <% end %>
+    <%# TODO: = s3_uploader_form callback_url: nil, callback_param: "model[image_url]", id: "s3-uploader" do %>
+      <%#= file_field_tag :file, multiple: false %>
+    <%# end %>
 
-  <div class="form-group row mb-0">
-    <div class="col-sm-9 offset-sm-3">
-      <%= f.button :submit, class: "btn-primary" %>
-      <%= f.button :button, "Cancel", type: "reset", class: "btn-outline-secondary" %>
+    <div class="actions form-group row mb-0">
+      <div class="col-sm-9 offset-sm-3">
+        <%= f.button :submit, class: "btn-primary" %>
+        <%= f.button :button, "Cancel", type: "reset", class: "btn-outline-secondary" %>
+      </div>
     </div>
-  </div>
 <% end %>
