@@ -15,13 +15,16 @@ class ProcessPartsJob < ApplicationJob
       # TODO: Warn about existing file if it's own or public
     end
 
-    tmpfilename = Dir::Tmpname.create(%w[syncbl- .tmp]) {}
+    tmpfilename = Dir::Tmpname.create(%w[s- .tmp]) {}
     File.open(tmpfilename, 'wb') do |tmpfile|
       package.parts.each do |file|
         file.open { |f| tmpfile.write(File.open(f.path, 'rb').read) }
         file.purge
       end
     end
+
+    source = package.sources.create
+    source.update_state "Scanning for threats..."
 
     # TODO: clamscan
     #if Clamby.virus?(tmpfilename)
@@ -30,11 +33,10 @@ class ProcessPartsJob < ApplicationJob
     #end
 
     # TODO: Make sure zip is deleted if fault
-    source = package.sources.create
-    source.update_state "Checking files..."
+    source.update_state "Building source..."
     if source.build(tmpfilename)
       source.save
-      source.update_state "Attaching..."
+      source.update_state "Attaching to package..."
       source.attach(io: File.open(tmpfilename), filename: Time.now.strftime('%Y%m%d%H%M%S') + '.zip')
     end
 
@@ -42,7 +44,7 @@ class ProcessPartsJob < ApplicationJob
 
     File.delete(tmpfilename)
 
-    if source.file.attached? && (source.file.checksum == checksum)
+    if source.file.checksum == checksum
       package.size += source.unpacked_size
       package.save
       # TODO: Inform user

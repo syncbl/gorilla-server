@@ -46,12 +46,13 @@ class Package < ApplicationRecord
   validates :external_url,
             format: URI.regexp(%w[http https]),
             allow_nil: true
+  validates :replacement,
+            package_replacement: true
 
   scope :allowed_for,
         ->(user) {
           # TODO Remove nil user, because user can't be blank
           # TODO Group permissions
-     
           where(user: user).or(where(trusted: true))
         }
 

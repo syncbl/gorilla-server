@@ -50,14 +50,10 @@ gem 'lockbox'
 gem 'rbnacl'
 # ClamAV scan support
 gem 'clamby'
-# Get rid of timeouts
-#gem 'rack-timeout'
 # Blocklist
 gem 'rack-attack'
 # CRON scheduling
 gem 'whenever', require: false
-# Foreman for workers
-#gem "foreman"
 # Soft delete for all records
 gem 'discard', '~> 1.0'
 # Pack parts to zip
@@ -89,5 +85,6 @@ group :development do
 end
 
 group :production do
-  #gem 'redis', '~> 4.0'
+  # Foreman for workers
+  #gem "foreman"
 end
