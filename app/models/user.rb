@@ -1,8 +1,6 @@
 class User < ApplicationRecord
   include Blockable
 
-  before_create :set_username
-
   # Include default devise modules. Others available are:
   # :validatable, :confirmable, :lockable, :trackable and :omniauthable
   # TODO: Invitable
@@ -36,9 +34,13 @@ class User < ApplicationRecord
 
   # TODO: Everyone can create packages, but we need to add permissions for company members later
 
-  def set_username
-    if username.nil? || (username.size < MIN_NAME_LENGTH)
-      self.username = "#{self.email[/^[^@]+/]}#{rand(10_000)}"
+  def generate_username
+    username = "#{self.email[/^[^@]+/]}"
+    if User.find_by(username: username).nil?
+      self.username = username
+    else
+      self.username = "#{username}#{rand(10_000)}"
     end
   end
+
 end

@@ -153,6 +153,7 @@ GEM
       thor
     highline (2.0.3)
     hiredis (0.6.3)
+    http_accept_language (2.1.1)
     i18n (1.8.7)
       concurrent-ruby (~> 1.0)
     i18n-tasks (0.9.33)
@@ -369,6 +370,7 @@ DEPENDENCIES
   discard (~> 1.0)
   enumerize
   hiredis
+  http_accept_language
   i18n-tasks (~> 0.9.30)
   jb
   jquery-rails

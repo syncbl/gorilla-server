@@ -60,6 +60,8 @@ gem 'discard', '~> 1.0'
 gem 'rubyzip', require: 'zip'
 # Translate packages
 #gem 'globalize', '~> 5.1.0'
+# Detect user locale
+gem 'http_accept_language'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
