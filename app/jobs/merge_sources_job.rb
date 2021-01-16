@@ -10,6 +10,6 @@ class MergeSourcesJob < ApplicationJob
     # TODO: Don't show merged sources and don't allow to delete them
     # ! Purge file from source before processing to make it unavailable
 
-    # Set merged: true for processed packages
+    # Set 'merged: true' for processed packages
   end
 end
