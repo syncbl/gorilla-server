@@ -30,7 +30,7 @@ module GpServer
     config.i18n.default_locale = :en
     config.i18n.fallbacks = [config.i18n.default_locale]
 
-    # Workaround for s3_direct_uploader bug
-    #config.middleware.delete JQuery::FileUpload::Rails::Middleware
+    # Workaround for s3_direct_uploader bug. We don't need to use multifile upload, so we are removing it.
+    config.middleware.delete JQuery::FileUpload::Rails::Middleware
   end
 end

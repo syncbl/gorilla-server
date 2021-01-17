@@ -46,7 +46,7 @@ class EndpointsController < ApplicationController
   # DELETE /endpoints/1
   # DELETE /endpoints/1.json
   def destroy
-    @endpoint.update_attribute(:authentication_token, '')
+    @endpoint.update_attribute(:authentication_token, nil)
 
     # TODO: Do we need to keep this PC or delete it? May be it can be good to keep
     # in order to show list after login with available endpoints
