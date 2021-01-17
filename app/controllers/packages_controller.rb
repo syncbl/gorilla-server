@@ -1,9 +1,9 @@
 class PackagesController < ApplicationController
   # We allowing anonymous access
   before_action :authenticate_user!, except: %i[index show]
-  before_action :deny_endpoint!, except: %i[index show]
+  before_action :deny_endpoint!, except: %i[show]
   before_action :set_package, except: %i[index new create]
-  before_action :check_edit_permissions!, only: %i[edit update delete]
+  before_action :check_edit_permissions!, only: %i[edit update delete clear store]
 
   # GET /packages
   # GET /packages.json
@@ -13,7 +13,7 @@ class PackagesController < ApplicationController
         Package.allowed_for(current_user),
         # TODO: ".includes([:icon_attachment])," caused error
         # NoMethodError Exception: undefined method `first' for nil:NilClass
-        items: package_params[:items]
+        items: params[:items]
       )
   end
 
@@ -54,22 +54,13 @@ class PackagesController < ApplicationController
   # PATCH/PUT /packages/1.json
   # TODO: Move to sources controller
   def update
-    if package_params[:method] == 'clear'
-      @package.parts.purge_later
-      head :accepted
-    elsif package_params[:method] == 'store'
-      # TODO: Update marker in package to check if jobs were successful
-      ProcessPartsJob.perform_later(@package,
-        checksum: package_params[:checksum]
-      )
-      head :accepted
-    elsif package_params[:part].present?
+    if params[:part].present?
       #return false if @package.external? || (@package.parts.size <= MAX_PARTS_COUNT)
-      @package.parts.attach(package_params[:part])
+      @package.parts.attach(params[:part])
       head :accepted
     else
       respond_to do |format|
-        if @package.update(package_post_params)
+        if @package.update(package_params)
           format.html do
             redirect_to @package, notice: 'Package was successfully updated.'
           end
@@ -82,6 +73,24 @@ class PackagesController < ApplicationController
         end
       end
     end
+  end
+
+  # TODO: PUT?
+  # POST /packages/1/clear
+  # POST /packages/1/clear.json
+  def clear
+    @package.parts.purge_later
+    head :accepted
+  end
+
+  # POST /packages/1/store
+  # POST /packages/1/store.json
+  def store
+    # TODO: Update marker in package to check if jobs were successful
+    ProcessPartsJob.perform_later(@package,
+      checksum: params[:checksum]
+    )
+    head :accepted
   end
 
   # DELETE /packages/1
@@ -109,7 +118,7 @@ class PackagesController < ApplicationController
 
   def set_package
     @package =
-      Package.allowed_for(current_user).find_by_alias(package_params[:id])
+      Package.allowed_for(current_user).find_by_alias(params[:id])
   end
 
   def check_edit_permissions!
@@ -119,13 +128,9 @@ class PackagesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   # <input type="text" name="client[name]" value="Acme" />
-  def package_post_params
+  def package_params
     # TODO: group_name
     params.require(:package).permit(:name, :alias, :external_url)
-  end
-
-  def package_params
-    params.permit(:id, :part, :checksum, :method, :items, :source)
   end
 
 end

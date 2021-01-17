@@ -65,10 +65,8 @@ class EndpointsController < ApplicationController
     end
   end
 
-  # API METHODS
-
-  # TODO: Change render to package or settings or even outside ???
-  # TODO: install_later ?
+  # PATCH/PUT /endpoint/install
+  # PATCH/PUT /endpoint/install.json
   def install
     setting =
       @endpoint.install(

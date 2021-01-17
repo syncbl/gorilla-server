@@ -10,7 +10,12 @@ Rails
 
     # TODO: Remove html declaration for api-only controllers
 
-    resources :packages
+    resources :packages do
+      member do
+        post :clear
+        post :store
+      end
+    end
     resource :endpoint, only: %i[show update destroy] do
       collection do
         post :install
