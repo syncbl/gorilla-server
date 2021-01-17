@@ -4,16 +4,18 @@ module Blockable
   # TODO: Add logger
 
   def block!(reason = nil)
-    self.blocked_at = Time.current
-    self.block_reason = reason
-    self.save!
-    Rails.cache.delete_if {|k, v| k.end_with? id }
+    self.update!({
+      blocked_at: Time.current,
+      block_reason: reason
+    })
+    Rails.cache.delete_matched("*_#{id}")
   end
 
   def unblock!
-    self.blocked_at = nil
-    self.block_reason = nil
-    self.save!
+    self.update!({
+      blocked_at: nil,
+      block_reason: nil
+    })
   end
 
   def blocked?

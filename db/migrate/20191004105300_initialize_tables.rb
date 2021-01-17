@@ -27,6 +27,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     # ----------
     create_table :endpoints, id: :uuid do |t|
       t.string :name, limit: 100
+      t.string :remote_ip, limit: 39 # IPv6 ready
 
       # TODO: Store PC parameters here
 

@@ -18,7 +18,10 @@ class EndpointsController < ApplicationController
   def create
     @endpoint =
       current_user.endpoints.find_by(id: endpoint_params[:id]) ||
-        current_user.endpoints.create(name: endpoint_params[:name])
+        current_user.endpoints.new(name: endpoint_params[:name])
+    @endpoint.update({
+      remote_ip: request.remote_ip
+    })
     respond_to do |format|
       format.html { redirect_to endpoints_url }
       format.json { generate_token }
@@ -46,7 +49,7 @@ class EndpointsController < ApplicationController
   # DELETE /endpoints/1
   # DELETE /endpoints/1.json
   def destroy
-    @endpoint.update_attribute(:authentication_token, nil)
+    @endpoint.update(authentication_token: nil)
 
     # TODO: Do we need to keep this PC or delete it? May be it can be good to keep
     # in order to show list after login with available endpoints
@@ -92,7 +95,7 @@ class EndpointsController < ApplicationController
     if user_is_endpoint?
       @endpoint = current_user.endpoint
       if rand(ENDPOINT_TOKEN_REGEN_RANDOM) == 0
-        @endpoint.update_attribute(:authentication_token, nil)
+        @endpoint.update(authentication_token: nil)
         current_user.endpoint.new_token = JsonWebToken.encode(@endpoint)
       end
     elsif params[:id].present?

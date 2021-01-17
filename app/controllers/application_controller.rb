@@ -19,12 +19,10 @@ class ApplicationController < ActionController::Base
         end
         case payload[:scope]
         when Endpoint.name
-          # TODO: Cache endpoint
           endpoint, user = cached_endpoint_user(payload[:uuid], payload[:token])
           unless endpoint.nil? || user.nil?
             sign_in(user)
             current_user.endpoint = endpoint
-            # TODO: Store request.remote_ip
           else
             puts "!!!!! BLOCK !!!!! #{payload[:uuid]}|#{payload[:token]}"
             # TODO: Endpoint.find_by(id: payload[:uuid])&.block! reason: "#{payload[:uuid]}|#{payload[:token]}"

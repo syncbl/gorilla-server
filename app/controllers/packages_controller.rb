@@ -118,7 +118,6 @@ class PackagesController < ApplicationController
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
-  # TODO: require(:package)
   # <input type="text" name="client[name]" value="Acme" />
   def package_post_params
     # TODO: group_name
