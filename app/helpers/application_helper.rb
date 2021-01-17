@@ -87,6 +87,7 @@ module ApplicationHelper
   end
 
   def sign_in_endpoint(endpoint)
+    # TODO: Consider to replace session with cache
     session[:current_endpoint_id] = endpoint.id
   end
 

@@ -1,4 +1,5 @@
 class EndpointsController < ApplicationController
+  # TODO: Refactor access
   before_action :authenticate_user!, only: %i[index create]
   before_action :deny_endpoint!, only: %i[index create]
   before_action :set_endpoint, except: %i[index create]
