@@ -6,7 +6,7 @@ class SettingsController < ApplicationController
   def index
     settings = current_endpoint.actualized_settings
 
-    # TODO: Check for reload and optimize query
+    # TODO: !!! Check for reload and optimize query
     if params[:updates] == '1'
       @pagy, @settings = pagy(settings.updated)
     else

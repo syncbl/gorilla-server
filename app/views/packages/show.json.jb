@@ -1,6 +1,6 @@
 json = render 'layouts/header'
 
-json_package = render 'packages/show', package: @package
+json_package = render 'show', package: @package
 
 json_package[:dependencies] = @package.all_dependencies.map do |dependent|
   render 'show', package: dependent
@@ -15,11 +15,10 @@ elsif @package.external?
   json_package[:external_url] = @package.external_url
 end
 
-
 json[:package] = json_package
 
-#if Rails.env.development?
-#  ap json
-#end
+if Rails.env.development?
+  ap json
+end
 
 json

@@ -14,15 +14,15 @@ Rails
     resource :endpoint, only: %i[show update destroy] do
       collection do
         post :install
-        get :settings
       end
     end
     resources :endpoints, only: %i[index create] do
-      member { post :install }
+      member do
+        post :install
+      end
     end
 
-    # We assuming that endpoint is set by token
-    # TODO: get and update
+    # Settings is for installers only
     resources :settings, only: [:index]
     resource :user, only: [:show]
 
