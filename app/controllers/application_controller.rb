@@ -19,10 +19,8 @@ class ApplicationController < ActionController::Base
         end
         case payload[:scope]
         when Endpoint.name
-          endpoint, user = cached_endpoint_user(payload[:uuid], payload[:token])
-          unless endpoint.nil? || user.nil?
-            sign_in(user)
-            current_user.endpoint = endpoint
+          if endpoint = cached_endpoint(payload[:uuid], payload[:token])
+            sign_in_endpoint(endpoint)
           else
             puts "!!!!! BLOCK !!!!! #{payload[:uuid]}|#{payload[:token]}"
             # TODO: Endpoint.find_by(id: payload[:uuid])&.block! reason: "#{payload[:uuid]}|#{payload[:token]}"

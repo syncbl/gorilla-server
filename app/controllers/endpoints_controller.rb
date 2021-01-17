@@ -1,5 +1,5 @@
 class EndpointsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, only: %i[index create]
   before_action :deny_endpoint!, only: %i[index create]
   before_action :set_endpoint, except: %i[index create]
 
@@ -92,11 +92,11 @@ class EndpointsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_endpoint
-    if user_is_endpoint?
-      @endpoint = current_user.endpoint
+    if current_endpoint.present?
+      @endpoint = current_endpoint
       if rand(ENDPOINT_TOKEN_REGEN_RANDOM) == 0
         @endpoint.update(authentication_token: nil)
-        current_user.endpoint.new_token = JsonWebToken.encode(@endpoint)
+        current_endpoint.new_token = JsonWebToken.encode(@endpoint)
       end
     elsif params[:id].present?
       @endpoint = current_user.endpoints.find(params[:id])

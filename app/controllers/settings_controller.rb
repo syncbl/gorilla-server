@@ -1,11 +1,10 @@
 class SettingsController < ApplicationController
-  before_action :authenticate_user!
   before_action :require_endpoint!
   before_action :set_setting, only: %i[show edit update destroy]
 
   # GET /settings
   def index
-    settings = current_user.endpoint.actualized_settings
+    settings = current_endpoint.actualized_settings
 
     # TODO: Check for reload and optimize query
     if params[:updates] == '1'
@@ -61,7 +60,7 @@ class SettingsController < ApplicationController
   # ActiveRecord::RecordNotFound only with find_by
   def set_setting
     @setting =
-      current_user.endpoint.settings.find_by!(package_id: setting_params[:id])
+      current_endpoint.settings.find_by!(package_id: setting_params[:id])
   end
 
   # Only allow a trusted parameter "white list" through.

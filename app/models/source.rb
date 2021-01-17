@@ -41,11 +41,11 @@ class Source < ApplicationRecord
   end
 
   def update_state(state = nil)
-    Rails.cache.write("source_state_#{id}", state, expires_in: MODEL_CACHE_TIMEOUT)
+    Rails.cache.write("#{Source.name}_state_#{id}", state, expires_in: MODEL_CACHE_TIMEOUT)
   end
 
   def state
-    Rails.cache.read("source_state_#{id}")
+    Rails.cache.read("#{Source.name}_state_#{id}")
   end
 
   def active?
