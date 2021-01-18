@@ -24,7 +24,7 @@ class ProcessPartsJob < ApplicationJob
     end
 
     source = package.sources.create
-    source.update_state "Scanning for threats..."
+    source.update_state I18n.t('jobs.process_parts.scanning')
 
     # TODO: clamscan
     #if Clamby.virus?(tmpfilename)
@@ -33,10 +33,10 @@ class ProcessPartsJob < ApplicationJob
     #end
 
     # TODO: Make sure zip is deleted if fault
-    source.update_state "Building source..."
+    source.update_state I18n.t('jobs.process_parts.building')
     if source.build(tmpfilename)
       source.save
-      source.update_state "Attaching to package..."
+      source.update_state I18n.t('jobs.process_parts.attaching')
       source.attach(io: File.open(tmpfilename), filename: Time.now.strftime('%Y%m%d%H%M%S') + '.zip')
     end
 

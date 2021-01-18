@@ -3,7 +3,6 @@ class User < ApplicationRecord
 
   # Include default devise modules. Others available are:
   # :validatable, :confirmable, :lockable, :trackable and :omniauthable
-  # TODO: Invitable
   devise :database_authenticatable,
          :registerable,
          :recoverable,
@@ -37,6 +36,14 @@ class User < ApplicationRecord
   def generate_username
     username = "#{self.email[/^[^@]+/]}"
     self.username =  User.find_by(username: username).nil? ? username : "#{username}#{rand(10_000)}"
+  end
+
+  def active_for_authentication?
+    super && self.active?
+  end
+
+  def inactive_message
+    self.active? ? super : :blocked
   end
 
 end
