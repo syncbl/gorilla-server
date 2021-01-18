@@ -35,7 +35,7 @@ class SourcesController < ApplicationController
       checksum: params[:checksum]
     )
 
-    #@source.file.attach(params[:file])
+    #@source.attach(params[:file])
 
     respond_to do |format|
       if @source.persisted?

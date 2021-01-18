@@ -22,7 +22,7 @@ class ProcessSourceJob < ApplicationJob
     source.update_state I18n.t('jobs.process_source.building')
     if source.build(filename)
       source.update_state I18n.t('jobs.process_source.attaching')
-      source.attach(io: File.open(filename), filename: Time.now.strftime('%Y%m%d%H%M%S') + '.zip')
+      source.attach(io: File.open(filename), filename: "#{Time.now.strftime('%Y%m%d%H%M%S')}.zip")
     end
     File.delete(filename)
     # TODO: Inform user
