@@ -16,7 +16,8 @@ RESTRICTED_PATHS_STARTS = %w[
 ]
 
 Rack::Attack.blocklisted_response = lambda do |request|
-  [444, {}, []]
+  # Redirect to nginx 444
+  [302, {'Location' => '/x'}, []]
 end
 
 Rack::Attack.blocklist("Malicious scanners") do |request|

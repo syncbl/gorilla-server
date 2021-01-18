@@ -11,20 +11,13 @@ MAX_PACKAGE_NAME_LENGTH = 100
 MODEL_CACHE_TIMEOUT = 15.minutes
 
 RESTRICTED_NAMES = %w[
-  sign_in
-  sign_out
-  package
-  packages
-  user
-  users
-  endpoint
+  x         setting
+  sign_in   settings
+  sign_out  source
+  package   sources
+  packages  storage
+  user      admin
+  users     console
+  endpoint  wp-admin
   endpoints
-  setting
-  settings
-  source
-  sources
-  storage
-  admin
-  console
-  wp-admin
 ]
