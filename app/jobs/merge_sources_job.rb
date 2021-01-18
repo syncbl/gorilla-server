@@ -11,5 +11,6 @@ class MergeSourcesJob < ApplicationJob
     # ! Purge file from source before processing to make it unavailable
 
     # Set 'merged: true' for processed packages
+    # Package.size = Sum(source.unpacked_size)
   end
 end

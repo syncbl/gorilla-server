@@ -15,6 +15,7 @@ Rails
         post :clear
         post :store
       end
+      resources :sources
     end
     resource :endpoint, only: %i[show update destroy] do
       collection do

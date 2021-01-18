@@ -111,6 +111,8 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.bigint "unpacked_size", default: 0, null: false
     t.boolean "merged", default: false, null: false
     t.uuid "package_id", null: false
+    t.datetime "blocked_at"
+    t.string "block_reason"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_sources_on_created_at"

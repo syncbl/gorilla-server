@@ -10,11 +10,6 @@ json_package[:sources] = @package.sources.map do |source|
   render 'sources/show', source: source
 end
 
-# TODO: Check if this is editor
-json_package[:parts] = @package.parts.map do |part|
-  render 'layouts/file', file: part
-end
-
 json[:package] = json_package
 
 json

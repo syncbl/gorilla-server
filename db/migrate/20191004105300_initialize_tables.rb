@@ -106,6 +106,8 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       t.belongs_to :package, type: :uuid, index: true, null: false, foreign_key: true
 
+      t.datetime :blocked_at
+      t.string :block_reason
       t.datetime :created_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
     end

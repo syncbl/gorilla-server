@@ -53,44 +53,19 @@ class PackagesController < ApplicationController
   # PATCH/PUT /packages/1
   # PATCH/PUT /packages/1.json
   def update
-    if params[:part].present?
-      #return false if @package.external? || (@package.parts.size <= MAX_PARTS_COUNT)
-      # TODO: Shrine + no splitting + do not attach parts, save to tmp instead
-      @package.parts.attach(params[:part])
-      head :accepted
-    else
-      respond_to do |format|
-        if @package.update(package_params)
-          format.html do
-            redirect_to @package, notice: 'Package was successfully updated.'
-          end
-          format.json { render :show, status: :ok, location: @package }
-        else
-          format.html { render :edit }
-          format.json do
-            render json: @package.errors, status: :unprocessable_entity
-          end
+    respond_to do |format|
+      if @package.update(package_params)
+        format.html do
+          redirect_to @package, notice: 'Package was successfully updated.'
+        end
+        format.json { render :show, status: :ok, location: @package }
+      else
+        format.html { render :edit }
+        format.json do
+          render json: @package.errors, status: :unprocessable_entity
         end
       end
     end
-  end
-
-  # TODO: PUT?
-  # POST /packages/1/clear
-  # POST /packages/1/clear.json
-  def clear
-    @package.parts.purge_later
-    head :accepted
-  end
-
-  # POST /packages/1/store
-  # POST /packages/1/store.json
-  def store
-    # TODO: Update marker in package to check if jobs were successful
-    ProcessPartsJob.perform_later(@package,
-      checksum: params[:checksum]
-    )
-    head :accepted
   end
 
   # DELETE /packages/1

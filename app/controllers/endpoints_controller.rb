@@ -2,7 +2,7 @@ class EndpointsController < ApplicationController
   # TODO: Refactor access
   before_action :authenticate_user!, except: %i[update]
   before_action :deny_endpoint!, except: %i[show update]
-  before_action :set_endpoint!, except: %i[index create]
+  before_action :authenticate_and_set_endpoint!, except: %i[index create]
 
   # GET /endpoints
   # GET /endpoints.json
@@ -90,7 +90,7 @@ class EndpointsController < ApplicationController
   private
 
   # Use callbacks to share common setup or constraints between actions.
-  def set_endpoint!
+  def authenticate_and_set_endpoint!
     if current_endpoint.present?
       @endpoint = current_endpoint
       if rand(ENDPOINT_TOKEN_REGEN_RANDOM) == 0

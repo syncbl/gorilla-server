@@ -18,7 +18,6 @@ class Package < ApplicationRecord
   belongs_to :replacement, class_name: 'Package', optional: true
 
   has_one_attached :icon
-  has_many_attached :parts
 
   validates :name,
             name_restrict: true,
@@ -40,8 +39,6 @@ class Package < ApplicationRecord
             uniqueness: { case_sensitive: false },
             format: { with: NAME_FORMAT }
   validates :icon, size: { less_than: MAX_ICON_SIZE }
-  validates :parts,
-            size: { less_than: MAX_PART_SIZE }
   # TODO: Check link for content disposition
   validates :external_url,
             format: URI.regexp(%w[http https]),
