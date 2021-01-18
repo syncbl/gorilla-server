@@ -52,10 +52,10 @@ class PackagesController < ApplicationController
 
   # PATCH/PUT /packages/1
   # PATCH/PUT /packages/1.json
-  # TODO: Move to sources controller
   def update
     if params[:part].present?
       #return false if @package.external? || (@package.parts.size <= MAX_PARTS_COUNT)
+      # TODO: Shrine + no splitting + do not attach parts, save to tmp instead
       @package.parts.attach(params[:part])
       head :accepted
     else

@@ -24,7 +24,6 @@ gem 'rbnacl' # Ruby binding for libsodium, a fork of the Networking and Cryptogr
 gem 'bootstrap', '~> 4.5' # Bootstrap 4 ruby gem for Ruby on Rails (Sprockets) and Hanami (formerly Lotus).
 gem 'devise-bootstrap-views', '~> 1.0' # Devise views with Bootstrap 4.
 gem 'pagy', '~> 3.8' # Pagination gem that outperforms the others in each and every benchmark and comparison.
-gem 's3_direct_upload' # Easily upload files directly to Amazon S3. Multi file uploading supported by jquery-fileupload.
 gem 'jb' # A simpler and faster Jbuilder alternative.
 gem 'simple_form' # Simple Form aims to be as flexible as possible while helping you with powerful components to create your forms.
 
