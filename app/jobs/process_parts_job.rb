@@ -6,10 +6,7 @@ class ProcessPartsJob < ApplicationJob
 
   def perform(package, **args)
     checksum = args[:checksum]
-
-    if package.parts.empty? || checksum.empty?
-      return false
-    end
+    return false if package.parts.empty? || checksum.empty?
 
     if file = ActiveStorage::Blob.find_by(checksum: checksum)
       # TODO: Warn about existing file if it's own or public
@@ -32,10 +29,8 @@ class ProcessPartsJob < ApplicationJob
     #  return false
     #end
 
-    # TODO: Make sure zip is deleted if fault
     source.update_state I18n.t('jobs.process_parts.building')
     if source.build(tmpfilename)
-      source.save
       source.update_state I18n.t('jobs.process_parts.attaching')
       source.attach(io: File.open(tmpfilename), filename: Time.now.strftime('%Y%m%d%H%M%S') + '.zip')
     end
