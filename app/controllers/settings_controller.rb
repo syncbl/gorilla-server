@@ -1,6 +1,6 @@
 class SettingsController < ApplicationController
   before_action :require_endpoint!
-  before_action :set_setting, only: %i[show edit update destroy]
+  before_action :set_setting, except: %i[index new create]
 
   # GET /settings
   def index

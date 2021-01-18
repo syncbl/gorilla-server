@@ -3,7 +3,7 @@ class PackagesController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :deny_endpoint!, except: %i[show]
   before_action :set_package, except: %i[index new create]
-  before_action :check_edit_permissions!, only: %i[edit update delete clear store]
+  before_action :check_edit_permissions!, only: %i[edit update destroy clear store]
 
   # GET /packages
   # GET /packages.json
