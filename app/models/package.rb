@@ -39,9 +39,9 @@ class Package < ApplicationRecord
             },
             uniqueness: { case_sensitive: false },
             format: { with: NAME_FORMAT }
-  validates :icon, size: { less_than: 1.megabyte }
+  validates :icon, size: { less_than: MAX_ICON_SIZE }
   validates :parts,
-            size: { less_than: 1.gigabyte }
+            size: { less_than: MAX_PART_SIZE }
   # TODO: Check link for content disposition
   validates :external_url,
             format: URI.regexp(%w[http https]),

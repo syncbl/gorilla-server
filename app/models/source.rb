@@ -9,7 +9,7 @@ class Source < ApplicationRecord
   has_one_attached :file, dependent: :purge_later
 
   validates :file,
-            size: { less_than: 1.gigabyte }
+            size: { less_than: MAX_SOURCE_SIZE }
 
   def attach(**args)
     file.attach(args)
@@ -26,7 +26,7 @@ class Source < ApplicationRecord
     filelist = {}
     Zip::File.open(tmpfilename) do |zipfile|
       zipfile.each do |z|
-        if (z.size > MAX_FILE_SIZE)
+        if (z.size > MAX_PACKED_FILE_SIZE)
           block! "zip: #{z.name}, #{z.size}"
           return false
         end

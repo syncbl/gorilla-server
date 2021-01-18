@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def api_check_headers
-    reset_session
+    # TODO: reset_session?
     if service_keys.include?(request.headers['X-API-Service']) ||
          Rails.env.development?
       if request.headers['X-API-Token']
@@ -22,8 +22,10 @@ class ApplicationController < ActionController::Base
           if endpoint = cached_endpoint(payload[:uuid], payload[:token])
             sign_in_endpoint(endpoint)
           else
-            puts "!!!!! BLOCK !!!!! #{payload[:uuid]}|#{payload[:token]}"
-            # TODO: Endpoint.find_by(id: payload[:uuid])&.block! reason: "#{payload[:uuid]}|#{payload[:token]}"
+            # Block endpoint with old token for security reasons
+            Endpoint.find_by(id: payload[:uuid])&.block!(
+              reason: "api_check_headers #{payload[:uuid]}|#{payload[:token]}"
+            )
           end
         when User.name
           if user = cached_user(payload[:uuid], payload[:token])
