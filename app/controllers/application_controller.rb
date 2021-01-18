@@ -10,7 +10,6 @@ class ApplicationController < ActionController::Base
   protected
 
   def api_check_headers
-    # TODO: reset_session?
     if service_keys.include?(request.headers['X-API-Service']) ||
          Rails.env.development?
       if request.headers['X-API-Token']
