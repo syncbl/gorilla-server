@@ -2,7 +2,7 @@ class SourcesController < ApplicationController
   before_action :authenticate_user!
   # TODO: before_action :deny_endpoint!, except: %i[index show]
   before_action :set_source, except: %i[index new create]
-  before_action :check_edit_permissions!, except: %i[index show]
+  before_action :check_edit_permissions!, except: %i[index show create]
 
   # GET /sources
   def index
@@ -22,11 +22,10 @@ class SourcesController < ApplicationController
 
   # POST /sources
   def create
-    @source = Source.new(source_params)
-    @source.package_id ||= params[:package_id]
-    @source.save!
+    # Params removed from create() because user must fill fields only after creation
+    @source = current_user.packages.find(params[:package_id])&.sources.create
 
-    tmpfilename = Dir::Tmpname.create(%w[s- .tmp]) {}
+    tmpfilename = Dir::Tmpname.create(%w[syncbl- .tmp]) {}
     File.open(tmpfilename, 'wb') do |tmpfile|
       tmpfile.write(params[:file].read)
     end
@@ -34,8 +33,6 @@ class SourcesController < ApplicationController
       filename: tmpfilename,
       checksum: params[:checksum]
     )
-
-    #@source.attach(params[:file])
 
     respond_to do |format|
       if @source.persisted?
@@ -69,14 +66,14 @@ class SourcesController < ApplicationController
   private
 
   # Use callbacks to share common setup or constraints between actions.
-  # TODO: Ensure, we can access there only after authorization
   def set_source
-    @source = Source.find_by!(id: params[:id], package_id: params[:package_id])
+    @source = current_user.packages.find_by(package_id: params[:package_id])&.
+      sources.find(params[:id])
   end
 
   # Only allow a trusted parameter "white list" through.
   def source_params
-    params.fetch(:source, {})
+    params.require(:source).permit(:description)
   end
 
   def check_edit_permissions!
