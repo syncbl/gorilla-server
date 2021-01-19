@@ -66,7 +66,11 @@ class Package < ApplicationRecord
   end
 
   def self.find_by_alias(value)
-    self.find_by(id: value) || self.find_by(alias: value) || self.find_by!(name: value)
+    where(id: value).or(
+      where(alias: value).or(
+        where(name: value)
+      )
+    ).first
   end
 
   def replaced?

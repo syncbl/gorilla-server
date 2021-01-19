@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.string "authentication_token", limit: 24
     t.uuid "user_id", null: false
     t.datetime "blocked_at"
-    t.string "block_reason"
+    t.string "block_reason", limit: 300
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_endpoints_on_created_at"
@@ -69,16 +69,16 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   create_table "packages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", limit: 100, null: false
     t.string "alias", limit: 100
-    t.string "destination", default: "", null: false
+    t.string "destination", limit: 100, default: "", null: false
     t.string "group_name", limit: 100
     t.bigint "size", default: 0, null: false
-    t.string "external_url"
-    t.boolean "trusted", default: false, null: false
+    t.string "external_url", limit: 2048
+    t.boolean "published", default: false, null: false
     t.jsonb "data"
     t.uuid "user_id", null: false
     t.uuid "replacement_id"
     t.datetime "blocked_at"
-    t.string "block_reason"
+    t.string "block_reason", limit: 300
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["alias"], name: "index_packages_on_alias", unique: true
@@ -106,13 +106,13 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   end
 
   create_table "sources", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "description", default: "", null: false
+    t.string "description", limit: 8000, default: "", null: false
     t.jsonb "manifest", default: {}, null: false
     t.bigint "unpacked_size", default: 0, null: false
     t.boolean "merged", default: false, null: false
     t.uuid "package_id", null: false
     t.datetime "blocked_at"
-    t.string "block_reason"
+    t.string "block_reason", limit: 300
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_sources_on_created_at"
@@ -126,7 +126,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.string "locale", limit: 10, default: "en", null: false
     t.string "authentication_token", limit: 24
     t.datetime "blocked_at"
-    t.string "block_reason"
+    t.string "block_reasonm", limit: 300
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "email", default: "", null: false

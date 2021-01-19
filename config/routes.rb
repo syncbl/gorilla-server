@@ -26,7 +26,6 @@ Rails
 
     # Settings is for installers only
     resources :settings, only: [:index]
-    resource :user, only: [:show]
 
     # TODO: Dashboard, endpoints and user settings only
     authenticated :user do
@@ -41,6 +40,6 @@ Rails
     # This routes is only for non-API GET requests and must be in the end of route list
 
     get ':user_id/:id', to: 'packages#show'
-    get ':id', to: 'packages#show'
+    get ':id', to: 'users#show'
     #match '*path', to: 'packages#show', via: [:get, :post]
   end

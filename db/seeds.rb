@@ -9,11 +9,11 @@
 case Rails.env
 when 'development'
   #Group.create name: 'test'
-  u = User.create name: 'Eldar',
+  u1 = User.create name: 'Eldar',
     username: 'deadalice',
     email: 'eldar.avatov@gmail.com',
     password: '111111'
-  User.create name: 'Test',
+  u2 = User.create name: 'Test',
     username: 'test',
     email: 'test@example.com',
     password: '123456'
@@ -22,14 +22,22 @@ when 'development'
       {
         name: 'openssl-1_0',
         alias: 'openssl',
-        trusted: true,
-        user: u,
+        published: true,
+        user: u1,
         group_name: 'Test',
         external_url: 'https://www.heidisql.com/installers/HeidiSQL_11.0.0.5919_Setup.exe'
       },
-      { name: 'openssl-1_1', user: u, group_name: 'Test' },
-      { name: 'openssl-1_2', user: u },
-      { name: 'openssl-dev', alias: 'openssl-dev', user: u, group_name: 'Test', trusted: true }
+      { name: 'openssl-1_1', user: u1, group_name: 'Test' },
+      { name: 'openssl-1_2', user: u1 },
+      {
+        name: 'openssl-dev',
+        alias: 'openssl-dev',
+        published: true,
+        user: u1,
+        group_name: 'Test'
+      },
+      { name: 'openssl-2_0', user: u2 },
+      { name: 'openssl-2_1', user: u2, published: true },
     ]
   )
   Package.first.dependencies << Package.last
