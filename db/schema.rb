@@ -13,6 +13,7 @@
 ActiveRecord::Schema.define(version: 2020_12_10_054622) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "hstore"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
@@ -107,7 +108,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
 
   create_table "sources", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "description", limit: 8000, default: "", null: false
-    t.jsonb "manifest", default: {}, null: false
+    t.hstore "filelist", default: {}, null: false
     t.bigint "unpacked_size", default: 0, null: false
     t.boolean "merged", default: false, null: false
     t.uuid "package_id", null: false
@@ -116,6 +117,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_sources_on_created_at"
+    t.index ["filelist"], name: "index_sources_on_filelist"
     t.index ["package_id"], name: "index_sources_on_package_id"
     t.index ["updated_at"], name: "index_sources_on_updated_at"
   end

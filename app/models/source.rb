@@ -15,13 +15,6 @@ class Source < ApplicationRecord
     file.attach(args)
   end
 
-  # TODO: When generate manifest - mark files to delete or replace!
-  def generate_manifest(files)
-    self.manifest = {
-      files: files
-    }
-  end
-
   def build(tmpfilename)
     filelist = {}
     Zip::File.open(tmpfilename) do |zipfile|
@@ -34,9 +27,7 @@ class Source < ApplicationRecord
         self.unpacked_size += z.size
       end
     end
-    generate_manifest(
-      files: filelist
-    )
+    self.filelist = filelist
     save
   end
 

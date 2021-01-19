@@ -1,6 +1,7 @@
 class InitializeTables < ActiveRecord::Migration[6.0]
   def change
     enable_extension 'pgcrypto'
+    enable_extension 'hstore'
 
     # ----------
     create_table :users, id: :uuid do |t|
@@ -100,7 +101,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     create_table :sources, id: :uuid do |t|
       # TODO: What to do with file: run, unpack, exec
       t.string :description, limit: 8000, null: false, default: ""
-      t.jsonb :manifest, null: false, default: {}
+      t.hstore :filelist, index: true, using: :gin, null: false, default: ''
       t.bigint :unpacked_size, null: false, default: 0
       t.boolean :merged, null: false, default: false
 
