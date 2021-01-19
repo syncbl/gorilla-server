@@ -50,7 +50,7 @@ class Package < ApplicationRecord
         ->(user) {
           # TODO Remove nil user, because user can't be blank
           # TODO Group permissions
-          where(user: user).or(where(trusted: true))
+          where(user: user).or(where(published: true))
         }
 
   def all_dependencies(packages = Set[])
@@ -66,7 +66,7 @@ class Package < ApplicationRecord
   end
 
   def self.find_by_alias(value)
-    self.find_by(id: value) || self.find_by!(alias: value)
+    self.find_by(id: value) || self.find_by(alias: value) || self.find_by!(name: value)
   end
 
   def replaced?

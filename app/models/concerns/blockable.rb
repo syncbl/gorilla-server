@@ -4,7 +4,7 @@ module Blockable
   # TODO: Add logger
 
   def block!(reason = nil)
-    self.update!({
+    update!({
       blocked_at: Time.current,
       block_reason: reason
     })
@@ -12,7 +12,7 @@ module Blockable
   end
 
   def unblock!
-    self.update!({
+    update!({
       blocked_at: nil,
       block_reason: nil
     })

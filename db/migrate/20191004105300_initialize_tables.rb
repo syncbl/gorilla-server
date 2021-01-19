@@ -19,7 +19,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       #t.string :secret, limit: 24, default: { 'substr(md5(random()::text), 0, 24)' }, null: false
 
       t.datetime :blocked_at
-      t.string :block_reason
+      t.string :block_reasonm, limit: 300
       t.datetime :created_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
     end
@@ -36,7 +36,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.belongs_to :user, type: :uuid, foreign_key: true, index: true, null: false
 
       t.datetime :blocked_at
-      t.string :block_reason
+      t.string :block_reason, limit: 300
       t.datetime :created_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
     end
@@ -45,15 +45,15 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     create_table :packages, id: :uuid do |t|
       t.string :name, limit: 100, null: false
       t.string :alias, limit: 100
-      t.string :destination, null: false, default: ""
+      t.string :destination, limit: 100, null: false, default: ""
 
       # TODO: Groups
       t.string :group_name, limit: 100
       # TODO: Check size by HEAD for external URLs
       t.bigint :size, null: false, default: 0
-      t.string :external_url
+      t.string :external_url, limit: 2048
 
-      t.boolean :trusted, null: false, default: false
+      t.boolean :published, null: false, default: false
 
       t.jsonb :data
 
@@ -61,7 +61,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.belongs_to :replacement, type: :uuid, index: true, foreign_key: { to_table: :packages }
 
       t.datetime :blocked_at
-      t.string :block_reason
+      t.string :block_reason, limit: 300
       t.datetime :created_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
 
@@ -99,7 +99,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     # ----------
     create_table :sources, id: :uuid do |t|
       # TODO: What to do with file: run, unpack, exec
-      t.string :description, null: false, default: ""
+      t.string :description, limit: 8000, null: false, default: ""
       t.jsonb :manifest, null: false, default: {}
       t.bigint :unpacked_size, null: false, default: 0
       t.boolean :merged, null: false, default: false
@@ -107,7 +107,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.belongs_to :package, type: :uuid, index: true, null: false, foreign_key: true
 
       t.datetime :blocked_at
-      t.string :block_reason
+      t.string :block_reason, limit: 300
       t.datetime :created_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
     end
