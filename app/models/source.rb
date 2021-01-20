@@ -6,7 +6,9 @@ class Source < ApplicationRecord
 
   belongs_to :package
 
-  has_one_attached :file, dependent: :purge_later
+  has_one_attached :file,
+                   service: :remote,
+                   dependent: :purge_later
 
   validates :file,
             size: { less_than: MAX_SOURCE_SIZE }
@@ -40,7 +42,7 @@ class Source < ApplicationRecord
     Rails.cache.read("#{Source.name}_state_#{id}")
   end
 
-  def active?
+  def ready?
     blocked_at.nil? && state.nil? && file.attached?
   end
 end

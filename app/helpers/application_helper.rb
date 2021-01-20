@@ -52,7 +52,7 @@ module ApplicationHelper
         "#{Endpoint.name}_#{id}",
         expires_in: MODEL_CACHE_TIMEOUT
       ) do
-        Endpoint.active.find_by(
+        Endpoint.find_by(
           id: id,
           authentication_token: token
         )
@@ -66,7 +66,7 @@ module ApplicationHelper
         "user_#{id}",
         expires_in: MODEL_CACHE_TIMEOUT
       ) do
-        User.active.find_by(
+        User.find_by(
           id: id,
           authentication_token: token
         )

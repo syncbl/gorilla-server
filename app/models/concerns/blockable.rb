@@ -22,10 +22,6 @@ module Blockable
     blocked_at != nil
   end
 
-  def active?
-    blocked_at == nil
-  end
-
   def self.included(base)
     base.class_eval { scope :active, lambda { where(blocked_at: nil) } }
   end

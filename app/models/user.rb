@@ -39,11 +39,11 @@ class User < ApplicationRecord
   end
 
   def active_for_authentication?
-    super && self.active?
+    super && !self.blocked?
   end
 
   def inactive_message
-    self.active? ? super : :blocked
+    !self.blocked? ? super : :blocked
   end
 
 end
