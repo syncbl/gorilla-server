@@ -202,6 +202,8 @@ GEM
     public_suffix (4.0.6)
     puma (5.1.1)
       nio4r (~> 2.0)
+    pundit (2.1.0)
+      activesupport (>= 3.0.0)
     racc (1.5.2)
     rack (2.2.3)
     rack-attack (6.3.1)
@@ -347,6 +349,7 @@ DEPENDENCIES
   pg (~> 1)
   prettier
   puma (~> 5.1)
+  pundit
   rack-attack
   rails (~> 6.0)
   rails-i18n (~> 6.0)

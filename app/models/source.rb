@@ -21,6 +21,7 @@ class Source < ApplicationRecord
       zipfile.each do |z|
         if (z.size > MAX_PACKED_FILE_SIZE)
           block! "zip: #{z.name}, #{z.size}"
+          # TODO: update_state
           return false
         end
         filelist.store(z.name, z.crc)
