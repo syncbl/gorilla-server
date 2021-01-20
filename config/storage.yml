@@ -1,19 +1,8 @@
-test:
-  service: Disk
-  root: <%= Rails.root.join("tmp/storage") %>
-
 local:
-  <<: *disk
-
-remote:
-  <<: *disk
-
-disk:
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
-# Use rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
-minio:
+remote:
   service: S3
   endpoint: <%= Rails.application.credentials.dig(:aws, :endpoint) %>
   region: <%= Rails.application.credentials.dig(:aws, :region) %>
@@ -21,6 +10,10 @@ minio:
   secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
   bucket: <%= Rails.application.credentials.dig(:aws, :bucket) %>
   force_path_style: true
+
+test:
+  service: Disk
+  root: <%= Rails.root.join("tmp/storage") %>
 
 # Remember not to checkin your GCS keyfile to a repository
 # google:

@@ -1,7 +1,7 @@
 class EndpointsController < ApplicationController
   # TODO: Refactor access
   before_action :authenticate_user!, except: %i[update]
-  before_action :deny_endpoint!, except: %i[show update]
+  #before_action :deny_endpoint!, except: %i[show update]
   before_action :authenticate_and_set_endpoint!, except: %i[index create]
 
   # GET /endpoints
@@ -62,28 +62,6 @@ class EndpointsController < ApplicationController
                     notice: 'Endpoint was successfully destroyed.'
       end
       format.json { head :no_content }
-    end
-  end
-
-  # PATCH/PUT /endpoint/install
-  # PATCH/PUT /endpoint/install.json
-  def install
-    setting =
-      @endpoint.install(
-        Package.allowed_for(current_user).find_by_alias(params[:package])
-      )
-    respond_to do |format|
-      if setting
-        format.html do
-          redirect_to endpoint_url, notice: 'Package soon will be installed.'
-        end
-        format.json { render :show, status: :accepted, location: @endpoint }
-      else
-        format.html { render :edit }
-        format.json do
-          render json: setting.errors, status: :unprocessable_entity
-        end
-      end
     end
   end
 

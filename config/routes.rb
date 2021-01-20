@@ -13,19 +13,11 @@ Rails
     resources :packages do
       resources :sources
     end
-    resource :endpoint, only: %i[show update destroy] do
-      collection do
-        post :install
-      end
-    end
+    resource :endpoint, only: %i[show update destroy]
     resources :endpoints, only: %i[index create] do
-      member do
-        post :install
-      end
+      resources :settings, only: %i[index show create]
     end
-
-    # Settings is for installers only
-    resources :settings, only: [:index]
+    resources :settings, only: %i[index show create]
 
     # TODO: Dashboard, endpoints and user settings only
     authenticated :user do

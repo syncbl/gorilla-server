@@ -92,7 +92,7 @@ class PackagesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
 
   def set_package
-    @package = params[:user_id].nil? ? 
+    @package = params[:user_id].nil? ?
       Package.allowed_for(current_user).find_by_alias(params[:id]) :
       User.find_by!(username: params[:user_id]).packages.find_by!(name: params[:id], published: true)
   end

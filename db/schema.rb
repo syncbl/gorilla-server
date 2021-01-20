@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.bigint "size", default: 0, null: false
     t.string "external_url", limit: 2048
     t.boolean "published", default: false, null: false
+    t.boolean "persistent", default: false, null: false
     t.jsonb "data"
     t.uuid "user_id", null: false
     t.uuid "replacement_id"

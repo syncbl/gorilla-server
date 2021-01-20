@@ -1,11 +1,13 @@
 class SettingsController < ApplicationController
   # Settings can be used by user only within packages/endpoints
-  before_action :require_endpoint!
+  before_action :require_endpoint! # TODO: replace with only set_endpoint
+  before_action :set_endpoint
   before_action :set_setting, except: %i[index new create]
 
   # GET /settings
   def index
-    settings = current_endpoint.actualized_settings
+    current_endpoint.settings.actualize!
+    settings = current_endpoint.settings
 
     # TODO: !!! Check for reload and optimize query
     if params[:updates] == '1'
@@ -27,7 +29,19 @@ class SettingsController < ApplicationController
   def edit; end
 
   # POST /settings
-  def create; end
+  def create
+    respond_to do |format|
+      if @setting = @endpoint.settings.create(
+        package: Package.allowed_for(current_user).find_by_alias(params[:package_id])
+      )
+        format.html { redirect_to settings_url, notice: 'Package soon will be installed.' }
+        format.json { render :show, status: :accepted, location: @setting }
+      else
+        format.html { render :edit }
+        format.json { render json: @setting.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
   # PATCH/PUT /settings/1
   def update
@@ -60,8 +74,12 @@ class SettingsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   # ActiveRecord::RecordNotFound only with find_by
   def set_setting
-    @setting =
-      current_endpoint.settings.find_by!(package_id: setting_params[:id])
+    @setting = @endpoint.settings.find_by!(package_id: setting_params[:id])
+  end
+
+  def set_endpoint
+    @endpoint = params[:endpoint_id].nil? ?
+      current_endpoint : current_user&.endpoints.find(params[:endpoint_id])
   end
 
   # Only allow a trusted parameter "white list" through.

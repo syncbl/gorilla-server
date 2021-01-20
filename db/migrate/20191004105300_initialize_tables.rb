@@ -54,7 +54,10 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.bigint :size, null: false, default: 0
       t.string :external_url, limit: 2048
 
+      # Show this package to everyone?
       t.boolean :published, null: false, default: false
+      # Delete this package with dependencies?
+      t.boolean :persistent, null: false, default: false
 
       t.jsonb :data
 

@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
         case payload[:scope]
         when Endpoint.name
           if endpoint = cached_endpoint(payload[:uuid], payload[:token])
-            sign_in_endpoint(endpoint) unless enpoint.blocked?
+            sign_in_endpoint(endpoint) unless endpoint.blocked?
           else
             # Block endpoint with old token for security reasons
             Endpoint.find_by(id: payload[:uuid])&.block!(
