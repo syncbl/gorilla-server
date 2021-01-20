@@ -57,7 +57,7 @@ class SettingsController < ApplicationController
   # No need in permission check here: endpoint is already authorized
   def destroy
     respond_to do |format|
-      if @setting.destroy
+      if @endpoint.settings.find_by(package_id: params[:package_id])&.discard
         format.html do
           redirect_to settings_url, notice: 'Package was successfully removed.'
         end
