@@ -38,7 +38,7 @@ module ApplicationHelper
     ] || flash_type.to_s
   end
 
-  def require_endpoint!
+  def authorize_endpoint!
     head :unauthorized if current_endpoint.nil?
   end
 

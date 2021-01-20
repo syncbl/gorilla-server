@@ -1,9 +1,8 @@
 class PackagesController < ApplicationController
   # We allowing anonymous access
-  before_action :authenticate_user!, except: %i[index show]
-  before_action :deny_endpoint!, except: %i[show]
+  before_action :authenticate_user!, except: %i[index]
+  before_action :deny_endpoint!
   before_action :set_package, except: %i[index new create]
-  before_action :check_edit_permissions!, only: %i[edit update destroy clear store]
 
   # GET /packages
   # GET /packages.json
@@ -27,7 +26,9 @@ class PackagesController < ApplicationController
   end
 
   # GET /packages/1/edit
-  def edit; end
+  def edit
+    authorize @package
+  end
 
   # POST /packages
   # POST /packages.json
@@ -53,6 +54,7 @@ class PackagesController < ApplicationController
   # PATCH/PUT /packages/1
   # PATCH/PUT /packages/1.json
   def update
+    authorize @package
     respond_to do |format|
       if @package.update(package_params)
         format.html do
@@ -71,6 +73,7 @@ class PackagesController < ApplicationController
   # DELETE /packages/1
   # DELETE /packages/1.json
   def destroy
+    authorize @package
     respond_to do |format|
       if @package.destroy
         format.html do
@@ -95,11 +98,6 @@ class PackagesController < ApplicationController
     @package = params[:user_id].nil? ?
       Package.allowed_for(current_user).find_by_alias(params[:id]) :
       User.find_by!(username: params[:user_id]).packages.find_by!(name: params[:id], published: true)
-  end
-
-  def check_edit_permissions!
-    # TODO: Permissions
-    head :forbidden if @package.user.id != current_user.id
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

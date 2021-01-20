@@ -1,8 +1,9 @@
 class EndpointsController < ApplicationController
   # TODO: Refactor access
-  before_action :authenticate_user!, except: %i[update]
-  #before_action :deny_endpoint!, except: %i[show update]
-  before_action :authenticate_and_set_endpoint!, except: %i[index create]
+  before_action :authenticate_user!, only: %i[index create destroy]
+  before_action :authenticate_endpoint!, only: %i[show update]
+  before_action :deny_endpoint!, only: %i[index create destroy]
+  before_action :set_endpoint, except: %i[index create]
 
   # GET /endpoints
   # GET /endpoints.json
@@ -68,17 +69,12 @@ class EndpointsController < ApplicationController
   private
 
   # Use callbacks to share common setup or constraints between actions.
-  def authenticate_and_set_endpoint!
+  def set_endpoint
     if current_endpoint.present?
       @endpoint = current_endpoint
-      if rand(ENDPOINT_TOKEN_REGEN_RANDOM) == 0
-        @endpoint.update(authentication_token: nil)
-        current_endpoint.new_token = JsonWebToken.encode(@endpoint)
-      end
+      @endpoint.reset_token if rand(ENDPOINT_TOKEN_REGEN_RANDOM) == 0
     elsif params[:id].present?
       @endpoint = current_user.endpoints.find(params[:id])
-    else
-      head :unauthorized
     end
   end
 
