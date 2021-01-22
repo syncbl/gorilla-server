@@ -1,6 +1,6 @@
 class SourcesController < ApplicationController
   before_action :authenticate_user!
-  # TODO: before_action :deny_endpoint!, except: %i[index show]
+  before_action :deny_endpoint!
   before_action :set_source, except: %i[index new create]
   before_action :check_edit_permissions!, except: %i[index show create]
 

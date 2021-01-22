@@ -39,7 +39,7 @@ module ApplicationHelper
   end
 
   def authenticate_endpoint!
-    head :unauthorized if current_endpoint.nil?
+    head :unauthorized if current_endpoint.nil? || user_signed_in?
   end
 
   def deny_endpoint!
