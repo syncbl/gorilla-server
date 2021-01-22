@@ -10,7 +10,7 @@ class SettingsController < ApplicationController
     settings = current_endpoint.settings
 
     # TODO: !!! Check for reload and optimize query
-    if params[:updates] == '1'
+    if params[:updates].present?
       @pagy, @settings = pagy(settings.updated)
     else
       @pagy, @settings = pagy(settings.all)
