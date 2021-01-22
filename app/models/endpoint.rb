@@ -19,7 +19,7 @@ class Endpoint < ApplicationRecord
   #    .gt(Time.current - Rails.application.config.syncbl.endpoint_token_expiration_time))
   #}
 
-  scope :with_user, -> { joins(:user) }
+  #scope :with_user, -> { joins(:user) }
 
   attr_accessor :new_token
 
