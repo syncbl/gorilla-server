@@ -8,12 +8,12 @@ module ApplicationHelper
 
   def service_keys
     # TODO: Add dictionary of available services
-    [app_key('files/hqdefault.jpg')]
+    [app_key("files/hqdefault.jpg")]
   end
 
   def anonymous_keys
     # TODO: Add dictionary of available services
-    [app_key('files/hqdefault.jpg')]
+    [app_key("files/hqdefault.jpg")]
   end
 
   # TODO: Authorization token for endpoint
@@ -29,10 +29,10 @@ module ApplicationHelper
 
   def alert_for(flash_type)
     {
-      success: 'alert-success',
-      error: 'alert-danger',
-      alert: 'alert-warning',
-      notice: 'alert-info'
+      success: "alert-success",
+      error: "alert-danger",
+      alert: "alert-warning",
+      notice: "alert-info",
     }[
       flash_type.to_sym
     ] || flash_type.to_s
@@ -49,12 +49,12 @@ module ApplicationHelper
   def cache_fetch(model, id, token)
     Rails.cache.fetch(
       "#{model.name}_#{id}",
-      expires_in: MODEL_CACHE_TIMEOUT
+      expires_in: MODEL_CACHE_TIMEOUT,
     ) do
       instance = model.find_by(
         id: id,
         authentication_token: token,
-        blocked_at: nil
+        blocked_at: nil,
       )
     end
   end
@@ -74,5 +74,4 @@ module ApplicationHelper
   def sign_in_endpoint(endpoint)
     session[:current_endpoint_id] = endpoint&.id
   end
-
 end

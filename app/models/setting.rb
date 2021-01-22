@@ -49,5 +49,4 @@ class Setting < ApplicationRecord
     end
     install_packages.each { |p| self.create(package: p, dependent: true) }
   end
-
 end

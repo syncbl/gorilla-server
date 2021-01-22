@@ -12,7 +12,7 @@ class PackagesController < ApplicationController
         Package.allowed_for(current_user),
         # TODO: ".includes([:icon_attachment])," caused error
         # NoMethodError Exception: undefined method `first' for nil:NilClass
-        items: params[:items]
+        items: params[:items],
       )
   end
 
@@ -39,7 +39,7 @@ class PackagesController < ApplicationController
       if @package.save
         @package.reload
         format.html do
-          redirect_to @package, notice: 'Package was successfully created.'
+          redirect_to @package, notice: "Package was successfully created."
         end
         format.json { render :show, status: :created, location: @package }
       else
@@ -58,7 +58,7 @@ class PackagesController < ApplicationController
     respond_to do |format|
       if @package.update(package_params)
         format.html do
-          redirect_to @package, notice: 'Package was successfully updated.'
+          redirect_to @package, notice: "Package was successfully updated."
         end
         format.json { render :show, status: :ok, location: @package }
       else
@@ -78,7 +78,7 @@ class PackagesController < ApplicationController
       if @package.destroy
         format.html do
           redirect_to packages_url,
-                      notice: 'Package was successfully destroyed.'
+                      notice: "Package was successfully destroyed."
         end
         format.json { head :no_content }
       else
@@ -106,5 +106,4 @@ class PackagesController < ApplicationController
     # TODO: group_name
     params.require(:package).permit(:name, :alias, :external_url)
   end
-
 end

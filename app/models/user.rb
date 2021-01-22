@@ -35,7 +35,7 @@ class User < ApplicationRecord
 
   def generate_username
     username = "#{self.email[/^[^@]+/]}"
-    self.username =  User.find_by(username: username).nil? ? username : "#{username}#{rand(10_000)}"
+    self.username = User.find_by(username: username).nil? ? username : "#{username}#{rand(10_000)}"
   end
 
   def active_for_authentication?
@@ -45,5 +45,4 @@ class User < ApplicationRecord
   def inactive_message
     !self.blocked? ? super : :blocked
   end
-
 end

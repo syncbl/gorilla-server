@@ -11,11 +11,11 @@ class Package < ApplicationRecord
   # TODO: Remove files like GIT after delete. Script? JSON?
 
   has_and_belongs_to_many :dependencies,
-                          class_name: 'Package',
+                          class_name: "Package",
                           join_table: :dependencies,
                           foreign_key: :package_id,
                           association_foreign_key: :dependent_package_id
-  belongs_to :replacement, class_name: 'Package', optional: true
+  belongs_to :replacement, class_name: "Package", optional: true
 
   has_one_attached :icon
 
@@ -24,7 +24,7 @@ class Package < ApplicationRecord
             presence: true,
             length: {
               minimum: MIN_NAME_LENGTH,
-              maximum: MAX_PACKAGE_NAME_LENGTH
+              maximum: MAX_PACKAGE_NAME_LENGTH,
             },
             uniqueness: { scope: :user_id, case_sensitive: false },
             format: { with: NAME_FORMAT }
@@ -34,7 +34,7 @@ class Package < ApplicationRecord
             allow_blank: true,
             length: {
               minimum: MIN_NAME_LENGTH,
-              maximum: MAX_PACKAGE_NAME_LENGTH
+              maximum: MAX_PACKAGE_NAME_LENGTH,
             },
             uniqueness: { case_sensitive: false },
             format: { with: NAME_FORMAT }

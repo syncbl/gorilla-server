@@ -27,5 +27,4 @@ class Endpoint < ApplicationRecord
     update(authentication_token: nil)
     self.new_token = JsonWebToken.encode(self)
   end
-
 end

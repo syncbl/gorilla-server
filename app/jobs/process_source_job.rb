@@ -1,5 +1,5 @@
 class ProcessSourceJob < ApplicationJob
-  require 'timeout'
+  require "timeout"
   # TODO: Add Timeout stuff
 
   queue_as :default
@@ -11,7 +11,7 @@ class ProcessSourceJob < ApplicationJob
       # TODO: Warn about existing file if it's own or public
     end
 
-    source.update_state I18n.t('jobs.process_source.scanning')
+    source.update_state I18n.t("jobs.process_source.scanning")
 
     # TODO: clamscan
     #if Clamby.virus?(filename)
@@ -19,10 +19,10 @@ class ProcessSourceJob < ApplicationJob
     #  return false
     #end
 
-    source.update_state I18n.t('jobs.process_source.building')
+    source.update_state I18n.t("jobs.process_source.building")
     if source.build(filename)
-      source.update_state I18n.t('jobs.process_source.attaching')
-      source.attach(io: File.open(filename), filename: "#{Time.now.strftime('%Y%m%d%H%M%S')}.zip")
+      source.update_state I18n.t("jobs.process_source.attaching")
+      source.attach(io: File.open(filename), filename: "#{Time.now.strftime("%Y%m%d%H%M%S")}.zip")
     end
     File.delete(filename)
     # TODO: Inform user

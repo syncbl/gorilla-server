@@ -24,7 +24,7 @@ class EndpointsController < ApplicationController
         current_user.endpoints.new(name: endpoint_params[:name])
     @endpoint.update({
       remote_ip: request.remote_ip,
-      locale: current_user.locale
+      locale: current_user.locale,
     })
     respond_to do |format|
       format.html { redirect_to endpoints_url }
@@ -38,7 +38,7 @@ class EndpointsController < ApplicationController
     respond_to do |format|
       if @package.update(package_params)
         format.html do
-          redirect_to @package, notice: 'Endpoint was successfully updated.'
+          redirect_to @package, notice: "Endpoint was successfully updated."
         end
         format.json { render :show, status: :ok, location: @package }
       else
@@ -62,7 +62,7 @@ class EndpointsController < ApplicationController
     respond_to do |format|
       format.html do
         redirect_to endpoints_url,
-                    notice: 'Endpoint was successfully destroyed.'
+                    notice: "Endpoint was successfully destroyed."
       end
       format.json { head :no_content }
     end

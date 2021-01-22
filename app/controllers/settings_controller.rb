@@ -32,9 +32,9 @@ class SettingsController < ApplicationController
   def create
     respond_to do |format|
       if @setting = @endpoint.settings.create(
-        package: Package.allowed_for(current_user).find_by_alias(params[:package_id])
+        package: Package.allowed_for(current_user).find_by_alias(params[:package_id]),
       )
-        format.html { redirect_to settings_url, notice: 'Package soon will be installed.' }
+        format.html { redirect_to settings_url, notice: "Package soon will be installed." }
         format.json { render :show, status: :accepted, location: @setting }
       else
         format.html { render :edit }
@@ -47,7 +47,7 @@ class SettingsController < ApplicationController
   def update
     # TODO: Use as sync: delete if discarded, set "installed" if not
     if @setting.update(setting_params)
-      redirect_to @setting, notice: 'Setting was successfully updated.'
+      redirect_to @setting, notice: "Setting was successfully updated."
     else
       render :edit
     end
@@ -59,7 +59,7 @@ class SettingsController < ApplicationController
     respond_to do |format|
       if @endpoint.settings.find_by(package_id: params[:package_id])&.discard
         format.html do
-          redirect_to settings_url, notice: 'Package was successfully removed.'
+          redirect_to settings_url, notice: "Package was successfully removed."
         end
         format.json { head :no_content }
       else

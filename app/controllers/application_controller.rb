@@ -11,10 +11,10 @@ class ApplicationController < ActionController::Base
   protected
 
   def api_check_headers
-    if service_keys.include?(request.headers['X-API-Service']) ||
-         Rails.env.development?
-      if request.headers['X-API-Token']
-        unless payload = JsonWebToken.decode(request.headers['X-API-Token'])
+    if service_keys.include?(request.headers["X-API-Service"]) ||
+       Rails.env.development?
+      if request.headers["X-API-Token"]
+        unless payload = JsonWebToken.decode(request.headers["X-API-Token"])
           return true
         end
         case payload[:scope]
@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
           else
             # Block endpoint with old token for security reasons
             Endpoint.find_by(id: payload[:uuid], blocked_at: nil)&.block!(
-              reason: "api_check_headers #{payload[:uuid]}|#{payload[:token]}"
+              reason: "api_check_headers #{payload[:uuid]}|#{payload[:token]}",
             )
           end
         when User.name
@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
           end
         end
       end
-    elsif anonymous_keys.include?(request.headers['X-API-Service'])
+    elsif anonymous_keys.include?(request.headers["X-API-Service"])
       return true
     else
       head :upgrade_required
@@ -56,7 +56,7 @@ class ApplicationController < ActionController::Base
       session[:locale] ||= current_user.locale
     else
       session[:locale] ||= http_accept_language.compatible_language_from(I18n.available_locales) ||
-        I18n.default_locale.to_s
+                           I18n.default_locale.to_s
     end
     I18n.locale = session[:locale]
   end
