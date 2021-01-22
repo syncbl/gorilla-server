@@ -2,7 +2,7 @@ class Auth::SessionsController < Devise::SessionsController
   def create
     old_session = session.to_hash
     reset_session
-    session.update old_session.except('session_id')
+    session.update old_session.except("session_id")
     respond_to do |format|
       format.any(*navigational_formats) { super }
       format.json do
