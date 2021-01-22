@@ -4,6 +4,7 @@ class Endpoint < ApplicationRecord
   self.implicit_order_column = :created_at
 
   has_secure_token :authentication_token
+
   belongs_to :user
   has_many :settings
   has_many :packages, through: :settings
@@ -24,7 +25,9 @@ class Endpoint < ApplicationRecord
   end
 
   def reset_token
-    update(authentication_token: nil)
-    self.new_token = JsonWebToken.encode(self)
+    if new_token.nil?
+      regenerate_authentication_token
+      self.new_token = JsonWebToken.encode(self)
+    end
   end
 end

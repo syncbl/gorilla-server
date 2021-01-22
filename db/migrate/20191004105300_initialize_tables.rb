@@ -15,7 +15,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       #t.boolean :developer, default: false
       # TODO: Purchases table for user or company
 
-      t.string :authentication_token, limit: 24, unique: true
+      t.string :authentication_token, limit: 24, null: false, unique: true
 
       #t.string :secret, limit: 24, default: { 'substr(md5(random()::text), 0, 24)' }, null: false
 
@@ -33,7 +33,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       # TODO: Store PC parameters here
 
-      t.string :authentication_token, limit: 24, unique: true
+      t.string :authentication_token, limit: 24, null: false, unique: true
 
       t.belongs_to :user, type: :uuid, foreign_key: true, index: true, null: false
 

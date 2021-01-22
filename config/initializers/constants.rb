@@ -1,6 +1,6 @@
 NAME_FORMAT = /\A[A-Za-z\d\-\_]*\z/
 EMAIL_FORMAT = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-ENDPOINT_TOKEN_REGEN_RANDOM = 10
+ENDPOINT_TOKEN_REGEN_RANDOM = 2
 MAX_PACKED_FILE_SIZE = 2.gigabytes
 MAX_ICON_SIZE = 1.megabyte
 MAX_SOURCE_SIZE = 4.gigabytes

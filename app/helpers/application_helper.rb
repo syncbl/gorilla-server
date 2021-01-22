@@ -18,15 +18,8 @@ module ApplicationHelper
     @_anonymous_keys << "@@" if Rails.env.development?
   end
 
-  # TODO: Authorization token for endpoint
-  def generate_token
-    if @endpoint.nil?
-      render json: { session: { token: JsonWebToken.encode(current_user) } },
-             status: :ok
-    else
-      render json: { session: { token: JsonWebToken.encode(@endpoint) } },
-             status: :accepted
-    end
+  def session_json(model)
+    { session: { token: JsonWebToken.encode(model) } }
   end
 
   def alert_for(flash_type)
@@ -49,7 +42,7 @@ module ApplicationHelper
   end
 
   def deny_html
-    head :method_not_allowed
+    head :method_not_allowed unless request.format.json?
   end
 
   def cache_fetch(model, id, token)
@@ -78,6 +71,7 @@ module ApplicationHelper
   end
 
   def sign_in_endpoint(endpoint)
-    session[:current_endpoint_id] = endpoint&.id
+    endpoint.reset_token
+    @_cached_endpoint ||= endpoint
   end
 end

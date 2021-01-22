@@ -37,7 +37,6 @@ class PackagesController < ApplicationController
     @package.user = current_user
     respond_to do |format|
       if @package.save
-        @package.reload
         format.html do
           redirect_to @package, notice: "Package was successfully created."
         end

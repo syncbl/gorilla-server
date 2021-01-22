@@ -8,8 +8,13 @@ class Auth::SessionsController < Devise::SessionsController
       format.json do
         self.resource = warden.authenticate!(auth_options)
         sign_in(resource_name, resource)
-        generate_token
+        render json: session_json(resource)
       end
     end
+  end
+
+  def destroy
+    current_user.regenerate_authentication_token
+    super
   end
 end

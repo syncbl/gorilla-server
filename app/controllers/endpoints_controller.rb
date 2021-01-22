@@ -1,5 +1,6 @@
 class EndpointsController < ApplicationController
   # TODO: Refactor access
+  before_action :deny_html, only: %i[create]
   before_action :authenticate_user!, only: %i[index create destroy]
   before_action :authenticate_endpoint!, only: %i[show update]
   before_action :deny_endpoint!, only: %i[index create destroy]
@@ -26,10 +27,9 @@ class EndpointsController < ApplicationController
       remote_ip: request.remote_ip,
       locale: current_user.locale,
     })
-    respond_to do |format|
-      format.html { redirect_to endpoints_url }
-      format.json { generate_token }
-    end
+    sign_in_endpoint(@endpoint)
+    sign_out(current_user)
+    render :show, status: :created, location: current_endpoint
   end
 
   # PATCH/PUT /endpoint
@@ -38,13 +38,13 @@ class EndpointsController < ApplicationController
     respond_to do |format|
       if @package.update(package_params)
         format.html do
-          redirect_to @package, notice: "Endpoint was successfully updated."
+          redirect_to @endpoint, notice: "Endpoint was successfully updated."
         end
-        format.json { render :show, status: :ok, location: @package }
+        format.json { render :show, status: :ok, location: @endpoint }
       else
         format.html { render :edit }
         format.json do
-          render json: @package.errors, status: :unprocessable_entity
+          render json: @endpoint.errors, status: :unprocessable_entity
         end
       end
     end
