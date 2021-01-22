@@ -8,7 +8,7 @@ module Blockable
       blocked_at: Time.current,
       block_reason: reason
     })
-    Rails.cache.delete_matched("*_#{id}")
+    delete_cached
   end
 
   def unblock!
@@ -24,5 +24,9 @@ module Blockable
 
   def self.included(base)
     base.class_eval { scope :active, lambda { where(blocked_at: nil) } }
+  end
+
+  def delete_cached
+    Rails.cache.delete_matched("#{self.class.name}_#{id}")
   end
 end

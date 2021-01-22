@@ -38,7 +38,7 @@ module ApplicationHelper
     ] || flash_type.to_s
   end
 
-  def authorize_endpoint!
+  def authenticate_endpoint!
     head :unauthorized if current_endpoint.nil?
   end
 
@@ -46,44 +46,29 @@ module ApplicationHelper
     head :forbidden unless current_endpoint.nil?
   end
 
-  def cached_endpoint(id, token)
-    @_cached_endpoint ||= begin
-      Rails.cache.fetch(
-        "#{Endpoint.name}_#{id}",
-        expires_in: MODEL_CACHE_TIMEOUT
-      ) do
-        Endpoint.find_by(
-          id: id,
-          authentication_token: token
-        )
-      end
+  def cache_fetch(model, id, token)
+    Rails.cache.fetch(
+      "#{model.name}_#{id}",
+      expires_in: MODEL_CACHE_TIMEOUT
+    ) do
+      instance = model.find_by(
+        id: id,
+        authentication_token: token,
+        blocked_at: nil
+      )
     end
+  end
+
+  def cached_endpoint(id, token)
+    @_cached_endpoint ||= cache_fetch(Endpoint, id, token)
   end
 
   def cached_user(id, token)
-    @_cached_user ||= begin
-      Rails.cache.fetch(
-        "user_#{id}",
-        expires_in: MODEL_CACHE_TIMEOUT
-      ) do
-        User.find_by(
-          id: id,
-          authentication_token: token
-        )
-      end
-    end
+    @_cached_user ||= cache_fetch(User, id, token)
   end
 
   def current_endpoint
-    @_current_endpoint ||= session[:current_endpoint_id]
-    unless @_current_endpoint.nil?
-      Rails.cache.fetch(
-        "#{Endpoint.name}_#{@_current_endpoint}",
-        expires_in: MODEL_CACHE_TIMEOUT
-      ) do
-        Endpoint.active.with_user.find(@_current_endpoint)
-      end
-    end
+    @_cached_endpoint
   end
 
   def sign_in_endpoint(endpoint)

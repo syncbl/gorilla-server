@@ -1,6 +1,7 @@
 json = {
-  name: endpoint.name,
   id: endpoint.id,
+  name: endpoint.name,
+  locale: endpoint.locale,
   created_at: endpoint.created_at.to_i,
   updated_at: endpoint.updated_at.to_i
 }

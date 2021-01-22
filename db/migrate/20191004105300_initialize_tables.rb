@@ -20,7 +20,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       #t.string :secret, limit: 24, default: { 'substr(md5(random()::text), 0, 24)' }, null: false
 
       t.datetime :blocked_at
-      t.string :block_reasonm, limit: 300
+      t.string :block_reason, limit: 300
       t.datetime :created_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
       t.datetime :updated_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }
     end
@@ -29,6 +29,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     create_table :endpoints, id: :uuid do |t|
       t.string :name, limit: 100
       t.string :remote_ip, limit: 39 # IPv6 ready
+      t.string :locale, limit: 10, null: false, default: 'en'
 
       # TODO: Store PC parameters here
 

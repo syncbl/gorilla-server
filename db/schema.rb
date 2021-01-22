@@ -129,7 +129,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.string "locale", limit: 10, default: "en", null: false
     t.string "authentication_token", limit: 24
     t.datetime "blocked_at"
-    t.string "block_reasonm", limit: 300
+    t.string "block_reason", limit: 300
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "email", default: "", null: false

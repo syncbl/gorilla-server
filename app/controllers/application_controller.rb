@@ -20,16 +20,20 @@ class ApplicationController < ActionController::Base
         case payload[:scope]
         when Endpoint.name
           if endpoint = cached_endpoint(payload[:uuid], payload[:token])
-            sign_in_endpoint(endpoint) unless endpoint.blocked?
+            if rand(ENDPOINT_TOKEN_REGEN_RANDOM) == 0
+              endpoint.reset_token
+            else
+              endpoint.touch
+            end
           else
             # Block endpoint with old token for security reasons
-            Endpoint.find_by(id: payload[:uuid])&.block!(
+            Endpoint.find_by(id: payload[:uuid], blocked_at: nil)&.block!(
               reason: "api_check_headers #{payload[:uuid]}|#{payload[:token]}"
             )
           end
         when User.name
           if user = cached_user(payload[:uuid], payload[:token])
-            sign_in(user) unless user.blocked?
+            sign_in(user)
           end
         end
       end
@@ -46,14 +50,15 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-    if current_user.nil?
-      I18n.locale = session[:locale] ||
-        http_accept_language.compatible_language_from(I18n.available_locales) ||
-        I18n.default_locale.to_s
-      session[:locale] = I18n.locale
+    if current_endpoint.present?
+      session[:locale] ||= current_endpoint.locale
+    elsif current_user.present?
+      session[:locale] ||= current_user.locale
     else
-      I18n.locale = current_user.locale
+      session[:locale] ||= http_accept_language.compatible_language_from(I18n.available_locales) ||
+        I18n.default_locale.to_s
     end
+    I18n.locale = session[:locale]
   end
 
   # TODO: To check license

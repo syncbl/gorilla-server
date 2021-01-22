@@ -14,6 +14,7 @@ Rails
       resources :sources
     end
     resource :endpoint, only: %i[show update destroy]
+    resource :user, only: %i[show]
     resources :endpoints, only: %i[index create] do
       resources :settings, only: %i[index show create]
     end
