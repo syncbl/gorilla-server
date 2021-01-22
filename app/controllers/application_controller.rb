@@ -11,8 +11,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def api_check_headers
-    if service_keys.include?(request.headers["X-API-Service"]) ||
-       Rails.env.development?
+    if service_keys.include?(request.headers["X-API-Service"])
       if request.headers["X-API-Token"]
         unless payload = JsonWebToken.decode(request.headers["X-API-Token"])
           return true

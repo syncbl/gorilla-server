@@ -8,22 +8,24 @@ module ApplicationHelper
 
   def service_keys
     # TODO: Add dictionary of available services
-    [app_key("files/hqdefault.jpg")]
+    @_service_keys ||= Set[app_key("files/hqdefault.jpg")]
+    @_service_keys << "@SERVICE@" if Rails.env.development?
   end
 
   def anonymous_keys
     # TODO: Add dictionary of available services
-    [app_key("files/hqdefault.jpg")]
+    @_anonymous_keys ||= Set[app_key("files/hqdefault.jpg")]
+    @_anonymous_keys << "@@" if Rails.env.development?
   end
 
   # TODO: Authorization token for endpoint
   def generate_token
-    unless @endpoint.nil?
-      render json: { session: { token: JsonWebToken.encode(@endpoint) } },
-             status: :accepted
-    else
+    if @endpoint.nil?
       render json: { session: { token: JsonWebToken.encode(current_user) } },
              status: :ok
+    else
+      render json: { session: { token: JsonWebToken.encode(@endpoint) } },
+             status: :accepted
     end
   end
 
@@ -44,6 +46,10 @@ module ApplicationHelper
 
   def deny_endpoint!
     head :forbidden unless current_endpoint.nil?
+  end
+
+  def deny_html
+    head :method_not_allowed
   end
 
   def cache_fetch(model, id, token)
