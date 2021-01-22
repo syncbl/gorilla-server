@@ -10,6 +10,9 @@ class Endpoint < ApplicationRecord
   has_many :packages, through: :settings
   has_and_belongs_to_many :packages, join_table: :settings, dependent: :destroy
 
+  validates :authentication_token,
+            length: { if: 24 },
+
   # TODO: Move to method in order to show inactive status in list
   #scope :actual, -> {
   #  where(Endpoint.arel_table[:updated_at]

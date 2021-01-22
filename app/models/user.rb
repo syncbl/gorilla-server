@@ -28,6 +28,8 @@ class User < ApplicationRecord
             length: { minimum: MIN_NAME_LENGTH, maximum: MAX_NAME_LENGTH },
             uniqueness: { case_sensitive: false },
             format: { with: NAME_FORMAT }
+  validates :authentication_token,
+            length: { if: 24 }
 
   attr_accessor :endpoint
 
