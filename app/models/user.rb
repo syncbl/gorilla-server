@@ -31,7 +31,7 @@ class User < ApplicationRecord
             uniqueness: { case_sensitive: false },
             format: { with: NAME_FORMAT }
   validates :authentication_token,
-            length: { if: 24 }
+            length: { is: 24 }
 
   # TODO: Everyone can create packages, but we need to add permissions for company members later
 
@@ -42,6 +42,10 @@ class User < ApplicationRecord
 
   def active_for_authentication?
     super && !self.blocked?
+  end
+
+  def authenticatable_salt
+    "#{super}#{authentication_token}"
   end
 
   def inactive_message
