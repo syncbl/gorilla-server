@@ -11,6 +11,8 @@ class User < ApplicationRecord
          :lockable
 
   has_secure_token :authentication_token
+  attribute :locale, :string, default: "en"
+  attr_accessor :endpoint
 
   # Because of company support and installed packages we can't allow to delete resources
   # has_many (as on Git) OR belongs_to :group, optional: true
@@ -30,8 +32,6 @@ class User < ApplicationRecord
             format: { with: NAME_FORMAT }
   validates :authentication_token,
             length: { if: 24 }
-
-  attr_accessor :endpoint
 
   # TODO: Everyone can create packages, but we need to add permissions for company members later
 

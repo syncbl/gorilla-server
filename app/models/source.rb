@@ -1,9 +1,6 @@
 class Source < ApplicationRecord
   include Blockable
 
-  # We need to sort by created instead of updated because of FlattenSourcesJob
-  self.implicit_order_column = :created_at
-
   belongs_to :package
 
   has_one_attached :file,

@@ -1,9 +1,9 @@
 class Endpoint < ApplicationRecord
   include Blockable
 
-  self.implicit_order_column = :created_at
-
   has_secure_token :authentication_token
+  attribute :locale, :string, default: "en"
+  attr_accessor :new_token
 
   belongs_to :user
   has_many :settings
@@ -20,8 +20,6 @@ class Endpoint < ApplicationRecord
   #}
 
   #scope :with_user, -> { joins(:user) }
-
-  attr_accessor :new_token
 
   def installed?(package)
     settings.exists?(package: package)

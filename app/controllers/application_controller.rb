@@ -49,14 +49,10 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-    if current_endpoint.present?
-      session[:locale] ||= current_endpoint.locale
-    elsif current_user.present?
-      session[:locale] ||= current_user.locale
-    else
-      session[:locale] ||= http_accept_language.compatible_language_from(I18n.available_locales) ||
-                           I18n.default_locale.to_s
-    end
+    session[:locale] ||= current_endpoint&.locale ||
+                         current_user&.locale ||
+                         http_accept_language.compatible_language_from(I18n.available_locales) ||
+                         I18n.default_locale.to_s
     I18n.locale = session[:locale]
   end
 

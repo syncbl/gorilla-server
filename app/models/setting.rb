@@ -1,8 +1,6 @@
 class Setting < ApplicationRecord
   include Discard::Model
 
-  self.implicit_order_column = :created_at
-
   # TODO: What to do if package is deleted?
   belongs_to :package
   belongs_to :endpoint # TODO: touch: true

@@ -1,8 +1,6 @@
 class Package < ApplicationRecord
   include Blockable
 
-  self.implicit_order_column = :created_at
-
   belongs_to :user
   has_many :settings, dependent: :destroy
   has_many :endpoints, through: :settings
