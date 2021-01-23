@@ -1,5 +1,6 @@
 json = {
   description: source.description,
+  version: source.version,
   created_at: source.created_at.to_i,
   updated_at: source.updated_at.to_i
 }

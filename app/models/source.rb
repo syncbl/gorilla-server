@@ -9,6 +9,10 @@ class Source < ApplicationRecord
 
   validates :file,
             size: { less_than: MAX_SOURCE_SIZE }
+  validates :description,
+            length: { maximum: 2048 }
+  validates :version,
+            length: { maximum: 16 }
 
   def attach(**args)
     file.attach(args)

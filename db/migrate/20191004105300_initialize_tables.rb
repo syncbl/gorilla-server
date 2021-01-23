@@ -105,6 +105,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     create_table :sources, id: :uuid do |t|
       # TODO: What to do with file: run, unpack, exec
       t.string :description, limit: 8000, null: false, default: ""
+      t.string :version, limit: 16
       t.hstore :filelist, index: true, using: :gin, null: false, default: ''
       t.bigint :unpacked_size, null: false, default: 0
       t.boolean :merged, null: false, default: false

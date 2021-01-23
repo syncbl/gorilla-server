@@ -11,7 +11,9 @@ class User < ApplicationRecord
          :lockable
 
   has_secure_token :authentication_token
+  # ??? attribute :authentication_token, :string, default: SecureRandom.urlsafe_base64(nil, false)
   attribute :locale, :string, default: "en"
+
   attr_accessor :endpoint
 
   # Because of company support and installed packages we can't allow to delete resources
@@ -27,11 +29,16 @@ class User < ApplicationRecord
   validates :username,
             name_restrict: true,
             presence: true,
-            length: { minimum: MIN_NAME_LENGTH, maximum: MAX_NAME_LENGTH },
+            length: { minimum: MIN_NAME_LENGTH, maximum: MAX_USERNAME_LENGTH },
             uniqueness: { case_sensitive: false },
             format: { with: NAME_FORMAT }
-  validates :authentication_token,
-            length: { is: 24 }
+  validates :name,
+            length: { maximum: MAX_NAME_LENGTH }
+  validates :locale,
+            length: { maximum: 10 }
+  # TODO: validates :authentication_token,
+  #          allow_blank: true,
+  #          length: { is: 24 }
 
   # TODO: Everyone can create packages, but we need to add permissions for company members later
 

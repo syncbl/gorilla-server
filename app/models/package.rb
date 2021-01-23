@@ -22,7 +22,7 @@ class Package < ApplicationRecord
             presence: true,
             length: {
               minimum: MIN_NAME_LENGTH,
-              maximum: MAX_PACKAGE_NAME_LENGTH,
+              maximum: MAX_NAME_LENGTH,
             },
             uniqueness: { scope: :user_id, case_sensitive: false },
             format: { with: NAME_FORMAT }
@@ -32,7 +32,7 @@ class Package < ApplicationRecord
             allow_blank: true,
             length: {
               minimum: MIN_NAME_LENGTH,
-              maximum: MAX_PACKAGE_NAME_LENGTH,
+              maximum: MAX_NAME_LENGTH,
             },
             uniqueness: { case_sensitive: false },
             format: { with: NAME_FORMAT }
@@ -43,6 +43,11 @@ class Package < ApplicationRecord
             allow_nil: true
   validates :replacement,
             package_replacement: true
+  # TODO enumerate validates :destination
+  validates :group_name,
+            length: { maximum: MAX_NAME_LENGTH }
+  validates :external_url,
+            length: { maximum: 2048 }
 
   scope :allowed_for,
         ->(user) {
