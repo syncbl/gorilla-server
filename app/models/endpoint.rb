@@ -16,7 +16,7 @@ class Endpoint < ApplicationRecord
             length: { maximum: 10 }
   validates :authentication_token,
             allow_nil: true,
-            length: { is: 24 },
+            length: { is: 24 }
 
   # TODO: Move to method in order to show inactive status in list
   #scope :actual, -> {
