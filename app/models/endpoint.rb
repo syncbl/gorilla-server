@@ -14,18 +14,15 @@ class Endpoint < ApplicationRecord
             length: { maximum: MAX_NAME_LENGTH }
   validates :locale,
             length: { maximum: 10 }
-
-  #validates :authentication_token,
-  #          allow_blank: true,
-  #          length: { is: 24 },
+  validates :authentication_token,
+            allow_nil: true,
+            length: { is: 24 },
 
   # TODO: Move to method in order to show inactive status in list
   #scope :actual, -> {
   #  where(Endpoint.arel_table[:updated_at]
   #    .gt(Time.current - Rails.application.config.syncbl.endpoint_token_expiration_time))
   #}
-
-  #scope :with_user, -> { joins(:user) }
 
   def installed?(package)
     settings.exists?(package: package)

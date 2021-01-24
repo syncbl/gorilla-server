@@ -36,9 +36,9 @@ class User < ApplicationRecord
             length: { maximum: MAX_NAME_LENGTH }
   validates :locale,
             length: { maximum: 10 }
-  # TODO: validates :authentication_token,
-  #          allow_blank: true,
-  #          length: { is: 24 }
+  validates :authentication_token,
+            allow_nil: true, # To allow token auto generation
+            length: { is: 24 }
 
   # TODO: Everyone can create packages, but we need to add permissions for company members later
 

@@ -64,7 +64,9 @@ class SettingsController < ApplicationController
         format.json { head :no_content }
       else
         format.html { render :show }
-        format.json { head :unprocessable_entity }
+        format.json do
+          render json: @package.errors, status: :unprocessable_entity
+        end
       end
     end
   end

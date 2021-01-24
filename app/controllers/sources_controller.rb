@@ -77,6 +77,6 @@ class SourcesController < ApplicationController
 
   def check_edit_permissions!
     # TODO: Permissions
-    head :forbidden if @source.package.user.id != current_user.id
+    render status: :forbidden if @source.package.user.id != current_user.id
   end
 end

@@ -110,6 +110,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
 
   create_table "sources", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "description", limit: 8000, default: "", null: false
+    t.string "version", limit: 16
     t.hstore "filelist", default: {}, null: false
     t.bigint "unpacked_size", default: 0, null: false
     t.boolean "merged", default: false, null: false
