@@ -61,8 +61,8 @@ class Package < ApplicationRecord
     packages.to_a.reverse
   end
 
-  def self.all_dependencies(current, packages = Set[])
-    current.dependencies.map do |p|
+  def self.all_dependencies(package, packages = Set[])
+    package.dependencies.map do |p|
       packages << p
       Package.all_dependencies(p, packages)
     end
@@ -81,7 +81,7 @@ class Package < ApplicationRecord
   end
 
   def replaced_by
-    internal_replaced_by unless replacement.nil?
+    _replaced_by unless replacement.nil?
   end
 
   def title
@@ -98,7 +98,7 @@ class Package < ApplicationRecord
 
   private
 
-  def internal_replaced_by
+  def _replaced_by
     replacement.nil? ? self : replacement.replaced_by
   end
 end
