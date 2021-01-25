@@ -1,5 +1,6 @@
 class Auth::SessionsController < Devise::SessionsController
   def create
+    # TODO: Check params[:email] to avoid "Invalid email or password" message
     respond_to do |format|
       format.any(*navigational_formats) { super }
       format.json do

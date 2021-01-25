@@ -1,18 +1,17 @@
-require_relative 'boot'
+require_relative "boot"
 
-require 'rails'
-require 'active_model/railtie'
-require 'active_job/railtie'
-require 'active_record/railtie'
-require 'active_storage/engine'
-require 'action_controller/railtie'
-require 'action_mailer/railtie'
-
+require "rails"
+# Pick the frameworks you want:
+require "active_model/railtie"
+require "active_job/railtie"
+require "active_record/railtie"
+require "active_storage/engine"
+require "action_controller/railtie"
+require "action_mailer/railtie"
 #require "action_mailbox/engine"
-require 'action_text/engine'
-require 'action_view/railtie'
-
-#require "action_cable/engine"
+#require "action_text/engine"
+require "action_view/railtie"
+# require "action_cable/engine"
 #require "sprockets/railtie"
 #require "rails/test_unit/railtie"
 
@@ -29,5 +28,13 @@ module GpServer
     config.i18n.available_locales = %i[en ru]
     config.i18n.default_locale = :en
     config.i18n.fallbacks = [config.i18n.default_locale]
+
+    # Configuration for the application, engines, and railties goes here.
+    #
+    # These settings can be overridden in specific environments using the files
+    # in config/environments, which are processed later.
+    #
+    # config.time_zone = "Central Time (US & Canada)"
+    # config.eager_load_paths << Rails.root.join("extras")
   end
 end
