@@ -24,7 +24,7 @@ class EndpointsController < ApplicationController
       current_user.endpoints.find_by(id: endpoint_params[:id]) ||
         current_user.endpoints.new(name: endpoint_params[:name])
     @endpoint.update({
-      remote_ip: request.remote_ip,
+      remote_ip: request.remote_ip, # TODO: Additional security by IP compare
       locale: current_user.locale,
     })
     sign_in_endpoint(@endpoint)

@@ -1,6 +1,8 @@
 class Package < ApplicationRecord
   include Blockable
 
+  # TODO: MUST!!! Sign packages with endpoint certificate before send and check sign on client-side.
+
   belongs_to :user
   has_many :settings, dependent: :destroy
   has_many :endpoints, through: :settings
@@ -15,7 +17,9 @@ class Package < ApplicationRecord
                           association_foreign_key: :dependent_package_id
   belongs_to :replacement, class_name: "Package", optional: true
 
-  has_one_attached :icon
+  has_one_attached :icon,
+                   service: :remote,
+                   dependent: :purge_later
 
   validates :name,
             name_restrict: true,
