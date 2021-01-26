@@ -55,7 +55,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
 
   create_table "endpoints", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", limit: 100
-    t.string "remote_ip", limit: 39
+    t.inet "remote_ip"
     t.string "locale", limit: 10
     t.string "authentication_token", limit: 24, null: false
     t.uuid "user_id", null: false
