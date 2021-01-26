@@ -1,5 +1,5 @@
 {
-  "name": "gp_server",
+  "name": "Syncable",
   "private": true,
   "dependencies": {
     "@rails/actioncable": "^6.0.0-alpha",
@@ -14,5 +14,9 @@
   "version": "0.1.0",
   "devDependencies": {
     "webpack-dev-server": "^3.10.1"
-  }
+  },
+  "main": "index.js",
+  "repository": "https://gitlab.com/syncable/gp-server.git",
+  "author": "Eldar Avatov <eldar.avatov@gmail.com>",
+  "license": "MIT"
 }
