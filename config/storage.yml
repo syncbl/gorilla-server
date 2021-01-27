@@ -1,8 +1,8 @@
-local:
+disk: &disk
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
-remote:
+minio: &minio
   service: S3
   endpoint: <%= Rails.application.credentials.dig(:aws, :endpoint) %>
   region: <%= Rails.application.credentials.dig(:aws, :region) %>
@@ -10,6 +10,12 @@ remote:
   secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
   bucket: <%= Rails.application.credentials.dig(:aws, :bucket) %>
   force_path_style: true
+
+local:
+  <<: *disk
+
+remote:
+  <<: *disk
 
 test:
   service: Disk
