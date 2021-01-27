@@ -11,7 +11,6 @@ class User < ApplicationRecord
          :lockable
 
   has_secure_token :authentication_token
-  # ??? attribute :authentication_token, :string, default: SecureRandom.urlsafe_base64(nil, false)
   attribute :locale, :string, default: "en"
 
   attr_accessor :endpoint
