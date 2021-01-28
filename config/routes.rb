@@ -29,6 +29,7 @@ Rails.application.routes.draw do
 
   # This routes is only for non-API GET requests and must be in the end of route list
 
+  # TODO: get ":company_id/:user_id/:id", to: "packages#show"
   get ":user_id/:id", to: "packages#show"
   get ":id", to: "users#show"
   #match '*path', to: 'packages#show', via: [:get, :post]

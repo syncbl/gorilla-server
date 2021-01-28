@@ -11,35 +11,40 @@ class ApplicationController < ActionController::Base
   protected
 
   def api_check_headers
-    if service_keys.include?(request.headers["X-API-Service"])
-      if request.headers["X-API-Token"]
-        unless payload = JsonWebToken.decode(request.headers["X-API-Token"])
-          return true
-        end
-        case payload[:scope]
-        when Endpoint.name
-          if endpoint = cached_endpoint(payload[:uuid], payload[:token])
-            if rand(ENDPOINT_TOKEN_REGEN_RANDOM) == 0
-              endpoint.reset_token
-            else
-              endpoint.touch
-            end
-          else
-            # Block endpoint with old token for security reasons
-            Endpoint.find_by(id: payload[:uuid], blocked_at: nil)&.block!(
-              reason: "api_check_headers #{payload[:uuid]}|#{payload[:token]}",
-            )
-          end
-        when User.name
-          if user = cached_user(payload[:uuid], payload[:token])
-            sign_in(user)
-          end
-        end
+    if request.headers["X-API-Token"]
+      if payload = JsonWebToken.decode(request.headers["X-API-Token"])
+        scope = payload[:scope]
+        uuid = payload[:uuid]
+        token = payload[:token]
+      else
+        return false
       end
-    elsif anonymous_keys.include?(request.headers["X-API-Service"])
+    end
+    service = request.headers["X-API-Service"]
+
+    if (scope == Endpoint.name) && service_keys.include?(service)
+      if endpoint = cached_endpoint(uuid, token)
+        if rand(ENDPOINT_TOKEN_REGEN_RANDOM) == 0
+          endpoint.reset_token
+        else
+          endpoint.touch
+        end
+      else
+        # Block endpoint with old token for security reasons
+        Endpoint.find_by(id: uuid, blocked_at: nil)&.block!(
+          reason: "api_check_headers #{uuid}|#{token}",
+        )
+      end
+    elsif (scope == User.name) && app_keys.include?(service)
+      if user = cached_user(uuid, token)
+        sign_in(user)
+      end
+    elsif anonymous_keys.include?(service)
       return true
-    else
+    elsif service.present?
       head :upgrade_required
+    else
+      head :forbidden
     end
   end
 
