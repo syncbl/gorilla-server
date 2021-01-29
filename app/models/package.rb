@@ -6,9 +6,8 @@ class Package < ApplicationRecord
   belongs_to :user
   has_many :settings, dependent: :destroy
   has_many :endpoints, through: :settings
-
   has_many :sources, dependent: :destroy
-  # TODO: Remove files like GIT after delete. Script? JSON?
+  # TODO: Remove files like GIT after delete by nullifying crc in filelist
 
   has_and_belongs_to_many :dependencies,
                           class_name: "Package",

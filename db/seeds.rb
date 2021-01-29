@@ -43,7 +43,9 @@ when 'development'
   Package.first.dependencies << Package.last
   Package.last.dependencies << Package.find_by(name: 'openssl-1_1')
 
-  #Package.last.sources.create.attach(io: File.open('files/hqdefault.jpg'), filename: 'hqdefault.jpg')
+  s = Package.last.sources.create
+  s.attach(io: File.open('files/test.zip'), filename: 'test.zip')
+  s.build('files/test.zip')
   Package.first.icon.attach(io: File.open('files/hqdefault.jpg'), filename: 'hqdefault.jpg')
   #Endpoint.create name: 'Test2', user: u, id: '253307f5-0e4f-4a76-9b04-da35ba6345d5'
   #Endpoint.create name: 'Test5', user: User.last

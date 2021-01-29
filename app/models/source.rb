@@ -1,7 +1,7 @@
 class Source < ApplicationRecord
   include Blockable
 
-  belongs_to :package
+  belongs_to :package, touch: true
 
   has_one_attached :file,
                    service: :remote,
@@ -19,6 +19,7 @@ class Source < ApplicationRecord
   end
 
   def build(tmpfilename)
+    # TODO: Build full path within JSON
     filelist = {}
     Zip::File.open(tmpfilename) do |zipfile|
       zipfile.each do |z|
