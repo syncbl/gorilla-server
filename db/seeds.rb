@@ -29,6 +29,8 @@ when 'development'
       },
       { name: 'openssl-1_1', user: u1, group_name: 'Test' },
       { name: 'openssl-1_2', user: u1 },
+      { name: 'openssl-2_0', user: u2 },
+      { name: 'openssl-2_1', user: u2, published: true },
       {
         name: 'openssl-dev',
         alias: 'openssl-dev',
@@ -36,8 +38,6 @@ when 'development'
         user: u1,
         group_name: 'Test'
       },
-      { name: 'openssl-2_0', user: u2 },
-      { name: 'openssl-2_1', user: u2, published: true },
     ]
   )
   Package.first.dependencies << Package.last

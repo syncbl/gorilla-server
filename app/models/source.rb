@@ -19,20 +19,27 @@ class Source < ApplicationRecord
   end
 
   def build(tmpfilename)
-    # TODO: Build full path within JSON
-    filelist = {}
+    root = {}
     Zip::File.open(tmpfilename) do |zipfile|
       zipfile.each do |z|
+        next if z.directory?
         if (z.size > MAX_PACKED_FILE_SIZE)
           block! "zip: #{z.name}, #{z.size}"
           # TODO: update_state
           return false
         end
-        filelist.store(z.name, z.crc)
+        lvl = root
+        path = z.name.split("/")
+        filename = path.pop
+        path.each do |s|
+          lvl[s] ||= {}
+          lvl = lvl[s]
+        end
+        lvl[filename] = z.crc
         self.unpacked_size += z.size
       end
     end
-    self.filelist = filelist
+    self.filelist = root
     save
   end
 
