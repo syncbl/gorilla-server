@@ -31,10 +31,7 @@ class Source < ApplicationRecord
         lvl = root
         path = z.name.split("/")
         filename = path.pop
-        path.each do |s|
-          lvl[s] ||= {}
-          lvl = lvl[s]
-        end
+        path.each { |s| lvl = lvl[s] ||= {} }
         lvl[filename] = z.crc
         self.unpacked_size += z.size
       end
