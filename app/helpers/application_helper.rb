@@ -13,15 +13,15 @@ module ApplicationHelper
   end
 
   def authenticate_endpoint!
-    render status: :unauthorized if current_endpoint.nil? || user_signed_in?
+    head :unauthorized if current_endpoint.nil? || user_signed_in?
   end
 
   def deny_endpoint!
-    render status: :forbidden unless current_endpoint.nil?
+    head :forbidden unless current_endpoint.nil?
   end
 
   def deny_html
-    render status: :method_not_allowed unless request.format.json?
+    head :method_not_allowed unless request.format.json?
   end
 
   def cache_fetch(model, id, token)
