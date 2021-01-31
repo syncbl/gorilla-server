@@ -1,7 +1,7 @@
 class Source < ApplicationRecord
   include Blockable
 
-  belongs_to :package
+  belongs_to :package, touch: true
 
   has_one_attached :file,
                    service: :remote,
@@ -19,19 +19,24 @@ class Source < ApplicationRecord
   end
 
   def build(tmpfilename)
-    filelist = {}
+    root = {}
     Zip::File.open(tmpfilename) do |zipfile|
       zipfile.each do |z|
+        next if z.directory?
         if (z.size > MAX_PACKED_FILE_SIZE)
           block! "zip: #{z.name}, #{z.size}"
           # TODO: update_state
           return false
         end
-        filelist.store(z.name, z.crc)
+        lvl = root
+        path = z.name.split("/")
+        filename = path.pop
+        path.each { |s| lvl = lvl[s] ||= {} }
+        lvl[filename] = z.crc
         self.unpacked_size += z.size
       end
     end
-    self.filelist = filelist
+    self.filelist = root
     save
   end
 

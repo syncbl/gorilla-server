@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
   include Pundit
   include Pagy::Backend
+  include ApiKeys
 
   protect_from_forgery with: :exception, unless: -> { request.format.json? }
   before_action :configure_permitted_parameters, if: :devise_controller?
@@ -11,6 +12,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def api_check_headers
+    service = request.headers["X-API-Service"]
     if request.headers["X-API-Token"]
       if payload = JsonWebToken.decode(request.headers["X-API-Token"])
         scope = payload[:scope]
@@ -20,7 +22,6 @@ class ApplicationController < ActionController::Base
         return false
       end
     end
-    service = request.headers["X-API-Service"]
 
     if (scope == Endpoint.name) && service_keys.include?(service)
       if endpoint = cached_endpoint(uuid, token)

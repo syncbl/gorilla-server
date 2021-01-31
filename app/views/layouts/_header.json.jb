@@ -1,10 +1,13 @@
 # TODO: Add updates and more into session
 
-json = current_endpoint&.new_token.present? ? {
-  session: {
-    token: current_endpoint.new_token,
-  },
-} : {}
+json = {}
+
+json_token = current_endpoint&.new_token || current_user&.new_token
+if json_token.present?
+  json[:session] = {
+    token: json_token
+  }
+end
 
 unless @pagy.nil?
   json[:page] = @pagy.page
