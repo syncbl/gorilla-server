@@ -22,7 +22,8 @@ class ProcessSourceJob < ApplicationJob
       source.update_state I18n.t("jobs.process_source.building")
       if source.build(filename)
         source.update_state I18n.t("jobs.process_source.attaching")
-        source.attach(io: File.open(filename), filename: "s-#{Time.now.strftime("%Y%m%d%H%M%S%L")}.zip")
+        source.attach(io: File.open(filename),
+                      filename: "#{source.package.name}-#{source.created_at.strftime("%y%m%d%H%M%S%2L")}.zip")
       end
       File.delete(filename)
       # TODO: Inform user
