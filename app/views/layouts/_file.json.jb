@@ -6,9 +6,3 @@ if file.attached?
     url: url_for(file)
   }
 end
-
-if Rails.env.development?
-  ap json
-end
-
-json

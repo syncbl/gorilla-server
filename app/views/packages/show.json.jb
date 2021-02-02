@@ -17,8 +17,8 @@ end
 
 json[:package] = json_package
 
-if Rails.env.development?
-  ap json
-end
+#if Rails.env.development?
+#  ap json
+#end
 
 json

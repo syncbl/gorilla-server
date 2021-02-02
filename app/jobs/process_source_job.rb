@@ -13,7 +13,7 @@ class ProcessSourceJob < ApplicationJob
     Timeout::timeout(5.minutes) do
       source.update_state I18n.t("jobs.process_source.scanning")
 
-      if Clamby.virus?(filename)
+      unless Clamby.safe?(filename)
         source.block! "+++ VIRUS +++"
         return false
       end
