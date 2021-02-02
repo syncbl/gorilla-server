@@ -17,7 +17,7 @@ class Package < ApplicationRecord
   belongs_to :replacement, class_name: "Package", optional: true
 
   has_one_attached :icon,
-                   service: :remote,
+                   service: :local,
                    dependent: :purge_later
 
   validates :name,
@@ -56,6 +56,7 @@ class Package < ApplicationRecord
         ->(user) {
           # TODO Remove nil user, because user can't be blank
           # TODO Group permissions
+          # TODO Move to policies!!!
           where(user: user).or(where(published: true))
         }
 

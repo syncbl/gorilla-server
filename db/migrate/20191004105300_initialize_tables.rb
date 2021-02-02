@@ -17,8 +17,6 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       t.string :authentication_token, limit: 24, null: false, unique: true
 
-      #t.string :secret, limit: 24, default: { 'substr(md5(random()::text), 0, 24)' }, null: false
-
       t.datetime :blocked_at
       t.string :block_reason, limit: 300
       t.datetime :created_at, index: true, null: false, default: -> { 'CURRENT_TIMESTAMP' }

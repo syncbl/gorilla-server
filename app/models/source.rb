@@ -14,9 +14,29 @@ class Source < ApplicationRecord
   validates :version,
             length: { maximum: 16 }
 
-  def attach(**args)
-    file.attach(args)
+  def attach(tmpfilename)
+    if build(tmpfilename)
+      file.attach(
+        io: File.open(tmpfilename),
+        filename: "#{package.name}-#{created_at.strftime("%y%m%d%H%M%S%2L")}.zip",
+        content_type: "application/zip"
+      )
+    end
   end
+
+  def update_state(state = nil)
+    Rails.cache.write("#{Source.name}_state_#{id}", state, expires_in: MODEL_CACHE_TIMEOUT)
+  end
+
+  def state
+    Rails.cache.read("#{Source.name}_state_#{id}")
+  end
+
+  def ready?
+    blocked_at.nil? && state.nil? && file.attached?
+  end
+
+  private
 
   def build(tmpfilename)
     root = {}
@@ -38,17 +58,5 @@ class Source < ApplicationRecord
     end
     self.filelist = root
     save
-  end
-
-  def update_state(state = nil)
-    Rails.cache.write("#{Source.name}_state_#{id}", state, expires_in: MODEL_CACHE_TIMEOUT)
-  end
-
-  def state
-    Rails.cache.read("#{Source.name}_state_#{id}")
-  end
-
-  def ready?
-    blocked_at.nil? && state.nil? && file.attached?
   end
 end
