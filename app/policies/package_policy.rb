@@ -1,14 +1,11 @@
 class PackagePolicy < ApplicationPolicy
-  def update?
-    user.admin? or not record.published?
-  end
 
   def index?
-    false
+    true
   end
 
   def show?
-    false
+    record.published || update?
   end
 
   def create?
@@ -20,7 +17,7 @@ class PackagePolicy < ApplicationPolicy
   end
 
   def update?
-    record.user.id == user.id
+    is_owner?
   end
 
   def edit?
@@ -30,4 +27,17 @@ class PackagePolicy < ApplicationPolicy
   def destroy?
     update?
   end
+
+  class Scope < Struct.new(:user, :scope)
+    def resolve
+      scope.allowed_for(user)
+    end
+  end
+
+  private
+
+  def is_owner?
+    record.user.id == user.id
+  end
+
 end

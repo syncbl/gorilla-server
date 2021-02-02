@@ -1,9 +1,7 @@
 json = render 'layouts/header'
 
-json[:source] = {
-  id: @source.id,
-  created_at: @source.created_at,
-  updated_at: @source.updated_at
-}
+json_source = render 'show', source: @source
+
+json[:source] = json_source
 
 json

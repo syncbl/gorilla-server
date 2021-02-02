@@ -7,11 +7,10 @@ class PackagesController < ApplicationController
   # GET /packages
   # GET /packages.json
   def index
+    authorize Package
     @pagy, @packages =
       pagy(
-        Package.allowed_for(current_user),
-        # TODO: ".includes([:icon_attachment])," caused error
-        # NoMethodError Exception: undefined method `first' for nil:NilClass
+        policy_scope(Package),
         items: params[:items],
       )
   end
