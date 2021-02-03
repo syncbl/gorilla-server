@@ -1,4 +1,4 @@
-class PackagePolicy < ApplicationPolicy
+class SourcePolicy < ApplicationPolicy
 
   def index?
     true

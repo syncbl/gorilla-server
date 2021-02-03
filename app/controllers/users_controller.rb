@@ -5,13 +5,18 @@ class UsersController < ApplicationController
   after_action :clear_cached, only: %i[update destroy]
 
   # GET /users/1
-  def show; end
+  def show
+    authorize User
+  end
 
   # GET /users/1/edit
-  def edit; end
+  def edit
+    authorize User
+  end
 
   # PATCH/PUT /users/1
   def update
+    authorize User
     if @user.update(user_params)
       redirect_to @user, notice: "User was successfully updated."
     else

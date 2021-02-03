@@ -70,7 +70,6 @@ class PackagesController < ApplicationController
 
   # DELETE /packages/1
   # DELETE /packages/1.json
-  # TODO: Deny package deletion from API!
   def destroy
     authorize @package
     respond_to do |format|
