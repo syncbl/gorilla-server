@@ -37,7 +37,7 @@ class EndpointsController < ApplicationController
   # PATCH/PUT /endpoint.json
   def update
     respond_to do |format|
-      if @package.update(package_params)
+      if @endpoint.update(endpoint_params)
         format.html do
           redirect_to @endpoint, notice: "Endpoint was successfully updated."
         end

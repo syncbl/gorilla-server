@@ -56,4 +56,8 @@ class User < ApplicationRecord
   def inactive_message
     !self.blocked? ? super : :blocked
   end
+
+  def is_owner?(object)
+    head :forbidden if object.user != self
+  end
 end

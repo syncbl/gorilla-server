@@ -1,7 +1,7 @@
 class SettingsController < ApplicationController
   # Settings can be used by user only within packages/endpoints
   before_action :set_endpoint
-  before_action :set_setting, except: %i[index new create]
+  before_action :set_setting, except: %i[index create]
 
   # GET /settings
   def index
@@ -19,19 +19,11 @@ class SettingsController < ApplicationController
   # GET /settings/1
   def show; end
 
-  # GET /settings/new
-  def new
-    @setting = Setting.new
-  end
-
-  # GET /settings/1/edit
-  def edit; end
-
   # POST /settings
   def create
     respond_to do |format|
       if @setting = @endpoint.settings.create(
-        package: Package.allowed_for(current_user).find_by_alias(params[:package_id]),
+        package: Package.allowed_for(@endpoint.user).find_by_alias(params[:package_id]),
       )
         format.html { redirect_to settings_url, notice: "Package soon will be installed." }
         format.json { render :show, status: :accepted, location: @setting }

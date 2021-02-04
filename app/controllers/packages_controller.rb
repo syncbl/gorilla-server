@@ -2,14 +2,14 @@ class PackagesController < ApplicationController
   # We allowing anonymous access
   before_action :authenticate_user!, except: %i[index]
   before_action :set_package, except: %i[index new create]
+  before_action :check_owner, only: %i[edit update destroy]
 
   # GET /packages
   # GET /packages.json
   def index
-    authorize Package
     @pagy, @packages =
       pagy(
-        policy_scope(Package),
+        Package.allowed_for(current_user),
         items: params[:items],
       )
   end
@@ -20,21 +20,17 @@ class PackagesController < ApplicationController
 
   # GET /packages/new
   def new
-    @package = Package.new
+    @package = current_user.packages.new
   end
 
   # GET /packages/1/edit
-  def edit
-    authorize Package
-  end
+  def edit; end
 
   # POST /packages
   # POST /packages.json
   def create
-    @package = Package.new(package_params)
-    @package.user = current_user
     respond_to do |format|
-      if @package.save
+      if @package = current_user.packages.create(package_params)
         format.html do
           redirect_to @package, notice: "Package was successfully created."
         end
@@ -51,7 +47,6 @@ class PackagesController < ApplicationController
   # PATCH/PUT /packages/1
   # PATCH/PUT /packages/1.json
   def update
-    authorize Package
     respond_to do |format|
       if @package.update(package_params)
         format.html do
@@ -70,7 +65,6 @@ class PackagesController < ApplicationController
   # DELETE /packages/1
   # DELETE /packages/1.json
   def destroy
-    authorize Package
     respond_to do |format|
       if @package.destroy
         format.html do
@@ -102,5 +96,9 @@ class PackagesController < ApplicationController
   def package_params
     # TODO: group_name
     params.require(:package).permit(:name, :alias, :external_url)
+  end
+
+  def check_owner
+    current_user.is_owner?(@package)
   end
 end
