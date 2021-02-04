@@ -36,7 +36,6 @@ class SourcesController < ApplicationController
         format.html { redirect_to [@source.package, @source], notice: "Source was successfully created." }
         format.json { render :show, status: :created, location: [@source.package, @source] }
       else
-        puts @source.errors.messages
         format.html { render :new }
         format.json do
           render json: @source.errors, status: :unprocessable_entity
