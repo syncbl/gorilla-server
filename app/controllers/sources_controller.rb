@@ -22,15 +22,9 @@ class SourcesController < ApplicationController
   def create
     # Params removed from create() because user must fill fields only after creation
     @source = current_user.packages.find(params[:package_id])&.sources.create
-
-    tmpfilename = Dir::Tmpname.create(%w[s- .tmp]) { }
-    File.open(tmpfilename, "wb") do |tmpfile|
-      tmpfile.write(params[:file].read)
-    end
     ProcessSourceJob.perform_later(@source,
-                                   filename: tmpfilename,
+                                   filename: write_tmp(params[:file]),
                                    checksum: params[:checksum])
-
     respond_to do |format|
       if @source.persisted?
         format.html { redirect_to [@source.package, @source], notice: "Source was successfully created." }
