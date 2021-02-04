@@ -23,7 +23,7 @@ class SourcesController < ApplicationController
     # Params removed from create() because user must fill fields only after creation
     @source = current_user.packages.find(params[:package_id])&.sources.create
 
-    tmpfilename = Dir::Tmpname.create(%w[syncbl- .tmp]) { }
+    tmpfilename = Dir::Tmpname.create(%w[s- .tmp]) { }
     File.open(tmpfilename, "wb") do |tmpfile|
       tmpfile.write(params[:file].read)
     end
