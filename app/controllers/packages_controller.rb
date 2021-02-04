@@ -1,7 +1,6 @@
 class PackagesController < ApplicationController
   # We allowing anonymous access
   before_action :authenticate_user!, except: %i[index]
-  before_action :deny_endpoint!
   before_action :set_package, except: %i[index new create]
 
   # GET /packages
@@ -26,7 +25,7 @@ class PackagesController < ApplicationController
 
   # GET /packages/1/edit
   def edit
-    authorize @package
+    authorize Package
   end
 
   # POST /packages
@@ -52,7 +51,7 @@ class PackagesController < ApplicationController
   # PATCH/PUT /packages/1
   # PATCH/PUT /packages/1.json
   def update
-    authorize @package
+    authorize Package
     respond_to do |format|
       if @package.update(package_params)
         format.html do
@@ -71,7 +70,7 @@ class PackagesController < ApplicationController
   # DELETE /packages/1
   # DELETE /packages/1.json
   def destroy
-    authorize @package
+    authorize Package
     respond_to do |format|
       if @package.destroy
         format.html do

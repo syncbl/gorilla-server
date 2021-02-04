@@ -1,22 +1,16 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :deny_endpoint!
   before_action :set_user
   after_action :clear_cached, only: %i[update destroy]
 
   # GET /users/1
-  def show
-    authorize User
-  end
+  def show; end
 
   # GET /users/1/edit
-  def edit
-    authorize User
-  end
+  def edit; end
 
   # PATCH/PUT /users/1
   def update
-    authorize User
     if @user.update(user_params)
       redirect_to @user, notice: "User was successfully updated."
     else

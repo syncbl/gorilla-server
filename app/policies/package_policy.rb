@@ -34,10 +34,4 @@ class PackagePolicy < ApplicationPolicy
     end
   end
 
-  private
-
-  def is_owner?
-    user.present? && (record.user.id == user.id)
-  end
-
 end

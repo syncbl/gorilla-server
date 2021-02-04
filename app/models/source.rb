@@ -18,7 +18,7 @@ class Source < ApplicationRecord
     if build(tmpfilename)
       file.attach(
         io: File.open(tmpfilename),
-        filename: "#{package.name}-#{created_at.strftime("%y%m%d%H%M%S%2L")}.zip",
+        filename: "#{created_at.strftime("%y%m%d%H%M%S%2L")}.zip",
         content_type: "application/zip"
       )
     end

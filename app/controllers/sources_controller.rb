@@ -1,8 +1,6 @@
 class SourcesController < ApplicationController
   before_action :authenticate_user!
-  before_action :deny_endpoint!
   before_action :set_source, except: %i[index new create]
-  before_action :check_edit_permissions!, except: %i[index show create]
 
   # GET /sources
   def index
@@ -73,10 +71,5 @@ class SourcesController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   def source_params
     params.require(:source).permit(:description)
-  end
-
-  def check_edit_permissions!
-    # TODO: Permissions
-    render status: :forbidden if @source.package.user.id != current_user.id
   end
 end

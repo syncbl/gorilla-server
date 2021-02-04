@@ -1,9 +1,6 @@
 class EndpointsController < ApplicationController
   # TODO: Refactor access
-  before_action :deny_html, only: %i[create]
   before_action :authenticate_user!, only: %i[index create destroy]
-  before_action :authenticate_endpoint!, only: %i[show update]
-  before_action :deny_endpoint!, only: %i[index create destroy]
   before_action :set_endpoint, except: %i[index create]
   after_action :clear_cached, only: %i[update destroy]
 
@@ -20,16 +17,20 @@ class EndpointsController < ApplicationController
 
   # POST /endpoints.json
   def create
-    @endpoint =
-      current_user.endpoints.find_by(id: endpoint_params[:id]) ||
-        current_user.endpoints.new(name: endpoint_params[:name])
-    @endpoint.update({
-      remote_ip: request.remote_ip, # TODO: Additional security by IP compare
-      locale: current_user.locale,
-    })
-    sign_in_endpoint(@endpoint)
-    sign_out(current_user)
-    render :show, status: :created, location: current_endpoint
+    respond_to do |format|
+      format.html { head :method_not_allowed }
+      format.json do
+        @endpoint = current_user.endpoints.find_by(id: endpoint_params[:id]) ||
+                    current_user.endpoints.new(name: endpoint_params[:name])
+        @endpoint.update({
+          remote_ip: request.remote_ip, # TODO: Additional security by IP compare
+          locale: current_user.locale,
+        })
+        sign_in_endpoint(@endpoint)
+        sign_out(current_user)
+        render :show, status: :created, location: @endpoint
+      end
+    end
   end
 
   # PATCH/PUT /endpoint

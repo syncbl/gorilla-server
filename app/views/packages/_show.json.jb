@@ -12,8 +12,9 @@ json = {
 }
 
 # TODO: May be, move icons into db?
+# TODO: Add dimensions
 if package.icon.attached?
-  json[:icon] = render 'layouts/file', file: package.icon
+  json[:icon] = render 'layouts/file', file: package.icon, prefix: "i"
 end
 
 if package.replaced?

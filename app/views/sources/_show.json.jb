@@ -9,7 +9,7 @@ json = {
 }
 
 if source.ready?
-  json[:file] = render 'layouts/file', file: source.file
+  json[:file] = render 'layouts/file', file: source.file, prefix: source.package.name
 end
 
 json.compact
