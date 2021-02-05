@@ -10,11 +10,11 @@ class ProcessSourceJob < ApplicationJob
       # TODO: Warn about existing file if it's own or public
     end
 
-    Timeout::timeout(5.minutes) do
+    Timeout::timeout(JOB_TIMEOUT) do
       source.update_state I18n.t("jobs.process_source.scanning")
 
       unless Clamby.safe?(filename)
-        source.block! "+++ VIRUS +++"
+        source.block! I18n.t("jobs.block_reasons.suspicious_attachment")
         return false
       end
 

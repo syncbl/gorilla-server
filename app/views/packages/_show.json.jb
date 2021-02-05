@@ -1,7 +1,7 @@
 json = {
   id: package.id,
   name: package.name,
-  group_name: package.name,
+  group_name: package.group_name,
   # trusted: package.trusted,
   size: package.size,
   h_size: number_to_human_size(package.size),
