@@ -5,7 +5,6 @@ class Auth::RegistrationsController < Devise::RegistrationsController
       format.json do
         @user = User.new(registration_params)
         @user.locale = http_accept_language.compatible_language_from(I18n.available_locales)
-        @user.generate_username if @user.username.blank?
         if @user.save
           sign_in @user
           current_user.new_token = JsonWebToken.encode(@user)

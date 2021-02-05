@@ -14,6 +14,8 @@ class Source < ApplicationRecord
   validates :version,
             length: { maximum: 16 }
 
+  after_create :set_create_status
+
   def attach(tmpfilename)
     if build(tmpfilename)
       file.attach(
@@ -58,5 +60,9 @@ class Source < ApplicationRecord
     end
     self.filelist = root
     save
+  end
+
+  def set_create_status
+    update_state I18n.t("model.source.status_on_create")
   end
 end
