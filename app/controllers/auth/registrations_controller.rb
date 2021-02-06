@@ -27,7 +27,6 @@ class Auth::RegistrationsController < Devise::RegistrationsController
         :password_confirmation,
         :name,
         :username,
-        :endpoint
       )
   end
 end

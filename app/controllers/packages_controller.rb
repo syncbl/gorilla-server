@@ -88,7 +88,7 @@ class PackagesController < ApplicationController
   def set_package
     @package = params[:user_id].nil? ?
       Package.allowed_for(current_user).find_by_alias(params[:id]) :
-      User.find_by!(username: params[:user_id]).packages.allowed_for(current_user).find_by!(name: params[:id])
+      Package.allowed_for(current_user).where(user_id: params[:user_id]).find_by!(name: params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
