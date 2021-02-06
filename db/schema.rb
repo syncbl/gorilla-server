@@ -72,7 +72,6 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.string "name", limit: 100, null: false
     t.string "alias", limit: 100
     t.string "destination", limit: 100, default: "", null: false
-    t.string "group_name", limit: 100
     t.bigint "size", default: 0, null: false
     t.string "external_url", limit: 2048
     t.boolean "published", default: false, null: false
@@ -88,7 +87,6 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.index ["created_at"], name: "index_packages_on_created_at"
     t.index ["replacement_id"], name: "index_packages_on_replacement_id"
     t.index ["updated_at"], name: "index_packages_on_updated_at"
-    t.index ["user_id", "group_name"], name: "index_packages_on_user_id_and_group_name"
     t.index ["user_id", "name"], name: "index_packages_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_packages_on_user_id"
   end
@@ -111,7 +109,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   create_table "sources", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "description", limit: 8000, default: "", null: false
     t.string "version", limit: 16
-    t.json "filelist"
+    t.jsonb "filelist"
     t.bigint "unpacked_size", default: 0, null: false
     t.boolean "merged", default: false, null: false
     t.uuid "package_id", null: false
