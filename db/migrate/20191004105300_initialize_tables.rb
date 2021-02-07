@@ -47,8 +47,6 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.string :alias, limit: 100
       t.string :destination, limit: 100, null: false, default: ""
 
-      # TODO: Groups
-      t.string :group_name, limit: 100
       # TODO: Check size by HEAD for external URLs
       t.bigint :size, null: false, default: 0
       t.string :external_url, limit: 2048
@@ -71,7 +69,6 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       # Packages will be unique for everyone or for selected user
 
       t.index [:alias], unique: true
-      t.index %i[user_id group_name]
       t.index %i[user_id name], unique: true
     end
 

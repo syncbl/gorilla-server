@@ -47,8 +47,6 @@ class Package < ApplicationRecord
   validates :replacement,
             package_replacement: true
   # TODO enumerate validates :destination
-  validates :group_name,
-            length: { maximum: MAX_NAME_LENGTH }
   validates :external_url,
             length: { maximum: 2048 }
 

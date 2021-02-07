@@ -30,6 +30,9 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
+  model:
+    source:
+      status_on_create: Creating...
   jobs:
     process_source:
       scanning: Scanning for threats...
