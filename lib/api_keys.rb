@@ -6,18 +6,18 @@ module ApiKeys
       "#{File.basename(path)}:#{Digest::MD5.file(path).base64digest}"
     end
 
-    def app_keys
-      @_app_keys ||= Set[app_key("files/hqdefault.jpg")]
-      @_app_keys << "@@" if Rails.env.development?
+    def user
+      @_user_keys ||= Set[app_key("files/hqdefault.jpg")]
+      @_user_keys << "@@" if Rails.env.development?
     end
 
-    def service_keys
+    def endpoint
       # TODO: Add dictionary of available services
-      @_service_keys ||= Set[app_key("files/hqdefault.jpg")]
-      @_service_keys << "@@" if Rails.env.development?
+      @_endpoint_keys ||= Set[app_key("files/hqdefault.jpg")]
+      @_endpoint_keys << "@@" if Rails.env.development?
     end
 
-    def anonymous_keys
+    def anonymous
       # TODO: Add dictionary of available services
       @_anonymous_keys ||= Set[app_key("files/hqdefault.jpg")]
       @_anonymous_keys << "@@" if Rails.env.development?
@@ -25,8 +25,8 @@ module ApiKeys
 
     # TODO: Clear keys when new version added
     def clear_keys
-      @_app_keys = nil
-      @_service_keys = nil
+      @_user_keys = nil
+      @_endpoint_keys = nil
       @_anonymous_keys = nil
     end
   end

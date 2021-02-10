@@ -40,7 +40,7 @@ class User < ApplicationRecord
 
   # TODO: Everyone can create packages, but we need to add permissions for company members later
 
-  after_create :generate_username
+  before_create :generate_username
 
   def active_for_authentication?
     super && !self.blocked?
