@@ -38,6 +38,20 @@ class Source < ApplicationRecord
     blocked_at.nil? && state.nil? && file.attached?
   end
 
+  def flatten_filelist(hash = filelist)
+    unless hash.nil? || hash.empty?
+      hash.each_with_object({}) do |(k, v), h|
+        if v.is_a? Hash
+          flatten_filelist(v).map do |h_k, h_v|
+            h["#{k}/#{h_k}"] = h_v
+          end
+        else
+          h[k] = v
+        end
+      end
+    end
+  end
+
   private
 
   def build(tmpfilename)

@@ -21,10 +21,11 @@ class SourcesController < ApplicationController
   # POST /sources
   def create
     # Params removed from create() because user must fill fields only after creation
+    # TODO: Disable package
     respond_to do |format|
       if @source = current_user.packages.find(params[:package_id])&.sources.create
         ProcessSourceJob.perform_later(@source,
-                                       filename: write_tmp(params[:file]),
+                                       file: write_tmp(params[:file]),
                                        checksum: params[:checksum])
         format.html { redirect_to [@source.package, @source], notice: "Source was successfully created." }
         format.json { render :show, status: :created, location: [@source.package, @source] }
