@@ -94,7 +94,6 @@ class PackagesController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   # <input type="text" name="client[name]" value="Acme" />
   def package_params
-    # TODO: group_name
     params.require(:package).permit(:name, :alias, :external_url)
   end
 

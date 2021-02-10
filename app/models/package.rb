@@ -43,12 +43,13 @@ class Package < ApplicationRecord
   # TODO: Check link for content disposition
   validates :external_url,
             format: URI.regexp(%w[http https]),
+            length: { maximum: 2048 },
             allow_nil: true
   validates :replacement,
             package_replacement: true
   # TODO enumerate validates :destination
-  validates :external_url,
-            length: { maximum: 2048 }
+
+  before_save :check_external_url
 
   scope :allowed_for,
         ->(user) {
@@ -96,6 +97,13 @@ class Package < ApplicationRecord
 
   def external?
     external_url.present?
+  end
+
+  def check_external_url
+    unless external_url.nil?
+      filesize = UrlRequest.get_content_length(external_url)
+      self.size = filesize if filesize >= 0 
+    end
   end
 
   private

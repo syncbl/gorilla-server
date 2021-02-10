@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    if (scope == Endpoint.name) && service_keys.include?(service)
+    if (scope == Endpoint.name) && ApiKeys.service_keys.include?(service)
       if endpoint = cached_endpoint(uuid, token)
         if rand(ENDPOINT_TOKEN_REGEN_RANDOM) == 0
           endpoint.reset_token
@@ -35,11 +35,11 @@ class ApplicationController < ActionController::Base
           reason: "api_check_headers #{uuid}|#{token}",
         )
       end
-    elsif (scope == User.name) && app_keys.include?(service)
+    elsif (scope == User.name) && ApiKeys.app_keys.include?(service)
       if user = cached_user(uuid, token)
         sign_in(user)
       end
-    elsif anonymous_keys.include?(service)
+    elsif ApiKeys.anonymous_keys.include?(service)
       return true
     elsif service.present?
       head :upgrade_required

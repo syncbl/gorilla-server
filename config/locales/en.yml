@@ -31,6 +31,9 @@
 
 en:
   model:
+    package:
+      error:
+        check_external_url: Can't get file from URL
     source:
       status_on_create: Creating...
   jobs:
