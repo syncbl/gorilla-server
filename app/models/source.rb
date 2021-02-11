@@ -54,7 +54,7 @@ class Source < ApplicationRecord
           # TODO: update_state
           return false
         end
-        HashFileList.extend(filelist, z.name, z.crc)
+        HashFileList.add(filelist, z.name, z.crc)
         self.unpacked_size += z.size
       end
     end
