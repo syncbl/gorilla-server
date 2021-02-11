@@ -4,16 +4,18 @@ class MergeSourcesJob < ApplicationJob
   def perform(package)
     return false unless package.internal? && (package.sources.size > 1)
 
-    package.sources.each_with_index.reverse_each.map do |source, i|
+    source = package.sources.last
+    source.update_state I18n.t("jobs.process_source.merging")
+
+    package.sources.each_with_index.reverse_each.map do |s, i|
       break if i == 0
-      source.update_state I18n.t("jobs.process_source.merging")
 
       # From i - 1 downto 0 compare filelists
 
       destination = package.sources[i - 1]
       destination.update_state I18n.t("jobs.process_source.merging")
 
-      source.flatten_filelist
+      source.flatfilelist
 
     end
 

@@ -38,24 +38,14 @@ class Source < ApplicationRecord
     blocked_at.nil? && state.nil? && file.attached?
   end
 
-  def flatten_filelist(hash = filelist)
-    unless hash.nil? || hash.empty?
-      hash.each_with_object({}) do |(k, v), h|
-        if v.is_a? Hash
-          flatten_filelist(v).map do |h_k, h_v|
-            h["#{k}/#{h_k}"] = h_v
-          end
-        else
-          h[k] = v
-        end
-      end
-    end
+  def flatfilelist
+    HashFileList.flatten(filelist)
   end
 
   private
 
   def build(tmpfilename)
-    root = {}
+    filelist = {}
     Zip::File.open(tmpfilename) do |zipfile|
       zipfile.each do |z|
         next if z.directory?
@@ -64,15 +54,11 @@ class Source < ApplicationRecord
           # TODO: update_state
           return false
         end
-        lvl = root
-        path = z.name.split("/")
-        filename = path.pop
-        path.each { |s| lvl = lvl[s] ||= {} }
-        lvl[filename] = z.crc
+        HashFileList.extend(filelist, z.name, z.crc)
         self.unpacked_size += z.size
       end
     end
-    self.filelist = root
+    self.filelist = filelist
     save
   end
 
