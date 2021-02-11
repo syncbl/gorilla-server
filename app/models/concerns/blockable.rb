@@ -26,6 +26,8 @@ module Blockable
     base.class_eval { scope :active, lambda { where(blocked_at: nil) } }
   end
 
+  private
+
   def delete_cached
     Rails.cache.delete_matched("#{self.class.name}_#{id}")
   end
