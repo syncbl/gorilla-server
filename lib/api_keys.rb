@@ -2,10 +2,6 @@ module ApiKeys
   # TODO: Move to separate class/module
 
   class << self
-    def app_key(path)
-      "#{File.basename(path)}:#{Digest::MD5.file(path).base64digest}"
-    end
-
     def user
       @_user_keys ||= Set[app_key("files/hqdefault.jpg")]
       @_user_keys << "@@" if Rails.env.development?
@@ -28,6 +24,12 @@ module ApiKeys
       @_user_keys = nil
       @_endpoint_keys = nil
       @_anonymous_keys = nil
+    end
+
+    private
+
+    def app_key(path)
+      "#{File.basename(path)}:#{Digest::MD5.file(path).base64digest}"
     end
   end
 end
