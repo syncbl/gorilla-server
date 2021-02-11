@@ -12,9 +12,9 @@ module HashFileList
       end
     end
 
-    def extend(hash, item, value)
+    def extend(hash, path, value)
       k = hash
-      h = item.split("/")
+      h = path.split("/")
       key = h.pop
       h.each { |v| k = k[v] ||= {} }
       k[key] = value
