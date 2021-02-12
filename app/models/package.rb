@@ -20,6 +20,8 @@ class Package < ApplicationRecord
                    service: :local,
                    dependent: :purge_later
 
+  before_validation :check_external_url
+
   validates :name,
             name_restrict: true,
             presence: true,
@@ -48,8 +50,6 @@ class Package < ApplicationRecord
   validates :replacement,
             package_replacement: true
   # TODO enumerate validates :destination
-
-  before_save :check_external_url
 
   scope :allowed_for,
         ->(user) {
@@ -99,14 +99,18 @@ class Package < ApplicationRecord
     external_url.present?
   end
 
+  private
+
   def check_external_url
     unless external_url.nil?
       filesize = UrlRequest.get_content_length(external_url)
-      self.size = filesize if filesize >= 0 
+      if filesize >= 0
+        self.size = filesize
+      else
+        errors.add(:external_url, I18n.t("model.package.error.check_external_url"))
+      end
     end
   end
-
-  private
 
   def _replaced_by
     replacement.nil? ? self : replacement.replaced_by

@@ -4,8 +4,7 @@ module UrlRequest
 
   class << self
     def get_content_length(url, redirect_count = 0)
-      # TODO: I18n, consts, UA
-      raise ArgumentError, "HTTP redirect too deep" unless redirect_count < 10
+      # TODO: UA and Accept
       uri = URI(url)
       http = Net::HTTP.new(uri.host, uri.port)
       http.open_timeout = 5
@@ -15,15 +14,14 @@ module UrlRequest
         http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       end
       response = http.head(uri.path, { 'User-Agent': "Test", 'Accept': "*/*" })
-      case response
-      when Net::HTTPSuccess
-        response["content-length"].to_i
-      when Net::HTTPRedirection
+      if response == Net::HTTPRedirection && redirect_count < 10
         self.get_content_length(response["location"], redirect_count + 1)
+      elsif response == Net::HTTPSuccess && response["Content-Disposition"] &&
+            response["Content-Disposition"].split(";")[0].downcase == "attachment"
+        response["content-length"].to_i
+      else
+        -1
       end
-    rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError,
-           Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError
-      return -1
     end
   end
 end
