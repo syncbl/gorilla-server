@@ -101,15 +101,9 @@ class Package < ApplicationRecord
   private
 
   def check_external_url
-    unless external_url.nil?
-      if filesize = UrlRequest.get_content_length(external_url)
-        self.size = filesize
-      else
-        errors.add(:external_url, I18n.t("model.package.error.check_external_url"))
-      end
-    end
+    self.size = UrlRequest.get_attachment_size(external_url).to_i if external_url.present?
   rescue StandardError => e
-    errors.add(:external_url, e.message)
+    errors.add(:external_url, I18n.t("model.package.error.check_external_url"))
   end
 
   def _replaced_by

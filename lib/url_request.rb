@@ -5,8 +5,8 @@ module UrlRequest
   # TODO: https://zetcode.com/ruby/httpclient/
 
   class << self
-    def get_content_length(url, redirect_count = 0)
-      # TODO: UA and Accept
+    def get_attachment_size(url, redirect_count = 0)
+      # TODO: UA and Accept, check correct headers
       uri = URI(url)
       http = Net::HTTP.new(uri.host, uri.port)
       http.open_timeout = 5
@@ -17,7 +17,7 @@ module UrlRequest
       end
       response = http.head(uri.path, { 'User-Agent': "Test", 'Accept': "*/*" })
       if response.is_a?(Net::HTTPRedirection) && redirect_count < 10
-        self.get_content_length(response["location"], redirect_count + 1)
+        self.get_attachment_size(response["location"], redirect_count + 1)
       elsif response.is_a?(Net::HTTPSuccess) && response["Content-Disposition"].present? &&
             response["Content-Disposition"].split(";")[0].downcase == "attachment"
         response["content-length"].to_i
