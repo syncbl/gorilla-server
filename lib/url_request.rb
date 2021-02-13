@@ -14,13 +14,11 @@ module UrlRequest
         http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       end
       response = http.head(uri.path, { 'User-Agent': "Test", 'Accept': "*/*" })
-      if response == Net::HTTPRedirection && redirect_count < 10
+      if response.is_a?(Net::HTTPRedirection) && redirect_count < 10
         self.get_content_length(response["location"], redirect_count + 1)
-      elsif response == Net::HTTPSuccess && response["Content-Disposition"] &&
+      elsif response.is_a?(Net::HTTPSuccess) && response["Content-Disposition"].present? &&
             response["Content-Disposition"].split(";")[0].downcase == "attachment"
         response["content-length"].to_i
-      else
-        -1
       end
     end
   end
