@@ -91,7 +91,10 @@ class Package < ApplicationRecord
   end
 
   def internal?
-    external_url.nil? && sources.any?
+    sources.each do |s|
+      return true if s.ready?
+    end
+    false
   end
 
   def external?

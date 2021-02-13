@@ -2,7 +2,7 @@ class MergeSourcesJob < ApplicationJob
   queue_as :default
 
   def perform(package)
-    return false unless package.internal? && (package.sources.size > 1)
+    return false unless package.sources.size > 1
 
     source = package.sources.last
     source.update_state I18n.t("jobs.process_source.merging")

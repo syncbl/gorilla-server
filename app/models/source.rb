@@ -16,12 +16,14 @@ class Source < ApplicationRecord
 
   after_create :set_create_status
 
-  def attach(tmpfilename)
-    if build(tmpfilename)
+  default_scope { joins(:file_attachment) }
+
+  def attach(filename)
+    if build(filename)
       file.attach(
-        io: File.open(tmpfilename),
+        io: File.open(filename),
         filename: "#{created_at.strftime("%y%m%d%H%M%S%2L")}.zip",
-        content_type: "application/zip"
+        content_type: "application/zip",
       )
     end
   end
