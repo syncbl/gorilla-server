@@ -104,6 +104,7 @@ class Package < ApplicationRecord
     self.size = UrlRequest.get_attachment_size(external_url).to_i if external_url.present?
   rescue StandardError => e
     errors.add(:external_url, I18n.t("model.package.error.check_external_url"))
+    # TODO: Log e with url
   end
 
   def _replaced_by
