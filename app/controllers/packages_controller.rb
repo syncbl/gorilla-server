@@ -19,6 +19,7 @@ class PackagesController < ApplicationController
   def show; end
 
   # GET /packages/new
+  # TODO: Store in cache during edit to allow update page
   def new
     @package = current_user.packages.new
   end

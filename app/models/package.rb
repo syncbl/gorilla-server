@@ -87,7 +87,7 @@ class Package < ApplicationRecord
   end
 
   def title
-    self.alias.present? ? "#{self.name} [#{self.alias}]" : self.name
+    (user == current_user) ? name : "#{user.username}/#{name}"
   end
 
   def internal?
