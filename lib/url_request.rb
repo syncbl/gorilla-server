@@ -2,6 +2,8 @@ module UrlRequest
   require "net/http"
   require "uri"
 
+  # TODO: https://zetcode.com/ruby/httpclient/
+
   class << self
     def get_content_length(url, redirect_count = 0)
       # TODO: UA and Accept
