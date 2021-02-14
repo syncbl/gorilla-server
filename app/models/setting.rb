@@ -19,7 +19,7 @@ class Setting < ApplicationRecord
         }
 
   def self.actualize!
-    # TODO: Change behavior to flags
+    # TODO: Replace discard with events
     discard_packages = Set[]
     install_packages = Set[]
     self.with_package.map do |setting|
