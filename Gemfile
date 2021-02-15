@@ -60,7 +60,6 @@ group :development do
   gem "awesome_print", :require => "ap"
   gem "better_errors"
   gem "binding_of_caller"
-  gem "letter_opener"
   gem "memory_profiler"
   gem "derailed_benchmarks"
   gem "i18n-tasks", "~> 0.9.30"
