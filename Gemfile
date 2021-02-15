@@ -28,7 +28,6 @@ gem "jb" # A simpler and faster Jbuilder alternative.
 gem "simple_form" # Simple Form aims to be as flexible as possible while helping you with powerful components to create your forms.
 
 gem "pg", "~> 1" # Pg is the Ruby interface to the PostgreSQL RDBMS.
-#gem 'scenic' # Scenic adds methods to ActiveRecord::Migration to create and manage database views in Rails.
 #gem 'pg_search' # PgSearch builds named scopes that take advantage of PostgreSQL's full text search.
 gem "redis", "~> 4.0" # A Ruby client that tries to match Redis' API one-to-one.
 gem "hiredis" # Ruby extension that wraps hiredis.
