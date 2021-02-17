@@ -62,8 +62,6 @@ GEM
       minitest (>= 5.1)
       tzinfo (~> 2.0)
       zeitwerk (~> 2.3)
-    addressable (2.7.0)
-      public_suffix (>= 2.0.2, < 5.0)
     ast (2.4.2)
     autoprefixer-rails (10.2.4.0)
       execjs
@@ -167,10 +165,6 @@ GEM
     jb (0.8.0)
     jmespath (1.4.0)
     jwt (2.2.2)
-    launchy (2.5.0)
-      addressable (~> 2.7)
-    letter_opener (1.7.0)
-      launchy (~> 2.2)
     listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -198,7 +192,6 @@ GEM
       ast (~> 2.4.1)
     pg (1.2.3)
     popper_js (1.16.0)
-    public_suffix (4.0.6)
     puma (5.2.1)
       nio4r (~> 2.0)
     racc (1.5.2)
@@ -356,7 +349,6 @@ DEPENDENCIES
   i18n-tasks (~> 0.9.30)
   jb
   jwt
-  letter_opener
   listen (>= 3.0.5, < 3.2)
   lockbox
   memory_profiler

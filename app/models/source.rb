@@ -8,11 +8,11 @@ class Source < ApplicationRecord
                    dependent: :purge_later
 
   validates :file,
-            size: { less_than: MAX_SOURCE_SIZE }
+            size: { less_than: MAX_FILE_SIZE }
   validates :description,
-            length: { maximum: 2048 }
+            length: { maximum: MAX_DESCRIPTION_LENGTH }
   validates :version,
-            length: { maximum: 16 }
+            length: { maximum: MAX_VERSION_LENGTH }
 
   after_create :set_create_status
 

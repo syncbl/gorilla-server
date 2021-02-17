@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
         )
       end
     elsif (scope == User.name) && ApiKeys.user.include?(service)
-      sign_in(user) if user = cached_user(uuid, token)
+      sign_in cached_user(uuid, token)
     elsif ApiKeys.anonymous.include?(service)
       return true
     elsif service.present?
