@@ -9,8 +9,7 @@ class SettingsController < ApplicationController
     settings = current_endpoint.settings
 
     # TODO: !!! Check for reload and optimize query
-    @pagy, @settings = params[:updates].present? ? pagy(settings.updated) :
-      @pagy, @settings = pagy(settings.all)
+    @pagy, @settings = params[:updates].present? ? pagy(settings.updated) : pagy(settings.all)
   end
 
   # GET /settings/1

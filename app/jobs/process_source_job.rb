@@ -11,23 +11,17 @@ class ProcessSourceJob < ApplicationJob
     end
 
     Timeout::timeout(JOB_TIMEOUT) do
-      source.update_state I18n.t("jobs.process_source.scanning")
-
       unless Clamby.safe?(file)
         source.block! I18n.t("jobs.block_reasons.suspicious_attachment")
         return false
       end
-
-      source.update_state I18n.t("jobs.process_source.attaching")
       source.attach(file)
-
       File.delete(file)
 
       # Merge while file is not attached and deleted
       #MergeSources.perform(source.package)
 
       # TODO: Inform user
-      source.update_state
     end
 
     # TODO: Flatten before delete to save some traffic

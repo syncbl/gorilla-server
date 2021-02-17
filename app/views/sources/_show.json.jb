@@ -2,14 +2,11 @@ json = {
   id: source.id,
   description: source.description,
   version: source.version,
-  state: source.state,
   filelist: source.filelist,
   created_at: source.created_at.to_i,
   updated_at: source.updated_at.to_i
 }
 
-if source.ready?
-  json[:file] = render 'layouts/file', file: source.file, prefix: source.package.name
-end
+json[:file] = render 'layouts/file', file: source.file, prefix: source.package.name
 
 json.compact

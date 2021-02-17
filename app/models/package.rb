@@ -91,8 +91,8 @@ class Package < ApplicationRecord
   end
 
   def internal?
-    sources.each do |s|
-      return true if s.ready?
+    sources.active.each do |s|
+      return true if s.file.attached?
     end
     false
   end

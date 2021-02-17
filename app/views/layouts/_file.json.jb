@@ -1,5 +1,5 @@
 if file.attached?
-  json = {
+  {
     filename: "#{prefix}-#{file.filename}",
     size: file.byte_size,
     checksum: file.checksum,

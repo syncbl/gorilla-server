@@ -73,7 +73,7 @@ class EndpointsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_endpoint
-    @endpoint = current_user.endpoints.find(params[:id])
+    @endpoint = current_endpoint || current_user&.endpoints.find(params[:id])
   end
 
   def clear_cached

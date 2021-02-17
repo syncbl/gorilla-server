@@ -5,7 +5,6 @@ class MergeSourcesJob < ApplicationJob
     return false unless package.sources.size > 1
 
     source = package.sources.last
-    source.update_state I18n.t("jobs.process_source.merging")
 
     package.sources.each_with_index.reverse_each.map do |s, i|
       break if i == 0
@@ -13,7 +12,6 @@ class MergeSourcesJob < ApplicationJob
       # From i - 1 downto 0 compare filelists
 
       destination = package.sources[i - 1]
-      destination.update_state I18n.t("jobs.process_source.merging")
 
       source.flatfilelist
 

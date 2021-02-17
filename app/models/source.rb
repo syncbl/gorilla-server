@@ -14,8 +14,6 @@ class Source < ApplicationRecord
   validates :version,
             length: { maximum: MAX_VERSION_LENGTH }
 
-  after_create :set_create_status
-
   default_scope { joins(:file_attachment) }
 
   def attach(filename)
@@ -26,18 +24,6 @@ class Source < ApplicationRecord
         content_type: "application/zip",
       )
     end
-  end
-
-  def update_state(state = nil)
-    Rails.cache.write("#{Source.name}_state_#{id}", state, expires_in: MODEL_CACHE_TIMEOUT)
-  end
-
-  def state
-    Rails.cache.read("#{Source.name}_state_#{id}")
-  end
-
-  def ready?
-    blocked_at.nil? && state.nil? && file.attached?
   end
 
   def flatfilelist
@@ -62,9 +48,5 @@ class Source < ApplicationRecord
     end
     self.filelist = filelist
     save
-  end
-
-  def set_create_status
-    update_state I18n.t("model.source.status_on_create")
   end
 end

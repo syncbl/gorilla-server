@@ -18,7 +18,7 @@ RESTRICTED_NAMES = %w[
   sign_in   settings
   sign_out  source
   package   sources
-  packages  storage
+  packages  test
   user      admin
   users     console
   endpoint  wp-admin
