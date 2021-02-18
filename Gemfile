@@ -49,7 +49,6 @@ group :development, :test do
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
   gem "simplecov", require: false
   gem "rspec-rails", "~> 4.0.2"
-  gem "mailcatcher"
 end
 
 group :development do
