@@ -28,6 +28,7 @@ module GpServer
     config.i18n.available_locales = %i[en ru]
     config.i18n.default_locale = :en
     config.i18n.fallbacks = [config.i18n.default_locale]
+    config.active_storage.routes_prefix = '/files'
 
     # Configuration for the application, engines, and railties goes here.
     #
