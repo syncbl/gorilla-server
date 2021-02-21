@@ -50,6 +50,11 @@ class Package < ApplicationRecord
           where(user: user).or(where(published: true))
         }
 
+  scope :searcheable,
+        ->(id) {
+          where(id: value).or(where(name: value))
+        }
+
   def all_dependencies(packages = Set[])
     Package.all_dependencies(self, packages)
     packages.to_a.reverse
@@ -60,12 +65,6 @@ class Package < ApplicationRecord
       packages << p
       Package.all_dependencies(p, packages)
     end
-  end
-
-  def self.find_any(value)
-    where(id: value).or(
-      where(name: value)
-    ).first
   end
 
   def replaced?

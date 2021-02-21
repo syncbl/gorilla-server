@@ -88,7 +88,7 @@ class PackagesController < ApplicationController
 
   def set_package
     @package = params[:user_id].nil? ?
-      Package.allowed_for(current_user).find_any(params[:id]) :
+      Package.allowed_for(current_user).searcheable(params[:id]).first :
       Package.allowed_for(current_user).where(user_id: params[:user_id]).find_by!(name: params[:id])
   end
 
