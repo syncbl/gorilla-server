@@ -14,25 +14,23 @@ when 'development'
     email: 'eldar.avatov@gmail.com',
     password: '111111'
   u2 = User.create name: 'Test',
-    username: 'test',
-    email: 'test@example.com',
+    username: 'tester',
+    email: 'tester@example.com',
     password: '123456'
   puts Package.create(
     [
       {
         name: 'openssl-1_0',
-        alias: 'openssl',
         published: true,
         user: u1,
         external_url: 'https://www.heidisql.com/installers/HeidiSQL_11.0.0.5919_Setup.exe'
       },
-      { name: 'openssl-1_1', user: u1 },
-      { name: 'openssl-1_2', user: u1 },
-      { name: 'openssl-2_0', user: u2 },
+      { name: 'Openssl-1_1', user: u1 },
+      { name: 'Openssl-1_2', user: u1 },
+      { name: 'Openssl-2_0', user: u2 },
       { name: 'openssl-2_1', user: u2, published: true },
       {
         name: 'openssl-dev',
-        alias: 'openssl-dev',
         published: true,
         user: u1,
       },

@@ -44,7 +44,6 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     # ----------
     create_table :packages, id: :uuid do |t|
       t.string :name, limit: 100, null: false
-      t.string :alias, limit: 100
       t.string :destination, limit: 100, null: false, default: ""
 
       # TODO: Check size by HEAD for external URLs
@@ -68,7 +67,6 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       # Packages will be unique for everyone or for selected user
 
-      t.index [:alias], unique: true
       t.index %i[user_id name], unique: true
     end
 

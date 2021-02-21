@@ -1,4 +1,5 @@
-NAME_FORMAT = /\A[A-Za-z\d\_]*\z/
+USERNAME_FORMAT = /\A[A-Za-z\d\-\_]*\z/
+NAME_FORMAT = /\A[a-z\d\-\_]*\z/
 EMAIL_FORMAT = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 ENDPOINT_TOKEN_REGEN_RANDOM = 2
 MAX_PACKED_FILE_SIZE = 2.gigabytes
@@ -21,7 +22,7 @@ RESTRICTED_NAMES = %w[
   source     test
   sources    admin
   package    console
-  packages
+  packages   wp-admin
   user
   users
   endpoint

@@ -15,7 +15,7 @@ local:
   <<: *disk
 
 remote:
-  <<: *minio
+  <<: *disk
 
 test:
   service: Disk

@@ -29,7 +29,7 @@ class User < ApplicationRecord
             presence: true,
             length: { minimum: MIN_NAME_LENGTH, maximum: MAX_USERNAME_LENGTH },
             uniqueness: { case_sensitive: false },
-            format: { with: NAME_FORMAT }
+            format: { with: USERNAME_FORMAT }
   validates :name,
             length: { maximum: MAX_NAME_LENGTH }
   validates :locale,

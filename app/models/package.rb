@@ -29,16 +29,6 @@ class Package < ApplicationRecord
             },
             uniqueness: { scope: :user_id, case_sensitive: false },
             format: { with: NAME_FORMAT }
-  # TODO: Move aliases to table
-  validates :alias,
-            name_restrict: true,
-            allow_blank: true,
-            length: {
-              minimum: MIN_NAME_LENGTH,
-              maximum: MAX_NAME_LENGTH,
-            },
-            uniqueness: { case_sensitive: false },
-            format: { with: NAME_FORMAT }
   validates :icon, size: { less_than: MAX_ICON_SIZE }
   # TODO: Check link for content disposition
   validates :external_url,
@@ -48,6 +38,8 @@ class Package < ApplicationRecord
   validates :replacement,
             package_replacement: true
   # TODO enumerate validates :destination
+  
+  before_validation { name.downcase! }
   after_validation :check_external_url
 
   scope :allowed_for,
@@ -70,11 +62,9 @@ class Package < ApplicationRecord
     end
   end
 
-  def self.find_by_alias(value)
+  def self.find_any(value)
     where(id: value).or(
-      where(alias: value).or(
-        where(name: value)
-      )
+      where(name: value)
     ).first
   end
 
