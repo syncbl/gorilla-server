@@ -42,12 +42,14 @@ class Package < ApplicationRecord
   before_validation { name.downcase! }
   after_validation :check_external_url
 
+  scope :full, -> { joins(:user) }
+
   scope :allowed_for,
         ->(user) {
           # TODO Remove nil user, because user can't be blank
           # TODO Group permissions
           # TODO Move to policies!!!
-          joins(:user).where(user: user).or(where(published: true))
+          full.where(user: user).or(where(published: true))
         }
 
   def all_dependencies(packages = Set[])

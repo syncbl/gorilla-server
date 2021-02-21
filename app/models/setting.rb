@@ -9,11 +9,11 @@ class Setting < ApplicationRecord
 
   #encrypts :data, algorithm: "hybrid", encryption_key: encryption_key, decryption_key: decryption_key
 
-  scope :with_package, -> { joins(:package) }
+  scope :full, -> { joins(:package) }
 
   scope :updated,
         -> {
-          with_package.where(
+          full.where(
             Setting.arel_table[:updated_at].lt(Package.arel_table[:updated_at])
           )
         }
@@ -22,7 +22,7 @@ class Setting < ApplicationRecord
     # TODO: Replace discard with events
     discard_packages = Set[]
     install_packages = Set[]
-    self.with_package.map do |setting|
+    self.full.map do |setting|
       if setting.package.replaced?
         # TODO: Add upgrade strategy
         setting.discard
@@ -30,14 +30,14 @@ class Setting < ApplicationRecord
         install_packages << setting.package.replacement
       end
     end
-    self.with_package.map do |setting|
+    self.full.map do |setting|
       if setting.discarded?
         setting.package.all_dependencies(discard_packages)
       else
         setting.package.all_dependencies(install_packages)
       end
     end
-    self.with_package.map do |setting|
+    self.full.map do |setting|
       if setting.kept? && discard_packages.include?(setting.package)
         setting.discard unless setting.package.persistent?
       elsif install_packages.include?(setting.package)
