@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   include ApplicationHelper
   include Pagy::Backend
+  include Pundit
   include ApiKeys
 
   protect_from_forgery with: :exception, unless: -> { request.format.json? }

@@ -19,7 +19,7 @@ class SettingsController < ApplicationController
   def create
     respond_to do |format|
       if @setting = @endpoint.settings.create(
-        package: Package.allowed_for(@endpoint.user).searcheable(params[:package_id]).first,
+        package: Package.allowed_for(@endpoint.user).find(params[:package_id]),
       )
         format.html { redirect_to settings_url, notice: "Package soon will be installed." }
         format.json { render :show, status: :accepted, location: @setting }

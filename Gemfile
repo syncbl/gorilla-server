@@ -39,6 +39,7 @@ gem "discard", "~> 1.0" # Soft deletes for ActiveRecord done right.
 gem "enumerize" # Enumerated attributes with I18n and ActiveRecord/Mongoid/MongoMapper/Sequel support
 gem 'high_voltage', "~> 3.1" # Rails engine for static pages.
 gem "http_accept_language" # Detect the users preferred language, as sent by the "Accept-Language" HTTP header.
+gem "pundit" # Set of helpers to build an authorization system.
 gem "rack-attack" # Rack middleware for blocking & throttling abusive requests
 gem "rubyzip", require: "zip" # Ruby library for reading and writing zip files.
 gem "sidekiq" # Simple, efficient background processing for Ruby.

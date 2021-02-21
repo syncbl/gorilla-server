@@ -2,14 +2,13 @@ class PackagesController < ApplicationController
   # We allowing anonymous access
   before_action :authenticate_user!, except: %i[index]
   before_action :set_package, except: %i[index new create]
-  before_action :check_owner, only: %i[edit update destroy]
 
   # GET /packages
   # GET /packages.json
   def index
     @pagy, @packages =
       pagy(
-        Package.allowed_for(current_user),
+        policy_scope(Package),
         items: params[:items],
       )
   end
@@ -21,7 +20,7 @@ class PackagesController < ApplicationController
   # GET /packages/new
   # TODO: Store in cache during edit to allow update page
   def new
-    @package = current_user.packages.new
+    @package = authorize current_user.packages.new
   end
 
   # GET /packages/1/edit
@@ -87,18 +86,14 @@ class PackagesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
 
   def set_package
-    @package = params[:user_id].nil? ?
-      Package.allowed_for(current_user).searcheable(params[:id]).first :
-      Package.allowed_for(current_user).where(user_id: params[:user_id]).find_by!(name: params[:id])
+    @package = authorize params[:user_id].nil? ?
+      policy_scope(Package).find_any!(params[:id]) :
+      policy_scope(Package).find_by!(user: { name: params[:id] }, name: params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   # <input type="text" name="client[name]" value="Acme" />
   def package_params
     params.require(:package).permit(:name, :external_url)
-  end
-
-  def check_owner
-    current_user.is_owner?(@package)
   end
 end

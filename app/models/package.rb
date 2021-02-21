@@ -47,12 +47,7 @@ class Package < ApplicationRecord
           # TODO Remove nil user, because user can't be blank
           # TODO Group permissions
           # TODO Move to policies!!!
-          where(user: user).or(where(published: true))
-        }
-
-  scope :searcheable,
-        ->(id) {
-          where(id: value).or(where(name: value))
+          joins(:user).where(user: user).or(where(published: true))
         }
 
   def all_dependencies(packages = Set[])
@@ -90,6 +85,11 @@ class Package < ApplicationRecord
     external_url.present?
   end
 
+  def self.find_any!(value)
+    # TODO: Add alias search
+    find_by(id: value) || find_by!(name: value)
+  end
+  
   private
 
   def check_external_url
