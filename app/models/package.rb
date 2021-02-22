@@ -42,8 +42,6 @@ class Package < ApplicationRecord
   before_validation { name.downcase! }
   after_validation :check_external_url
 
-  scope :full, -> { joins(:user) }
-
   scope :allowed_for,
         ->(user) {
           # TODO Remove nil user, because user can't be blank
