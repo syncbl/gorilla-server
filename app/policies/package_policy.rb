@@ -20,7 +20,7 @@ class PackagePolicy
   end
 
   def update?
-    @user.is_owner?(@package)
+    @user.is_owner?(@record)
   end
 
   def edit?
