@@ -23,7 +23,7 @@ class Setting < ApplicationRecord
     discard_packages = Set[]
     install_packages = Set[]
     self.map do |setting|
-      if setting.package.replaced?
+      if setting.replaced?
         # TODO: Add upgrade strategy
         setting.discard
         discard_packages << setting.package
@@ -46,5 +46,9 @@ class Setting < ApplicationRecord
       end
     end
     install_packages.each { |p| self.create(package: p, dependent: true) }
+  end
+
+  def replaced?
+    package.replacement.present?
   end
 end

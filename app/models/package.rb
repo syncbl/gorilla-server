@@ -47,7 +47,7 @@ class Package < ApplicationRecord
           # TODO Remove nil user, because user can't be blank
           # TODO Group permissions
           # TODO Move to policies!!!
-          full.where(user: user).or(where(published: true))
+          where(user: user).or(where(published: true))
         }
 
   def all_dependencies(packages = Set[])
@@ -60,10 +60,6 @@ class Package < ApplicationRecord
       packages << p
       Package.all_dependencies(p, packages)
     end
-  end
-
-  def replaced?
-    replacement.present?
   end
 
   def replaced_by
