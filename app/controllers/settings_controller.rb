@@ -17,13 +17,14 @@ class SettingsController < ApplicationController
   # GET /settings/1
   def show; end
 
-  # POST /settings
+  # POST /endpoints/1/settings
   def create
+    @package = Package.allowed_for(@endpoint.user).find(params[:package_id])
     respond_to do |format|
       if @setting = @endpoint.settings.create(
-        package: Package.allowed_for(@endpoint.user).find(params[:package_id]),
+        package: @package,
       )
-        format.html { redirect_to settings_url, notice: "Package soon will be installed." }
+        format.html { redirect_to @setting, notice: "Package soon will be installed." }
         format.json { render :show, status: :accepted, location: @setting }
       else
         format.html { render :edit }

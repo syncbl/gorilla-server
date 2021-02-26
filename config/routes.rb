@@ -10,9 +10,8 @@ Rails.application.routes.draw do
   resources :packages do
     resources :sources
   end
-  resource :endpoint, only: %i[show update destroy] do
-    resources :settings, only: %i[index show create]
-  end
+  resource :endpoint, only: %i[show update destroy]
+  resources :settings, only: %i[index]
   resource :user, only: %i[show]
   resources :endpoints, only: %i[index create] do
     resources :settings, only: %i[index show create]

@@ -7,11 +7,11 @@ class EndpointPolicy < ApplicationPolicy
   end
 
   def show?
-    true
+    @user.is_owner?(@record)
   end
 
   def update?
-    @user.is_owner?(@record)
+    show?
   end
 
   # TODO: Endpoint profile edit
