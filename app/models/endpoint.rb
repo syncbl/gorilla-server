@@ -18,6 +18,8 @@ class Endpoint < ApplicationRecord
             allow_nil: true,
             length: { is: 24 }
 
+  default_scope { joins(:user) }
+
   # TODO: Move to method in order to show inactive status in list
   #scope :actual, -> {
   #  where(Endpoint.arel_table[:updated_at]
