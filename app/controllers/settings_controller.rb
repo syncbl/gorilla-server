@@ -1,5 +1,6 @@
 class SettingsController < ApplicationController
   # Settings can be used by user only within packages/endpoints
+  before_action :authenticate_user!, only: %i[create]
   before_action :set_endpoint
   before_action :set_setting, except: %i[index create]
 
@@ -9,7 +10,8 @@ class SettingsController < ApplicationController
     settings = current_endpoint.settings
 
     # TODO: !!! Check for reload and optimize query
-    @pagy, @settings = params[:updates].present? ? pagy(settings.updated) : pagy(settings.all)
+    @pagy, @settings = params[:updates] ? pagy(settings.updated) :
+      pagy(settings.all)
   end
 
   # GET /settings/1

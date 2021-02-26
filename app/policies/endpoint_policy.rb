@@ -24,8 +24,15 @@ class EndpointPolicy < ApplicationPolicy
   end
 
   class Scope < Scope
+    attr_reader :user, :scope
+
+    def initialize(user, scope)
+      @user = user
+      @scope = scope
+    end
+
     def resolve
-      scope.endpoints
+      @user.endpoints
     end
   end
 end

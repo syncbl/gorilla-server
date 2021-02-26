@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
       sign_in cached_user(uuid, token)
     elsif ApiKeys.anonymous.include?(service)
       return true
-    elsif service.present?
+    elsif service
       head :upgrade_required
     else
       head :forbidden

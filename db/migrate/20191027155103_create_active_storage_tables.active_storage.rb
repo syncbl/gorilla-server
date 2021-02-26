@@ -11,6 +11,7 @@ class CreateActiveStorageTables < ActiveRecord::Migration[6.0]
       t.datetime :created_at, null: false
 
       t.index [:key], unique: true
+      t.index [:checksum]
     end
 
     create_table :active_storage_attachments do |t|
