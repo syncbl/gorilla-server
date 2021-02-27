@@ -76,7 +76,8 @@ class EndpointsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_endpoint
-    @endpoint = authorize(current_endpoint || current_user&.endpoints&.find(params[:id]))
+    endpoint = current_endpoint || current_user&.endpoints&.find(params[:id])
+    @endpoint = authorize endpoint
   end
 
   def clear_cached
