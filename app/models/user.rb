@@ -29,7 +29,7 @@ class User < ApplicationRecord
             presence: true,
             length: { minimum: MIN_NAME_LENGTH, maximum: MAX_USERNAME_LENGTH },
             uniqueness: { case_sensitive: false },
-            format: { with: USERNAME_FORMAT }
+            format: { with: NAME_FORMAT }
   validates :name,
             length: { maximum: MAX_NAME_LENGTH }
   validates :locale,
@@ -40,6 +40,7 @@ class User < ApplicationRecord
 
   # TODO: Everyone can create packages, but we need to add permissions for company members later
 
+  before_validation { username.downcase! }
   before_create :generate_username
 
   def active_for_authentication?

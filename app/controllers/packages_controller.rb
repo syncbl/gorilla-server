@@ -87,8 +87,8 @@ class PackagesController < ApplicationController
 
   def set_package
     @package = authorize params[:user_id].nil? ?
-      policy_scope(Package).find_any!(params[:id]) :
-      policy_scope(Package).find_by!(user: { name: params[:id] }, name: params[:id])
+      policy_scope(Package).find_any!(params[:id].downcase) :
+      policy_scope(Package).find_by!(user: { username: params[:user_id].downcase }, name: params[:id].downcase)
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

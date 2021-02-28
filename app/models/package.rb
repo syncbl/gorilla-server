@@ -38,7 +38,7 @@ class Package < ApplicationRecord
   validates :replacement,
             package_replacement: true
   # TODO enumerate validates :destination
-  
+
   before_validation { name.downcase! }
   after_validation :check_external_url
 
