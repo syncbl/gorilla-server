@@ -11,10 +11,10 @@ class ProcessSourceJob < ApplicationJob
     end
 
     Timeout::timeout(JOB_TIMEOUT) do
-      unless Clamby.safe?(file)
-        source.block! I18n.t("jobs.block_reasons.suspicious_attachment")
-        return false
-      end
+      # TODO: unless Clamby.safe?(file)
+      #  source.block! I18n.t("jobs.block_reasons.suspicious_attachment")
+      #  return false
+      #end
       source.attach(file)
       File.delete(file)
 

@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.string "service_name", null: false
+    t.index ["checksum"], name: "index_active_storage_blobs_on_checksum"
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
