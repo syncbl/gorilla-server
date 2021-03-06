@@ -8,7 +8,7 @@ class Auth::RegistrationsController < Devise::RegistrationsController
         if @user.save
           sign_in @user
           current_user.token = JsonWebToken.encode(@user)
-          render 'devise/sessions/create'
+          render 'users/show'
         else
           render json: @user.errors, status: :unauthorized
         end
