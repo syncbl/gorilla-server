@@ -3,7 +3,7 @@ class Endpoint < ApplicationRecord
 
   has_secure_token :authentication_token
   attribute :locale, :string, default: "en"
-  attr_accessor :new_token
+  attr_accessor :token
 
   belongs_to :user
   has_many :settings
@@ -31,9 +31,9 @@ class Endpoint < ApplicationRecord
   end
 
   def reset_token
-    if new_token.nil?
+    if token.nil?
       regenerate_authentication_token
-      self.new_token = JsonWebToken.encode(self)
+      self.token = JsonWebToken.encode(self)
     end
   end
 

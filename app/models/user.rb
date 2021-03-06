@@ -12,7 +12,7 @@ class User < ApplicationRecord
 
   has_secure_token :authentication_token
   attribute :locale, :string, default: "en"
-  attr_accessor :new_token
+  attr_accessor :token
 
   # Because of company support and installed packages we can't allow to delete resources
   # has_many (as on Git) OR belongs_to :group, optional: true

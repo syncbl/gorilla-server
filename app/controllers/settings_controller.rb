@@ -6,12 +6,10 @@ class SettingsController < ApplicationController
 
   # GET /settings
   def index
-    current_endpoint.settings.actualize!
-    settings = current_endpoint.settings
-
+    @endpoint.actualize!
     # TODO: !!! Check for reload and optimize query
-    @pagy, @settings = params[:updates] ? pagy(settings.updated) :
-      pagy(settings.all)
+    @pagy, @settings = params[:updates] ? pagy(@endpoint.settings.updated) :
+      pagy(@endpoint.settings.all)
   end
 
   # GET /settings/1
@@ -21,7 +19,8 @@ class SettingsController < ApplicationController
   def create
     @package = Package.allowed_for(@endpoint.user).find(params[:package_id])
     respond_to do |format|
-      if @setting = @endpoint.settings.create(
+      if @setting = Setting.create(
+        endpoint: @endpoint,
         package: @package,
       )
         format.html { redirect_to @setting, notice: "Package soon will be installed." }

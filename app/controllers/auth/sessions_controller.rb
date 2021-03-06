@@ -8,8 +8,8 @@ class Auth::SessionsController < Devise::SessionsController
         session.update old_session.except("session_id")
         self.resource = warden.authenticate!(auth_options)
         sign_in(resource_name, resource)
-        current_user.new_token = JsonWebToken.encode(resource)
-        render 'devise/sessions/create'
+        current_user.token = JsonWebToken.encode(resource)
+        render 'users/show'
       end
     end
   end

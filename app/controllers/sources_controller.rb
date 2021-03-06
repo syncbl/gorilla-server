@@ -24,9 +24,17 @@ class SourcesController < ApplicationController
     # TODO: Disable package
     respond_to do |format|
       if @source = current_user.packages.find(params[:package_id])&.sources.create
-        ProcessSourceJob.perform_later(@source,
-                                       file: write_tmp(params[:file]),
-                                       checksum: params[:checksum])
+        if file = find_source(params[:file].original_filename, params[:checksum])
+          # TODO: Warn about existing file if it's own or public
+          @source.update(file: file)
+        else
+          ProcessSourceJob.perform_later(
+            @source,
+            file: write_tmp(params[:file]),
+            name: params[:file].original_filename,
+            checksum: params[:checksum],
+          )
+        end
         format.html { redirect_to [@source.package, @source], notice: "Source was successfully created." }
         format.json { render :show, status: :created, location: [@source.package, @source] }
       else

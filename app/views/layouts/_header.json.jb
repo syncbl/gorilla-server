@@ -4,7 +4,7 @@ json = {
   session: {}
 }
 
-if json_token = current_endpoint&.new_token || current_user&.new_token
+if json_token = current_endpoint&.token || current_user&.token
   json[:session][:token] = json_token
 end
 
