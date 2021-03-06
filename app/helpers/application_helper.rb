@@ -41,4 +41,8 @@ module ApplicationHelper
     endpoint.reset_token
     @_cached_endpoint ||= endpoint
   end
+
+  def render_errors(errors:, status:)
+    render json: { errors: errors }, status: status
+  end
 end
