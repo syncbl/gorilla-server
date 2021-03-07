@@ -42,7 +42,7 @@ module ApplicationHelper
     @_cached_endpoint ||= endpoint
   end
 
-  def render_errors(errors:, status:)
+  def render_errors(errors, status:)
     render json: { errors: errors }, status: status
   end
 end

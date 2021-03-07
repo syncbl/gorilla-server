@@ -40,8 +40,7 @@ class User < ApplicationRecord
 
   # TODO: Everyone can create packages, but we need to add permissions for company members later
 
-  before_validation { username.downcase! if username }
-  before_create :generate_username
+  before_validation :generate_username
 
   def active_for_authentication?
     super && !self.blocked?
@@ -66,5 +65,6 @@ class User < ApplicationRecord
       username = "#{self.email[/^[^@]+/]}"
       self.username = User.find_by(username: username).nil? ? username : "#{username}#{rand(10_000)}"
     end
+    self.username.downcase!
   end
 end

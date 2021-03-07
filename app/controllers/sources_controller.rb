@@ -28,12 +28,7 @@ class SourcesController < ApplicationController
           # TODO: Warn about existing file if it's own or public
           @source.update(file: file)
         else
-          ProcessSourceJob.perform_later(
-            @source,
-            file: write_tmp(params[:file]),
-            name: params[:file].original_filename,
-            checksum: params[:checksum],
-          )
+          ProcessSourceJob.perform_later @source, write_tmp(params[:file])
         end
         format.html { redirect_to [@source.package, @source], notice: "Source was successfully created." }
         format.json { render :show, status: :created, location: [@source.package, @source] }
