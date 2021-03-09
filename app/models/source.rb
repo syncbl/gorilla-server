@@ -35,11 +35,11 @@ class Source < ApplicationRecord
   def build(tmpfilename)
     filelist = {}
     Zip::File.open(tmpfilename) do |zipfile|
+      # TODO: Count files and unpacked sizes and store in source to show
       zipfile.each do |z|
         next if z.directory?
         if (z.size > MAX_PACKED_FILE_SIZE)
           block! "zip: #{z.name}, #{z.size}"
-          # TODO: update_state
           return false
         end
         HashFileList.add(filelist, z.name, z.crc)
@@ -48,5 +48,7 @@ class Source < ApplicationRecord
     end
     self.filelist = filelist
     save
+  rescue StandardError => e # TODO: Make more specific
+    block! e.message
   end
 end

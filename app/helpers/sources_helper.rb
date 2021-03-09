@@ -7,7 +7,7 @@ module SourcesHelper
     tmpfilename
   end
 
-  def find_source(filename, checksum)
-    ActiveStorage::Blob.find_by(filename: filename, checksum: checksum)
+  def find_source(size, checksum)
+    ActiveStorage::Blob.find_by(byte_size: size, checksum: checksum)
   end
 end

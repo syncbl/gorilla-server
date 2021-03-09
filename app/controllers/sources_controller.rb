@@ -24,7 +24,7 @@ class SourcesController < ApplicationController
     # TODO: Disable package
     respond_to do |format|
       if @source = current_user.packages.find(params[:package_id])&.sources.create
-        if file = find_source(params[:file].original_filename, params[:checksum])
+        if file = find_source(params[:file].size, params[:checksum])
           # TODO: Warn about existing file if it's own or public
           @source.update(file: file)
         else
