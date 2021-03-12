@@ -1,4 +1,6 @@
 class SourcesController < ApplicationController
+  include SourcesHelper
+
   before_action :authenticate_user!
   before_action :set_source, except: %i[index new create]
 
@@ -24,12 +26,12 @@ class SourcesController < ApplicationController
     # TODO: Disable package
     respond_to do |format|
       if @source = current_user.packages.find(params[:package_id])&.sources.create
-        if file = find_source(params[:file].size, params[:checksum])
-          # TODO: Warn about existing file if it's own or public
-          @source.update(file: file)
-        else
+        #if file = find_source(params[:file].size, params[:checksum])
+        #  # TODO: Warn about existing file if it's own or public
+        #  @source.update(file: file)
+        #else
           ProcessSourceJob.perform_later @source, write_tmp(params[:file])
-        end
+        #end
         format.html { redirect_to [@source.package, @source], notice: "Source was successfully created." }
         format.json { render :show, status: :created, location: [@source.package, @source] }
       else

@@ -87,11 +87,11 @@ class Package < ApplicationRecord
     # TODO: Add alias search
     find_by(id: value) || find_by!(name: value)
   end
-  
+
   private
 
   def check_external_url
-    self.size = UrlRequest.get_attachment_size(external_url).to_i if external_url
+    self.size = UrlRequest.get_attachment_size(external_url).to_i if external_url.present?
   rescue StandardError => e
     errors.add(:external_url, I18n.t("model.package.error.check_external_url"))
     # TODO: Log e with url

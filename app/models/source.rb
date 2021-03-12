@@ -22,15 +22,12 @@ class Source < ApplicationRecord
         io: File.open(filename),
         filename: "#{created_at.strftime("%y%m%d%H%M%S%2L")}.zip",
         content_type: "application/zip",
+        identify: false
       )
     end
   end
 
-  def flatfilelist
-    HashFileList.flatten(filelist)
-  end
-
-  private
+  #private
 
   def build(tmpfilename)
     filelist = {}
@@ -42,7 +39,7 @@ class Source < ApplicationRecord
           block! "zip: #{z.name}, #{z.size}"
           return false
         end
-        HashFileList.add(filelist, z.name, z.crc)
+        filelist[z.name] = z.crc
         self.unpacked_size += z.size
       end
     end

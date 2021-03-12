@@ -3,18 +3,22 @@ class MergeSourcesJob < ApplicationJob
 
   def perform(package)
     return false unless package.sources.size > 1
-
-    source = package.sources.last
-
-    package.sources.each_with_index.reverse_each.map do |s, i|
-      break if i == 0
-
-      # From i - 1 downto 0 compare filelists
-
-      destination = package.sources[i - 1]
-
-      source.flatfilelist
-
+    package.sources.each_with_index.reverse_each.map do |src, i|
+      package.sources.each_with_index.reverse_each.drop(package.sources.size - i).map do |dst, j|
+        next unless src.file.attached? && dst.file.attached?
+        diff = (dst.filelist.to_a & src.filelist.to_a).to_h
+        puts diff
+        next if diff.size == 0
+        dst.file.open do |dstfile|
+          Zip::File.open(dstfile, Zip::File::CREATE) do |dstzipfile|
+            dstzipfile.each do |dstz|
+              next if dstz.directory?
+              dstzipfile.remove(dstz.name) unless diff[dstz.name].nil?
+            end
+          end
+          dst.attach(dstfile)
+        end
+      end
     end
 
     # TODO: Iterate through sources
