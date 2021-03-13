@@ -52,8 +52,6 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       # Show this package to everyone?
       t.boolean :published, null: false, default: false
-      # Delete this package with dependencies?
-      t.boolean :persistent, null: false, default: false
 
       t.jsonb :data
 
