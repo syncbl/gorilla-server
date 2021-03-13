@@ -8,6 +8,7 @@ module SourcesHelper
   end
 
   def find_source(size, checksum)
+    # TODO: It can't be in a same package
     ActiveStorage::Blob.find_by(byte_size: size, checksum: checksum)
   end
 end

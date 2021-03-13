@@ -88,6 +88,16 @@ class Package < ApplicationRecord
     find_by(id: value) || find_by!(name: value)
   end
 
+  def recalculate_size!
+    freespace = self.size
+    self.size = 0
+    sources.each do |s|
+      self.size += s.unpacked_size
+    end
+    save!
+    freespace == 0 ? freespace : freespace - self.size
+  end
+
   private
 
   def check_external_url

@@ -27,7 +27,7 @@ class Source < ApplicationRecord
     end
   end
 
-  #private
+  private
 
   def build(tmpfilename)
     filelist = {}
