@@ -97,10 +97,6 @@ class Package < ApplicationRecord
     save!
   end
 
-  def publish!(user)
-    update(published_by: user)
-  end
-
   private
 
   def check_external_url
