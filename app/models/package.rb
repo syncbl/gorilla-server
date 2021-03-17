@@ -4,6 +4,9 @@ class Package < ApplicationRecord
   # TODO: MUST!!! Sign packages with endpoint certificate before send and check sign on client-side.
 
   belongs_to :user
+  belongs_to :published_by,
+             class_name: "User",
+             optional: true
   has_many :settings, dependent: :destroy
   has_many :endpoints, through: :settings
   has_many :sources, dependent: :destroy
@@ -14,7 +17,9 @@ class Package < ApplicationRecord
                           join_table: :dependencies,
                           foreign_key: :package_id,
                           association_foreign_key: :dependent_package_id
-  belongs_to :replacement, class_name: "Package", optional: true
+  belongs_to :replacement,
+             class_name: "Package",
+             optional: true
 
   has_one_attached :icon,
                    service: :local,
@@ -49,7 +54,7 @@ class Package < ApplicationRecord
           # TODO Remove nil user, because user can't be blank
           # TODO Group permissions
           # TODO Move to policies!!!
-          where(user: user).or(where(published: true))
+          where(user: user).or(where.not(published_by: nil))
         }
 
   def all_dependencies(packages = Set[])
@@ -66,10 +71,6 @@ class Package < ApplicationRecord
 
   def replaced_by
     _replaced_by unless replacement.nil?
-  end
-
-  def title
-    (user == current_user) ? name : "#{user.username}/#{name}"
   end
 
   def internal?
@@ -89,13 +90,15 @@ class Package < ApplicationRecord
   end
 
   def recalculate_size!
-    freespace = self.size
     self.size = 0
     sources.each do |s|
       self.size += s.unpacked_size
     end
     save!
-    freespace == 0 ? freespace : freespace - self.size
+  end
+
+  def publish!(user)
+    update(published_by: user)
   end
 
   private

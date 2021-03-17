@@ -26,6 +26,8 @@ class MergeSourcesJob < ApplicationJob
       src.update(merged: true)
     end
     # TODO: Inform about freed space
+    old_size = package.size
     package.recalculate_size!
+    # Notify old_size - package.reload.size
   end
 end

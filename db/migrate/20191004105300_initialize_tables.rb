@@ -51,7 +51,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.string :external_url, limit: 2048
 
       # Show this package to everyone?
-      t.boolean :published, null: false, default: false
+      t.belongs_to :published_by, class_name: 'User', type: :uuid, index: true
 
       t.jsonb :data
 

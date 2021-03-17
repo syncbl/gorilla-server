@@ -24,6 +24,7 @@ class Source < ApplicationRecord
         content_type: "application/zip",
         identify: false
       )
+      self.package.update(size: unpacked_size) if self.package.size == 0
     end
   end
 

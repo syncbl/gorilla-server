@@ -12,6 +12,13 @@ module ApplicationHelper
     ] || flash_type.to_s
   end
 
+  def title(object)
+    if object.is_a? Package
+      (object.user == current_user) ? object.name :
+        "#{object.user.username}/#{object.name}"
+    end
+  end
+
   def cache_fetch(model, id, token)
     Rails.cache.fetch(
       "#{model.name}_#{id}",
