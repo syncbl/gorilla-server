@@ -121,6 +121,14 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.index ["updated_at"], name: "index_sources_on_updated_at"
   end
 
+  create_table "subscriptions", id: false, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.uuid "subscribed_to_id", null: false
+    t.index ["subscribed_to_id"], name: "index_subscriptions_on_subscribed_to_id"
+    t.index ["user_id", "subscribed_to_id"], name: "index_subscriptions_on_user_id_and_subscribed_to_id", unique: true
+    t.index ["user_id"], name: "index_subscriptions_on_user_id"
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", limit: 100
     t.string "username", limit: 39, null: false
@@ -154,4 +162,5 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   add_foreign_key "settings", "endpoints"
   add_foreign_key "settings", "packages"
   add_foreign_key "sources", "packages"
+  add_foreign_key "subscriptions", "users"
 end

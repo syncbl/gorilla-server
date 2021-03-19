@@ -18,6 +18,12 @@ class User < ApplicationRecord
   # has_many (as on Git) OR belongs_to :group, optional: true
   has_many :packages, dependent: :destroy # TODO: :nullify
   has_many :endpoints, dependent: :destroy
+  # TODO:
+  has_and_belongs_to_many :subscriptions,
+                          class_name: "User",
+                          join_table: :subscriptions,
+                          foreign_key: :user_id,
+                          association_foreign_key: :subscribed_to_id
 
   validates :email,
             presence: true,
