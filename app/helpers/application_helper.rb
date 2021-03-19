@@ -24,7 +24,7 @@ module ApplicationHelper
       "#{model.name}_#{id}",
       expires_in: MODEL_CACHE_TIMEOUT,
     ) do
-      instance = model.find_by(
+      model.find_by(
         id: id,
         authentication_token: token,
         blocked_at: nil,
@@ -51,5 +51,9 @@ module ApplicationHelper
 
   def render_errors(errors, status:)
     render json: { errors: errors }, status: status
+  end
+
+  def render_error(error, status:)
+    render json: { error: error }, status: status
   end
 end

@@ -19,12 +19,13 @@ class MergeSourcesJob < ApplicationJob
                 dstzipfile.commit
               end
             end
+            dst.discard if dstzipfile.size == 0
           end
           dst.attach(dstfile)
         end
       end
-      src.update(merged: true)
     end
+    package.sources.update_all(is_merged: true)
     # TODO: Inform about freed space
     old_size = package.size
     package.recalculate_size!

@@ -25,19 +25,20 @@ class ApplicationController < ActionController::Base
 
     if (scope == Endpoint.name) && ApiKeys.endpoint.include?(service)
       if endpoint = cached_endpoint(uuid, token)
-        if rand(ENDPOINT_TOKEN_REGEN_RANDOM) == 0
-          endpoint.reset_token
-        else
-          endpoint.touch
-        end
+        rand(ENDPOINT_TOKEN_REGEN_RANDOM) == 0 ? endpoint.reset_token : endpoint.touch
       else
         # Block endpoint with old token for security reasons
         Endpoint.active.find_by(id: uuid)&.block!(
           reason: "api_check_headers #{uuid} #{token}",
         )
+        render_error I18n.t("devise.failure.blocked"), status: :unauthorized
       end
     elsif (scope == User.name) && ApiKeys.user.include?(service)
-      sign_in cached_user(uuid, token)
+      if user = cached_user(uuid, token)
+        sign_in user
+      else
+        render_error I18n.t("devise.failure.blocked"), status: :unauthorized
+      end
     elsif ApiKeys.anonymous.include?(service)
       return true
     elsif service

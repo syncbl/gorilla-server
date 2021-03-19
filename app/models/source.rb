@@ -1,4 +1,5 @@
 class Source < ApplicationRecord
+  include Discard::Model
   include Blockable
 
   belongs_to :package, touch: true

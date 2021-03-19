@@ -12,9 +12,6 @@ class ProcessSourceJob < ApplicationJob
       source.attach(file)
       File.delete(file)
     end
-
-    # TODO: Merge while file is not attached and deleted
-    #MergeSources.perform(source.package)
   rescue Timeout::Error
     source.block! "+++ TIMEOUT +++"
   end

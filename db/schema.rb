@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   create_table "dependencies", id: false, force: :cascade do |t|
     t.uuid "package_id", null: false
     t.uuid "dependent_package_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["dependent_package_id"], name: "index_dependencies_on_dependent_package_id"
     t.index ["package_id", "dependent_package_id"], name: "index_dependencies_on_package_id_and_dependent_package_id", unique: true
     t.index ["package_id"], name: "index_dependencies_on_package_id"
@@ -62,9 +63,11 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.uuid "user_id", null: false
     t.datetime "blocked_at"
     t.string "block_reason", limit: 300
+    t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_endpoints_on_created_at"
+    t.index ["discarded_at"], name: "index_endpoints_on_discarded_at"
     t.index ["updated_at"], name: "index_endpoints_on_updated_at"
     t.index ["user_id"], name: "index_endpoints_on_user_id"
   end
@@ -75,14 +78,17 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.bigint "size", default: 0, null: false
     t.string "external_url", limit: 2048
     t.uuid "published_by_id"
+    t.boolean "is_component", default: false, null: false
     t.jsonb "data"
     t.uuid "user_id", null: false
     t.uuid "replacement_id"
     t.datetime "blocked_at"
     t.string "block_reason", limit: 300
+    t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_packages_on_created_at"
+    t.index ["discarded_at"], name: "index_packages_on_discarded_at"
     t.index ["published_by_id"], name: "index_packages_on_published_by_id"
     t.index ["replacement_id"], name: "index_packages_on_replacement_id"
     t.index ["updated_at"], name: "index_packages_on_updated_at"
@@ -91,7 +97,6 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   end
 
   create_table "settings", force: :cascade do |t|
-    t.boolean "dependent", default: false, null: false
     t.uuid "endpoint_id", null: false
     t.uuid "package_id", null: false
     t.datetime "discarded_at"
@@ -110,13 +115,15 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.string "version", limit: 16
     t.jsonb "filelist"
     t.bigint "unpacked_size", default: 0, null: false
-    t.boolean "merged", default: false, null: false
+    t.boolean "is_merged", default: false, null: false
     t.uuid "package_id", null: false
     t.datetime "blocked_at"
     t.string "block_reason", limit: 300
+    t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_sources_on_created_at"
+    t.index ["discarded_at"], name: "index_sources_on_discarded_at"
     t.index ["package_id"], name: "index_sources_on_package_id"
     t.index ["updated_at"], name: "index_sources_on_updated_at"
   end
@@ -124,6 +131,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   create_table "subscriptions", id: false, force: :cascade do |t|
     t.uuid "user_id", null: false
     t.uuid "subscribed_to_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["subscribed_to_id"], name: "index_subscriptions_on_subscribed_to_id"
     t.index ["user_id", "subscribed_to_id"], name: "index_subscriptions_on_user_id_and_subscribed_to_id", unique: true
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
@@ -136,6 +144,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.string "authentication_token", limit: 24, null: false
     t.datetime "blocked_at"
     t.string "block_reason", limit: 300
+    t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "email", default: "", null: false
@@ -147,6 +156,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.string "unlock_token"
     t.datetime "locked_at"
     t.index ["created_at"], name: "index_users_on_created_at"
+    t.index ["discarded_at"], name: "index_users_on_discarded_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["updated_at"], name: "index_users_on_updated_at"

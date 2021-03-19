@@ -49,6 +49,10 @@ class Package < ApplicationRecord
 
   default_scope { joins(:user) }
 
+  scope :apps, -> {
+          where(is_component: false)
+        }
+
   scope :allowed_for,
         ->(user) {
           # TODO Remove nil user, because user can't be blank
@@ -74,7 +78,7 @@ class Package < ApplicationRecord
   end
 
   def internal?
-    sources.active.each do |s|
+    sources.kept.active.each do |s|
       return true if s.file.attached?
     end
     false
