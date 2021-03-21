@@ -2,23 +2,24 @@ class InitializeTables < ActiveRecord::Migration[6.0]
   def change
     enable_extension "pgcrypto"
     enable_extension "hstore"
+    enable_extension "citext"
 
     # ----------
     create_table :users, id: :uuid do |t|
-      t.string :name, limit: 100
+      t.string :name
 
-      t.string :username, limit: 39, index: true, null: false
-      t.string :locale, limit: 10
+      t.citext :username, index: true, null: false, unique: true
+      t.string :locale
 
       #t.boolean :trusted, default: false
       #t.boolean :admin, default: false
       #t.boolean :developer, default: false
       # TODO: Purchases table for user or company
 
-      t.string :authentication_token, limit: 24, null: false, unique: true
+      t.string :authentication_token, null: false, unique: true
 
       t.datetime :blocked_at
-      t.string :block_reason, limit: 300
+      t.string :block_reason
       t.datetime :discarded_at, index: true
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
@@ -34,18 +35,18 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
     # ----------
     create_table :endpoints, id: :uuid do |t|
-      t.string :name, limit: 100
+      t.string :name
       t.inet :remote_ip
-      t.string :locale, limit: 10
+      t.string :locale
 
       # TODO: Store PC parameters here
 
-      t.string :authentication_token, limit: 24, null: false, unique: true
+      t.string :authentication_token, null: false, unique: true
 
       t.belongs_to :user, type: :uuid, foreign_key: true, index: true, null: false
 
       t.datetime :blocked_at
-      t.string :block_reason, limit: 300
+      t.string :block_reason
       t.datetime :discarded_at, index: true
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
@@ -53,12 +54,12 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
     # ----------
     create_table :packages, id: :uuid do |t|
-      t.string :name, limit: 100, null: false
-      t.string :destination, limit: 100, null: false, default: ""
+      t.citext :name, null: false
+      t.string :destination, null: false, default: ""
 
       # TODO: Check size by HEAD for external URLs
       t.bigint :size, null: false, default: 0
-      t.string :external_url, limit: 2048
+      t.string :external_url
 
       # Show this package to everyone?
       t.belongs_to :published_by, class_name: "User", type: :uuid, index: true
@@ -69,7 +70,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.belongs_to :replacement, type: :uuid, index: true, foreign_key: { to_table: :packages }
 
       t.datetime :blocked_at
-      t.string :block_reason, limit: 300
+      t.string :block_reason
       t.datetime :discarded_at, index: true
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
@@ -106,8 +107,8 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     # ----------
     create_table :sources, id: :uuid do |t|
       # TODO: What to do with file: run, unpack, exec
-      t.string :description, limit: 8000, null: false, default: ""
-      t.string :version, limit: 16
+      t.string :description, null: false, default: ""
+      t.string :version
       t.jsonb :filelist
       t.bigint :unpacked_size, null: false, default: 0
       t.boolean :is_merged, null: false, default: false
@@ -115,7 +116,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.belongs_to :package, type: :uuid, index: true, null: false, foreign_key: true
 
       t.datetime :blocked_at
-      t.string :block_reason, limit: 300
+      t.string :block_reason
       t.datetime :discarded_at, index: true
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }

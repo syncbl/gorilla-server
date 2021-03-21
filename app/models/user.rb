@@ -7,8 +7,7 @@ class User < ApplicationRecord
          :registerable,
          :recoverable,
          :timeoutable,
-         :validatable,
-         :omniauthable
+         :validatable
 
   has_secure_token :authentication_token
   attribute :locale, :string, default: "en"

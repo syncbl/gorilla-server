@@ -13,6 +13,7 @@
 ActiveRecord::Schema.define(version: 2020_12_10_054622) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "citext"
   enable_extension "hstore"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -56,13 +57,13 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   end
 
   create_table "endpoints", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "name", limit: 100
+    t.string "name"
     t.inet "remote_ip"
-    t.string "locale", limit: 10
-    t.string "authentication_token", limit: 24, null: false
+    t.string "locale"
+    t.string "authentication_token", null: false
     t.uuid "user_id", null: false
     t.datetime "blocked_at"
-    t.string "block_reason", limit: 300
+    t.string "block_reason"
     t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -73,17 +74,17 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   end
 
   create_table "packages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "name", limit: 100, null: false
-    t.string "destination", limit: 100, default: "", null: false
+    t.citext "name", null: false
+    t.string "destination", default: "", null: false
     t.bigint "size", default: 0, null: false
-    t.string "external_url", limit: 2048
+    t.string "external_url"
     t.uuid "published_by_id"
     t.boolean "is_component", default: false, null: false
     t.jsonb "data"
     t.uuid "user_id", null: false
     t.uuid "replacement_id"
     t.datetime "blocked_at"
-    t.string "block_reason", limit: 300
+    t.string "block_reason"
     t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -111,14 +112,14 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   end
 
   create_table "sources", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "description", limit: 8000, default: "", null: false
-    t.string "version", limit: 16
+    t.string "description", default: "", null: false
+    t.string "version"
     t.jsonb "filelist"
     t.bigint "unpacked_size", default: 0, null: false
     t.boolean "is_merged", default: false, null: false
     t.uuid "package_id", null: false
     t.datetime "blocked_at"
-    t.string "block_reason", limit: 300
+    t.string "block_reason"
     t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -138,12 +139,12 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "name", limit: 100
-    t.string "username", limit: 39, null: false
-    t.string "locale", limit: 10
-    t.string "authentication_token", limit: 24, null: false
+    t.string "name"
+    t.citext "username", null: false
+    t.string "locale"
+    t.string "authentication_token", null: false
     t.datetime "blocked_at"
-    t.string "block_reason", limit: 300
+    t.string "block_reason"
     t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -151,10 +152,6 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer "failed_attempts", default: 0, null: false
-    t.string "unlock_token"
-    t.datetime "locked_at"
     t.index ["created_at"], name: "index_users_on_created_at"
     t.index ["discarded_at"], name: "index_users_on_discarded_at"
     t.index ["email"], name: "index_users_on_email", unique: true

@@ -44,7 +44,7 @@ class Package < ApplicationRecord
             package_replacement: true
   # TODO enumerate validates :destination
 
-  before_validation { name.downcase! }
+  # before_validation { name.downcase! }
   after_validation :check_external_url
 
   default_scope { joins(:user) }
