@@ -2,13 +2,13 @@ class User < ApplicationRecord
   include Blockable
 
   # Include default devise modules. Others available are:
-  # :validatable, :confirmable, :lockable, :trackable and :omniauthable
+  # :rememberable, :confirmable, :lockable, :trackable and :omniauthable
   devise :database_authenticatable,
          :registerable,
          :recoverable,
-         :rememberable,
          :timeoutable,
-         :lockable
+         :validatable,
+         :omniauthable
 
   has_secure_token :authentication_token
   attribute :locale, :string, default: "en"
@@ -27,11 +27,6 @@ class User < ApplicationRecord
                           foreign_key: :user_id,
                           association_foreign_key: :subscribed_to_id
 
-  validates :email,
-            presence: true,
-            length: { maximum: MAX_EMAIL_LENGTH },
-            uniqueness: { case_sensitive: false },
-            format: { with: EMAIL_FORMAT }
   validates :username,
             name_restrict: true,
             presence: true,
