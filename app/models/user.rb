@@ -10,6 +10,7 @@ class User < ApplicationRecord
          :validatable
 
   has_secure_token :authentication_token
+  has_friendship
   attribute :locale, :string, default: "en"
   attr_accessor :token
 
@@ -17,14 +18,6 @@ class User < ApplicationRecord
   # has_many (as on Git) OR belongs_to :group, optional: true
   has_many :packages, dependent: :destroy # TODO: :nullify
   has_many :endpoints, dependent: :destroy
-
-  # TODO: Subscriptions must use secret per-user or per-package.
-  # Also, which social functions we want here?
-  has_and_belongs_to_many :subscriptions,
-                          class_name: "User",
-                          join_table: :subscriptions,
-                          foreign_key: :user_id,
-                          association_foreign_key: :subscribed_to_id
 
   validates :username,
             name_restrict: true,

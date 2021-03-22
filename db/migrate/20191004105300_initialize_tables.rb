@@ -16,6 +16,8 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       #t.boolean :developer, default: false
       # TODO: Purchases table for user or company
 
+      # TODO: Is company? Show other info.
+
       t.string :authentication_token, null: false, unique: true
 
       t.datetime :blocked_at
@@ -23,14 +25,6 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.datetime :discarded_at, index: true
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
-    end
-
-    # ----------
-    create_table :subscriptions, id: false do |t|
-      t.belongs_to :user, type: :uuid, index: true, null: false, foreign_key: true
-      t.belongs_to :subscribed_to, class_name: "User", type: :uuid, index: true, null: false
-      t.datetime :created_at, null: false, default: -> { "CURRENT_TIMESTAMP" }
-      t.index %i[user_id subscribed_to_id], unique: true
     end
 
     # ----------
