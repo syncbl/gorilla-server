@@ -10,7 +10,6 @@ class User < ApplicationRecord
          :validatable
 
   has_secure_token :authentication_token
-  has_friendship
   attribute :locale, :string, default: "en"
   attr_accessor :token
 

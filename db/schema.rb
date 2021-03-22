@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_22_113710) do
+ActiveRecord::Schema.define(version: 2020_12_10_054622) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -71,20 +71,6 @@ ActiveRecord::Schema.define(version: 2021_03_22_113710) do
     t.index ["discarded_at"], name: "index_endpoints_on_discarded_at"
     t.index ["updated_at"], name: "index_endpoints_on_updated_at"
     t.index ["user_id"], name: "index_endpoints_on_user_id"
-  end
-
-  create_table "friendships", force: :cascade do |t|
-    t.string "friendable_type"
-    t.bigint "friendable_id"
-    t.integer "friend_id"
-    t.integer "blocker_id"
-    t.integer "status"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["created_at"], name: "index_friendships_on_created_at"
-    t.index ["friendable_id", "friend_id"], name: "index_friendships_on_friendable_id_and_friend_id", unique: true
-    t.index ["friendable_type", "friendable_id"], name: "index_friendships_on_friendable_type_and_friendable_id"
-    t.index ["updated_at"], name: "index_friendships_on_updated_at"
   end
 
   create_table "packages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
