@@ -7,11 +7,9 @@ class Package < ApplicationRecord
   belongs_to :published_by,
              class_name: "User",
              optional: true
-  has_many :settings, dependent: :destroy
+  has_many :settings, dependent: :nullify
   has_many :endpoints, through: :settings
-  has_many :sources, dependent: :destroy
-  # TODO: Remove files like GIT after delete by nullifying crc in filelist
-
+  has_many :sources, dependent: :destroy_async
   has_and_belongs_to_many :dependencies,
                           class_name: "Package",
                           join_table: :dependencies,
@@ -20,7 +18,6 @@ class Package < ApplicationRecord
   belongs_to :replacement,
              class_name: "Package",
              optional: true
-
   has_one_attached :icon,
                    service: :local,
                    dependent: :purge_later

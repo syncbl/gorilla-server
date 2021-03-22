@@ -15,8 +15,8 @@ class User < ApplicationRecord
 
   # Because of company support and installed packages we can't allow to delete resources
   # has_many (as on Git) OR belongs_to :group, optional: true
-  has_many :packages, dependent: :destroy # TODO: :nullify
-  has_many :endpoints, dependent: :destroy
+  has_many :packages, dependent: :destroy
+  has_many :endpoints, dependent: :nullify
 
   validates :username,
             name_restrict: true,

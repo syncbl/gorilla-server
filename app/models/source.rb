@@ -31,22 +31,20 @@ class Source < ApplicationRecord
 
   private
 
+  # TODO: I18n
   def build(tmpfilename)
     filelist = {}
     Zip::File.open(tmpfilename) do |zipfile|
-      # TODO: Count files and unpacked sizes and store in source to show
+      raise "zip: #{zipfile.size}" if zipfile.size > MAX_PACKED_FILE_COUNT
       zipfile.each do |z|
         next if z.directory?
-        if (z.size > MAX_PACKED_FILE_SIZE)
-          block! "zip: #{z.name}, #{z.size}"
-          return false
-        end
-        filelist[z.name] = z.crc
+        raise "zip: #{z.name}, #{z.size}" if z.size > MAX_PACKED_FILE_SIZE
+        filelist[z.name] = z.crc # Replace with HashFileList.add if needed
         self.unpacked_size += z.size
       end
     end
     self.filelist = filelist
-    save
+    save!
   rescue StandardError => e # TODO: Make more specific
     block! e.message
   end
