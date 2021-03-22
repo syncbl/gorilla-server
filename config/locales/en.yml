@@ -34,5 +34,9 @@ en:
     package:
       error:
         check_external_url: Can't get file from URL
+    source:
+      error:
+        packed_file_too_big: "File is too big: %{name}:%{size}"
+        packed_files_too_many: Too many files
   block_reasons:
     suspicious_attachment: Suspicious files found!
