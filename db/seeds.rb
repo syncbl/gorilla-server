@@ -21,19 +21,15 @@ when 'development'
     [
       {
         name: 'openssl-1_0',
-        published_by: u2,
+        is_published: true,
         user: u1,
         external_url: 'https://www.heidisql.com/installers/HeidiSQL_11.0.0.5919_Setup.exe'
       },
       { name: 'Openssl-1_1', user: u1 },
       { name: 'Openssl-1_2', user: u1 },
       { name: 'Openssl-2_0', user: u2 },
-      { name: 'openssl-2_1', user: u2, published_by: u2 },
-      {
-        name: 'openssl-dev',
-        published_by: u2,
-        user: u1,
-      },
+      { name: 'openssl-2_1', user: u2, is_published: true },
+      { name: 'openssl-dev', user: u1, is_published: true },
     ]
   )
   Package.first.dependencies << Package.last

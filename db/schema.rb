@@ -77,7 +77,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.string "destination", default: "", null: false
     t.bigint "size", default: 0, null: false
     t.string "external_url"
-    t.uuid "published_by_id"
+    t.boolean "is_published", default: false, null: false
     t.boolean "is_component", default: false, null: false
     t.jsonb "data"
     t.uuid "user_id", null: false
@@ -89,7 +89,6 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_packages_on_created_at"
     t.index ["discarded_at"], name: "index_packages_on_discarded_at"
-    t.index ["published_by_id"], name: "index_packages_on_published_by_id"
     t.index ["replacement_id"], name: "index_packages_on_replacement_id"
     t.index ["updated_at"], name: "index_packages_on_updated_at"
     t.index ["user_id", "name"], name: "index_packages_on_user_id_and_name", unique: true
@@ -98,13 +97,12 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
 
   create_table "settings", force: :cascade do |t|
     t.uuid "endpoint_id", null: false
-    t.uuid "package_id", null: false
+    t.uuid "package_id"
     t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_settings_on_created_at"
     t.index ["discarded_at"], name: "index_settings_on_discarded_at"
-    t.index ["endpoint_id", "package_id"], name: "index_settings_on_endpoint_id_and_package_id", unique: true
     t.index ["endpoint_id"], name: "index_settings_on_endpoint_id"
     t.index ["package_id"], name: "index_settings_on_package_id"
     t.index ["updated_at"], name: "index_settings_on_updated_at"

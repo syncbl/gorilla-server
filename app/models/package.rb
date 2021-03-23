@@ -4,12 +4,9 @@ class Package < ApplicationRecord
   # TODO: MUST!!! Sign packages with endpoint certificate before send and check sign on client-side.
 
   belongs_to :user
-  belongs_to :published_by,
-             class_name: "User",
-             optional: true
   has_many :settings, dependent: :nullify
   has_many :endpoints, through: :settings
-  has_many :sources, dependent: :destroy_async
+  has_many :sources, dependent: :destroy
   has_and_belongs_to_many :dependencies,
                           class_name: "Package",
                           join_table: :dependencies,
@@ -55,7 +52,7 @@ class Package < ApplicationRecord
           # TODO Remove nil user, because user can't be blank
           # TODO Group permissions
           # TODO Move to policies!!!
-          where(user: user).or(where.not(published_by: nil))
+          where(user: user).or(where(published: true))
         }
 
   def all_dependencies(packages = Set[])

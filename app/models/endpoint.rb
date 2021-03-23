@@ -6,9 +6,8 @@ class Endpoint < ApplicationRecord
   attr_accessor :token
 
   belongs_to :user
-  has_many :settings
+  has_many :settings, dependent: :destroy
   has_many :packages, through: :settings
-  has_and_belongs_to_many :packages, join_table: :settings, dependent: :destroy
 
   validates :name,
             length: { maximum: MAX_NAME_LENGTH }
