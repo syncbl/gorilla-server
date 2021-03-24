@@ -1,5 +1,4 @@
 json = {
-  dependent: setting.dependent,
   replaced: setting.replaced?,
   discarded_at: setting.discarded_at.to_i,
   created_at: setting.created_at.to_i,

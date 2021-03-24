@@ -52,7 +52,7 @@ class Package < ApplicationRecord
           # TODO Remove nil user, because user can't be blank
           # TODO Group permissions
           # TODO Move to policies!!!
-          where(user: user).or(where(published: true))
+          where(user: user).or(where(is_published: true))
         }
 
   def all_dependencies(packages = Set[])

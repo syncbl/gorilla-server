@@ -71,6 +71,7 @@ class SettingsController < ApplicationController
   def set_endpoint
     @endpoint = params[:endpoint_id].nil? ?
       current_endpoint : current_user&.endpoints.find(params[:endpoint_id])
+    head :unauthorized if @endpoint.nil?
   end
 
   # Only allow a trusted parameter "white list" through.
