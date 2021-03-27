@@ -19,12 +19,9 @@ class SettingsController < ApplicationController
   def create
     @package = Package.allowed_for(@endpoint.user).find(params[:package_id])
     respond_to do |format|
-      if @setting = Setting.create(
-        endpoint: @endpoint,
-        package: @package,
-      )
-        format.html { redirect_to @setting, notice: "Package soon will be installed." }
-        format.json { render :show, status: :accepted, location: @setting }
+      if @setting = @endpoint.settings.create(package: @package)
+        format.html { redirect_to [@endpoint, @setting], notice: "Package soon will be installed." }
+        format.json { render :show, status: :accepted, location: [@endpoint, @setting] }
       else
         format.html { render :edit }
         format.json { render json: @setting.errors, status: :unprocessable_entity }
@@ -36,7 +33,7 @@ class SettingsController < ApplicationController
   def update
     # TODO: Use as sync: delete if discarded, set "installed" if not
     if @setting.update(setting_params)
-      redirect_to @setting, notice: "Setting was successfully updated."
+      redirect_to [@endpoint, @setting], notice: "Setting was successfully updated."
     else
       render :edit
     end
@@ -48,7 +45,7 @@ class SettingsController < ApplicationController
     respond_to do |format|
       if @endpoint.settings.find_by(package_id: params[:package_id])&.discard
         format.html do
-          redirect_to settings_url, notice: "Package was successfully removed."
+          redirect_to endpoint_settings_url, notice: "Package was successfully removed."
         end
         format.json { head :no_content }
       else

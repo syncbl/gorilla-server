@@ -50,10 +50,10 @@ module ApplicationHelper
   end
 
   def render_errors(errors, status:)
-    render json: { errors: errors }, status: status
-  end
-
-  def render_error(error, status:)
-    render json: { error: error }, status: status
+    if errors.is_a? Array
+      render json: { errors: errors }, status: status
+    else
+      render json: { error: errors }, status: status
+    end
   end
 end

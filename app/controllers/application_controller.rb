@@ -31,13 +31,13 @@ class ApplicationController < ActionController::Base
         Endpoint.active.find_by(id: uuid)&.block!(
           reason: "api_check_headers #{uuid} #{token}",
         )
-        render_error I18n.t("devise.failure.blocked"), status: :unauthorized
+        render_errors I18n.t("devise.failure.blocked"), status: :unauthorized
       end
     elsif (scope == User.name) && ApiKeys.user.include?(service)
       if user = cached_user(uuid, token)
         sign_in user
       else
-        render_error I18n.t("devise.failure.blocked"), status: :unauthorized
+        render_errors I18n.t("devise.failure.blocked"), status: :unauthorized
       end
     elsif ApiKeys.anonymous.include?(service)
       return true

@@ -10,11 +10,14 @@ Rails.application.routes.draw do
   resources :packages do
     resources :sources
   end
-  resource :endpoint, only: %i[show update destroy]
+  resource :endpoint, only: %i[show update destroy] do
+    resources :packages, only: %i[index show], controller: :settings, as: :settings
+  end
   # TODO: Settings into endpoint show # resource :settings, only: %i[index]
   resource :user, only: %i[show]
-  resources :endpoints, only: %i[index create]
-  resources :settings, only: %i[index show create]
+  resources :endpoints, only: %i[index create] do
+    resources :packages, only: %i[create], controller: :settings, as: :settings
+  end
 
   # TODO: Dashboard, endpoints and user settings only
   authenticated :user do
