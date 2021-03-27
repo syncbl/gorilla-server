@@ -20,7 +20,9 @@ class SettingsController < ApplicationController
     @package = Package.allowed_for(@endpoint.user).find(params[:package_id])
     respond_to do |format|
       if @setting = @endpoint.settings.create(package: @package)
-        format.html { redirect_to [@endpoint, @setting], notice: "Package soon will be installed." }
+        format.html do
+          redirect_to [@endpoint, @setting], notice: "Package soon will be installed."
+        end
         format.json { render :show, status: :accepted, location: [@endpoint, @setting] }
       else
         format.html { render :edit }
