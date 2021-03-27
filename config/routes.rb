@@ -11,12 +11,12 @@ Rails.application.routes.draw do
     resources :sources
   end
   resource :endpoint, only: %i[show update destroy] do
-    resources :packages, only: %i[index show], controller: :settings, as: :settings
+    resources :settings, only: %i[index show]
   end
   # TODO: Settings into endpoint show # resource :settings, only: %i[index]
   resource :user, only: %i[show]
   resources :endpoints, only: %i[index create] do
-    resources :packages, only: %i[create], controller: :settings, as: :settings
+    resources :settings, only: %i[create]
   end
 
   # TODO: Dashboard, endpoints and user settings only

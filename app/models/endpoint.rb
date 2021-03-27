@@ -63,6 +63,6 @@ class Endpoint < ApplicationRecord
         install_packages.delete(setting.package)
       end
     end
-    install_packages.each { |p| settings.create(package: p, dependent: true) }
+    install_packages.each { |p| settings.create(package: p) }
   end
 end

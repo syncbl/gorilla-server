@@ -4,7 +4,7 @@ json = {
   # trusted: package.trusted,
   size: package.size,
   h_size: number_to_human_size(package.size),
-  install_count: package.endpoints.size,
+  install_count: package.endpoints.size, # TODO: Cache
   h_install_count: number_to_human(package.endpoints.size, precision: 1),
   replaced_by: package.replaced_by&.id,
   created_at: package.created_at.to_i,

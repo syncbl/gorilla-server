@@ -30,7 +30,6 @@ class EndpointsController < ApplicationController
           locale: current_user.locale,
         })
         sign_in_endpoint(@endpoint)
-        sign_out(current_user)
         render :show, status: :created, location: @endpoint
       end
     end
@@ -39,6 +38,7 @@ class EndpointsController < ApplicationController
   # PATCH/PUT /endpoint
   # PATCH/PUT /endpoint.json
   def update
+    authorize @endpoint
     respond_to do |format|
       if @endpoint.update(endpoint_params)
         format.html do
@@ -57,6 +57,7 @@ class EndpointsController < ApplicationController
   # DELETE /endpoints/1
   # DELETE /endpoints/1.json
   def destroy
+    authorize @endpoint
     @endpoint.update(authentication_token: nil)
 
     # TODO: Do we need to keep this PC or delete it? May be it can be good to keep
@@ -76,8 +77,7 @@ class EndpointsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_endpoint
-    endpoint = current_endpoint || current_user&.endpoints&.find(params[:id])
-    @endpoint = authorize endpoint
+    @endpoint = current_endpoint || current_user&.endpoints&.find(params[:id])
   end
 
   def clear_cached

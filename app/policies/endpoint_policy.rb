@@ -7,7 +7,7 @@ class EndpointPolicy < ApplicationPolicy
   end
 
   def show?
-    @user.is_owner?(@record)
+    true
   end
 
   def update?
@@ -20,7 +20,7 @@ class EndpointPolicy < ApplicationPolicy
   #end
 
   def destroy?
-    update?
+    @user.is_owner?(@record)
   end
 
   class Scope < Scope
