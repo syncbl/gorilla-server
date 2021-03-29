@@ -1,12 +1,11 @@
 class SourcesController < ApplicationController
   include SourcesHelper
-
   before_action :authenticate_user!
-  before_action :set_source, except: %i[index new create]
+  before_action :set_source, except: %i[index new create merge]
 
   # GET /sources
   def index
-    @sources = Source.all
+    @sources = current_user.packages.find(params[:package_id]).sources
   end
 
   # GET /sources/1
@@ -56,6 +55,12 @@ class SourcesController < ApplicationController
   def destroy
     @source.destroy
     redirect_to sources_url, notice: "Source was successfully destroyed."
+  end
+
+  # TODO: Disable merging if there is no unmerged sources
+  def merge
+    MergeSourcesJob.perform_later current_user.packages.find(params[:package_id])
+    head :ok
   end
 
   private

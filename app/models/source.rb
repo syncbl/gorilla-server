@@ -17,6 +17,11 @@ class Source < ApplicationRecord
 
   default_scope { joins(:file_attachment) }
 
+  # TODO: published_from date
+  scope :published, -> {
+    where(Source.arel_table[:published_at].lt(Time.current))
+  }
+
   def attach(filename)
     if build(filename)
       file.attach(

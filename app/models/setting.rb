@@ -9,6 +9,8 @@ class Setting < ApplicationRecord
 
   #encrypts :data, algorithm: "hybrid", encryption_key: encryption_key, decryption_key: decryption_key
 
+  before_create :check_permissions
+
   default_scope { includes(:package) }
 
   scope :updated,
@@ -20,5 +22,11 @@ class Setting < ApplicationRecord
 
   def replaced?
     package.replacement.present?
+  end
+
+  private
+
+  def check_permissions
+    package.published? || (package.user == endpoint.user)
   end
 end

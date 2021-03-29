@@ -55,7 +55,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.string :external_url
 
       # Show this package to everyone?
-      t.boolean :is_published, null: false, default: false
+      t.datetime :published_at
       t.boolean :is_component, null: false, default: false
       t.jsonb :data
 
@@ -105,6 +105,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.jsonb :filelist
       t.bigint :unpacked_size, null: false, default: 0
       t.boolean :is_merged, null: false, default: false
+      t.datetime :published_at
 
       t.references :package, type: :uuid, index: true, null: false, foreign_key: true
 

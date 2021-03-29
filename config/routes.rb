@@ -8,7 +8,11 @@ Rails.application.routes.draw do
   # TODO: Remove html declaration for api-only controllers
 
   resources :packages do
-    resources :sources
+    resources :sources do
+      collection do
+        post :merge
+      end
+    end
   end
   resource :endpoint, only: %i[show update destroy] do
     resources :settings, only: %i[index show]

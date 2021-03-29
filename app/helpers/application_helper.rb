@@ -49,6 +49,10 @@ module ApplicationHelper
     @_cached_endpoint ||= endpoint
   end
 
+  def endpoint?
+    current_endpoint.present?
+  end
+
   def render_errors(errors, status:)
     if errors.is_a? Array
       render json: { errors: errors }, status: status

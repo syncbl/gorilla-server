@@ -2,7 +2,7 @@ class Endpoint < ApplicationRecord
   include Blockable
 
   has_secure_token :authentication_token
-  attribute :locale, :string, default: "en"
+  # attribute :locale, :string, default: "en"
   attr_accessor :token
 
   belongs_to :user
@@ -27,6 +27,10 @@ class Endpoint < ApplicationRecord
 
   def installed?(package)
     settings.exists?(package: package)
+  end
+
+  def install(package)
+    settings.create(package: package)
   end
 
   def reset_token

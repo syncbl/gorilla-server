@@ -10,7 +10,7 @@ class User < ApplicationRecord
          :validatable
 
   has_secure_token :authentication_token
-  attribute :locale, :string, default: "en"
+  # attribute :locale, :string, default: "en"
   attr_accessor :token
 
   # Because of company support and installed packages we can't allow to delete resources

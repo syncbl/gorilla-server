@@ -52,7 +52,7 @@ class Package < ApplicationRecord
           # TODO Remove nil user, because user can't be blank
           # TODO Group permissions
           # TODO Move to policies!!!
-          where(user: user).or(where(is_published: true))
+          where(Package.arel_table[:published_at].lt(Time.current)).or(where(user: user))
         }
 
   def all_dependencies(packages = Set[])
@@ -71,13 +71,6 @@ class Package < ApplicationRecord
     _replaced_by unless replacement.nil?
   end
 
-  def internal?
-    sources.kept.active.each do |s|
-      return true if s.file.attached?
-    end
-    false
-  end
-
   def external?
     external_url.present?
   end
@@ -93,6 +86,10 @@ class Package < ApplicationRecord
       self.size += s.unpacked_size
     end
     save!
+  end
+
+  def published?
+    published_at && (published_at < Time.current)
   end
 
   private

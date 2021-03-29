@@ -77,7 +77,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.string "destination", default: "", null: false
     t.bigint "size", default: 0, null: false
     t.string "external_url"
-    t.boolean "is_published", default: false, null: false
+    t.datetime "published_at"
     t.boolean "is_component", default: false, null: false
     t.jsonb "data"
     t.uuid "user_id", null: false
@@ -114,6 +114,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.jsonb "filelist"
     t.bigint "unpacked_size", default: 0, null: false
     t.boolean "is_merged", default: false, null: false
+    t.datetime "published_at"
     t.uuid "package_id", null: false
     t.datetime "blocked_at"
     t.string "block_reason"
