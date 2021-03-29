@@ -7,8 +7,15 @@ module SourcesHelper
     tmpfilename
   end
 
-  def find_source(size, checksum)
-    # TODO: It can't be in a same package
-    ActiveStorage::Blob.find_by(byte_size: size, checksum: checksum)
+  def find_source(user, size, checksum)
+    Source.find_by(
+      id: ActiveStorage::Attachment.find_by(
+        record_type: "Source",
+        blob: ActiveStorage::Blob.find_by(
+          byte_size: size,
+          checksum: checksum
+        )
+      ).record_id
+    )&.package&.user.id == user.id
   end
 end

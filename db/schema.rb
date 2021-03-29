@@ -103,6 +103,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_settings_on_created_at"
     t.index ["discarded_at"], name: "index_settings_on_discarded_at"
+    t.index ["endpoint_id", "package_id"], name: "index_settings_on_endpoint_id_and_package_id", unique: true
     t.index ["endpoint_id"], name: "index_settings_on_endpoint_id"
     t.index ["package_id"], name: "index_settings_on_package_id"
     t.index ["updated_at"], name: "index_settings_on_updated_at"

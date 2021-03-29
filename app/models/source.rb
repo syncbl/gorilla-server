@@ -17,7 +17,6 @@ class Source < ApplicationRecord
 
   default_scope { joins(:file_attachment) }
 
-  # TODO: published_from date
   scope :published, -> {
     where(Source.arel_table[:published_at].lt(Time.current))
   }
@@ -32,6 +31,10 @@ class Source < ApplicationRecord
       )
       package.update(size: unpacked_size) if package.size == 0
     end
+  end
+
+  def self.merged?
+    last&.is_merged.nil? || last.is_merged
   end
 
   private

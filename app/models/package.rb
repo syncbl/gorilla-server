@@ -29,7 +29,6 @@ class Package < ApplicationRecord
             uniqueness: { scope: :user_id, case_sensitive: false },
             format: { with: NAME_FORMAT }
   validates :icon, size: { less_than: MAX_ICON_SIZE }
-  # TODO: Check link for content disposition
   validates :external_url,
             format: URI.regexp(%w[http https]),
             length: { maximum: 2048 },
@@ -38,7 +37,6 @@ class Package < ApplicationRecord
             package_replacement: true
   # TODO enumerate validates :destination
 
-  # before_validation { name.downcase! }
   after_validation :check_external_url
 
   default_scope { joins(:user) }
@@ -76,7 +74,6 @@ class Package < ApplicationRecord
   end
 
   def self.find_any!(value)
-    # TODO: Add alias search
     find_by(id: value) || find_by!(name: value)
   end
 

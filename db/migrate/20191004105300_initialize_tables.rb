@@ -50,11 +50,9 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.citext :name, null: false
       t.string :destination, null: false, default: ""
 
-      # TODO: Check size by HEAD for external URLs
       t.bigint :size, null: false, default: 0
       t.string :external_url
 
-      # Show this package to everyone?
       t.datetime :published_at
       t.boolean :is_component, null: false, default: false
       t.jsonb :data
@@ -86,7 +84,6 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     create_table :settings do |t|
       # TODO: Logs, other data, variables and settings
 
-      # TODO: Route for update
       t.references :endpoint, type: :uuid, index: true, null: false, foreign_key: true
       t.references :package, type: :uuid, index: true, foreign_key: true
 
@@ -94,7 +91,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
 
-      # TODO: ? t.index %i[endpoint_id package_id], unique: true
+      t.index %i[endpoint_id package_id], unique: true
     end
 
     # ----------

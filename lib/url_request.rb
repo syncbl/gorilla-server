@@ -8,7 +8,6 @@ module UrlRequest
 
   class << self
     def get_attachment_size(url, redirect_count = 0)
-      # TODO: UA and Accept, check correct headers
       uri = URI(url)
       http = Net::HTTP.new(uri.host, uri.port)
       http.open_timeout = 5

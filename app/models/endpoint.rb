@@ -19,12 +19,6 @@ class Endpoint < ApplicationRecord
 
   default_scope { joins(:user) }
 
-  # TODO: Move to method in order to show inactive status in list
-  #scope :actual, -> {
-  #  where(Endpoint.arel_table[:updated_at]
-  #    .gt(Time.current - Rails.application.config.syncbl.endpoint_token_expiration_time))
-  #}
-
   def installed?(package)
     settings.exists?(package: package)
   end

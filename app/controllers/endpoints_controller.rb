@@ -1,5 +1,4 @@
 class EndpointsController < ApplicationController
-  # TODO: Refactor access
   before_action :authenticate_user!, only: %i[index create destroy]
   before_action :set_endpoint, except: %i[index create]
   after_action :clear_cached, only: %i[update destroy]
@@ -58,12 +57,7 @@ class EndpointsController < ApplicationController
   # DELETE /endpoints/1.json
   def destroy
     authorize @endpoint
-    @endpoint.update(authentication_token: nil)
-
-    # TODO: Do we need to keep this PC or delete it? May be it can be good to keep
-    # in order to show list after login with available endpoints
-    #@endpoint.discard
-    sign_out current_user
+    @endpoint.destroy
     respond_to do |format|
       format.html do
         redirect_to endpoints_url,

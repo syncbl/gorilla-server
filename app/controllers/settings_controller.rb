@@ -34,7 +34,6 @@ class SettingsController < ApplicationController
 
   # PATCH/PUT /settings/1
   def update
-    # TODO: Use as sync: delete if discarded, set "installed" if not
     if @setting.update(setting_params)
       redirect_to [@endpoint, @setting], notice: "Setting was successfully updated."
     else

@@ -2,9 +2,8 @@ class MergeSourcesJob < ApplicationJob
   queue_as :default
 
   def perform(package)
-    # TODO: Mark package as busy in session! Marking within db will cause
-    # unavailability i.e. after restart
     return false unless package.sources.size > 1
+    package.update(published_at: nil)
     package.sources.each_with_index.reverse_each.map do |src, i|
       package.sources.each_with_index.reverse_each.drop(package.sources.size - i).map do |dst, j|
         next unless src.file.attached? && dst.file.attached?

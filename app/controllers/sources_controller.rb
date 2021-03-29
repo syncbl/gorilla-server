@@ -22,14 +22,12 @@ class SourcesController < ApplicationController
   # POST /sources
   def create
     # Params removed from create() because user must fill fields only after creation
-    # TODO: Disable package
     respond_to do |format|
       if @source = current_user.packages.find(params[:package_id])&.sources.create
-        #if file = find_source(params[:file].size, params[:checksum])
-        #  # TODO: Warn about existing file if it's own or public
-        #  @source.update(file: file)
-        #else
-          ProcessSourceJob.perform_later @source, write_tmp(params[:file])
+        if file = find_source(current_user, params[:file].size, params[:checksum])
+          # TODO: Warn about existing file if it's own or public
+        end
+        ProcessSourceJob.perform_later @source, write_tmp(params[:file])
         #end
         format.html { redirect_to [@source.package, @source], notice: "Source was successfully created." }
         format.json { render :show, status: :created, location: [@source.package, @source] }
@@ -57,10 +55,15 @@ class SourcesController < ApplicationController
     redirect_to sources_url, notice: "Source was successfully destroyed."
   end
 
-  # TODO: Disable merging if there is no unmerged sources
+  # POST /package/1/sources/merge
   def merge
-    MergeSourcesJob.perform_later current_user.packages.find(params[:package_id])
-    head :ok
+    @package = current_user.packages.find(params[:package_id])
+    if @package.sources.merged?
+      head :unprocessable_entity
+    else
+      MergeSourcesJob.perform_later current_user.packages.find(params[:package_id])
+      head :accepted
+    end
   end
 
   private
