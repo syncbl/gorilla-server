@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     end
   end
   resource :endpoint, only: %i[show update destroy] do
-    resources :settings, only: %i[index show]
+    resources :settings, except: %i[create]
   end
   resource :user, only: %i[show]
   resources :endpoints, only: %i[index create] do

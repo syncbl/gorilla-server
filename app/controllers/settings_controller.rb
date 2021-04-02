@@ -1,8 +1,9 @@
 class SettingsController < ApplicationController
   # Settings can be used by user only within packages/endpoints
-  before_action :authenticate_user!, only: %i[create destroy]
-  before_action :set_endpoint, only: %i[create destroy]
-  before_action :set_current_endpoint, except: %i[create destroy]
+  before_action :authenticate_user!, only: %i[create]
+  before_action :set_user_endpoint, only: %i[create]
+  before_action :set_endpoint, except: %i[create]
+  before_action :set_package, only: %i[create]
   before_action :set_setting, except: %i[index create]
 
   # GET /settings
@@ -18,7 +19,6 @@ class SettingsController < ApplicationController
 
   # POST /endpoints/1/settings
   def create
-    @package = Package.allowed_for(@endpoint.user).find(params[:package_id])
     respond_to do |format|
       if @setting = @endpoint.install(@package)
         format.html do
@@ -64,20 +64,24 @@ class SettingsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   # ActiveRecord::RecordNotFound only with find_by
   def set_setting
-    @setting = @endpoint.settings.find_by!(package_id: setting_params[:id])
+    @setting = @endpoint.settings.find_by!(package_id: params[:id])
   end
 
   # TODO: Endpoint.install here is only for API, but how to do that for UI?
-  def set_current_endpoint
+  def set_endpoint
     head :unauthorized unless @endpoint = current_endpoint
   end
 
-  def set_endpoint
-    head :unauthorized unless @endpoint = current_user&.endpoints.find(params[:endpoint_id])
+  def set_user_endpoint
+    @endpoint = current_user&.endpoints.find(params[:endpoint_id])
+  end
+
+  def set_package
+    @package = Package.allowed_for(@endpoint.user).find(params[:package_id])
   end
 
   # Only allow a trusted parameter "white list" through.
-  def setting_params
-    params.permit(:id, :updates)
-  end
+  #def setting_params
+  #  params.permit(:id, :updates)
+  #end
 end
