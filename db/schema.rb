@@ -72,21 +72,22 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.index ["user_id"], name: "index_endpoints_on_user_id"
   end
 
-  create_table "groups", force: :cascade do |t|
+  create_table "group_members", force: :cascade do |t|
+    t.uuid "group_id", null: false
+    t.uuid "user_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["group_id"], name: "index_group_members_on_group_id"
+    t.index ["user_id"], name: "index_group_members_on_user_id"
+  end
+
+  create_table "groups", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.citext "name", null: false
     t.string "description", default: "", null: false
-    t.boolean "can_edit", default: false, null: false
-    t.boolean "can_create", default: false, null: false
-    t.boolean "can_delete", default: false, null: false
     t.uuid "user_id", null: false
-    t.string "object_type"
-    t.uuid "object_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_groups_on_created_at"
-    t.index ["object_type", "object_id"], name: "index_groups_on_object_type_and_object_id"
     t.index ["updated_at"], name: "index_groups_on_updated_at"
-    t.index ["user_id", "object_id", "object_type"], name: "index_groups_on_user_id_and_object_id_and_object_type", unique: true
     t.index ["user_id"], name: "index_groups_on_user_id"
   end
 
@@ -172,6 +173,8 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "dependencies", "packages"
   add_foreign_key "endpoints", "users"
+  add_foreign_key "group_members", "groups"
+  add_foreign_key "group_members", "users"
   add_foreign_key "groups", "users"
   add_foreign_key "packages", "packages", column: "replacement_id"
   add_foreign_key "packages", "users"

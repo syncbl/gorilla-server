@@ -17,7 +17,7 @@ class User < ApplicationRecord
   # has_many (as on Git) OR belongs_to :group, optional: true
   has_many :packages, dependent: :destroy
   has_many :endpoints, dependent: :destroy
-  has_many :groups, as: :groupable
+  has_many :groups
 
   validates :username,
             name_restrict: true,

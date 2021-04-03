@@ -40,7 +40,7 @@ class PackagePolicy
     end
 
     def resolve
-      scope.active.allowed_for(@user)
+      scope.active.where(user: @user)
     end
   end
 end
