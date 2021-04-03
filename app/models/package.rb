@@ -47,8 +47,7 @@ class Package < ApplicationRecord
         ->(user) {
           # TODO Move to policies!!!
           active.where(Package.arel_table[:published_at].lt(Time.current))
-            .or(where(user: user))
-            .or(where(group: user.groups))
+          .or(where(user: user))
         }
 
   def all_dependencies(packages = Set[])
