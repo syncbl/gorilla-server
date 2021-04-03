@@ -14,7 +14,7 @@ class User < ApplicationRecord
   attr_accessor :token
 
   # Because of company support and installed packages we can't allow to delete resources
-  # has_many (as on Git) OR belongs_to :group, optional: true
+  # has_many (as on Git) OR belongs_to :w, optional: true
   has_many :packages, dependent: :destroy
   has_many :endpoints, dependent: :destroy
 
@@ -26,8 +26,7 @@ class User < ApplicationRecord
             format: { with: NAME_FORMAT }
   validates :name,
             length: { maximum: MAX_NAME_LENGTH }
-  validates :locale,
-            length: { maximum: 10 }
+  validates :locale
   validates :authentication_token,
             allow_nil: true, # To allow token auto generation
             length: { is: 24 }
