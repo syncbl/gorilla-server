@@ -117,11 +117,17 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     create_table :groups do |t|
       t.citext :name, null: false
       t.string :description, null: false, default: ""
+      t.boolean :can_edit, null: false, default: false
+      t.boolean :can_create, null: false, default: false
+      t.boolean :can_delete, null: false, default: false # TODO: Bits?
 
-      t.references :object, polymorphic: true, index: true
+      t.references :user, type: :uuid, index: true, null: false, foreign_key: true
+      t.references :object, type: :uuid, index: true, polymorphic: true
 
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
+
+      t.index %i[user_id object_id object_type], unique: true
     end
   end
 end
