@@ -72,6 +72,18 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.index ["user_id"], name: "index_endpoints_on_user_id"
   end
 
+  create_table "groups", force: :cascade do |t|
+    t.citext "name", null: false
+    t.string "description", default: "", null: false
+    t.string "object_type"
+    t.bigint "object_id"
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["created_at"], name: "index_groups_on_created_at"
+    t.index ["object_type", "object_id"], name: "index_groups_on_object_type_and_object_id"
+    t.index ["updated_at"], name: "index_groups_on_updated_at"
+  end
+
   create_table "packages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.citext "name", null: false
     t.string "destination", default: "", null: false

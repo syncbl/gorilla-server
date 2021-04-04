@@ -1,0 +1,5 @@
+{
+  id: @group.id,
+  created_at: @group.created_at,
+  updated_at: @group.updated_at
+}

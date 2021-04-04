@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   # TODO: Remove html declaration for api-only controllers
 
+  resources :groups
   resources :packages do
     resources :sources do
       collection do

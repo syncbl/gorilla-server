@@ -1,0 +1,6 @@
+@groups.map do |group|
+  {
+    id: group.id,
+    url: group_url(group, format: :json)
+  }
+end

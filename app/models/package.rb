@@ -18,6 +18,7 @@ class Package < ApplicationRecord
   has_one_attached :icon,
                    service: :local,
                    dependent: :purge_later
+  has_many :groups, as: :groupable
 
   validates :name,
             name_restrict: true,
