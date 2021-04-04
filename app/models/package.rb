@@ -4,6 +4,7 @@ class Package < ApplicationRecord
   # TODO: MUST!!! Sign packages with endpoint certificate before send and check sign on client-side.
 
   belongs_to :user
+  has_many :groups, as: :groupable
   has_many :settings, dependent: :nullify
   has_many :endpoints, through: :settings
   has_many :sources, dependent: :destroy
@@ -18,7 +19,6 @@ class Package < ApplicationRecord
   has_one_attached :icon,
                    service: :local,
                    dependent: :purge_later
-  has_many :groups, as: :groupable
 
   validates :name,
             name_restrict: true,
