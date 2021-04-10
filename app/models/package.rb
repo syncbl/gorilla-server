@@ -98,6 +98,7 @@ class Package < ApplicationRecord
   end
 
   def _replaced_by
+    # TODO: Check payment i.e.
     replacement.nil? ? self : replacement.replaced_by
   end
 end

@@ -10,7 +10,7 @@ if @package.external?
   json_package[:external_url] = @package.external_url
 else
   json_package[:destination] = @package.destination
-  json_package[:sources] = @package.sources.published_with(current_user).map do |source|
+  json_package[:sources] = @package.sources.published.map do |source|
     render 'sources/show', source: source
   end
 end

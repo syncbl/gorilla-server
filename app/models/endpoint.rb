@@ -55,7 +55,7 @@ class Endpoint < ApplicationRecord
     end
     settings.map do |setting|
       if setting.kept? && discard_packages.include?(setting.package)
-        setting.discard # TODO: unless settings.persistent?
+        setting.discard
       elsif install_packages.include?(setting.package)
         setting.undiscard
         install_packages.delete(setting.package)
