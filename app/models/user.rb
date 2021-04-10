@@ -26,7 +26,6 @@ class User < ApplicationRecord
             format: { with: NAME_FORMAT }
   validates :name,
             length: { maximum: MAX_NAME_LENGTH }
-  validates :locale
   validates :authentication_token,
             allow_nil: true, # To allow token auto generation
             length: { is: 24 }

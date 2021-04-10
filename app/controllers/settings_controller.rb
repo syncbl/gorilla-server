@@ -74,8 +74,8 @@ class SettingsController < ApplicationController
   # TODO: 
   def set_endpoint_and_package
     @endpoint = current_user&.endpoints.find(params[:endpoint_id])
-    @package = Packages.published_with(current_user).find(params[:package_id])
-    @endpoint && @package
+    @package = Package.published_with(current_user).find(params[:package_id])
+    @endpoint.present? && @package.present?
   end
 
   # Only allow a trusted parameter "white list" through.
