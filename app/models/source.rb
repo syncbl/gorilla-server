@@ -39,6 +39,10 @@ class Source < ApplicationRecord
     last&.is_merged.nil? || last.is_merged
   end
 
+  def ready?
+    file&.attached?
+  end
+
   private
 
   def build(tmpfilename)
