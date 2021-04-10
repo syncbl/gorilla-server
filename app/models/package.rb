@@ -4,7 +4,6 @@ class Package < ApplicationRecord
   # TODO: MUST!!! Sign packages with endpoint certificate before send and check sign on client-side.
 
   belongs_to :user
-  has_many :groups, as: :groupable
   has_many :settings, dependent: :nullify
   has_many :endpoints, through: :settings
   has_many :sources, dependent: :destroy
@@ -38,7 +37,7 @@ class Package < ApplicationRecord
             package_replacement: true
   # TODO enumerate validates :destination
 
-  after_validation :check_external_url
+  after_save :check_external_url
 
   default_scope {
     joins(:user)
@@ -49,13 +48,11 @@ class Package < ApplicationRecord
   scope :apps, -> {
           where(is_component: false)
         }
-
-  scope :allowed_for,
+  scope :published_with,
         ->(user) {
-          # TODO Remove nil user, because user can't be blank
-          # TODO Group permissions
           # TODO Move to policies!!!
-          where(Package.arel_table[:published_at].lt(Time.current)).or(where(user: user))
+          active.where(Package.arel_table[:published_at].lt(Time.current))
+          .or(where(user: user))
         }
 
   def all_dependencies(packages = Set[])
@@ -91,16 +88,13 @@ class Package < ApplicationRecord
   end
 
   def published?
-    published_at && (published_at < Time.current)
+    active? && published_at && (published_at < Time.current)
   end
 
   private
 
   def check_external_url
-    self.size = UrlRequest.get_attachment_size(external_url).to_i if external_url.present?
-  rescue StandardError => e
-    errors.add(:external_url, I18n.t("model.package.error.check_external_url"))
-    # TODO: Log e with url
+    CheckExternalUrlJob.perform_later self if saved_change_to_external_url?
   end
 
   def _replaced_by

@@ -1,9 +1,8 @@
 class SettingsController < ApplicationController
   # Settings can be used by user only within packages/endpoints
   before_action :authenticate_user!, only: %i[create]
-  before_action :set_user_endpoint, only: %i[create]
   before_action :set_endpoint, except: %i[create]
-  before_action :set_package, only: %i[create]
+  before_action :set_endpoint_and_package, only: %i[create]
   before_action :set_setting, except: %i[index create]
 
   # GET /settings
@@ -72,12 +71,11 @@ class SettingsController < ApplicationController
     head :unauthorized unless @endpoint = current_endpoint
   end
 
-  def set_user_endpoint
+  # TODO: 
+  def set_endpoint_and_package
     @endpoint = current_user&.endpoints.find(params[:endpoint_id])
-  end
-
-  def set_package
-    @package = Package.allowed_for(@endpoint.user).find(params[:package_id])
+    @package = Packages.published_with(current_user).find(params[:package_id])
+    @endpoint && @package
   end
 
   # Only allow a trusted parameter "white list" through.
