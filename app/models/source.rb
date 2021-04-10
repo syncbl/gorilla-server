@@ -15,6 +15,8 @@ class Source < ApplicationRecord
   validates :version,
             length: { maximum: MAX_VERSION_LENGTH }
 
+  # TODO: pluck
+
   default_scope { joins(:file_attachment) }
 
   scope :published, -> {
@@ -53,6 +55,7 @@ class Source < ApplicationRecord
       end
     end
     self.filelist = filelist
+    self.file_count = filelist.size
     save!
   rescue StandardError => e # TODO: Make more specific
     block! e.message

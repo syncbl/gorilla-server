@@ -102,6 +102,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.string :description, null: false, default: ""
       t.string :version
       t.jsonb :filelist
+      t.integer :file_count, null: false, default: 0
       t.bigint :unpacked_size, null: false, default: 0
       t.boolean :is_merged, null: false, default: false
       t.datetime :published_at
