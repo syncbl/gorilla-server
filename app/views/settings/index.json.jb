@@ -3,7 +3,7 @@ json = render 'layouts/header'
 json[:settings] = render 'settings/index', settings: @settings
 
 if Rails.env.development?
-  puts "+++ SETTINGS INDEX #{json.to_json}"
+  puts "+++ SETTINGS INDEX #{JSON.pretty_generate(json)}"
 end
 
 json

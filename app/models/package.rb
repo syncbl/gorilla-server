@@ -40,7 +40,11 @@ class Package < ApplicationRecord
 
   after_validation :check_external_url
 
-  default_scope { joins(:user) }
+  default_scope {
+    joins(:user)
+      .includes([:replacement])
+      .includes([:icon_attachment])
+  }
 
   scope :apps, -> {
           where(is_component: false)

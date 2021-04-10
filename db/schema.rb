@@ -94,6 +94,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.citext "name", null: false
     t.string "destination", default: "", null: false
     t.bigint "size", default: 0, null: false
+    t.bigint "install_count", default: 0, null: false
     t.string "external_url"
     t.datetime "published_at"
     t.boolean "is_component", default: false, null: false

@@ -43,7 +43,7 @@ class Endpoint < ApplicationRecord
         # TODO: Add upgrade strategy
         setting.discard
         discard_packages << setting.package
-        install_packages << setting.package.replacement
+        install_packages << setting.package.replaced_by
       end
     end
     settings.map do |setting|

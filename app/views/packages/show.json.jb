@@ -24,7 +24,7 @@ end
 json[:package] = json_package
 
 if Rails.env.development?
-  puts "+++ PACKAGES SHOW #{json.to_json}"
+  puts "+++ PACKAGES SHOW #{JSON.pretty_generate(json)}"
 end
 
 json
