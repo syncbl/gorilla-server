@@ -2,7 +2,7 @@ class Setting < ApplicationRecord
   include Discard::Model
 
   # TODO: What to do if package is deleted?
-  belongs_to :package
+  belongs_to :package, counter_cache: true
   belongs_to :endpoint # TODO: touch: true
 
   validates :package_id, uniqueness: { scope: :endpoint_id }
@@ -10,7 +10,6 @@ class Setting < ApplicationRecord
   #encrypts :data, algorithm: "hybrid", encryption_key: encryption_key, decryption_key: decryption_key
 
   before_create :check_permissions
-  after_create :update_package
 
   default_scope { includes(:package) }
 
@@ -29,10 +28,5 @@ class Setting < ApplicationRecord
 
   def check_permissions
     package.published? || (package.user == endpoint.user)
-  end
-
-  def update_package
-    # Don't need to touch package for counters
-    package.increment! :install_count
   end
 end

@@ -51,7 +51,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.string :destination, null: false, default: ""
 
       t.bigint :size, null: false, default: 0
-      t.bigint :install_count, null: false, default: 0
+      t.bigint :settings_count, null: false, default: 0
 
       t.string :external_url
 
