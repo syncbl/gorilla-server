@@ -20,7 +20,7 @@ class EndpointPolicy < ApplicationPolicy
   #end
 
   def destroy?
-    @user.is_owner?(@record)
+    @user.is_owner? @record
   end
 
   class Scope < Scope

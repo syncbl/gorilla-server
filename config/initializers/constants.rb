@@ -13,16 +13,16 @@ MODEL_CACHE_TIMEOUT = 15.minutes
 JOB_TIMEOUT = 5.minutes
 
 RESTRICTED_NAMES = %w[
-  setting    sign_in
-  settings   sign_out
+  setting    sign_in       api
+  settings   sign_out      actuator
   page       file
   pages      files
   source     test
   sources    admin
   package    console
   packages   wp-admin
-  user
-  users
-  endpoint
-  endpoints
+  user       _ignition
+  users      autodiscover
+  endpoint   mifs
+  endpoints  vendor
 ]

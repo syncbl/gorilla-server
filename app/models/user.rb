@@ -47,7 +47,11 @@ class User < ApplicationRecord
   end
 
   def is_owner?(object)
-    head :forbidden if object.user != self
+    object.user != self
+  end
+
+  def can_view_package?(package)
+    package.published? || is_owner?(package)
   end
 
   private

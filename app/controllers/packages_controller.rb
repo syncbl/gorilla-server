@@ -1,6 +1,6 @@
 class PackagesController < ApplicationController
   # We allowing anonymous access
-  before_action :authenticate_user!, except: %i[index]
+  before_action :authenticate_user!
   before_action :set_package, except: %i[index new create]
 
   # GET /packages
@@ -8,7 +8,7 @@ class PackagesController < ApplicationController
   def index
     @pagy, @packages =
       pagy(
-        policy_scope(Package),
+        current_user.packages, # TODO: unscoped?
         items: params[:items],
       )
   end
@@ -48,6 +48,7 @@ class PackagesController < ApplicationController
   # PATCH/PUT /packages/1
   # PATCH/PUT /packages/1.json
   def update
+    authorize @package
     respond_to do |format|
       if @package.update(package_params)
         format.html do
@@ -66,6 +67,7 @@ class PackagesController < ApplicationController
   # DELETE /packages/1
   # DELETE /packages/1.json
   def destroy
+    authorize @package
     respond_to do |format|
       if @package.destroy
         format.html do
@@ -87,9 +89,10 @@ class PackagesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
 
   def set_package
-    @package = authorize params[:user_id].nil? ?
-      policy_scope(Package).find_any!(params[:id].downcase) :
-      policy_scope(Package).find_by!(user: { username: params[:user_id].downcase }, name: params[:id].downcase)
+    packages = policy_scope(Package)
+    @package = params[:user_id].nil? ?
+      packages.find_any!(params[:id]) :
+      packages.find_by!(user: { username: params[:user_id] }, name: params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

@@ -40,9 +40,7 @@ class Package < ApplicationRecord
   after_save :check_external_url
 
   default_scope {
-    joins(:user)
-      .includes([:replacement])
-      .includes([:icon_attachment])
+    joins(:user).includes(:replacement, :dependencies, :dependencies_packages, :icon_attachment)
   }
 
   scope :apps, -> {

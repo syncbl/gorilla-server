@@ -7,7 +7,7 @@ class PackagePolicy
   end
 
   def show?
-    true
+    @user.can_view_package? @record
   end
 
   def create?
@@ -20,7 +20,7 @@ class PackagePolicy
   end
 
   def update?
-    @user.is_owner?(@record)
+    @user.is_owner? @record
   end
 
   def edit?
@@ -40,7 +40,7 @@ class PackagePolicy
     end
 
     def resolve
-      scope.active.where(user: @user)
+      @scope.active.where(user: @user)
     end
   end
 end

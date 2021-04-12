@@ -18,7 +18,8 @@ class SettingsController < ApplicationController
 
   # POST /endpoints/1/settings
   def create
-    @package = Package.published_with(current_user).find(params[:package_id])
+    # TODO: Policy authorization
+    @package = Package.unscoped.published_with(current_user).find(params[:package_id])
     respond_to do |format|
       if @setting = @endpoint.install(@package)
         format.html do

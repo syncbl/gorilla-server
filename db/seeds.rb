@@ -27,7 +27,12 @@ when 'development'
       },
       { name: 'Openssl-1_1', user: u1 },
       { name: 'Openssl-1_2', user: u1 },
-      { name: 'Openssl-2_0', user: u2 },
+      {
+        name: 'Openssl-2_0',
+        published_at: Time.current,
+        user: u2,
+        external_url: 'https://www.7-zip.org/a/7z1900-x64.exe'
+      },
       { name: 'openssl-2_1', user: u2, published_at: Time.current },
       { name: 'openssl-dev', user: u1, published_at: Time.current },
     ]

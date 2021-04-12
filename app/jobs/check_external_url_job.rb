@@ -5,7 +5,7 @@ class CheckExternalUrlJob < ApplicationJob
 
   def perform(package)
     Timeout::timeout(JOB_TIMEOUT) do
-      if external_url.present?
+      if package.external_url.present?
         new_size = UrlRequest.get_attachment_size(package.external_url).to_i
         package.update(size: new_size)
       end
