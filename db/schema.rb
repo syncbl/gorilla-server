@@ -76,7 +76,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.citext "name", null: false
     t.string "destination", default: "", null: false
     t.bigint "size", default: 0, null: false
-    t.bigint "install_count", default: 0, null: false
+    t.bigint "settings_count", default: 0, null: false
     t.string "external_url"
     t.datetime "published_at"
     t.boolean "is_component", default: false, null: false
@@ -114,6 +114,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.string "description", default: "", null: false
     t.string "version"
     t.jsonb "filelist"
+    t.integer "file_count", default: 0, null: false
     t.bigint "unpacked_size", default: 0, null: false
     t.boolean "is_merged", default: false, null: false
     t.datetime "published_at"
