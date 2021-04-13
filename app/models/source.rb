@@ -48,10 +48,10 @@ class Source < ApplicationRecord
   def build(tmpfilename)
     filelist = {}
     Zip::File.open(tmpfilename) do |zipfile|
-      raise I18n.t('model.source.error.packed_files_too_many') if zipfile.size > MAX_PACKED_FILE_COUNT
+      raise I18n.t('model.source.error.packed_files_too_many') if zipfile.size > MAX_FILE_COUNT
       zipfile.each do |z|
         next if z.directory?
-        if z.size > MAX_PACKED_FILE_SIZE
+        if z.size > MAX_FILE_SIZE
           raise I18n.t('model.source.error.packed_file_too_big', name: z.name, size: z.size)
         end
         filelist[z.name] = z.crc # Replace with HashFileList.add if needed

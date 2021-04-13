@@ -23,11 +23,11 @@ class SourcesController < ApplicationController
   def create
     # Params removed from create() because user must fill fields only after creation
     respond_to do |format|
-      if @source = current_user.packages.find(params[:package_id])&.sources.create
-        if file = find_source(current_user, params[:file].size, params[:checksum])
+      if @source = current_user.packages.find(source_file_params[:package_id])&.sources.create
+        if file = find_source(current_user, source_file_params[:file].size, source_file_params[:checksum])
           # TODO: Warn about existing file if it's own or public
         end
-        ProcessSourceJob.perform_later @source, write_tmp(params[:file])
+        ProcessSourceJob.perform_later @source, write_tmp(source_file_params[:file])
         #end
         format.html { redirect_to [@source.package, @source], notice: "Source was successfully created." }
         format.json { render :show, status: :created, location: [@source.package, @source] }
@@ -72,6 +72,10 @@ class SourcesController < ApplicationController
   def set_source
     @source = current_user.packages.find_by(package_id: params[:package_id])&.
       sources.find(params[:id])
+  end
+
+  def source_file_params
+    params.require([:package_id, :file, :checksum])
   end
 
   # Only allow a trusted parameter "white list" through.
