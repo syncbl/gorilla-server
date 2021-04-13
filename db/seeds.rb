@@ -9,12 +9,12 @@
 case Rails.env
 when 'development'
   #Group.create name: 'test'
-  u1 = User.create name: 'Eldar',
-    username: 'deadalice',
+  u1 = User.create fullname: 'Eldar',
+    name: 'deadalice',
     email: 'eldar.avatov@gmail.com',
     password: '111111'
-  u2 = User.create name: 'Test',
-    username: 'tester',
+  u2 = User.create fullname: 'Test',
+    name: 'tester',
     email: 'tester@example.com',
     password: '123456'
   puts Package.create(

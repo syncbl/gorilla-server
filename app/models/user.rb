@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   include Blockable
+  include Findable
 
   # Include default devise modules. Others available are:
   # :rememberable, :confirmable, :lockable, :trackable and :omniauthable
@@ -18,13 +19,13 @@ class User < ApplicationRecord
   has_many :packages, dependent: :destroy
   has_many :endpoints, dependent: :destroy
 
-  validates :username,
+  validates :name,
             name_restrict: true,
             presence: true,
-            length: { minimum: MIN_NAME_LENGTH, maximum: MAX_USERNAME_LENGTH },
+            length: { minimum: MIN_NAME_LENGTH, maximum: MAX_NAME_LENGTH },
             uniqueness: { case_sensitive: false },
             format: { with: NAME_FORMAT }
-  validates :name,
+  validates :fullname,
             length: { maximum: MAX_NAME_LENGTH }
   validates :authentication_token,
             allow_nil: true, # To allow token auto generation
@@ -32,7 +33,7 @@ class User < ApplicationRecord
 
   # TODO: Everyone can create packages, but we need to add permissions for company members later
 
-  before_validation :generate_username
+  before_validation :generate_name
 
   def active_for_authentication?
     super && !self.blocked?
@@ -56,11 +57,11 @@ class User < ApplicationRecord
 
   private
 
-  def generate_username
-    if username.blank?
-      username = "#{self.email[/^[^@]+/]}"
-      self.username = User.find_by(username: username).nil? ? username : "#{username}#{rand(10_000)}"
+  def generate_name
+    if name.blank?
+      name = "#{self.email[/^[^@]+/]}"
+      self.name = User.find_by(name: name).nil? ? name : "#{name}#{rand(10_000)}"
     end
-    self.username.downcase!
+    self.name.downcase!
   end
 end

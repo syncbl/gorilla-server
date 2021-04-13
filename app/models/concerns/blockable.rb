@@ -8,7 +8,7 @@ module Blockable
       blocked_at: Time.current,
       block_reason: reason
     })
-    delete_cached
+    clear_cache
   end
 
   def unblock!
@@ -32,7 +32,7 @@ module Blockable
 
   private
 
-  def delete_cached
+  def clear_cache
     Rails.cache.delete_matched("#{self.class.name}_#{id}")
   end
 end

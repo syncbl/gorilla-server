@@ -5,9 +5,9 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
     # ----------
     create_table :users, id: :uuid do |t|
-      t.string :name
+      t.string :fullname
 
-      t.citext :username, index: true, null: false, unique: true
+      t.citext :name, index: true, null: false, unique: true
       t.string :locale
 
       #t.boolean :trusted, default: false

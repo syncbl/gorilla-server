@@ -91,7 +91,7 @@ class PackagesController < ApplicationController
     packages = policy_scope(Package)
     @package = params[:user_id].nil? ?
       packages.find_any!(params[:id]) :
-      packages.find_by!(user: { username: params[:user_id] }, name: params[:id])
+      packages.find_by!(user: { name: params[:user_id] }, name: params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

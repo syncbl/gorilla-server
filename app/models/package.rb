@@ -1,5 +1,6 @@
 class Package < ApplicationRecord
   include Blockable
+  include Findable
 
   # TODO: MUST!!! Sign packages with endpoint certificate before send and check sign on client-side.
 
@@ -71,10 +72,6 @@ class Package < ApplicationRecord
 
   def external?
     external_url.present?
-  end
-
-  def self.find_any!(value)
-    find_by(id: value) || find_by!(name: value)
   end
 
   def recalculate_size!

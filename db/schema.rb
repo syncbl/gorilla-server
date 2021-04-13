@@ -131,8 +131,8 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "name"
-    t.citext "username", null: false
+    t.string "fullname"
+    t.citext "name", null: false
     t.string "locale"
     t.string "authentication_token", null: false
     t.datetime "blocked_at"
@@ -147,9 +147,9 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.index ["created_at"], name: "index_users_on_created_at"
     t.index ["discarded_at"], name: "index_users_on_discarded_at"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["name"], name: "index_users_on_name"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["updated_at"], name: "index_users_on_updated_at"
-    t.index ["username"], name: "index_users_on_username"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

@@ -48,8 +48,8 @@ class ApplicationController < ActionController::Base
   end
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: %i[username name locale])
-    devise_parameter_sanitizer.permit(:account_update, keys: %i[username name locale])
+    devise_parameter_sanitizer.permit(:sign_up, keys: %i[fullname name locale])
+    devise_parameter_sanitizer.permit(:account_update, keys: %i[fullname name locale])
   end
 
   def set_locale

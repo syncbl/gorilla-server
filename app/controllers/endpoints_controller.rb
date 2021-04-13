@@ -75,7 +75,7 @@ class EndpointsController < ApplicationController
   end
 
   def clear_cached
-    @endpoint.delete_cached
+    @endpoint.clear_cache
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

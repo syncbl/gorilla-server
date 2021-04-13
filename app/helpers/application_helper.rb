@@ -15,7 +15,7 @@ module ApplicationHelper
   def title(object)
     if object.is_a? Package
       (object.user == current_user) ? object.name :
-        "#{object.user.username}/#{object.name}"
+        "#{object.user.name}/#{object.name}"
     end
   end
 
