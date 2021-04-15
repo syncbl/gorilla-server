@@ -1,8 +1,7 @@
 RESTRICTED_PATHS = %w[
   /console
   /wp-admin
-  /api
-  /admin
+  /_ignition/execute-solution
 ]
 
 RESTRICTED_PATHS_STARTS = %w[
@@ -13,6 +12,9 @@ RESTRICTED_PATHS_STARTS = %w[
   /solr/admin/
   /?XDEBUG_SESSION_START
   /.
+  /api/
+  /mifs/
+  /admin/
 ]
 
 Rack::Attack.blocklisted_response = lambda do |request|
@@ -22,6 +24,7 @@ end
 
 Rack::Attack.blocklist("Malicious scanners") do |request|
   # Requests are blocked if the return value is truthy
-  RESTRICTED_PATHS.include?(request.path.downcase) ||
+  request.path == "/x" || # Because this path is reserved for Nginx blocking
+    RESTRICTED_PATHS.include?(request.path.downcase) ||
     RESTRICTED_PATHS_STARTS.any? { |s| request.fullpath.starts_with?(s) }
 end
