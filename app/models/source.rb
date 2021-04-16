@@ -2,7 +2,7 @@ class Source < ApplicationRecord
   include Discard::Model
   include Blockable
 
-  belongs_to :package, touch: true
+  belongs_to :package
 
   has_one_attached :file,
                    service: :remote,
@@ -32,6 +32,7 @@ class Source < ApplicationRecord
         identify: false
       )
       package.update(size: unpacked_size) if package.size == 0
+      package.touch unless package.is_persistent
     end
   end
 
