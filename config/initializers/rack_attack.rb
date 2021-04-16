@@ -2,6 +2,12 @@ RESTRICTED_PATHS = %w[
   /console
   /wp-admin
   /_ignition/execute-solution
+  /web_shell_cmd.gch
+  /actuator/health
+  /wp/wp-login.php
+  /blog/wp-login.php
+  /wp-login.php
+  /wordpress/wp-login.php
 ]
 
 RESTRICTED_PATHS_STARTS = %w[
@@ -15,6 +21,7 @@ RESTRICTED_PATHS_STARTS = %w[
   /api/
   /mifs/
   /admin/
+  /wordpress/
 ]
 
 Rack::Attack.blocklisted_response = lambda do |request|
