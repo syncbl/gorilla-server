@@ -2,4 +2,6 @@ json = render 'layouts/header'
 
 json[:endpoint] = render 'endpoints/show', endpoint: @endpoint
 
+log_json json
+
 json

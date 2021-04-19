@@ -4,4 +4,6 @@ json_source = render 'show', source: @source
 
 json[:source] = json_source
 
+log_json json
+
 json
