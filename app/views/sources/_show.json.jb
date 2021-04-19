@@ -8,4 +8,4 @@ json = {
 
 json[:file] = render 'layouts/file', file: source.file, prefix: source.package.name
 
-json.compact
+json # TODO: .compact

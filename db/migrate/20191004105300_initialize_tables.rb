@@ -49,6 +49,8 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     create_table :packages, id: :uuid do |t|
       t.citext :name, null: false
       t.string :destination, null: false, default: ""
+      t.string :copyright
+      t.string :description
 
       t.bigint :size, null: false, default: 0
       t.bigint :settings_count, null: false, default: 0
@@ -60,7 +62,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.boolean :is_component, null: false, default: false
       # Persistent packages excluded from autoupdate, CAN'T BE CHANGED
       t.boolean :is_persistent, null: false, default: false
-      t.jsonb :data
+      # TODO: ? t.jsonb :data
 
       t.references :user, type: :uuid, index: true, null: false, foreign_key: true
       t.references :replacement, type: :uuid, index: true, foreign_key: { to_table: :packages }
@@ -102,7 +104,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     # ----------
     create_table :sources, id: :uuid do |t|
       # TODO: What to do with file: run, unpack, exec
-      t.string :description, null: false, default: ""
+      t.string :description
       t.string :version
       t.jsonb :filelist
       t.integer :file_count, null: false, default: 0

@@ -2,6 +2,6 @@ json = {
   id: endpoint.id,
   name: endpoint.name,
   locale: endpoint.locale,
-  created_at: endpoint.created_at.to_i,
-  updated_at: endpoint.updated_at.to_i
+  created_at: json_time(endpoint.created_at),
+  updated_at: json_time(endpoint.updated_at)
 }

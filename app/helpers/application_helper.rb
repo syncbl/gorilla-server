@@ -60,4 +60,12 @@ module ApplicationHelper
       render json: { error: errors }, status: status
     end
   end
+
+  def log_json(json)
+    Rails.logger.debug "+++ #{__FILE__}:\n#{JSON.pretty_generate(json)}"
+  end
+
+  def json_time(time)
+    time.nil? ? nil : time.to_i
+  end
 end

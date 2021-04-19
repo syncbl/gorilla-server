@@ -75,12 +75,14 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   create_table "packages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.citext "name", null: false
     t.string "destination", default: "", null: false
+    t.string "copyright"
+    t.string "description"
     t.bigint "size", default: 0, null: false
     t.bigint "settings_count", default: 0, null: false
     t.string "external_url"
     t.datetime "published_at"
     t.boolean "is_component", default: false, null: false
-    t.jsonb "data"
+    t.boolean "is_persistent", default: false, null: false
     t.uuid "user_id", null: false
     t.uuid "replacement_id"
     t.datetime "blocked_at"
@@ -111,7 +113,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   end
 
   create_table "sources", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "description", default: "", null: false
+    t.string "description"
     t.string "version"
     t.jsonb "filelist"
     t.integer "file_count", default: 0, null: false
