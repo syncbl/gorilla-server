@@ -39,7 +39,8 @@ gem "jwt" # A ruby implementation of the RFC 7519 OAuth JSON Web Token (JWT) sta
 #gem "omniauth" # Standardized Multi-Provider Authentication
 gem "pagy", "~> 3.8" # Pagination gem that outperforms the others in each and every benchmark and comparison.
 gem "pundit" # Set of helpers to build an authorization system.
-gem "rack-attack" # Rack middleware for blocking & throttling abusive requests
+gem "rack-attack" # Rack middleware for blocking & throttling abusive requests.
+gem "render_async" # Pages become faster seamlessly by rendering partials to your views.
 gem "rubyzip", require: "zip" # Ruby library for reading and writing zip files.
 gem "sidekiq" # Simple, efficient background processing for Ruby.
 gem "simple_form" # Simple Form aims to be as flexible as possible while helping you with powerful components to create your forms.
