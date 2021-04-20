@@ -41,7 +41,8 @@ class Package < ApplicationRecord
   after_save :check_external_url
 
   default_scope {
-    joins(:user).includes(:replacement, :dependencies, :dependencies_packages, :icon_attachment)
+    joins(:user).includes(:dependencies_packages, :icon_attachment)
+     # TODO: Use render_async?
   }
 
   scope :apps, -> {

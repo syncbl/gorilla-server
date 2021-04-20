@@ -1,5 +1,4 @@
 json = {
-  replaced: setting.replaced?,
   discarded_at: json_time(setting.discarded_at),
   created_at: json_time(setting.created_at),
   updated_at: json_time(setting.updated_at)

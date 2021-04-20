@@ -7,10 +7,10 @@ class SettingsController < ApplicationController
 
   # GET /settings
   def index
-    @endpoint.actualize!
+    settings = @endpoint.settings.actualized!
     # TODO: !!! Check for reload and optimize query
-    @pagy, @settings = params[:updates] ? pagy(@endpoint.settings.updated) :
-      pagy(@endpoint.settings.all)
+    @pagy, @settings = params[:updates] ? pagy(settings.updated) :
+      pagy(settings.all)
   end
 
   # GET /settings/1
