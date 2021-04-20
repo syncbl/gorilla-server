@@ -32,7 +32,6 @@ class UsersController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_user
     @user = params[:id].nil? ? current_user : User.find_any!(params[:id].downcase)
-    byebug
   end
 
   def clear_cache

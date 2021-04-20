@@ -4,4 +4,6 @@ json = render 'layouts/header'
 
 json[:user] = render 'users/show', user: @user
 
+log_json json
+
 json
