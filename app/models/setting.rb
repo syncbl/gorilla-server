@@ -53,7 +53,7 @@ class Setting < ApplicationRecord
       end
     end
     install_packages.each { |p| create(package: p) }
-    settings.reload
+    settings #.reload
   end
 
   private

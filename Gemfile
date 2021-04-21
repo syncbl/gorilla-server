@@ -1,14 +1,14 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "3.0.0"
+ruby "3.0.1"
 
 gem "rails", "~> 6.0" # Ruby on Rails is a full-stack web framework.
 gem "rails-i18n", "~> 6.0" # Centralization of locale data collection for Ruby on Rails.
 gem "puma", "~> 5.1" # Puma is a simple, fast, multi-threaded, and highly concurrent HTTP 1.1 server for Ruby/Rack applications.
 gem "bootsnap", ">= 1.4.2", require: false # Boot large ruby/rails apps faster.
 
-gem "webpacker", "~> 5.0" # Webpacker makes it easy to use the JavaScript pre-processor.
+gem "webpacker", "~> 5.2" # Webpacker makes it easy to use the JavaScript pre-processor.
 gem "turbolinks", "~> 5.0" # Turbolinks makes following links in your web application faster (use with Rails Asset Pipeline).
 gem 'jquery-rails' # JQuery support
 #gem 'sass-rails', '~> 6' # Official integration for Ruby on Rails projects with the Sass stylesheet language.
@@ -33,7 +33,7 @@ gem "devise-bootstrap-views", "~> 1.0" # Devise views with Bootstrap 4.
 gem "discard", "~> 1.0" # Soft deletes for ActiveRecord done right.
 gem "enumerize" # Enumerated attributes with I18n and ActiveRecord/Mongoid/MongoMapper/Sequel support
 gem "high_voltage", "~> 3.1" # Rails engine for static pages.
-gem "hotwire-rails" # Hotwire is an alternative approach to building modern web applications without using much JavaScript.
+#gem "hotwire-rails" # Hotwire is an alternative approach to building modern web applications without using much JavaScript.
 gem "http_accept_language" # Detect the users preferred language, as sent by the "Accept-Language" HTTP header.
 gem "jb" # A simpler and faster Jbuilder alternative.
 gem "jwt" # A ruby implementation of the RFC 7519 OAuth JSON Web Token (JWT) standard.
