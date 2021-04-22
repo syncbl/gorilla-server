@@ -27,7 +27,11 @@ class MergeSourcesJob < ApplicationJob
     package.sources.update_all(is_merged: true)
     # TODO: Inform about freed space
     old_size = package.size
-    package.recalculate_size!
-    # Notify old_size - package.reload.size
+    package.size = 0
+    package.sources.each do |s|
+      package.size += s.unpacked_size
+    end
+    package.save!
+    # TODO: Notify old_size - package.reload.size
   end
 end

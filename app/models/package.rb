@@ -41,13 +41,8 @@ class Package < ApplicationRecord
   after_save :check_external_url
 
   default_scope {
-    joins(:user).includes(:dependencies_packages, :icon_attachment)
-     # TODO: Use render_async?
+    joins(:user).includes([:icon_attachment])
   }
-
-  scope :apps, -> {
-          where(is_component: false)
-        }
   scope :published_with,
         ->(user) {
           # TODO Move to policies!!!
@@ -73,14 +68,6 @@ class Package < ApplicationRecord
 
   def external?
     external_url.present?
-  end
-
-  def recalculate_size!
-    self.size = 0
-    sources.each do |s|
-      self.size += s.unpacked_size
-    end
-    save!
   end
 
   def published?

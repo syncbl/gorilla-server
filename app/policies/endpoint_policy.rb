@@ -22,17 +22,4 @@ class EndpointPolicy < ApplicationPolicy
   def destroy?
     @user.is_owner? @record
   end
-
-  class Scope < Scope
-    attr_reader :user, :scope
-
-    def initialize(user, scope)
-      @user = user
-      @scope = scope
-    end
-
-    def resolve
-      @user.endpoints
-    end
-  end
 end

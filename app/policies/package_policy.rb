@@ -30,17 +30,4 @@ class PackagePolicy
   def destroy?
     update?
   end
-
-  class Scope
-    attr_reader :user, :scope
-
-    def initialize(user, scope)
-      @user = user
-      @scope = scope
-    end
-
-    def resolve
-      @scope.active.where(user: @user)
-    end
-  end
 end

@@ -8,7 +8,7 @@ class PackagesController < ApplicationController
   def index
     @pagy, @packages =
       pagy(
-        current_user.packages, # TODO: unscoped?
+        current_user.packages,
         items: params[:items],
       )
   end
@@ -88,7 +88,7 @@ class PackagesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
 
   def set_package
-    packages = policy_scope(Package)
+    packages = PublishedPackagesQuery.call(current_user).includes(:dependencies, :dependencies_packages)
     @package = params[:user_id].nil? ?
       packages.find_any!(params[:id]) :
       packages.find_by!(user: { name: params[:user_id] }, name: params[:id])

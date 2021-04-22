@@ -8,7 +8,7 @@ class EndpointsController < ApplicationController
   def index
     # TODO: Add group
     @pagy, @endpoints = pagy(
-      policy_scope(Endpoint),
+      current_user.endpoints,
       items: params[:items]
     )
   end
@@ -22,8 +22,8 @@ class EndpointsController < ApplicationController
     respond_to do |format|
       format.html { head :method_not_allowed }
       format.json do
-        @endpoint = policy_scope(Endpoint).find_by(id: endpoint_params[:id]) ||
-                    policy_scope(Endpoint).new(name: endpoint_params[:name])
+        @endpoint = current_user.endpoints.find_by(id: endpoint_params[:id]) ||
+                    current_user.endpoints.new(name: endpoint_params[:name])
         @endpoint.update({
           remote_ip: request.remote_ip, # TODO: Additional security by IP compare
           locale: current_user.locale,
