@@ -7,7 +7,7 @@ class SettingsController < ApplicationController
 
   # GET /settings
   def index
-    settings = @endpoint.settings.actualized!
+    settings = ActualizedSettingsQuery.call(@endpoint.settings.includes(:icon_attachment))
     # TODO: !!! Check for reload and optimize query
     @pagy, @settings = params[:updates] ? pagy(settings.updated) :
       pagy(settings.all)

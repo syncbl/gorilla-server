@@ -8,7 +8,7 @@ class PackagesController < ApplicationController
   def index
     @pagy, @packages =
       pagy(
-        current_user.packages,
+        current_user.packages.includes(:icon_attachment),
         items: params[:items],
       )
   end

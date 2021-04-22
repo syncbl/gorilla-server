@@ -40,18 +40,8 @@ class Package < ApplicationRecord
 
   after_save :check_external_url
 
-  default_scope {
-    joins(:user).includes([:icon_attachment])
-  }
-  scope :published_with,
-        ->(user) {
-          # TODO Move to policies!!!
-          active.where(Package.arel_table[:published_at].lt(Time.current))
-          .or(where(user: user))
-        }
-
   def all_dependencies(packages = Set[])
-    Package.all_dependencies(self, packages)
+    Package.unscoped.all_dependencies(self, packages)
     packages.to_a.reverse
   end
 
