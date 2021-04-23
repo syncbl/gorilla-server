@@ -20,6 +20,7 @@ class EndpointsController < ApplicationController
   # POST /endpoints.json
   def create
     respond_to do |format|
+      # TODO: Limit endpoint count?
       format.html { head :method_not_allowed }
       format.json do
         @endpoint = current_user.endpoints.find_by(id: endpoint_params[:id]) ||
@@ -37,7 +38,6 @@ class EndpointsController < ApplicationController
   # PATCH/PUT /endpoint
   # PATCH/PUT /endpoint.json
   def update
-    authorize @endpoint
     respond_to do |format|
       if @endpoint.update(endpoint_params)
         format.html do
@@ -56,7 +56,6 @@ class EndpointsController < ApplicationController
   # DELETE /endpoints/1
   # DELETE /endpoints/1.json
   def destroy
-    authorize @endpoint
     @endpoint.destroy
     respond_to do |format|
       format.html do

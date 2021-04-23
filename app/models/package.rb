@@ -1,6 +1,5 @@
 class Package < ApplicationRecord
   include Blockable
-  include Findable
 
   # TODO: MUST!!! Sign packages with endpoint certificate before send and check sign on client-side.
 
@@ -62,6 +61,11 @@ class Package < ApplicationRecord
 
   def published?
     active? && published_at && (published_at < Time.current)
+  end
+
+  def self.find_any!(package_id)
+    # TODO: We need to prevent creating packages with names from existing id-s
+    where(id: package_id).or(where(name: package_id)).first!
   end
 
   private

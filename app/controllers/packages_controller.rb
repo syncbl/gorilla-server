@@ -2,6 +2,7 @@ class PackagesController < ApplicationController
   # We allowing anonymous access
   before_action :authenticate_user!
   before_action :set_package, except: %i[index new create]
+  before_action :check_permissions!, only: %i[update destroy]
 
   # GET /packages
   # GET /packages.json
@@ -20,7 +21,7 @@ class PackagesController < ApplicationController
   # GET /packages/new
   # TODO: Store in cache during edit to allow update page
   def new
-    @package = authorize current_user.packages.new
+    @package = current_user.packages.new
   end
 
   # GET /packages/1/edit
@@ -30,7 +31,7 @@ class PackagesController < ApplicationController
   # POST /packages.json
   def create
     respond_to do |format|
-      if authorize @package = current_user.packages.create(package_params)
+      if @package = current_user.packages.create(package_params)
         format.html do
           redirect_to @package, notice: "Package was successfully created."
         end
@@ -47,7 +48,6 @@ class PackagesController < ApplicationController
   # PATCH/PUT /packages/1
   # PATCH/PUT /packages/1.json
   def update
-    authorize @package
     respond_to do |format|
       if @package.update(package_params)
         format.html do
@@ -66,7 +66,6 @@ class PackagesController < ApplicationController
   # DELETE /packages/1
   # DELETE /packages/1.json
   def destroy
-    authorize @package
     respond_to do |format|
       if @package.destroy
         format.html do
@@ -89,14 +88,19 @@ class PackagesController < ApplicationController
 
   def set_package
     packages = PublishedPackagesQuery.call(current_user).includes(:dependencies, :dependencies_packages)
-    @package = params[:user_id].nil? ?
-      packages.find_any!(params[:id]) :
-      packages.find_by!(user: { name: params[:user_id] }, name: params[:id])
+
+    @package = params[:package_id].present? ?
+      packages.joins(:user).where(user: { name: params[:user_id] }).find_by!(name: params[:package_id]) :
+      packages.find_any!(params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   # <input type="text" name="client[name]" value="Acme" />
   def package_params
     params.require(:package).permit(:name, :external_url, :replacement)
+  end
+
+  def check_permissions!
+    check_edit! @package
   end
 end

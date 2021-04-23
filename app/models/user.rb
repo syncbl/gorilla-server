@@ -1,6 +1,5 @@
 class User < ApplicationRecord
   include Blockable
-  include Findable
 
   # Include default devise modules. Others available are:
   # :rememberable, :confirmable, :lockable, :trackable and :omniauthable
@@ -51,8 +50,8 @@ class User < ApplicationRecord
     object.user != self
   end
 
-  def can_view_package?(package)
-    package.published? || is_owner?(package)
+  def can_edit?(object)
+    is_owner? object
   end
 
   private

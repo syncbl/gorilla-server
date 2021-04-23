@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_user
+  before_action :check_permissions!, only: %i[update destroy]
   after_action :clear_cached, only: %i[update destroy]
 
   # GET /users/1
@@ -31,7 +32,7 @@ class UsersController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_user
-    @user = params[:id].nil? ? current_user : User.find_any!(params[:id].downcase)
+    @user = params[:id].nil? ? current_user : User.find_by!(name: params[:id].downcase)
   end
 
   def clear_cache
@@ -41,5 +42,9 @@ class UsersController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
     params.fetch(:user, {})
+  end
+
+  def check_permissions!
+    @user.id == current_user.id
   end
 end

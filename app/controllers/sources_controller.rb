@@ -3,6 +3,7 @@ class SourcesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_source, except: %i[index new create merge]
   before_action :check_file_params, only: %i[create]
+  before_action :check_permissions!, only: %i[update destroy]
 
   # GET /sources
   def index
@@ -82,5 +83,9 @@ class SourcesController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   def source_params
     params.require(:source).permit(:description)
+  end
+
+  def check_permissions!
+    check_edit! @source.package
   end
 end

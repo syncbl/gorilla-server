@@ -1,5 +1,5 @@
 class PublishedPackagesQuery < ApplicationQuery
-  def initialize(user, packages = Package.all)
+  def initialize(user = nil, packages = Package.all)
     @user = user
     @packages = packages
   end

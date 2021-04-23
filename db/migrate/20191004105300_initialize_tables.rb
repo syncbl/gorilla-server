@@ -7,7 +7,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     create_table :users, id: :uuid do |t|
       t.string :fullname
 
-      t.citext :name, index: true, null: false, unique: true
+      t.citext :name, null: false, index: true, unique: true
       t.string :locale
 
       #t.boolean :trusted, default: false
@@ -17,7 +17,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       # TODO: Is company? Show other info.
 
-      t.string :authentication_token, null: false, unique: true
+      t.string :authentication_token, null: false, index: true, unique: true
 
       t.datetime :blocked_at
       t.string :block_reason
@@ -34,7 +34,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       # TODO: Store PC parameters here
 
-      t.string :authentication_token, null: false, unique: true
+      t.string :authentication_token, null: false, index: true, unique: true
 
       t.references :user, type: :uuid, index: true, null: false, foreign_key: true
 
@@ -49,7 +49,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     create_table :packages, id: :uuid do |t|
       t.citext :name, null: false
       t.string :destination, null: false, default: ""
-      t.string :copyright
+
       t.string :description
 
       t.bigint :size, null: false, default: 0
@@ -62,7 +62,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.boolean :is_component, null: false, default: false
       # Persistent packages excluded from autoupdate, CAN'T BE CHANGED
       t.boolean :is_persistent, null: false, default: false
-      # TODO: ? t.jsonb :data
+      # TODO: Copyrignt and else in t.jsonb :data
 
       t.references :user, type: :uuid, index: true, null: false, foreign_key: true
       t.references :replacement, type: :uuid, index: true, foreign_key: { to_table: :packages }

@@ -68,4 +68,9 @@ module ApplicationHelper
   def json_time(time)
     time.nil? ? nil : time.to_i
   end
+
+  # TODO: Render 403
+  def check_edit!(object)
+    head :forbidden unless current_user.can_edit? object
+  end
 end
