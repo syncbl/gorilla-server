@@ -12,7 +12,7 @@ class Auth::RegistrationsController < Devise::RegistrationsController
         else
           #puts @user.errors.to_json
           #render json: @user.errors, status: :unauthorized
-          render_errors @user.errors.full_messages, status: :unauthorized
+          render_error @user.errors.full_messages, status: :unauthorized
         end
       end
     end

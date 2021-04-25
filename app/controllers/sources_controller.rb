@@ -24,8 +24,9 @@ class SourcesController < ApplicationController
   # POST /sources
   def create
     # Params removed from create() because user must fill fields only after creation
+    @source = current_user.packages.find_by!(id: params[:package_id])&.sources.create
     respond_to do |format|
-      if @source = current_user.packages.find_by!(id: params[:package_id])&.sources.create
+      if @source.save
         if file = source_exists?(current_user, params[:file].size, params[:checksum])
           # TODO: Warn about existing file if it's own or public
         end

@@ -1,5 +1,6 @@
 module ApplicationHelper
   include Pagy::Frontend
+  include ErrorHelper
 
   def alert_for(flash_type)
     {
@@ -51,14 +52,6 @@ module ApplicationHelper
 
   def endpoint?
     current_endpoint.present?
-  end
-
-  def render_errors(errors, status:)
-    if errors.is_a? Array
-      render json: { errors: errors }, status: status
-    else
-      render json: { error: errors }, status: status
-    end
   end
 
   def log_json(json)
