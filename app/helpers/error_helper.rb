@@ -1,16 +1,9 @@
 module ErrorHelper
-  def render_error(error, status:)
-    if errors.is_a? Array
-      render json: { errors: error }, status: status
+  def render_json_error(messages, status:)
+    if messages.is_a? Array
+      render json: { errors: messages }, status: status
     else
-      render json: { error: error }, status: status
-    end
-  end
-
-  def respond_error(message, status)
-    respond_to do |format|
-      format.html { flash.now :error, message }
-      format.json { render_error message, status }
+      render json: { error: messages }, status: status
     end
   end
 end

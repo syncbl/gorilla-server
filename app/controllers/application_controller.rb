@@ -29,14 +29,14 @@ class ApplicationController < ActionController::Base
       else
         # TODO: Log
         Endpoint.active.find_by(id: uuid)&.regenerate_authentication_token
-        render_error I18n.t("devise.failure.blocked"), status: :unauthorized
+        render_json_error I18n.t("devise.failure.blocked"), status: :unauthorized
       end
     elsif (scope == User.name) && ApiKeys.user.include?(service)
       if user = cached_user(uuid, token)
         sign_in user
       else
         # TODO: Log
-        render_error I18n.t("devise.failure.blocked"), status: :unauthorized
+        render_json_error I18n.t("devise.failure.blocked"), status: :unauthorized
       end
     elsif ApiKeys.anonymous.include?(service)
       return true

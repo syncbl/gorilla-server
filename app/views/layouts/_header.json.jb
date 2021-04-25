@@ -15,4 +15,8 @@ unless @pagy.nil?
   json[:to] = @pagy.to
 end
 
+if defined?(object) && object.errors.any?
+  json[errors] = object
+end
+
 json

@@ -1,4 +1,4 @@
-json = render 'layouts/header'
+json = render 'layouts/header', pagy: @pagy
 
 json[:settings] = render 'settings/index', settings: @settings
 

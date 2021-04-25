@@ -45,9 +45,9 @@ class EndpointsController < ApplicationController
         end
         format.json { render :show, status: :ok, location: @endpoint }
       else
-        format.html { respond_error @endpoint.errors.full_messages }
+        format.html { render :edit }
         format.json do
-          render json: @endpoint.errors, status: :unprocessable_entity
+          render_json_error @endpoint.errors.full_messages, status: :unprocessable_entity
         end
       end
     end
@@ -65,9 +65,9 @@ class EndpointsController < ApplicationController
         format.json { head :no_content }
       end
     else
-      format.html { respond_error @endpoint.errors.full_messages }
+      format.html { render :edit }
       format.json do
-        render json: @endpoint.errors, status: :unprocessable_entity
+        render_json_error @endpoint.errors.full_messages, status: :unprocessable_entity
       end
     end
   end

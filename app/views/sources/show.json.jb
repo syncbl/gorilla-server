@@ -1,4 +1,4 @@
-json = render 'layouts/header'
+json = render 'layouts/header', object: @source
 
 json_source = render 'show', source: @source
 

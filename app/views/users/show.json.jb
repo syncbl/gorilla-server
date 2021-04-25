@@ -1,6 +1,6 @@
 # TODO: Check user and group, because there is posibility of different installers for them
 
-json = render 'layouts/header'
+json = render 'layouts/header', object: @user
 
 json[:user] = render 'users/show', user: @user
 
