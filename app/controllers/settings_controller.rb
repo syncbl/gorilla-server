@@ -34,10 +34,12 @@ class SettingsController < ApplicationController
 
   # PATCH/PUT /settings/1
   def update
-    if @setting.update(setting_params)
-      redirect_to [@endpoint, @setting], notice: "Setting was successfully updated."
-    else
-      render :edit
+    respond_to do |format|
+      if @setting.update(setting_params)
+        redirect_to [@endpoint, @setting], notice: "Setting was successfully updated."
+      else
+        render_json_error @setting.errors.full_messages, status: :unprocessable_entity
+      end
     end
   end
 
@@ -45,15 +47,16 @@ class SettingsController < ApplicationController
   # No need in permission check here: endpoint is already authorized
   def destroy
     respond_to do |format|
-      if @endpoint.settings.find_by(package_id: params[:package_id])&.discard
+      setting = @endpoint.settings.find_by(package_id: params[:package_id])&.discard
+      if setting.discarded?
         format.html do
-          redirect_to endpoint_settings_url, notice: "Package was successfully removed."
+          redirect_to settings_url, notice: "Package was successfully removed."
         end
         format.json { head :no_content }
       else
-        format.html { render :show }
+        format.html { render :edit }
         format.json do
-          render json: @package.errors, status: :unprocessable_entity
+          render_json_error @endpoint.errors.full_messages, status: :unprocessable_entity
         end
       end
     end

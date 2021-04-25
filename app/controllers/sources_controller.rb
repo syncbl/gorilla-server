@@ -45,17 +45,33 @@ class SourcesController < ApplicationController
 
   # PATCH/PUT /sources/1
   def update
-    if @source.update(source_params)
-      redirect_to @source, notice: "Source was successfully updated."
-    else
-      render :edit
+    respond_to do |format|
+      if @source.update(source_params)
+        redirect_to @source, notice: "Source was successfully updated."
+      else
+        format.html { render :edit }
+        format.json do
+          render_json_error @package.errors.full_messages, status: :unprocessable_entity
+        end
+      end
     end
   end
 
   # DELETE /sources/1
   def destroy
-    @source.destroy
-    redirect_to sources_url, notice: "Source was successfully destroyed."
+    respond_to do |format|
+      if @source.destroy
+        format.html do
+          redirect_to sources_url, notice: "Source was successfully destroyed."
+        end
+        format.json { head :no_content }
+      else
+        format.html { render :show }
+        format.json do
+          render_json_error @source.errors.full_messages, status: :unprocessable_entity
+        end
+      end
+    end
   end
 
   # POST /package/1/sources/merge

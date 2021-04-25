@@ -9,7 +9,7 @@ class EndpointsController < ApplicationController
     # TODO: Add group
     @pagy, @endpoints = pagy_countless(
       current_user.endpoints,
-      items: params[:items]
+      items: params[:items],
     )
   end
 
