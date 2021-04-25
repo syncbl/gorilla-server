@@ -9,7 +9,13 @@ class Setting < ApplicationRecord
 
   #encrypts :data, algorithm: "hybrid", encryption_key: encryption_key, decryption_key: decryption_key
 
-  default_scope { includes(package: [:replacement, :dependencies]) }
+  scope :with_includes,
+        -> {
+          includes(package: [:icon_attachment,
+                             :replacement,
+                             :dependencies,
+                             :dependencies_packages])
+        }
 
   scope :updated,
         -> {

@@ -7,7 +7,7 @@ class SettingsController < ApplicationController
 
   # GET /settings
   def index
-    settings = ActualizedSettingsService.call(@endpoint.settings.includes(package: [:icon_attachment]))
+    settings = ActualizedSettingsService.call(@endpoint.settings.with_includes)
     @pagy, @settings = params[:updates] ? pagy(settings.updated) :
       pagy(settings.all)
   end
@@ -64,7 +64,7 @@ class SettingsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   # ActiveRecord::RecordNotFound only with find_by
   def set_setting
-    @setting = @endpoint.settings.find_by!(package_id: params[:id])
+    @setting = @endpoint.settings.with_includes.find_by!(package_id: params[:id])
   end
 
   # TODO: Endpoint.install here is only for API, but how to do that for UI?
