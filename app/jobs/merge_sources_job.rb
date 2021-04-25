@@ -20,7 +20,7 @@ class MergeSourcesJob < ApplicationJob
             end
             dst.discard if dstzipfile.size == 0
           end
-          dst.attach(dstfile)
+          AttachmentService.call dst, dstfile
         end
       end
     end

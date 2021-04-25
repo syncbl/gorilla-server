@@ -9,8 +9,7 @@ class ProcessSourceJob < ApplicationJob
       #  source.block! I18n.t("jobs.block_reasons.suspicious_attachment")
       #  return false
       #end
-      source.attach(file)
-      File.delete(file)
+      AttachmentService.call source, file
     end
   rescue Timeout::Error
     source.block! "+++ TIMEOUT +++"
