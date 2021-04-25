@@ -7,7 +7,7 @@ class SettingsController < ApplicationController
 
   # GET /settings
   def index
-    settings = ActualizedSettingsQuery.call(@endpoint.settings.includes(package: [:icon_attachment]))
+    settings = ActualizedSettingsService.call(@endpoint.settings.includes(package: [:icon_attachment]))
     @pagy, @settings = params[:updates] ? pagy(settings.updated) :
       pagy(settings.all)
   end
@@ -18,7 +18,7 @@ class SettingsController < ApplicationController
   # POST /endpoints/1/settings
   def create
     # TODO: Policy authorization
-    @package = PublishedPackagesQuery.call(current_user).find(params[:package_id])
+    @package = PublishedPackagesService.call(current_user).find(params[:package_id])
     respond_to do |format|
       if @setting = @endpoint.install(@package)
         format.html do

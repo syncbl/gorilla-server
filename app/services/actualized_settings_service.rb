@@ -1,4 +1,4 @@
-class ActualizedSettingsQuery < ApplicationQuery
+class ActualizedSettingsService < ApplicationService
   def initialize(settings)
     @settings = settings
   end
@@ -30,7 +30,7 @@ class ActualizedSettingsQuery < ApplicationQuery
         install_packages.delete(setting.package)
       end
     end
-    install_packages.each { |p| create(package: p) }
+    install_packages.each { |p| @settings.create(package: p) }
     @settings #.reload
   end
 end

@@ -2,7 +2,6 @@ json = {
   id: package.id,
   name: package.name,
   description: package.description,
-  copyright: package.copyright,
   # trusted: package.trusted,
   size: package.size,
   h_size: number_to_human_size(package.size),

@@ -88,8 +88,7 @@ class PackagesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
 
   def set_package
-    packages = PublishedPackagesQuery.call(current_user).includes(:dependencies, :dependencies_packages)
-
+    packages = PublishedPackagesService.call(current_user).includes(:dependencies, :dependencies_packages)
     @package = params[:package_id].present? ?
       packages.joins(:user).where(user: { name: params[:user_id] }).find_by!(name: params[:package_id]) :
       packages.find_any!(params[:id])

@@ -13,7 +13,7 @@ class AttachmentService < ApplicationService
         identify: false
       )
       File.delete(@filename)
-      @source.package.update(size: unpacked_size) if @source.package.size == 0
+      @source.package.update(size: @source.unpacked_size) if @source.package.size == 0
       @source.package.touch unless @source.package.is_persistent
     end
   end

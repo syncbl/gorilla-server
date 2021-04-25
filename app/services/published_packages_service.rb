@@ -1,4 +1,4 @@
-class PublishedPackagesQuery < ApplicationQuery
+class PublishedPackagesService < ApplicationService
   def initialize(user = nil, packages = Package.all)
     @user = user
     @packages = packages

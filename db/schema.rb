@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["authentication_token"], name: "index_endpoints_on_authentication_token"
     t.index ["created_at"], name: "index_endpoints_on_created_at"
     t.index ["discarded_at"], name: "index_endpoints_on_discarded_at"
     t.index ["updated_at"], name: "index_endpoints_on_updated_at"
@@ -75,7 +76,6 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   create_table "packages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.citext "name", null: false
     t.string "destination", default: "", null: false
-    t.string "copyright"
     t.string "description"
     t.bigint "size", default: 0, null: false
     t.bigint "settings_count", default: 0, null: false
@@ -146,6 +146,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
+    t.index ["authentication_token"], name: "index_users_on_authentication_token"
     t.index ["created_at"], name: "index_users_on_created_at"
     t.index ["discarded_at"], name: "index_users_on_discarded_at"
     t.index ["email"], name: "index_users_on_email", unique: true
