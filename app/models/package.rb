@@ -39,6 +39,12 @@ class Package < ApplicationRecord
 
   after_save :check_external_url
 
+  scope :published_with,
+        ->(user) {
+          where(Package.arel_table[:published_at].lt(Time.current))
+            .or(where(user: user))
+        }
+
   def all_dependencies(packages = Set[])
     Package.unscoped.all_dependencies(self, packages)
     packages.to_a.reverse

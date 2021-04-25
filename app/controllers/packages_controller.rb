@@ -8,7 +8,7 @@ class PackagesController < ApplicationController
   # GET /packages.json
   def index
     @pagy, @packages =
-      pagy(
+      pagy_countless(
         current_user.packages.includes(:icon_attachment),
         items: params[:items],
       )
@@ -88,7 +88,7 @@ class PackagesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
 
   def set_package
-    packages = PublishedPackagesService.call(current_user)
+    packages = Package.published_with(current_user)
     @package = params[:package_id].present? ?
       packages.joins(:user).where(user: { name: params[:user_id] }).find_by!(name: params[:package_id]) :
       packages.find_any!(params[:id])

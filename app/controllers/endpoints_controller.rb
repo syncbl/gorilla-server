@@ -7,7 +7,7 @@ class EndpointsController < ApplicationController
   # GET /endpoints.json
   def index
     # TODO: Add group
-    @pagy, @endpoints = pagy(
+    @pagy, @endpoints = pagy_countless(
       current_user.endpoints,
       items: params[:items]
     )

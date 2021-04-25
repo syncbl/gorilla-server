@@ -8,8 +8,8 @@ class SettingsController < ApplicationController
   # GET /settings
   def index
     settings = ActualizedSettingsService.call(@endpoint.settings.with_includes)
-    @pagy, @settings = params[:updates] ? pagy(settings.updated) :
-      pagy(settings.all)
+    @pagy, @settings = params[:updates] ? pagy_countless(settings.updated) :
+      pagy_countless(settings.all)
   end
 
   # GET /settings/1
@@ -18,7 +18,7 @@ class SettingsController < ApplicationController
   # POST /endpoints/1/settings
   def create
     # TODO: Policy authorization
-    @package = PublishedPackagesService.call(current_user).find(params[:package_id])
+    @package = Package.published_with(current_user).find(params[:package_id])
     respond_to do |format|
       if @setting = @endpoint.install(@package)
         format.html do
