@@ -50,10 +50,6 @@ module ApplicationHelper
     @_cached_endpoint ||= endpoint
   end
 
-  def endpoint?
-    current_endpoint.present?
-  end
-
   def log_json(json)
     Rails.logger.debug "+++ #{__FILE__}:\n#{JSON.pretty_generate(json)}"
   end

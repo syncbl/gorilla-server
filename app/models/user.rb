@@ -46,7 +46,7 @@ class User < ApplicationRecord
   end
 
   def is_owner?(object)
-    object.user.id == self.id
+    object.user == self
   end
 
   def can_edit?(object)

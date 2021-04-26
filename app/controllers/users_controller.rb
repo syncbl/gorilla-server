@@ -2,7 +2,6 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_user
   before_action :check_permissions!, only: %i[update destroy]
-  after_action :clear_cached, only: %i[update destroy]
 
   # GET /users/1
   def show; end
@@ -35,16 +34,12 @@ class UsersController < ApplicationController
     @user = params[:id].nil? ? current_user : User.find_by!(name: params[:id].downcase)
   end
 
-  def clear_cache
-    @user.clear_cache
-  end
-
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
     params.fetch(:user, {})
   end
 
   def check_permissions!
-    @user.id == current_user.id
+    @user == current_user
   end
 end

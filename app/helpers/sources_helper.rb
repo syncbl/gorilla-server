@@ -13,6 +13,6 @@ module SourcesHelper
         checksum: checksum,
       ),
     )&.record_id
-    id && Source.find_by(id: id)&.package&.user.id == user.id
+    id && Source.find_by(id: id)&.package&.user == user
   end
 end

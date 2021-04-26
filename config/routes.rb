@@ -24,9 +24,9 @@ Rails.application.routes.draw do
 
   # TODO: Dashboard, endpoints and user settings only
   authenticated :user do
-    root to: "packages#index", as: :authenticated_root #'users#dashboard'
+    root to: "packages#index", as: :authenticated_root
   end
-  root to: "packages#index" #redirect('/users/sign_in') #'users#landing'
+  root to: "home#index" # TODO: home#landing?
 
   #namespace :api, defaults: { format: :json }, constraints: { subdomain: 'api' }, path: '/' do
   #  list of resources

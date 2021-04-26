@@ -6,15 +6,14 @@ module Blockable
   def block!(reason = nil)
     update!({
       blocked_at: Time.current,
-      block_reason: reason
+      block_reason: reason,
     })
-    clear_cache
   end
 
   def unblock!
     update!({
       blocked_at: nil,
-      block_reason: nil
+      block_reason: nil,
     })
   end
 
@@ -27,7 +26,12 @@ module Blockable
   end
 
   def self.included(base)
-    base.class_eval { scope :active, lambda { where(blocked_at: nil) } }
+    base.class_eval {
+      after_save :clear_cache
+      scope :active, lambda {
+        where(blocked_at: nil)
+      }
+    }
   end
 
   private

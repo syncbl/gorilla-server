@@ -8,6 +8,7 @@ RESTRICTED_PATHS = %w[
   /blog/wp-login.php
   /wp-login.php
   /wordpress/wp-login.php
+  /srs6/serv/urn:verificationservices
 ]
 
 RESTRICTED_PATHS_STARTS = %w[

@@ -1,7 +1,6 @@
 class EndpointsController < ApplicationController
   before_action :authenticate_user!, only: %i[index create destroy]
   before_action :set_endpoint, except: %i[index create]
-  after_action :clear_cached, only: %i[update destroy]
 
   # GET /endpoints
   # GET /endpoints.json
@@ -77,10 +76,6 @@ class EndpointsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_endpoint
     @endpoint = current_endpoint || current_user&.endpoints&.find(params[:id])
-  end
-
-  def clear_cached
-    @endpoint.clear_cache
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
