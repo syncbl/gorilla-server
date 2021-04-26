@@ -25,7 +25,7 @@ gem "hiredis" # Ruby extension that wraps hiredis.
 gem "active_storage_validations" # Active Storage Validations.
 gem "aws-sdk-s3", require: false # Official AWS Ruby gem for Amazon Simple Storage Service (Amazon S3)
 gem "bcrypt", "~> 3.1.7" # Provides a simple wrapper for safely handling passwords.
-gem "bootstrap", "~> 4.5" # Bootstrap 4 ruby gem for Ruby on Rails (Sprockets) and Hanami (formerly Lotus).
+gem "bootstrap", "~> 5.0.0.beta3" # Bootstrap ruby gem for Ruby on Rails.
 gem "clamby" # This gem's function is to simply scan a given file.
 gem "devise" # Devise is a flexible authentication solution for Rails based on Warden.
 gem "devise_invitable", "~> 2.0.0" # Adds support to Devise for sending invitations by email.

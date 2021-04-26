@@ -3,11 +3,20 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
-import 'popper.js'
-import 'bootstrap'
+// import 'bootstrap/js/src/alert'
+import 'bootstrap/js/src/button'
+// import 'bootstrap/js/src/carousel'
+// import 'bootstrap/js/src/collapse'
+// import 'bootstrap/js/src/dropdown'
+// import 'bootstrap/js/src/modal'
+// import 'bootstrap/js/src/popover'
+// import 'bootstrap/js/src/scrollspy'
+import 'bootstrap/js/src/tab'
+// import 'bootstrap/js/src/toast'
+// import 'bootstrap/js/src/tooltip'
 
 require("@rails/ujs").start()
-require("jquery")
+// require("jquery")
 require("@rails/activestorage").start()
 require("channels")
 
