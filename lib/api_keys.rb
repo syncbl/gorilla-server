@@ -29,7 +29,7 @@ module ApiKeys
     private
 
     def app_key(path)
-      "#{File.basename(path)}:#{Digest::MD5.file(path).base64digest}"
+      "#{File.basename(path)}:#{Digest::MD5.file(path).hexdigest}"
     end
   end
 end

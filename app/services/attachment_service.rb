@@ -29,7 +29,7 @@ class AttachmentService < ApplicationService
         if z.size > MAX_FILE_SIZE
           raise I18n.t('model.source.error.packed_file_too_big', name: z.name, size: z.size)
         end
-        filelist[z.name] = Digest::MD5.hexdigest(z.get_input_stream.read) # z.crc
+        filelist[z.name] = Digest::MD5.base64digest(z.get_input_stream.read) # z.crc
         # Replace with HashFileList.add if needed
         @source.unpacked_size += z.size
       end
