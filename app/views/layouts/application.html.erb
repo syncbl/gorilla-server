@@ -23,7 +23,7 @@
 
     <div class="container-fluid">
       <% flash.each do |name, msg| %>
-        <% if !msg.to_s.empty? %>
+        <% unless msg.to_s.empty? %>
           <%= content_tag :div, msg, class: ["alert", alert_for(name)] %>
         <% end %>
       <% end %>
