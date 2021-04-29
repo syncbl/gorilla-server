@@ -3,24 +3,21 @@ module JsonWebToken
 
   class << self
     def encode(resource)
-      if resource.is_a? Endpoint
-        exp = Time.current.to_i + 1.month
-      elsif resource.is_a? User
-        exp = Time.current.to_i + 1.week
-      end
-      payload = {
-        scope: resource.class.name,
-        uuid: resource.id,
-        token: resource.authentication_token,
-        exp: exp,
-      }
-      if payload
-        JWT.encode(
-          payload.to_a.shuffle.to_h,
-          Rails.application.credentials.jwt_secret,
-          "HS256"
-        )
-      end
+      JWT.encode(
+        {
+          scope: resource.class.name,
+          uuid: resource.id,
+          token: resource.authentication_token,
+          exp: Time.current.to_i + case resource
+          when Endpoint
+            ENDPOINT_SESSION_TIME
+          when User
+            USER_SESSION_TIME
+          end,
+        },
+        Rails.application.credentials.jwt_secret,
+        "HS256"
+      )
     end
 
     def decode(token)
@@ -29,7 +26,7 @@ module JsonWebToken
         Rails.application.credentials.jwt_secret,
         true,
         { algorithm: "HS256" }
-      )&.first&.with_indifferent_access
+      ).first.with_indifferent_access
     rescue JWT::ExpiredSignature, JWT::DecodeError
       false
     end

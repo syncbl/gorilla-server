@@ -9,6 +9,9 @@ MIN_NAME_LENGTH = 3
 MAX_NAME_LENGTH = 100
 MODEL_CACHE_TIMEOUT = 15.minutes # TODO: Increase
 JOB_TIMEOUT = 5.minutes
+USER_SESSION_TIME = 1.month
+ENDPOINT_SESSION_TIME = 1.month
+USER_AGENT = "Syncable Server/Net::HTTP/1.0 https://syncbl.com"
 
 RESTRICTED_NAMES = %w[
   setting    sign_in       api

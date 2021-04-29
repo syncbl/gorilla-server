@@ -33,7 +33,8 @@ en:
   model:
     package:
       error:
-        check_external_url: Can't get file from URL
+        url_is_not_attachment: Incorrect attachment type
+        url_is_not_https: Only secured connections allowed
     source:
       error:
         packed_file_too_big: "File is too big: %{name}:%{size}"

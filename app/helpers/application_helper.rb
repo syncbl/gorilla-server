@@ -14,9 +14,12 @@ module ApplicationHelper
   end
 
   def title(object)
-    if object.is_a? Package
+    case object
+    when Package
       (object.user == current_user) ? object.name :
         "#{object.user.name}/#{object.name}"
+    when User
+      "#{object.user.fullname}"
     end
   end
 
@@ -25,10 +28,9 @@ module ApplicationHelper
       "#{model.name}_#{id}",
       expires_in: MODEL_CACHE_TIMEOUT,
     ) do
-      model.find_by(
+      model.active.find_by(
         id: id,
         authentication_token: token,
-        blocked_at: nil,
       )
     end
   end
