@@ -1,6 +1,7 @@
 class Source < ApplicationRecord
   include Discard::Model
   include Blockable
+  include Publishable
 
   belongs_to :package
 
@@ -19,15 +20,19 @@ class Source < ApplicationRecord
 
   default_scope { joins(:file_attachment) }
 
-  scope :published, -> {
-    where(Source.arel_table[:published_at].lt(Time.current))
-  }
-
   def self.merged?
     last&.is_merged == true
   end
 
-  def ready?
-    file&.attached?
+  def validated?
+    validated_at.present?
+  end
+
+  private
+
+  def check_publishable
+    if published_at.present? && !validated?
+      errors.add(:published_at, I18n.('model.source.error.cannot_publish'))
+    end
   end
 end

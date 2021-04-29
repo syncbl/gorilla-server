@@ -3,7 +3,10 @@ class MergeSourcesJob < ApplicationJob
 
   def perform(package)
     return false unless package.sources.size > 1
+
+    published_at = package.published_at
     package.update(published_at: nil)
+
     package.sources.each_with_index.reverse_each.map do |src, i|
       package.sources.each_with_index.reverse_each.drop(package.sources.size - i).map do |dst, j|
         next unless src.file.attached? && dst.file.attached?
@@ -24,6 +27,7 @@ class MergeSourcesJob < ApplicationJob
         end
       end
     end
+
     package.sources.update_all(is_merged: true)
     # TODO: Inform about freed space
     old_size = package.size
@@ -31,7 +35,11 @@ class MergeSourcesJob < ApplicationJob
     package.sources.each do |s|
       package.size += s.unpacked_size
     end
-    package.save!
-    # TODO: Notify old_size - package.reload.size
+    package.published_at = published_at
+    if package.save
+      # TODO: Notify old_size - package.reload.size
+    else
+      # TODO: Something wrong
+    end
   end
 end

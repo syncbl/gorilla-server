@@ -28,7 +28,8 @@ module Blockable
   def self.included(base)
     base.class_eval {
       after_save :clear_cache
-      scope :active, lambda {
+
+      scope :active, -> {
         where(blocked_at: nil)
       }
     }

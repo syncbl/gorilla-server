@@ -4,6 +4,8 @@ json = {
   updated_at: json_time(setting.updated_at)
 }
 
-json[:package] = render 'packages/show', package: setting.package
+if setting.package.published? || setting.endpoint.user == setting.package.user
+  json[:package] = render 'packages/show', package: setting.package
+end
 
 json

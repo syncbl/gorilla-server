@@ -1,5 +1,5 @@
 json = render 'layouts/header', object: @setting
 
-json[:endpoint] = render 'settings/show', setting: @setting
+json[:setting] = render 'settings/show', setting: @setting
 
 json

@@ -35,6 +35,7 @@ en:
       error:
         url_is_not_attachment: Incorrect attachment type
         url_is_not_https: Only secured connections allowed
+        cannot_publish: Wait until validation finished
     source:
       error:
         packed_file_too_big: "File is too big: %{name}:%{size}"

@@ -67,6 +67,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.references :user, type: :uuid, index: true, null: false, foreign_key: true
       t.references :replacement, type: :uuid, index: true, foreign_key: { to_table: :packages }
 
+      t.datetime :validated_at
       t.datetime :blocked_at
       t.string :block_reason
       t.datetime :discarded_at, index: true
@@ -114,6 +115,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       t.references :package, type: :uuid, index: true, null: false, foreign_key: true
 
+      t.datetime :validated_at
       t.datetime :blocked_at
       t.string :block_reason
       t.datetime :discarded_at, index: true

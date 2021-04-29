@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.boolean "is_persistent", default: false, null: false
     t.uuid "user_id", null: false
     t.uuid "replacement_id"
+    t.datetime "validated_at"
     t.datetime "blocked_at"
     t.string "block_reason"
     t.datetime "discarded_at"
@@ -121,6 +122,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.boolean "is_merged", default: false, null: false
     t.datetime "published_at"
     t.uuid "package_id", null: false
+    t.datetime "validated_at"
     t.datetime "blocked_at"
     t.string "block_reason"
     t.datetime "discarded_at"

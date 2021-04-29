@@ -9,7 +9,7 @@ class CheckExternalUrlJob < ApplicationJob
     Timeout::timeout(JOB_TIMEOUT) do
       if package.external_url.present?
         new_size = get_attachment_size(package.external_url).to_i
-        package.update(size: new_size)
+        package.update(size: new_size, validated_at: Time.current)
       end
     rescue StandardError => e
       package.block! e.message

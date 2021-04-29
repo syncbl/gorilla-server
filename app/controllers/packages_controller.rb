@@ -1,5 +1,4 @@
 class PackagesController < ApplicationController
-  # We allowing anonymous access
   before_action :authenticate_user!, except: %i[show]
   before_action :set_package, except: %i[index new create]
   before_action :check_permissions!, only: %i[update destroy]

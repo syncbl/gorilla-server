@@ -1,5 +1,6 @@
 class Package < ApplicationRecord
   include Blockable
+  include Publishable
 
   # TODO: MUST!!! Sign packages with endpoint certificate before send and check sign on client-side.
 
@@ -41,8 +42,7 @@ class Package < ApplicationRecord
 
   scope :published_with,
         ->(user) {
-          where(Package.arel_table[:published_at].lt(Time.current))
-            .or(where(user: user))
+          published.or(where(user: user))
         }
 
   def all_dependencies(packages = Set[])
@@ -65,13 +65,17 @@ class Package < ApplicationRecord
     external_url.present?
   end
 
-  def published?
-    active? && published_at && (published_at < Time.current)
-  end
-
   def self.find_any!(package_id)
     # TODO: We need to prevent creating packages with names from existing id-s
     where(id: package_id).or(where(name: package_id)).first!
+  end
+
+  def validated?
+    external? ? validated_at.present? : sources.where.not(validated_at: nil).any?
+  end
+
+  def published?
+    external? ? published_at.present? : sources.where.not(published_at: nil).any?
   end
 
   private
