@@ -62,7 +62,7 @@ class Package < ApplicationRecord
   end
 
   def external?
-    external_url.present?
+    !external_url.to_s.strip.empty?
   end
 
   def self.find_any!(package_id)

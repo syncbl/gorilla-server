@@ -43,5 +43,6 @@ class AttachmentService < ApplicationService
   rescue StandardError => e # TODO: Make more specific
     Rails.logger.debug "+++ #{e.class} #{e.message}"
     @source.block! e.message
+    false
   end
 end
