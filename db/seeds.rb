@@ -9,11 +9,11 @@
 case Rails.env
 when "development"
   #Group.create name: 'test'
-  u1 = User.create fullname: "Eldar",
+  u1 = User.create fullname: "Eldar Avatov",
                    name: "deadalice",
                    email: "eldar.avatov@gmail.com",
                    password: "111111"
-  u2 = User.create fullname: "Test",
+  u2 = User.create fullname: "Test Test",
                    name: "tester",
                    email: "tester@example.com",
                    password: "123456"
