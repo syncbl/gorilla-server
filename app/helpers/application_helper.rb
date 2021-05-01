@@ -52,8 +52,8 @@ module ApplicationHelper
     @_cached_endpoint ||= endpoint
   end
 
-  def log_json(json)
-    Rails.logger.debug "+++ #{__FILE__}:\n#{JSON.pretty_generate(json)}"
+  def log_json(json, file)
+    Rails.logger.debug "+++ #{file}:\n#{JSON.pretty_generate(json)}"
   end
 
   def json_time(time)

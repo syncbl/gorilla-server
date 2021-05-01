@@ -4,6 +4,6 @@ json = render 'layouts/header', object: @user
 
 json[:user] = render 'users/show', user: @user
 
-log_json json
+log_json json, __FILE__
 
 json

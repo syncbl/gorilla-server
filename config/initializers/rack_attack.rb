@@ -9,6 +9,7 @@ RESTRICTED_PATHS = %w[
   /wp-login.php
   /wordpress/wp-login.php
   /srs6/serv/urn:verificationservices
+  /ecp/Current/exporttool/microsoft.exchange.ediscovery.exporttool.application
 ]
 
 RESTRICTED_PATHS_STARTS = %w[
