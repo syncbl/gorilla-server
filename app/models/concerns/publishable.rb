@@ -11,6 +11,16 @@ module Publishable
     }
   end
 
+  def publish!(time = Time.current)
+    update!({
+      published_at: time,
+    })
+  end
+
+  def published?
+    published_at != nil
+  end
+
   private
 
   def check_publishable

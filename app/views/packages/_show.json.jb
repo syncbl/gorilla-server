@@ -2,7 +2,7 @@ json = {
   id: package.id,
   name: package.name,
   description: package.description,
-  is_published: package.published?,
+  # is_published: package.published?,
   size: package.size,
   h_size: number_to_human_size(package.size),
   install_count: package.settings_count, # TODO: Cache

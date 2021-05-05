@@ -8,7 +8,7 @@ end
 
 if @package.external?
   json_package[:external_url] = @package.external_url
-else
+elsif @package.published?
   json_package[:destination] = @package.destination
   json_package[:sources] = @package.sources.published.map do |source|
     render 'sources/show', source: source
