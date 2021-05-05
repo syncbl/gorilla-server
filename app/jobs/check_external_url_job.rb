@@ -1,22 +1,14 @@
 class CheckExternalUrlJob < ApplicationJob
   require "net/http"
   require "uri"
-  require "timeout"
 
-  queue_as :default
-
-  def perform(package)
-    Timeout::timeout(JOB_TIMEOUT) do
-      if package.external?
-        new_size = get_attachment_size(package.external_url).to_i
-        package.update(size: new_size, validated_at: Time.current)
-      end
-    rescue StandardError => e
-      package.block! e.message
-      # TODO: Log e with url
-    end
-  rescue Timeout::Error
-    source.block! "+++ TIMEOUT +++"
+  def safe_perform(package)
+    return false unless package.external?
+    new_size = get_attachment_size(package.external_url).to_i
+    package.update(size: new_size, validated_at: Time.current)
+  rescue StandardError => e
+    package.block! e.message
+    # TODO: Log e with url
   end
 
   private
@@ -30,7 +22,7 @@ class CheckExternalUrlJob < ApplicationJob
       http.use_ssl = true
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     else
-      raise I18n.t('model.package.error.url_is_not_https')
+      raise I18n.t("model.package.error.url_is_not_https")
     end
     response = http.head(uri.path, { 'User-Agent': USER_AGENT, 'Accept': "*/*" })
     if response.is_a?(Net::HTTPRedirection) && redirect_count < 10
@@ -39,7 +31,7 @@ class CheckExternalUrlJob < ApplicationJob
           response["Content-Disposition"].split(";")[0].downcase == "attachment"
       response["content-length"].to_i
     else
-      raise I18n.t('model.package.error.url_is_not_attachment')
+      raise I18n.t("model.package.error.url_is_not_attachment")
     end
   end
 end

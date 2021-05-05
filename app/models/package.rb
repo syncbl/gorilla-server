@@ -72,7 +72,6 @@ class Package < ApplicationRecord
   end
 
   def self.find_any!(package_id)
-    # TODO: We need to prevent creating packages with names from existing id-s
     where(id: package_id).or(where(name: package_id)).first!
   end
 
@@ -87,9 +86,10 @@ class Package < ApplicationRecord
   private
 
   def check_external_url
-    CheckExternalUrlJob.perform_later self if saved_change_to_external_url?
-  end
-
+    if saved_change_to_external_url?
+      invalidate!
+      CheckExternalUrlJob.perform_later self
+    else
   def _replaced_by
     # TODO: Check payment i.e.
     replacement.nil? ? self : replacement.replaced_by
