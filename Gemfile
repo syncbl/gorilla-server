@@ -14,9 +14,6 @@ gem 'jquery-rails' # JQuery support
 #gem 'sass-rails', '~> 6' # Official integration for Ruby on Rails projects with the Sass stylesheet language.
 gem "uglifier", ">= 1.3.0" # Ruby wrapper for UglifyJS JavaScript compressor.
 
-gem "lockbox" # Modern encryption for Ruby and Rails.
-gem "rbnacl" # Ruby binding for libsodium, a fork of the Networking and Cryptography library.
-
 gem "pg", "~> 1" # Pg is the Ruby interface to the PostgreSQL RDBMS.
 #gem 'pg_search' # PgSearch builds named scopes that take advantage of PostgreSQL's full text search.
 gem "redis", "~> 4.0" # A Ruby client that tries to match Redis' API one-to-one.
@@ -37,13 +34,14 @@ gem "high_voltage", "~> 3.1" # Rails engine for static pages.
 gem "http_accept_language" # Detect the users preferred language, as sent by the "Accept-Language" HTTP header.
 gem "jb" # A simpler and faster Jbuilder alternative.
 gem "jwt" # A ruby implementation of the RFC 7519 OAuth JSON Web Token (JWT) standard.
+gem "lockbox" # Modern encryption for Ruby and Rails.
 #gem "omniauth" # Standardized Multi-Provider Authentication
 gem "pagy", "~> 3.8" # Pagination gem that outperforms the others in each and every benchmark and comparison.
 gem "pundit" # Set of helpers to build an authorization system.
 gem "rack-attack" # Rack middleware for blocking & throttling abusive requests.
 gem "render_async" # Pages become faster seamlessly by rendering partials to your views.
 gem "rubyzip", require: "zip" # Ruby library for reading and writing zip files.
-gem "sidekiq" # Simple, efficient background processing for Ruby.
+#gem "sidekiq" # Simple, efficient background processing for Ruby.
 gem "simple_form" # Simple Form aims to be as flexible as possible while helping you with powerful components to create your forms.
 gem "whenever", require: false # Provides a clear syntax for writing and deploying cron jobs.
 
