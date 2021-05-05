@@ -73,6 +73,15 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.index ["user_id"], name: "index_endpoints_on_user_id"
   end
 
+  create_table "maintainers", id: false, force: :cascade do |t|
+    t.uuid "package_id", null: false
+    t.uuid "user_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["package_id", "user_id"], name: "index_maintainers_on_package_id_and_user_id", unique: true
+    t.index ["package_id"], name: "index_maintainers_on_package_id"
+    t.index ["user_id"], name: "index_maintainers_on_user_id"
+  end
+
   create_table "packages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.citext "name", null: false
     t.string "destination", default: "", null: false
@@ -161,6 +170,8 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "dependencies", "packages"
   add_foreign_key "endpoints", "users"
+  add_foreign_key "maintainers", "packages"
+  add_foreign_key "maintainers", "users"
   add_foreign_key "packages", "packages", column: "replacement_id"
   add_foreign_key "packages", "users"
   add_foreign_key "settings", "endpoints"

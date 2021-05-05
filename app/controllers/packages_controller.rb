@@ -87,6 +87,7 @@ class PackagesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
 
   def set_package
+    # TODO: Leave here only own and maintained
     packages = Package.published_with(current_user).joins(:user)
     @package = params[:user_id].present? ?
       packages.where(user: { name: params[:user_id] }).find_by!(name: params[:package_id]) :

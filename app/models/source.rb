@@ -6,7 +6,7 @@ class Source < ApplicationRecord
   belongs_to :package
 
   has_one_attached :file,
-                   service: :remote,
+                   service: :external,
                    dependent: :purge_later
 
   validates :file,

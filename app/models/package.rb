@@ -11,13 +11,18 @@ class Package < ApplicationRecord
   has_and_belongs_to_many :dependencies,
                           class_name: "Package",
                           join_table: :dependencies,
-                          foreign_key: :package_id,
-                          association_foreign_key: :dependent_package_id
+                          association_foreign_key: :dependent_package_id,
+                          dependent: :destroy
+  has_and_belongs_to_many :maintainers,
+                          class_name: "User",
+                          join_table: :maintainers,
+                          association_foreign_key: :user_id,
+                          dependent: :destroy
   belongs_to :replacement,
              class_name: "Package",
              optional: true
   has_one_attached :icon,
-                   service: :local,
+                   service: :internal,
                    dependent: :purge_later
 
   validates :name,
@@ -42,7 +47,8 @@ class Package < ApplicationRecord
 
   scope :published_with,
         ->(user) {
-          published.or(where(user: user))
+          published.or(where(user: user)
+            .or(where(maintainers: { user: user })))
         }
 
   def all_dependencies(packages = Set[])

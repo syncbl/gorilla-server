@@ -11,10 +11,10 @@ minio: &minio
   bucket: <%= Rails.application.credentials.dig(:aws, :bucket) %>
   force_path_style: true
 
-local:
+internal:
   <<: *disk
 
-remote:
+external:
   <<: *disk
 
 test:
