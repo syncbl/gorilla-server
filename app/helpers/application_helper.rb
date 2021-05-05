@@ -61,7 +61,11 @@ module ApplicationHelper
   end
 
   # TODO: Render 403
+  def check_view!(object)
+    head :forbidden unless current_user&.can_view? object
+  end
+
   def check_edit!(object)
-    head :forbidden unless current_user.can_edit? object
+    head :forbidden unless current_user&.can_edit? object
   end
 end

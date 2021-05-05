@@ -16,6 +16,11 @@ class User < ApplicationRecord
   # has_many (as on Git) OR belongs_to :w, optional: true
   has_many :packages, dependent: :destroy
   has_many :endpoints, dependent: :destroy
+  has_and_belongs_to_many :maintained,
+                          class_name: "Package",
+                          join_table: :maintainers,
+                          association_foreign_key: :package_id,
+                          dependent: :destroy
 
   validates :name,
             name_restrict: true,
@@ -45,15 +50,19 @@ class User < ApplicationRecord
     !self.blocked? ? super : :blocked
   end
 
-  def is_owner?(object)
-    object.user == self
+  def can_view?(object)
+    can_edit?(object) || published?
   end
 
   def can_edit?(object)
-    is_owner? object
+    is_owner?(object) || maintained.include?(object)
   end
 
   private
+
+  def is_owner?(object)
+    object.user == self
+  end
 
   def generate_name
     if name.blank?

@@ -45,12 +45,6 @@ class Package < ApplicationRecord
 
   after_save :check_external_url
 
-  scope :published_with,
-        ->(user) {
-          published.or(where(user: user)
-            .or(where(maintainers: { user: user })))
-        }
-
   def all_dependencies(packages = Set[])
     Package.unscoped.all_dependencies(self, packages)
     packages.to_a.reverse
@@ -87,9 +81,11 @@ class Package < ApplicationRecord
 
   def check_external_url
     if saved_change_to_external_url?
-      invalidate!
+      update(size: new_size, validated_at: Time.current)
       CheckExternalUrlJob.perform_later self
-    else
+    end
+  end
+
   def _replaced_by
     # TODO: Check payment i.e.
     replacement.nil? ? self : replacement.replaced_by

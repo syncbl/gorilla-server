@@ -11,7 +11,9 @@ class SourcesController < ApplicationController
   end
 
   # GET /sources/1
-  def show; end
+  def show
+    check_view! @source.package
+  end
 
   # GET /sources/new
   def new
@@ -45,6 +47,7 @@ class SourcesController < ApplicationController
 
   # PATCH/PUT /sources/1
   def update
+    check_edit! @source.package
     respond_to do |format|
       if @source.update(source_params)
         redirect_to @source, notice: "Source was successfully updated."
@@ -59,6 +62,7 @@ class SourcesController < ApplicationController
 
   # DELETE /sources/1
   def destroy
+    check_edit! @source.package
     respond_to do |format|
       if @source.destroy
         format.html do
@@ -76,6 +80,7 @@ class SourcesController < ApplicationController
 
   # POST /package/1/sources/merge
   def merge
+    check_edit! @source.package
     @package = current_user.packages.find(params[:package_id])
     if @package.sources.merged?
       head :unprocessable_entity

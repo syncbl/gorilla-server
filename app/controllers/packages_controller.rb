@@ -15,7 +15,9 @@ class PackagesController < ApplicationController
 
   # GET /packages/1
   # GET /packages/1.json
-  def show; end
+  def show
+    check_view! @package
+  end
 
   # GET /packages/new
   # TODO: Store in cache during edit to allow update page
@@ -48,6 +50,7 @@ class PackagesController < ApplicationController
   # PATCH/PUT /packages/1
   # PATCH/PUT /packages/1.json
   def update
+    check_edit! @package
     respond_to do |format|
       if @package.update(package_params)
         format.html do
@@ -66,6 +69,7 @@ class PackagesController < ApplicationController
   # DELETE /packages/1
   # DELETE /packages/1.json
   def destroy
+    check_edit! @package
     respond_to do |format|
       if @package.destroy
         format.html do
@@ -88,7 +92,7 @@ class PackagesController < ApplicationController
 
   def set_package
     # TODO: Leave here only own and maintained
-    packages = Package.published_with(current_user).joins(:user)
+    packages = Package.joins(:user)
     @package = params[:user_id].present? ?
       packages.where(user: { name: params[:user_id] }).find_by!(name: params[:package_id]) :
       packages.find_any!(params[:id])
