@@ -81,7 +81,7 @@ class Package < ApplicationRecord
 
   def check_external_url
     if saved_change_to_external_url?
-      update(size: new_size, validated_at: Time.current)
+      invalidate!
       CheckExternalUrlJob.perform_later self
     end
   end
