@@ -30,11 +30,8 @@ class MergeSourcesService < ApplicationService
     @package.sources.update_all(is_merged: true)
     # TODO: Inform about freed space
     old_size = @package.size
-    new_size = 0
-    @package.sources.each do |s|
-      new_size += s.unpacked_size
-    end
-    @package.size = new_size
+    @package.size = 0
+    @package.sources.each { |s| @package.size += s.unpacked_size }
     @package.published_at = published_at
     if @package.save
       # TODO: Notify old_size - package.reload.size
