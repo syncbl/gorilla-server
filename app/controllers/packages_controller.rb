@@ -1,7 +1,6 @@
 class PackagesController < ApplicationController
   before_action :authenticate_user!, except: %i[show]
   before_action :set_package, except: %i[index new create]
-  before_action :check_permissions!, only: %i[update destroy]
 
   # GET /packages
   # GET /packages.json
@@ -91,7 +90,6 @@ class PackagesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
 
   def set_package
-    # TODO: Leave here only own and maintained
     packages = Package.joins(:user)
     @package = params[:user_id].present? ?
       packages.where(user: { name: params[:user_id] }).find_by!(name: params[:package_id]) :
@@ -102,9 +100,5 @@ class PackagesController < ApplicationController
   # <input type="text" name="client[name]" value="Acme" />
   def package_params
     params.require(:package).permit(:name, :external_url, :replacement)
-  end
-
-  def check_permissions!
-    check_edit! @package
   end
 end

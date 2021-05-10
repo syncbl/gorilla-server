@@ -1,0 +1,5 @@
+{
+  id: @product.id,
+  created_at: @product.created_at,
+  updated_at: @product.updated_at
+}

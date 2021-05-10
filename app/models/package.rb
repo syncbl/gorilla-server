@@ -77,6 +77,10 @@ class Package < ApplicationRecord
     external? ? published_at.present? : sources.where.not(published_at: nil).any?
   end
 
+  def product?
+    Product.exists?(package: self).
+  end
+
   private
 
   def check_external_url

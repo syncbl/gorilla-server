@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   include Blockable
+  has_friendship
 
   # Include default devise modules. Others available are:
   # :rememberable, :confirmable, :lockable, :trackable and :omniauthable
@@ -50,8 +51,12 @@ class User < ApplicationRecord
     !self.blocked? ? super : :blocked
   end
 
+  def friendly?(object)
+    friends.include?(object.user) && object.published?
+  end
+
   def can_view?(object)
-    can_edit?(object) || published?
+    can_edit?(object) || friendly?(object) || object.product?
   end
 
   def can_edit?(object)

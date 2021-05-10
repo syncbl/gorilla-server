@@ -3,14 +3,14 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.0.1"
 
-gem "rails", "~> 6.0" # Ruby on Rails is a full-stack web framework.
+gem "rails", "~> 6.1" # Ruby on Rails is a full-stack web framework.
 gem "rails-i18n", "~> 6.0" # Centralization of locale data collection for Ruby on Rails.
 gem "puma", "~> 5.1" # Puma is a simple, fast, multi-threaded, and highly concurrent HTTP 1.1 server for Ruby/Rack applications.
 gem "bootsnap", ">= 1.4.2", require: false # Boot large ruby/rails apps faster.
 
 gem "webpacker", "~> 5.2" # Webpacker makes it easy to use the JavaScript pre-processor.
 gem "turbolinks", "~> 5.0" # Turbolinks makes following links in your web application faster (use with Rails Asset Pipeline).
-gem 'jquery-rails' # JQuery support
+gem "jquery-rails" # JQuery support
 #gem 'sass-rails', '~> 6' # Official integration for Ruby on Rails projects with the Sass stylesheet language.
 gem "uglifier", ">= 1.3.0" # Ruby wrapper for UglifyJS JavaScript compressor.
 
@@ -22,13 +22,14 @@ gem "hiredis" # Ruby extension that wraps hiredis.
 gem "active_storage_validations" # Active Storage Validations.
 gem "aws-sdk-s3", require: false # Official AWS Ruby gem for Amazon Simple Storage Service (Amazon S3)
 gem "bcrypt", "~> 3.1.7" # Provides a simple wrapper for safely handling passwords.
-gem "bootstrap", "~> 5.0.0.beta3" # Bootstrap ruby gem for Ruby on Rails.
+gem "bootstrap", "~> 5.0.0" # Bootstrap ruby gem for Ruby on Rails.
 gem "clamby" # This gem's function is to simply scan a given file.
 gem "devise" # Devise is a flexible authentication solution for Rails based on Warden.
 gem "devise_invitable", "~> 2.0.0" # Adds support to Devise for sending invitations by email.
 gem "devise-bootstrap-views", "~> 1.0" # Devise views with Bootstrap 4.
 gem "discard", "~> 1.0" # Soft deletes for ActiveRecord done right.
 gem "enumerize" # Enumerated attributes with I18n and ActiveRecord/Mongoid/MongoMapper/Sequel support
+gem "has_friendship", github: 'sungwoncho/has_friendship' # Add friendship features to your ActiveRecord models.
 gem "high_voltage", "~> 3.1" # Rails engine for static pages.
 #gem "hotwire-rails" # Hotwire is an alternative approach to building modern web applications without using much JavaScript.
 gem "http_accept_language" # Detect the users preferred language, as sent by the "Accept-Language" HTTP header.
