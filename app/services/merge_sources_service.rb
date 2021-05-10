@@ -16,12 +16,9 @@ class MergeSourcesService < ApplicationService
         next if diff.empty?
         dst.file.open do |dstfile|
           Zip::File.open(dstfile, Zip::File::CREATE) do |dstzipfile|
-            dstzipfile.each do |dstz|
-              next if dstz.directory?
-              unless diff[dstz.name].nil?
-                dstzipfile.remove(dstz)
-                dstzipfile.commit
-              end
+            dstzipfile.select { |d| !d.directory? && diff[d.name].present? }.each do |dstz|
+              dstzipfile.remove(dstz)
+              dstzipfile.commit
             end
             dst.discard if dstzipfile.size == 0
           end
