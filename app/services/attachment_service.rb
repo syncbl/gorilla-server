@@ -24,6 +24,7 @@ class AttachmentService < ApplicationService
   protected
 
   def build
+    @source.unpacked_size = 0
     filelist = {}
     Zip::File.open(@filename) do |zipfile|
       raise I18n.t("model.source.error.packed_files_too_many") if zipfile.size > MAX_FILE_COUNT
