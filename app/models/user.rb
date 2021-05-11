@@ -56,7 +56,7 @@ class User < ApplicationRecord
   end
 
   def can_view?(object)
-    can_edit?(object) || friendly?(object) || object.product?
+    can_edit?(object) || friendly?(object) || object.product.present?
   end
 
   def can_edit?(object)
