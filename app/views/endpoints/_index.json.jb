@@ -1,5 +1,5 @@
 json = endpoints.map do |endpoint|
-  render 'show', endpoint: endpoint
+  render "show", endpoint: endpoint
 end
 
 json

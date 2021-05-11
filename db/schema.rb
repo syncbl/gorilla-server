@@ -46,13 +46,16 @@ ActiveRecord::Schema.define(version: 2021_05_10_224744) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "dependencies", id: false, force: :cascade do |t|
+  create_table "dependencies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "package_id", null: false
     t.uuid "dependent_package_id", null: false
+    t.string "dependency_type"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["dependent_package_id"], name: "index_dependencies_on_dependent_package_id"
     t.index ["package_id", "dependent_package_id"], name: "index_dependencies_on_package_id_and_dependent_package_id", unique: true
     t.index ["package_id"], name: "index_dependencies_on_package_id"
+    t.index ["updated_at"], name: "index_dependencies_on_updated_at"
   end
 
   create_table "endpoints", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

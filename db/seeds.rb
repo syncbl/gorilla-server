@@ -37,8 +37,8 @@ when "development"
       { name: "openssl-dev", user: u1 },
     ]
   )
-  Package.first.dependencies << Package.last
-  Package.last.dependencies << Package.find_by(name: "openssl-1_1")
+  Package.first.dependent_packages << Package.last
+  Package.last.dependent_packages << Package.find_by(name: "openssl-1_1")
   Package.last.maintainers << u2
   AttachmentService.call Package.last.sources.create, "files/test.zip"
   Package.first.icon.attach(io: File.open("files/hqdefault.jpg"), filename: "hqdefault.jpg")

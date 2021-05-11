@@ -1,6 +1,6 @@
-json = render 'layouts/header', object: @endpoint
+json = render "layouts/header", object: @endpoint
 
-json[:endpoint] = render 'endpoints/show', endpoint: @endpoint
+json[:endpoint] = render "endpoints/show", endpoint: @endpoint
 
 log_json json, __FILE__
 

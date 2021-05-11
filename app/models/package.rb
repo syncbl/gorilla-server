@@ -9,11 +9,8 @@ class Package < ApplicationRecord
   has_many :settings, dependent: :nullify
   has_many :endpoints, through: :settings
   has_many :sources, dependent: :destroy
-  has_and_belongs_to_many :dependencies,
-                          class_name: "Package",
-                          join_table: :dependencies,
-                          association_foreign_key: :dependent_package_id,
-                          dependent: :destroy
+  has_many :dependencies
+  has_many :dependent_packages, through: :dependencies
   has_and_belongs_to_many :maintainers,
                           class_name: "User",
                           join_table: :maintainers,
@@ -47,14 +44,14 @@ class Package < ApplicationRecord
   after_save :check_external_url
 
   def all_dependencies(packages = Set[])
-    Package.unscoped.all_dependencies(self, packages)
+    Package.all_dependencies(self, packages)
     packages.to_a.reverse
   end
 
   def self.all_dependencies(package, packages = Set[])
-    package.dependencies.map do |p|
-      packages << p
-      Package.all_dependencies(p, packages)
+    package.dependencies.with_dependency_type(:dependent).map do |p|
+      packages << p.dependent_package
+      Package.all_dependencies(p.dependent_package, packages)
     end
   end
 
