@@ -1,10 +1,7 @@
-# TODO: Add updates and more into session
-
 json = {}
 
 if json_token = current_endpoint&.token || current_user&.token
-  json[:session] = {}
-  json[:session][:token] = json_token
+  json[:session] = { token: json_token }
 end
 
 unless @pagy.nil?

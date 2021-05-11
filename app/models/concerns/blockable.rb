@@ -1,8 +1,6 @@
 module Blockable
   extend ActiveSupport::Concern
 
-  # TODO: Add logger
-
   def block!(reason = nil)
     update!({
       blocked_at: Time.current,

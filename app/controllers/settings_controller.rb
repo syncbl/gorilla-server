@@ -69,7 +69,6 @@ class SettingsController < ApplicationController
     @setting = @endpoint.settings.with_includes.find_by!(package_id: params[:id])
   end
 
-  # TODO: Endpoint.install here is only for API, but how to do that for UI?
   def set_endpoint
     head :unauthorized unless @endpoint = current_endpoint
   end

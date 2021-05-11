@@ -1,9 +1,8 @@
 class Setting < ApplicationRecord
   include Discard::Model
 
-  # TODO: What to do if package is deleted?
   belongs_to :package, counter_cache: true
-  belongs_to :endpoint # TODO: touch: true
+  belongs_to :endpoint
 
   validates :package_id, uniqueness: { scope: :endpoint_id }
 

@@ -35,8 +35,6 @@ class User < ApplicationRecord
             allow_nil: true, # To allow token auto generation
             length: { is: 24 }
 
-  # TODO: Everyone can create packages, but we need to add permissions for company members later
-
   before_validation :generate_name
 
   def active_for_authentication?

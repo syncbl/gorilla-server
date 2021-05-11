@@ -23,7 +23,6 @@ Rails.application.routes.draw do
     resources :settings, only: %i[create]
   end
 
-  # TODO: Dashboard, endpoints and user settings only
   authenticated :user do
     root to: "packages#index", as: :authenticated_root
   end

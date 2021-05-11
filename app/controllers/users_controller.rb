@@ -18,15 +18,6 @@ class UsersController < ApplicationController
     end
   end
 
-  # TODO: Dashboard
-  def dashboard
-    if user_signed_in?
-      #
-    else
-      #
-    end
-  end
-
   private
 
   # Use callbacks to share common setup or constraints between actions.

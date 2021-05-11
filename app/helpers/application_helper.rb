@@ -59,7 +59,6 @@ module ApplicationHelper
     time.nil? ? nil : time.to_i
   end
 
-  # TODO: Render 403
   def check_view!(object)
     render_403 unless current_user&.can_view? object
   end

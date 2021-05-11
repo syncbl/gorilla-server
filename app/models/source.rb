@@ -16,8 +16,6 @@ class Source < ApplicationRecord
   validates :version,
             length: { maximum: MAX_VERSION_LENGTH }
 
-  # TODO: pluck
-
   default_scope { joins(:file_attachment) }
 
   def self.merged?

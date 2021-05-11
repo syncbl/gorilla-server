@@ -8,7 +8,6 @@ class CheckExternalUrlJob < ApplicationJob
     package.update(size: new_size, validated_at: Time.current)
   rescue StandardError => e
     package.block! e.message
-    # TODO: Log e with url
   end
 
   private
