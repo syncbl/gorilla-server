@@ -5,20 +5,19 @@ class AttachmentService < ApplicationService
   end
 
   def call
-    if build
-      @source.file.attach(
-        io: File.open(@filename),
-        filename: "#{@source.created_at.strftime("%y%m%d%H%M%S%2L")}.zip",
-        content_type: "application/zip",
-        identify: false,
-      )
-      File.delete(@filename) unless File.basename(@filename) == 'test.zip'
-      if @source.package.size == 0
-        @source.package.update(size: @source.unpacked_size)
-      end
-      @source.package.touch unless @source.package.is_persistent
-      @source.update(validated_at: Time.current)
+    return false unless build
+    @source.file.attach(
+      io: File.open(@filename),
+      filename: "#{@source.created_at.strftime("%y%m%d%H%M%S%2L")}.zip",
+      content_type: "application/zip",
+      identify: false,
+    )
+    File.delete(@filename) unless File.basename(@filename) == "test.zip"
+    if @source.package.size == 0
+      @source.package.update(size: @source.unpacked_size)
     end
+    @source.package.touch unless @source.package.is_persistent
+    @source.update(validated_at: Time.current)
   end
 
   protected

@@ -30,7 +30,10 @@ class Package < ApplicationRecord
               minimum: MIN_NAME_LENGTH,
               maximum: MAX_NAME_LENGTH,
             },
-            uniqueness: { scope: :user_id, case_sensitive: false },
+            uniqueness: {
+              scope: :user_id,
+              case_sensitive: false,
+            },
             format: { with: NAME_FORMAT }
   validates :icon, size: { less_than: MAX_ICON_SIZE }
   validates :external_url,

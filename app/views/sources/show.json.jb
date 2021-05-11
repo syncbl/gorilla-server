@@ -1,8 +1,6 @@
 json = render "layouts/header", object: @source
 
-json_source = render "show", source: @source
-
-json[:source] = json_source
+json[:source] = render "show", source: @source
 
 log_json json, __FILE__
 

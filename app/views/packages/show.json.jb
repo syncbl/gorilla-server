@@ -12,6 +12,8 @@ json_package[:optional] = @package.dependencies.with_dependency_type(:optional).
   render "show", package: p
 end
 
+# TODO: Optimize JSON output for different scenarios
+
 if @package.external?
   json_package[:external_url] = @package.external_url
 elsif @package.published?
