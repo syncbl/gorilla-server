@@ -63,10 +63,6 @@ class Package < ApplicationRecord
     !external_url.to_s.strip.empty?
   end
 
-  def self.find_any!(package_id)
-    where(id: package_id).or(where(name: package_id)).first!
-  end
-
   def validated?
     external? ? validated_at.present? : sources.where.not(validated_at: nil).any?
   end

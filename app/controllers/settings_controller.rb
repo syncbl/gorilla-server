@@ -17,10 +17,9 @@ class SettingsController < ApplicationController
 
   # POST /endpoints/1/settings
   def create
-    # TODO: Policy authorization
-    @package = Package.find(params[:package_id])
+    check_view! package = Package.find(params[:package_id])
     respond_to do |format|
-      if @setting = @endpoint.install(@package)
+      if @setting = @endpoint.install(package)
         format.html do
           redirect_to [@endpoint, @setting], notice: "Package soon will be installed."
         end

@@ -90,10 +90,9 @@ class PackagesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
 
   def set_package
-    packages = Package.joins(:user)
     @package = params[:user_id].present? ?
-      packages.where(user: { name: params[:user_id] }).find_by!(name: params[:package_id]) :
-      packages.find_any!(params[:id])
+      Package.joins(:user).where(user: { name: params[:user_id] }).find_by!(name: params[:package_id]) :
+      Package.find(params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
