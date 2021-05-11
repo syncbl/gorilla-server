@@ -80,11 +80,18 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     end
 
     # ----------
-    create_table :dependencies, id: false do |t|
+    create_table :dependencies, id: :uuid do |t|
       t.references :package, type: :uuid, index: true, null: false, foreign_key: true
       t.references :dependent_package, class_name: "Package", type: :uuid, index: true, null: false
 
+      # Types of dependency:
+      # - dependent (install and update as part of main package)
+      # - required (must be installed before main package)
+      # - optional (user can install or not)
+      t.string :dependency_type
+
       t.datetime :created_at, null: false, default: -> { "CURRENT_TIMESTAMP" }
+      t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.index %i[package_id dependent_package_id], unique: true
     end
 

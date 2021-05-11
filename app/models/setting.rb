@@ -14,7 +14,7 @@ class Setting < ApplicationRecord
           includes(package: [:icon_attachment,
                              :replacement,
                              :dependencies,
-                             :dependencies_packages])
+                             :dependent_packages])
         }
 
   scope :updated,
