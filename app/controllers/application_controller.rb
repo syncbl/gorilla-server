@@ -46,7 +46,7 @@ class ApplicationController < ActionController::Base
         uuid = payload[:uuid]
         token = payload[:token]
       else
-        return false
+        false
       end
     end
 
@@ -66,7 +66,7 @@ class ApplicationController < ActionController::Base
         render_json_error I18n.t("devise.failure.blocked"), status: :unauthorized
       end
     elsif ApiKeys.anonymous.include?(service)
-      return true
+      true
     elsif service
       head :upgrade_required
     else

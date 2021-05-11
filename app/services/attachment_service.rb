@@ -5,7 +5,7 @@ class AttachmentService < ApplicationService
   end
 
   def call
-    return false unless build
+    return unless build
     @source.file.attach(
       io: File.open(@filename),
       filename: "#{@source.created_at.strftime("%y%m%d%H%M%S%2L")}.zip",

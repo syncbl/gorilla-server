@@ -4,7 +4,7 @@ class MergeSourcesService < ApplicationService
   end
 
   def call
-    return false unless @package.sources.size > 1
+    return unless @package.sources.size > 1
 
     published_at = @package.published_at
     @package.update(published_at: nil)

@@ -3,7 +3,7 @@ class CheckExternalUrlJob < ApplicationJob
   require "uri"
 
   def safe_perform(package)
-    return false unless package.external?
+    return unless package.external?
     new_size = get_attachment_size(package.external_url).to_i
     package.update(size: new_size, validated_at: Time.current)
   rescue StandardError => e
