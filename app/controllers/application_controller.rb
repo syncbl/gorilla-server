@@ -9,7 +9,26 @@ class ApplicationController < ActionController::Base
   before_action :api_check_headers, if: -> { request.format.json? }
   before_action :set_locale
 
+  rescue_from ActiveRecord::RecordNotFound, with: :render_404
+
   protected
+
+  # TODO: Layout
+  def render_403
+    respond_to do |format|
+      format.html { render "errors/403", status: :forbidden }
+      format.any { head :forbidden }
+    end
+  end
+
+  def render_404
+    respond_to do |format|
+      format.html { render "errors/404", status: :not_found }
+      format.any { head :not_found }
+    end
+  end
+
+  private
 
   def api_check_headers
     service = request.headers["X-API-Service"]
