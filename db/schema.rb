@@ -100,12 +100,12 @@ ActiveRecord::Schema.define(version: 2021_05_10_224744) do
     t.bigint "size", default: 0, null: false
     t.bigint "settings_count", default: 0, null: false
     t.string "external_url"
-    t.datetime "published_at"
     t.boolean "is_component", default: false, null: false
     t.boolean "is_persistent", default: false, null: false
     t.uuid "user_id", null: false
     t.uuid "replacement_id"
     t.datetime "validated_at"
+    t.datetime "published_at"
     t.datetime "blocked_at"
     t.string "block_reason"
     t.datetime "discarded_at"

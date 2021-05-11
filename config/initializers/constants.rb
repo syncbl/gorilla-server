@@ -13,6 +13,11 @@ USER_SESSION_TIME = 1.month
 ENDPOINT_SESSION_TIME = 1.month
 USER_AGENT = "Syncable Server/Net::HTTP/1.0 https://syncbl.com"
 
+ACCEPTED_CONTENT_TYPES = %w[
+  application/octet-stream
+  application/zip
+]
+
 RESTRICTED_NAMES = %w[
   setting    sign_in       api
   settings   sign_out      actuator

@@ -35,10 +35,13 @@ en:
       error:
         url_is_not_attachment: Incorrect attachment type
         url_is_not_https: Only secured connections allowed
-        cannot_publish: Wait until validation finished
     source:
       error:
         packed_file_too_big: "File is too big: %{name}:%{size}"
         packed_files_too_many: Too many files
+  concern:
+    publishable:
+      error:
+        cannot_publish: Wait until validation finished
   block_reasons:
     suspicious_attachment: Suspicious files found!

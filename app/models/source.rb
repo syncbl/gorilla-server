@@ -28,6 +28,10 @@ class Source < ApplicationRecord
     validated_at.present?
   end
 
+  def published?
+    published_at.present?
+  end
+
   private
 
   def check_publishable

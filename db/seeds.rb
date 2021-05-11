@@ -17,6 +17,8 @@ when "development"
                    name: "tester",
                    email: "tester@example.com",
                    password: "123456"
+  u1.friends << u2
+
   puts Package.create(
     [
       {
@@ -29,9 +31,7 @@ when "development"
       {
         name: "Openssl-2_0",
         user: u2,
-        external_url: "https://www.7-zip.org/a/7z1900-x64.exe",
-        validated_at: Time.current,
-        published_at: Time.current,
+        external_url: "https://www.7-zip.org/a/7z1900-x64.exe"
       },
       { name: "openssl-2_1", user: u2 },
       { name: "openssl-dev", user: u1 },
@@ -42,6 +42,12 @@ when "development"
   Package.last.maintainers << u2
   AttachmentService.call Package.last.sources.create, "files/test.zip"
   Package.first.icon.attach(io: File.open("files/hqdefault.jpg"), filename: "hqdefault.jpg")
+
+  p = Package.find_by(name: "Openssl-2_0")
+  p.validate!
+  p.publish!
+  Product.create(package: p)
+
   Endpoint.create name: "Test2", user: u1, id: "253307f5-0e4f-4a76-9b04-da35ba6345d5"
   e = Endpoint.create name: "Test5", user: User.last
   e.packages << Package.second

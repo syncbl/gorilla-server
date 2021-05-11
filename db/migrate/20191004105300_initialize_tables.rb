@@ -57,7 +57,6 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       t.string :external_url
 
-      t.datetime :published_at
       # Components will be autoremoved after parent package delete
       t.boolean :is_component, null: false, default: false
       # Persistent packages excluded from autoupdate, CAN'T BE CHANGED
@@ -68,6 +67,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.references :replacement, type: :uuid, index: true, foreign_key: { to_table: :packages }
 
       t.datetime :validated_at
+      t.datetime :published_at
       t.datetime :blocked_at
       t.string :block_reason
       t.datetime :discarded_at, index: true
@@ -134,7 +134,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
     # ----------
     create_table :products do |t|
-      t.references :package, type: :uuid, index: true, null: false, foreign_key: true
+      t.references :package, type: :uuid, index: true, unique: true, null: false, foreign_key: true
 
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }

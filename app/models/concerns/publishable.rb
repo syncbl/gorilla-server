@@ -15,23 +15,23 @@ module Publishable
     update!(published_at: time)
   end
 
-  def published?
-    published_at != nil
+  def unpublish!
+    update!(published_at: nil)
   end
 
   def validate!
-    update!(published_at: Time.current)
+    update!(validated_at: Time.current)
   end
 
   def invalidate!
-    update!(published_at: nil)
+    update!(validated_at: nil, published_at: nil)
   end
 
   private
 
   def check_publishable
     if published_at.present?
-      errors.add(I18n.t("model.package.error.cannot_publish")) unless validated?
+      errors.add(I18n.t("concern.publishable.error.cannot_publish")) unless validated?
     end
   end
 end

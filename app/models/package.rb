@@ -5,6 +5,7 @@ class Package < ApplicationRecord
   # TODO: MUST!!! Sign packages with endpoint certificate before send and check sign on client-side.
 
   belongs_to :user
+  has_one :product
   has_many :settings, dependent: :nullify
   has_many :endpoints, through: :settings
   has_many :sources, dependent: :destroy
@@ -78,7 +79,7 @@ class Package < ApplicationRecord
   end
 
   def product?
-    Product.exists?(package: self).
+    product.present?
   end
 
   private
