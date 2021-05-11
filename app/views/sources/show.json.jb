@@ -1,6 +1,6 @@
-json = render 'layouts/header', object: @source
+json = render "layouts/header", object: @source
 
-json_source = render 'show', source: @source
+json_source = render "show", source: @source
 
 json[:source] = json_source
 

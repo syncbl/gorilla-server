@@ -1,9 +1,15 @@
-json = render 'layouts/header', object: @package
+json = render "layouts/header", object: @package
 
-json_package = render 'show', package: @package
+json_package = render "show", package: @package
 
-json_package[:dependencies] = @package.all_dependencies.map do |dependent|
-  render 'show', package: dependent
+json_package[:dependent] = @package.all_dependencies.map do |p|
+  render "show", package: p
+end
+json_package[:required] = @package.dependencies.with_dependency_type(:required).map do |p|
+  render "show", package: p
+end
+json_package[:optional] = @package.dependencies.with_dependency_type(:optional).map do |p|
+  render "show", package: p
 end
 
 if @package.external?
@@ -11,7 +17,7 @@ if @package.external?
 elsif @package.published?
   json_package[:destination] = @package.destination
   json_package[:sources] = @package.sources.published.map do |source|
-    render 'sources/show', source: source
+    render "sources/show", source: source
   end
 end
 

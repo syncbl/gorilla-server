@@ -9,11 +9,11 @@ json = {
   h_install_count: number_to_human(package.settings_count, precision: 1),
   # replaced_by: package.replaced_by&.id,
   created_at: json_time(package.created_at),
-  updated_at: json_time(package.updated_at)
+  updated_at: json_time(package.updated_at),
 }
 
 # TODO: May be, move icons into db?
 # TODO: Add dimensions
-json[:icon] = render 'layouts/file', file: package.icon, prefix: "i"
+json[:icon] = render "layouts/file", file: package.icon, prefix: "i"
 
 json

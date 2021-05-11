@@ -3,5 +3,5 @@ json = {
   name: endpoint.name,
   locale: endpoint.locale,
   created_at: json_time(endpoint.created_at),
-  updated_at: json_time(endpoint.updated_at)
+  updated_at: json_time(endpoint.updated_at),
 }

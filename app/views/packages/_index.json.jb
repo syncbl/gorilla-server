@@ -1,5 +1,5 @@
 json = packages.map do |package|
-  render 'show', package: package
+  render "show", package: package
 end
 
 json

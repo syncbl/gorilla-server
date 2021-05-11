@@ -1,11 +1,11 @@
 json = {
   discarded_at: json_time(setting.discarded_at),
   created_at: json_time(setting.created_at),
-  updated_at: json_time(setting.updated_at)
+  updated_at: json_time(setting.updated_at),
 }
 
 if setting.package.published? || setting.endpoint.user == setting.package.user
-  json[:package] = render 'packages/show', package: setting.package
+  json[:package] = render "packages/show", package: setting.package
 end
 
 json

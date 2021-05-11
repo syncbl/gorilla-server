@@ -1,5 +1,5 @@
-json = render 'layouts/header', pagy: @pagy
+json = render "layouts/header", pagy: @pagy
 
-json[:endpoints] = render 'endpoints/index', endpoints: @endpoints
+json[:endpoints] = render "endpoints/index", endpoints: @endpoints
 
 json
