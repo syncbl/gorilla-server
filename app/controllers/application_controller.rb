@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    if (scope == Endpoint.name) && ApiKeys.endpoint.include?(service)
+    if scope == Endpoint.name && ApiKeys.endpoint.include?(service)
       if endpoint = cached_endpoint(uuid, token)
         rand(ENDPOINT_TOKEN_REGEN_RANDOM) == 0 ? endpoint.reset_token : endpoint.touch
       else
@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
         Endpoint.active.find_by(id: uuid)&.regenerate_authentication_token
         render_json_error I18n.t("devise.failure.blocked"), status: :unauthorized
       end
-    elsif (scope == User.name) && ApiKeys.user.include?(service)
+    elsif scope == User.name && ApiKeys.user.include?(service)
       if user = cached_user(uuid, token)
         sign_in user
       else

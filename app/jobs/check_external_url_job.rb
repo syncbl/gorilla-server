@@ -27,7 +27,9 @@ class CheckExternalUrlJob < ApplicationJob
     response = http.head(uri.path, { 'User-Agent': USER_AGENT, 'Accept': "application/*" })
     if response.is_a?(Net::HTTPRedirection) && redirect_count < 10
       get_attachment_size(response["location"], redirect_count + 1)
-    elsif response.is_a?(Net::HTTPSuccess) && response.content_type.split('/')[0] == "application"
+    elsif response.is_a?(Net::HTTPSuccess) &&
+          response.content_type.split("/")[0] == "application" &&
+          response.content_length > 0
       response.content_length
     else
       raise I18n.t("model.package.error.url_is_not_attachment")
