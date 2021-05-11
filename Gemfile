@@ -3,22 +3,27 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.0.1"
 
+# Core
 gem "rails", "~> 6.1" # Ruby on Rails is a full-stack web framework.
 gem "rails-i18n", "~> 6.0" # Centralization of locale data collection for Ruby on Rails.
 gem "puma", "~> 5.1" # Puma is a simple, fast, multi-threaded, and highly concurrent HTTP 1.1 server for Ruby/Rack applications.
 gem "bootsnap", ">= 1.4.2", require: false # Boot large ruby/rails apps faster.
+gem "rack-attack" # Rack middleware for blocking & throttling abusive requests.
 
+# Javacsript
 gem "webpacker", "~> 5.2" # Webpacker makes it easy to use the JavaScript pre-processor.
 gem "turbolinks", "~> 5.0" # Turbolinks makes following links in your web application faster (use with Rails Asset Pipeline).
 gem "jquery-rails" # JQuery support
 #gem 'sass-rails', '~> 6' # Official integration for Ruby on Rails projects with the Sass stylesheet language.
 gem "uglifier", ">= 1.3.0" # Ruby wrapper for UglifyJS JavaScript compressor.
 
+# Database
 gem "pg", "~> 1" # Pg is the Ruby interface to the PostgreSQL RDBMS.
 #gem 'pg_search' # PgSearch builds named scopes that take advantage of PostgreSQL's full text search.
 gem "redis", "~> 4.0" # A Ruby client that tries to match Redis' API one-to-one.
 gem "hiredis" # Ruby extension that wraps hiredis.
 
+# Other
 gem "active_storage_validations" # Active Storage Validations.
 gem "aws-sdk-s3", require: false # Official AWS Ruby gem for Amazon Simple Storage Service (Amazon S3)
 gem "bcrypt", "~> 3.1.7" # Provides a simple wrapper for safely handling passwords.
@@ -39,10 +44,10 @@ gem "lockbox" # Modern encryption for Ruby and Rails.
 #gem "omniauth" # Standardized Multi-Provider Authentication
 gem "pagy", "~> 3.8" # Pagination gem that outperforms the others in each and every benchmark and comparison.
 gem "pundit" # Set of helpers to build an authorization system.
-gem "rack-attack" # Rack middleware for blocking & throttling abusive requests.
 gem "render_async" # Pages become faster seamlessly by rendering partials to your views.
 gem "rubyzip", require: "zip" # Ruby library for reading and writing zip files.
 #gem "sidekiq" # Simple, efficient background processing for Ruby.
+gem "scenic" # Scenic adds methods to ActiveRecord::Migration to create and manage database views in Rails.
 gem "simple_form" # Simple Form aims to be as flexible as possible while helping you with powerful components to create your forms.
 gem "whenever", require: false # Provides a clear syntax for writing and deploying cron jobs.
 
