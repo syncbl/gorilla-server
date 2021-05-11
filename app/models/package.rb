@@ -78,10 +78,6 @@ class Package < ApplicationRecord
     external? ? published_at.present? : sources.where.not(published_at: nil).any?
   end
 
-  def product?
-    product.present?
-  end
-
   private
 
   def check_external_url
