@@ -61,6 +61,10 @@ class User < ApplicationRecord
     is_owner?(object) || maintained.include?(object)
   end
 
+  def used_space
+    packages.select { |p| !p.external? }.map(&:size).sum
+  end
+
   private
 
   def is_owner?(object)

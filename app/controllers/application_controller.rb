@@ -86,7 +86,4 @@ class ApplicationController < ActionController::Base
                          I18n.default_locale.to_s
     I18n.locale = session[:locale]
   end
-
-  # TODO: To check license
-  #User.find_by(email: request.headers['X-User-Email']).endpoints.size <= MAXIMUM
 end
