@@ -4,6 +4,7 @@ class PackagesController < ApplicationController
 
   # GET /packages
   # GET /packages.json
+  # TODO: User controller or Package as root?
   def index
     @pagy, @packages =
       pagy_countless(
