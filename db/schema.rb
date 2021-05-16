@@ -124,6 +124,7 @@ ActiveRecord::Schema.define(version: 2021_05_10_224744) do
 
   create_table "products", force: :cascade do |t|
     t.uuid "package_id", null: false
+    t.datetime "published_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_products_on_created_at"

@@ -12,5 +12,4 @@ class Dependency < ApplicationRecord
   enumerize :dependency_type,
             in: [:dependent, :required, :optional],
             scope: true
-
 end

@@ -11,5 +11,6 @@ class Product < ApplicationRecord
 
   scope :active, -> {
           joins(:package).where(package: Package.active.published)
+            .where.not(published_at: nil)
         }
 end

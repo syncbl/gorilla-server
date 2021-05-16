@@ -143,6 +143,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     create_table :products do |t|
       t.references :package, type: :uuid, index: true, unique: true, null: false, foreign_key: true
 
+      t.datetime :published_at
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
     end
