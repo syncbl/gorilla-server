@@ -23,7 +23,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.string :block_reason
       t.datetime :discarded_at, index: true
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
-      t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
+      t.datetime :updated_at
     end
 
     # ----------
@@ -42,12 +42,16 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.string :block_reason
       t.datetime :discarded_at, index: true
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
-      t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
+      t.datetime :updated_at
     end
 
     # ----------
     create_table :packages, id: :uuid do |t|
       t.citext :name, null: false
+
+      # TODO: Multilanguage support for title and description
+      #t.string :title, null: false
+
       t.string :destination, null: false, default: ""
 
       t.string :description
@@ -72,7 +76,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.string :block_reason
       t.datetime :discarded_at, index: true
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
-      t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
+      t.datetime :updated_at
 
       # Packages will be unique for everyone or for selected user
 
@@ -91,7 +95,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.string :dependency_type
 
       t.datetime :created_at, null: false, default: -> { "CURRENT_TIMESTAMP" }
-      t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
+      t.datetime :updated_at
       t.index %i[package_id dependent_package_id], unique: true
     end
 
@@ -104,7 +108,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       t.datetime :discarded_at, index: true
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
-      t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
+      t.datetime :updated_at
 
       t.index %i[endpoint_id package_id], unique: true
     end
@@ -127,7 +131,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.string :block_reason
       t.datetime :discarded_at, index: true
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
-      t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
+      t.datetime :updated_at
     end
 
     # ----------
@@ -146,7 +150,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       # Price, license, etc.
       t.datetime :validated_at
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
-      t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
+      t.datetime :updated_at
     end
 
     # ----------

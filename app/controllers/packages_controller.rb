@@ -92,8 +92,10 @@ class PackagesController < ApplicationController
 
   def set_package
     @package = params[:user_id].present? ?
-      Package.joins(:user).where(user: { name: params[:user_id] }).find_by!(name: params[:package_id]) :
-      Package.find(params[:id])
+      Package.with_includes
+      .where(user: { name: params[:user_id] })
+      .find_by!(name: params[:package_id]) :
+      Package.with_includes.find(params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

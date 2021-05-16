@@ -1,11 +1,17 @@
+is_published = setting.package.external? &&
+               setting.endpoint.user.can_view?(setting.package)
+
 json = {
-  discarded_at: json_time(setting.discarded_at),
-  created_at: json_time(setting.created_at),
-  updated_at: json_time(setting.updated_at),
+  name: setting.package.name,
+  is_published: is_published,
+  # TODO: Planned package discard with message
+  is_discarded: setting.discarded_at.present?,
 }
 
-if setting.package.published? || setting.endpoint.user == setting.package.user
-  json[:package] = render "packages/show", package: setting.package
+if is_published
+  json[:sources] = setting.package.sources.published.map do |source|
+    render "sources/show", source: source if source.created_at > setting.updated_at
+  end
 end
 
 json

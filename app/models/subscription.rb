@@ -1,4 +1,6 @@
 class Subscription < ApplicationRecord
+  # Subscription allows to use more space for packages
+
   belongs_to :user
 
   before_create :validate_time

@@ -10,10 +10,7 @@ class Setting < ApplicationRecord
 
   scope :with_includes,
         -> {
-          includes(package: [:icon_attachment,
-                             :replacement,
-                             :dependencies,
-                             :dependent_packages])
+          includes([:package, :endpoint])
         }
 
   scope :updated,
@@ -24,6 +21,6 @@ class Setting < ApplicationRecord
         }
 
   def replaced?
-    package.replacement.present?
+    package.replacement_id.present?
   end
 end

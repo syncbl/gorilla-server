@@ -4,6 +4,8 @@ class Package < ApplicationRecord
 
   # TODO: MUST!!! Sign packages with endpoint certificate before send and check sign on client-side.
 
+  # TODO: Messages for feed/forum
+
   belongs_to :user
   has_one :product
   has_many :settings, dependent: :nullify
@@ -46,6 +48,8 @@ class Package < ApplicationRecord
 
   after_save :check_external_url
 
+  scope :with_includes, -> { joins(:user) }
+
   def all_dependencies(packages = Set[])
     Package.all_dependencies(self, packages)
     packages.to_a.reverse
@@ -59,7 +63,7 @@ class Package < ApplicationRecord
   end
 
   def replaced_by
-    _replaced_by unless replacement.nil?
+    _replaced_by unless replacement_id.nil?
   end
 
   def external?
@@ -71,7 +75,6 @@ class Package < ApplicationRecord
   end
 
   def published?
-    # return false unless user.subscriptions.paid?
     external? ? published_at.present? : sources.where.not(published_at: nil).any?
   end
 
@@ -86,6 +89,6 @@ class Package < ApplicationRecord
 
   def _replaced_by
     # TODO: Check payment i.e.
-    replacement.nil? ? self : replacement.replaced_by
+    replacement_id.nil? ? self : replacement.replaced_by
   end
 end
