@@ -18,7 +18,7 @@ Rails.application.routes.draw do
     resources :settings, except: %i[create]
   end
   resource :user, only: %i[show] do
-    resource :subscription, only: %i[show create]
+    #resource :subscription, only: %i[show create]
   end
   resources :endpoints, only: %i[index create] do
     resources :settings, only: %i[create]

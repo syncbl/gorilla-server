@@ -71,7 +71,7 @@ class Package < ApplicationRecord
   end
 
   def published?
-    return false unless user.subscriptions.paid?
+    # return false unless user.subscriptions.paid?
     external? ? published_at.present? : sources.where.not(published_at: nil).any?
   end
 

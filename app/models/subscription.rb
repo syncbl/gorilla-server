@@ -1,6 +1,4 @@
 class Subscription < ApplicationRecord
-  # User can publish packages only when subscription active
-
   belongs_to :user
 
   before_create :validate_time
