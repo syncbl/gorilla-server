@@ -19,7 +19,7 @@ class Setting < ApplicationRecord
   scope :updated,
         -> {
           where(
-            Setting.arel_table[:updated_at].lt(Package.arel_table[:updated_at])
+            self.arel_table[:updated_at].lt(Package.arel_table[:updated_at])
           )
         }
 

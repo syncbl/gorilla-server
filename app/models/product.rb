@@ -1,5 +1,7 @@
 class Product < ApplicationRecord
-  # TODO: Materialized view
+  # TODO: Materialized view including check for subscription
+
+  # TODO: License model: user pays for product publication and adverts
 
   belongs_to :package
 

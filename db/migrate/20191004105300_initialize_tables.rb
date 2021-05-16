@@ -146,5 +146,13 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
     end
+
+    # ----------
+    create_table :subscriptions do |t|
+      t.references :user, type: :uuid, index: true, null: false, foreign_key: true
+      t.datetime :start_time
+      t.datetime :end_time
+      t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
+    end
   end
 end

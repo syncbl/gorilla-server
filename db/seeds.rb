@@ -18,6 +18,8 @@ when "development"
                    email: "tester@example.com",
                    password: "123456"
   u1.friends << u2
+  u1.subscriptions.create
+  u2.subscriptions.create
 
   puts Package.create(
     [

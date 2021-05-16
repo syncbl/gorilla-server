@@ -166,6 +166,15 @@ ActiveRecord::Schema.define(version: 2021_05_10_224744) do
     t.index ["updated_at"], name: "index_sources_on_updated_at"
   end
 
+  create_table "subscriptions", force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["created_at"], name: "index_subscriptions_on_created_at"
+    t.index ["user_id"], name: "index_subscriptions_on_user_id"
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "fullname"
     t.citext "name", null: false
@@ -201,4 +210,5 @@ ActiveRecord::Schema.define(version: 2021_05_10_224744) do
   add_foreign_key "settings", "endpoints"
   add_foreign_key "settings", "packages"
   add_foreign_key "sources", "packages"
+  add_foreign_key "subscriptions", "users"
 end

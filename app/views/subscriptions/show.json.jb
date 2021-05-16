@@ -1,0 +1,5 @@
+{
+  id: @subscription.id,
+  created_at: @subscription.created_at,
+  updated_at: @subscription.updated_at
+}
