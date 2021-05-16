@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   include Blockable
+  include Permissable
   has_friendship
 
   # Include default devise modules. Others available are:
@@ -50,27 +51,11 @@ class User < ApplicationRecord
     !self.blocked? ? super : :blocked
   end
 
-  def friendly?(object)
-    friends.include?(object.user) && object.published?
-  end
-
-  def can_view?(object)
-    can_edit?(object) || friendly?(object) || object.product&.published?
-  end
-
-  def can_edit?(object)
-    is_owner?(object) || maintained.include?(object)
-  end
-
   def used_space
     packages.select { |p| !p.external? }.map(&:size).sum
   end
 
   private
-
-  def is_owner?(object)
-    object.user == self
-  end
 
   def generate_name
     if name.blank?

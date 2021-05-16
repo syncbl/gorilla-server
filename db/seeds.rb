@@ -47,14 +47,14 @@ when "development"
   p = Package.find_by(name: "Openssl-2_0")
   p.validate!
   p.publish!
-  Product.create(package: p, published_at: Time.current)
+  Product.create(package: p, validated_at: Time.current)
 
   p = Package.find_by(name: "openssl-dev")
   s = p.sources.create
   AttachmentService.call s, "files/test.zip"
   s.validate!
   s.publish!
-  Product.create(package: p, published_at: Time.current)
+  Product.create(package: p, validated_at: Time.current)
 
   Endpoint.create name: "Test2", user: u1, id: "253307f5-0e4f-4a76-9b04-da35ba6345d5"
   e = Endpoint.create name: "Test5", user: User.last
