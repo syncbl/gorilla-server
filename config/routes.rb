@@ -15,7 +15,10 @@ Rails.application.routes.draw do
     end
   end
   resource :endpoint, only: %i[show update destroy] do
-    resources :settings, except: %i[create]
+    resources :settings, except: %i[create] do
+      collection do
+        # TODO: post :reset <- to clean all the setting updated_at
+      end
   end
   resource :user, only: %i[show] do
     #resource :subscription, only: %i[show create]

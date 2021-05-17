@@ -10,7 +10,9 @@ json = {
 
 if is_published
   json[:sources] = setting.package.sources.published.map do |source|
-    render "sources/show", source: source if source.created_at > setting.updated_at
+    if source.published_at > setting.updated_at
+      render "sources/show", source: source
+    end
   end
 end
 
