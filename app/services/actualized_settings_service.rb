@@ -17,9 +17,9 @@ class ActualizedSettingsService < ApplicationService
     end
     @settings.map do |setting|
       if setting.discarded?
-        setting.package.all_dependencies(discard_packages)
+        setting.package.all_components(discard_packages)
       else
-        setting.package.all_dependencies(install_packages)
+        setting.package.all_components(install_packages)
       end
     end
     @settings.map do |setting|

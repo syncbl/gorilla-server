@@ -5,6 +5,10 @@ module Permissable
     object.user == self
   end
 
+  def can_use?(object)
+    can_view?(object) || object.is_component
+  end
+
   def can_view?(object)
     can_edit?(object) ||
       object.user.subscription.paid? &&

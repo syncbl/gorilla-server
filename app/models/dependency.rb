@@ -6,11 +6,12 @@ class Dependency < ApplicationRecord
              class_name: "Package"
 
   # Types of dependency:
-  # - dependent (install after main package as part)
+  # - component (install after main package as part)
   # - required (must be installed before main package)
   # - optional (user can install or not)
   enumerize :dependency_type,
-            in: [:dependent, :required, :optional],
+            in: [:component, :required, :optional],
+            default: :component,
             scope: true
 
   validates :dependent_package,

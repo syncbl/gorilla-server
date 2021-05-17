@@ -54,15 +54,15 @@ class Package < ApplicationRecord
 
   scope :with_includes, -> { joins(:user) }
 
-  def all_dependencies(packages = Set[])
-    Package.all_dependencies(self, packages)
+  def all_components(packages = Set[])
+    Package.all_components(self, packages)
     packages.to_a.reverse
   end
 
-  def self.all_dependencies(package, packages = Set[])
-    package.dependencies.with_dependency_type(:dependent).map do |p|
+  def self.all_components(package, packages = Set[])
+    package.dependencies.with_dependency_type(:component).map do |p|
       packages << p.dependent_package
-      Package.all_dependencies(p.dependent_package, packages)
+      Package.all_components(p.dependent_package, packages)
     end
   end
 

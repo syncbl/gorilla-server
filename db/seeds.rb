@@ -33,6 +33,7 @@ when "development"
         name: "Openssl-2_0",
         user: u2,
         external_url: "https://www.7-zip.org/a/7z1900-x64.exe",
+        is_component: true,
       },
       { name: "openssl-2_1", user: u2 },
       { name: "openssl-dev", user: u1 },
@@ -52,7 +53,6 @@ when "development"
   s.publish!
   Product.create(package: p, validated_at: Time.current)
 
-  Package.first.dependent_packages << Package.last
   Package.last.dependent_packages << Package.find_by(name: "Openssl-2_0")
   Package.last.maintainers << u2
 

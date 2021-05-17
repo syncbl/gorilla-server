@@ -8,7 +8,8 @@ en:
     attributes:
       package:
         replacement_old: Replacement must be newer than original package
-        dependency_unpublished: For public packages dependency must be public too.
+        dependency_unpublished: Dependent package must be published.
+        dependency_not_component: Dependent package must be component.
       source:
         packed_file_too_big: "File is too big: %{name}:%{size}"
         packed_files_too_many: Too many files
