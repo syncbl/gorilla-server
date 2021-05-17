@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       collection do
         # TODO: post :reset <- to clean all the setting updated_at
       end
+    end
   end
   resource :user, only: %i[show] do
     #resource :subscription, only: %i[show create]

@@ -31,7 +31,7 @@ module Publishable
 
   def check_publishable
     if published_at.present?
-      errors.add(I18n.t("concern.publishable.error.cannot_publish")) unless validated?
+      errors.add(I18n.t("errors.messages.cannot_publish")) unless validated?
     end
   end
 end

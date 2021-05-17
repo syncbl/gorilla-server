@@ -6,6 +6,10 @@ class Package < ApplicationRecord
 
   # TODO: Messages for feed/forum
 
+  # TODO: Markers to detect package is already installed:
+  # - registry key
+  # - file exists
+
   belongs_to :user
   has_one :product
   has_many :settings, dependent: :nullify

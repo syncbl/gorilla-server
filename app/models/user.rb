@@ -1,7 +1,6 @@
 class User < ApplicationRecord
   include Blockable
   include Permissable
-  has_friendship
 
   # Include default devise modules. Others available are:
   # :rememberable, :confirmable, :lockable, :trackable and :omniauthable

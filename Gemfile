@@ -34,7 +34,6 @@ gem "devise_invitable", "~> 2.0.0" # Adds support to Devise for sending invitati
 gem "devise-bootstrap-views", "~> 1.0" # Devise views with Bootstrap 4.
 gem "discard", "~> 1.0" # Soft deletes for ActiveRecord done right.
 gem "enumerize" # Enumerated attributes with I18n and ActiveRecord/Mongoid/MongoMapper/Sequel support
-gem "has_friendship", github: 'sungwoncho/has_friendship' # Add friendship features to your ActiveRecord models.
 gem "high_voltage", "~> 3.1" # Rails engine for static pages.
 #gem "hotwire-rails" # Hotwire is an alternative approach to building modern web applications without using much JavaScript.
 gem "http_accept_language" # Detect the users preferred language, as sent by the "Accept-Language" HTTP header.

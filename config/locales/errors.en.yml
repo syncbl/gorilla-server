@@ -1,0 +1,14 @@
+en:
+  errors:
+    messages:
+      name_restrict: Restricted name
+      url_is_not_attachment: Incorrect attachment type
+      url_is_not_https: Only secured connections allowed
+      cannot_publish: Wait until validation finished
+    attributes:
+      package:
+        replacement_old: Replacement must be newer than original package
+        dependency_unpublished: For public packages dependency must be public too.
+      source:
+        packed_file_too_big: "File is too big: %{name}:%{size}"
+        packed_files_too_many: Too many files

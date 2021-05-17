@@ -17,7 +17,6 @@ when "development"
                    name: "tester",
                    email: "tester@example.com",
                    password: "123456"
-  u1.friends << u2
   u1.subscriptions.create
   u2.subscriptions.create
 
@@ -33,15 +32,12 @@ when "development"
       {
         name: "Openssl-2_0",
         user: u2,
-        external_url: "https://www.7-zip.org/a/7z1900-x64.exe"
+        external_url: "https://www.7-zip.org/a/7z1900-x64.exe",
       },
       { name: "openssl-2_1", user: u2 },
       { name: "openssl-dev", user: u1 },
     ]
   )
-  Package.first.dependent_packages << Package.last
-  Package.last.dependent_packages << Package.find_by(name: "openssl-1_1")
-  Package.last.maintainers << u2
   Package.first.icon.attach(io: File.open("files/hqdefault.jpg"), filename: "hqdefault.jpg")
 
   p = Package.find_by(name: "Openssl-2_0")
@@ -55,6 +51,10 @@ when "development"
   s.validate!
   s.publish!
   Product.create(package: p, validated_at: Time.current)
+
+  Package.first.dependent_packages << Package.last
+  Package.last.dependent_packages << Package.find_by(name: "Openssl-2_0")
+  Package.last.maintainers << u2
 
   Endpoint.create name: "Test2", user: u1, id: "253307f5-0e4f-4a76-9b04-da35ba6345d5"
   e = Endpoint.create name: "Test5", user: User.last

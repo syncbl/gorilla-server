@@ -30,18 +30,5 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  model:
-    package:
-      error:
-        url_is_not_attachment: Incorrect attachment type
-        url_is_not_https: Only secured connections allowed
-    source:
-      error:
-        packed_file_too_big: "File is too big: %{name}:%{size}"
-        packed_files_too_many: Too many files
-  concern:
-    publishable:
-      error:
-        cannot_publish: Wait until validation finished
   block_reasons:
     suspicious_attachment: Suspicious files found!

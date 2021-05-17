@@ -12,4 +12,7 @@ class Dependency < ApplicationRecord
   enumerize :dependency_type,
             in: [:dependent, :required, :optional],
             scope: true
+
+  validates :dependent_package,
+            dependency_published: true
 end

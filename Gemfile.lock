@@ -1,13 +1,3 @@
-GIT
-  remote: https://github.com/sungwoncho/has_friendship.git
-  revision: 7d9e44bb00578bb2b5d4e3221388450d9365fec6
-  specs:
-    has_friendship (1.1.8)
-      activemodel (>= 4.2.0, < 6.2)
-      activerecord (>= 4.2.0, < 6.2)
-      activesupport (>= 4.2.0, < 6.2)
-      stateful_enum
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -306,7 +296,6 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    stateful_enum (0.6.0)
     terminal-table (3.0.1)
       unicode-display_width (>= 1.1.1, < 3)
     thor (1.1.0)
@@ -355,7 +344,6 @@ DEPENDENCIES
   devise_invitable (~> 2.0.0)
   discard (~> 1.0)
   enumerize
-  has_friendship!
   high_voltage (~> 3.1)
   hiredis
   http_accept_language
