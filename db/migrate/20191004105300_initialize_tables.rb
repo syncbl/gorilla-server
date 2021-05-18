@@ -126,6 +126,12 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.boolean :is_merged, null: false, default: false
       t.datetime :published_at
 
+      # TODO: Posibility to add external link
+      # Source becomes unsafe!
+      #t.string :external_url
+      #t.string :mime_type
+      #t.bigint :size
+
       t.references :package, type: :uuid, index: true, null: false, foreign_key: true
 
       t.datetime :validated_at

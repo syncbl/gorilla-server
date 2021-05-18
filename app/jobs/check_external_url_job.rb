@@ -2,20 +2,20 @@ class CheckExternalUrlJob < ApplicationJob
   require "net/http"
   require "uri"
 
-  def safe_perform(package, only_zip = false)
-    return unless package.external?
-    new_size, new_type = get_attachment_info(package.external_url)
+  def safe_perform(object, only_zip = false)
+    return unless package.external_url.present?
+    new_size, new_type = get_attachment_info(object.external_url)
     if only_zip && new_type != "application/zip"
       raise I18n.t("errors.messages.url_must_be_zip")
     else
-      package.update(
+      object.update(
         size: new_size,
         mime_type: new_type,
         validated_at: Time.current,
       )
     end
   rescue StandardError => e
-    package.block! e.message
+    object.block! e.message
   end
 
   private
