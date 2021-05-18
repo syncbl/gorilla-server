@@ -4,6 +4,7 @@ en:
       name_restrict: Restricted name
       url_is_not_attachment: Incorrect attachment type
       url_is_not_https: Only secured connections allowed
+      url_must_be_zip: Only zip files allowed for source
       cannot_publish: Wait until validation finished
     attributes:
       package:

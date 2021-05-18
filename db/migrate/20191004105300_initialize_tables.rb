@@ -60,11 +60,13 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.bigint :settings_count, null: false, default: 0
 
       t.string :external_url
+      t.string :mime_type
 
       # Components will be autoremoved after parent package delete
       t.boolean :is_component, null: false, default: false
       # Persistent packages excluded from autoupdate, CAN'T BE CHANGED
-      t.boolean :is_persistent, null: false, default: false
+      #t.boolean :is_persistent, null: false, default: false
+
       # TODO: Copyrignt and else in t.jsonb :data
 
       t.references :user, type: :uuid, index: true, null: false, foreign_key: true

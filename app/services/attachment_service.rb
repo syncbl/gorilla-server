@@ -16,7 +16,6 @@ class AttachmentService < ApplicationService
     if @source.package.size == 0
       @source.package.update(size: @source.unpacked_size)
     end
-    @source.package.touch unless @source.package.is_persistent
     @source.update(validated_at: Time.current)
   end
 
