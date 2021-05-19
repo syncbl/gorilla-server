@@ -1,5 +1,5 @@
 class EndpointsController < ApplicationController
-  before_action :authenticate_user!, only: %i[index create destroy]
+  before_action :authenticate_user!, only: %i[index destroy]
   before_action :set_endpoint, except: %i[index create]
 
   # GET /endpoints
@@ -22,11 +22,11 @@ class EndpointsController < ApplicationController
       # TODO: Limit endpoint count?
       format.html { head :method_not_allowed }
       format.json do
-        @endpoint = current_user.endpoints.find_by(id: endpoint_params[:id]) ||
-                    current_user.endpoints.new(name: endpoint_params[:name])
+        @endpoint = Endpoint.find_by(id: endpoint_params[:id], user: current_user) ||
+                    Endpoint.new(name: endpoint_params[:name], user: current_user)
         @endpoint.update({
           remote_ip: request.remote_ip, # TODO: Additional security by IP compare
-          locale: current_user.locale,
+          locale: current_user&.locale || I18n.default_locale.to_s,
         })
         sign_in_endpoint(@endpoint)
         render :show, status: :created, location: @endpoint

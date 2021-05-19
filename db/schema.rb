@@ -62,7 +62,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.inet "remote_ip"
     t.string "locale"
     t.string "authentication_token", null: false
-    t.uuid "user_id", null: false
+    t.uuid "user_id"
     t.datetime "blocked_at"
     t.string "block_reason"
     t.datetime "discarded_at"

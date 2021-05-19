@@ -5,7 +5,7 @@ class Endpoint < ApplicationRecord
   # attribute :locale, :string, default: "en"
   attr_accessor :token
 
-  belongs_to :user
+  belongs_to :user, optional: true
   has_many :settings, dependent: :destroy
   has_many :packages, through: :settings
 

@@ -36,7 +36,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       t.string :authentication_token, null: false, index: true, unique: true
 
-      t.references :user, type: :uuid, index: true, null: false, foreign_key: true
+      t.references :user, type: :uuid, index: true, foreign_key: true
 
       t.datetime :blocked_at
       t.string :block_reason
