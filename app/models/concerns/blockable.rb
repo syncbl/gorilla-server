@@ -6,6 +6,7 @@ module Blockable
       blocked_at: Time.current,
       block_reason: reason,
     })
+    action_log
   end
 
   def unblock!
@@ -13,6 +14,7 @@ module Blockable
       blocked_at: nil,
       block_reason: nil,
     })
+    action_log
   end
 
   def blocked?
@@ -28,8 +30,8 @@ module Blockable
       after_save :clear_cache
 
       scope :active, -> {
-        where(blocked_at: nil)
-      }
+              where(blocked_at: nil)
+            }
     }
   end
 

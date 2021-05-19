@@ -3,7 +3,7 @@ class CheckExternalUrlJob < ApplicationJob
   require "uri"
 
   def safe_perform(object, only_zip = false)
-    return unless package.external_url.present?
+    return unless object.external_url.present?
     new_size, new_type = get_attachment_info(object.external_url)
     if only_zip && new_type != "application/zip"
       raise I18n.t("errors.messages.url_must_be_zip")

@@ -13,18 +13,22 @@ module Publishable
 
   def publish!(time = Time.current)
     update!(published_at: time)
+    action_log
   end
 
   def unpublish!
     update!(published_at: nil)
+    action_log
   end
 
   def validate!
     update!(validated_at: Time.current)
+    action_log
   end
 
   def invalidate!
     update!(validated_at: nil, published_at: nil)
+    action_log
   end
 
   private
