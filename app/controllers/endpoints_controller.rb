@@ -19,7 +19,7 @@ class EndpointsController < ApplicationController
   # POST /endpoints.json
   def create
     respond_to do |format|
-      # TODO: Limit endpoint count?
+      # We allowing to register anonymous endpoints without any limit
       format.html { head :method_not_allowed }
       format.json do
         @endpoint = Endpoint.find_by(id: endpoint_params[:id], user: current_user) ||
