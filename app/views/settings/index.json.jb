@@ -2,6 +2,6 @@ json = render "layouts/header", pagy: @pagy
 
 json[:settings] = render "settings/index", settings: @settings
 
-log_json json, __FILE__
+log_json json
 
 json

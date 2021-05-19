@@ -10,7 +10,7 @@ class Setting < ApplicationRecord
 
   scope :with_includes,
         -> {
-          includes([:package, :endpoint])
+          includes([:package])
         }
 
   scope :updated,

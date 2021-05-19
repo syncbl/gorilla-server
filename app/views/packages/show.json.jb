@@ -25,6 +25,6 @@ end
 
 json[:package] = json_package
 
-log_json json, __FILE__
+log_json json
 
 json
