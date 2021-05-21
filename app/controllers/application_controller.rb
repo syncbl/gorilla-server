@@ -49,12 +49,12 @@ class ApplicationController < ActionController::Base
         false
       end
     end
-
+    # Idea: add blocked uuid to array in order to avoid multiqueries
     if scope == Endpoint.name && ApiKeys.endpoint.include?(service)
       if endpoint = cached_endpoint(uuid, token)
         rand(ENDPOINT_TOKEN_REGEN_RANDOM) == 0 ? endpoint.reset_token : endpoint.touch
       else
-        # TODO: Log
+        Rails.logger.warn "Blocked request: #{scope} #{uuid}"
         Endpoint.active.find_by(id: uuid)&.regenerate_authentication_token
         render_json_error I18n.t("devise.failure.blocked"), status: :unauthorized
       end
@@ -62,7 +62,7 @@ class ApplicationController < ActionController::Base
       if user = cached_user(uuid, token)
         sign_in user
       else
-        # TODO: Log
+        Rails.logger.warn "Blocked request: #{scope} #{uuid}"
         render_json_error I18n.t("devise.failure.blocked"), status: :unauthorized
       end
     elsif ApiKeys.anonymous.include?(service)
@@ -70,6 +70,7 @@ class ApplicationController < ActionController::Base
     elsif service
       head :upgrade_required
     else
+      Rails.logger.warn "Forbidden request from #{request.remote_ip}"
       head :forbidden
     end
   end
