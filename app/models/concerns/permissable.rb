@@ -11,7 +11,7 @@ module Permissable
 
   def can_view?(object)
     can_edit?(object) ||
-      object.user.subscription.paid? &&
+      # TODO: object.user.subscription.paid? &&
         (object.published? || object.product&.validated_at < Time.current)
   end
 
