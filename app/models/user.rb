@@ -23,6 +23,7 @@ class User < ApplicationRecord
                           join_table: :maintainers,
                           association_foreign_key: :package_id,
                           dependent: :destroy
+  has_many :notifications, as: :recipient
 
   validates :name,
             name_restrict: true,

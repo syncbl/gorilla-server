@@ -40,7 +40,8 @@ gem "http_accept_language" # Detect the users preferred language, as sent by the
 gem "jb" # A simpler and faster Jbuilder alternative.
 gem "jwt" # A ruby implementation of the RFC 7519 OAuth JSON Web Token (JWT) standard.
 gem "lockbox" # Modern encryption for Ruby and Rails.
-#gem "omniauth" # Standardized Multi-Provider Authentication
+#gem "omniauth" # Standardized Multi-Provider Authentication.
+gem "noticed" # Notifications for your Ruby on Rails app.
 gem "pagy", "~> 3.8" # Pagination gem that outperforms the others in each and every benchmark and comparison.
 gem "pundit" # Set of helpers to build an authorization system.
 gem "render_async" # Pages become faster seamlessly by rendering partials to your views.
