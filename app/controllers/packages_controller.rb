@@ -4,11 +4,11 @@ class PackagesController < ApplicationController
 
   # GET /packages
   # GET /packages.json
-  # TODO: User controller or Package as root?
+  # TODO: Components
   def index
     @pagy, @packages =
       pagy_countless(
-        current_user.packages.includes(:icon_attachment),
+        current_user.packages.apps,
         items: params[:items],
       )
   end

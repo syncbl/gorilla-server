@@ -50,9 +50,15 @@ class Package < ApplicationRecord
             package_replacement: true
   # TODO enumerate validates :destination
 
+  before_create :check_attributes
   after_save :check_external_url
 
   scope :with_includes, -> { joins(:user) }
+
+  scope :apps, -> {
+      includes(:icon_attachment)
+        .where(is_component: false)
+    }
 
   def all_components
     Package.all_components(self)
