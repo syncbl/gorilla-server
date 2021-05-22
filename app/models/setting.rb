@@ -2,6 +2,7 @@ class Setting < ApplicationRecord
   include Discard::Model
 
   belongs_to :package, counter_cache: true
+  belongs_to :source, counter_cache: true, optional: true
   belongs_to :endpoint
 
   validates :package_id, uniqueness: { scope: :endpoint_id }

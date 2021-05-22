@@ -102,20 +102,6 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     end
 
     # ----------
-    create_table :settings do |t|
-      # TODO: Logs, other data, variables and settings
-
-      t.references :endpoint, type: :uuid, index: true, null: false, foreign_key: true
-      t.references :package, type: :uuid, index: true, foreign_key: true
-
-      t.datetime :discarded_at, index: true
-      t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
-      t.datetime :updated_at
-
-      t.index %i[endpoint_id package_id], unique: true
-    end
-
-    # ----------
     create_table :sources, id: :uuid do |t|
       # TODO: What to do with file: run, unpack, exec
       t.string :description
@@ -125,6 +111,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.bigint :unpacked_size, null: false, default: 0
       t.boolean :is_merged, null: false, default: false
       t.datetime :published_at
+      t.bigint :settings_count, null: false, default: 0
 
       # TODO: Posibility to add external link
       # Source becomes unsafe!
@@ -140,6 +127,21 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.datetime :discarded_at, index: true
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.datetime :updated_at
+    end
+
+    # ----------
+    create_table :settings do |t|
+      # TODO: Logs, other data, variables and settings
+
+      t.references :endpoint, type: :uuid, index: true, null: false, foreign_key: true
+      t.references :package, type: :uuid, index: true, null: false, foreign_key: true
+      t.references :source, type: :uuid, index: true, foreign_key: true
+
+      t.datetime :discarded_at, index: true
+      t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
+      t.datetime :updated_at
+
+      t.index %i[endpoint_id package_id], unique: true
     end
 
     # ----------

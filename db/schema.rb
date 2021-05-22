@@ -131,7 +131,8 @@ ActiveRecord::Schema.define(version: 2021_05_21_213921) do
 
   create_table "settings", force: :cascade do |t|
     t.uuid "endpoint_id", null: false
-    t.uuid "package_id"
+    t.uuid "package_id", null: false
+    t.uuid "source_id"
     t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at"
@@ -140,6 +141,7 @@ ActiveRecord::Schema.define(version: 2021_05_21_213921) do
     t.index ["endpoint_id", "package_id"], name: "index_settings_on_endpoint_id_and_package_id", unique: true
     t.index ["endpoint_id"], name: "index_settings_on_endpoint_id"
     t.index ["package_id"], name: "index_settings_on_package_id"
+    t.index ["source_id"], name: "index_settings_on_source_id"
   end
 
   create_table "sources", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -150,6 +152,7 @@ ActiveRecord::Schema.define(version: 2021_05_21_213921) do
     t.bigint "unpacked_size", default: 0, null: false
     t.boolean "is_merged", default: false, null: false
     t.datetime "published_at"
+    t.bigint "settings_count", default: 0, null: false
     t.uuid "package_id", null: false
     t.datetime "validated_at"
     t.datetime "blocked_at"
@@ -204,6 +207,7 @@ ActiveRecord::Schema.define(version: 2021_05_21_213921) do
   add_foreign_key "products", "packages"
   add_foreign_key "settings", "endpoints"
   add_foreign_key "settings", "packages"
+  add_foreign_key "settings", "sources"
   add_foreign_key "sources", "packages"
   add_foreign_key "subscriptions", "users"
 end

@@ -6,6 +6,7 @@ class ActualizedSettingsService < ApplicationService
 
   def call
     # TODO: Replace discard with events
+    # TODO: Replace with stored proc
 
     discard_packages = Set[]
     install_packages = Set[]

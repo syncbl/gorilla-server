@@ -32,6 +32,8 @@ class SettingsController < ApplicationController
   end
 
   # PATCH/PUT /settings/1
+
+  # TODO: Add source_id updating to show current state
   def update
     respond_to do |format|
       if @setting.update(setting_params)
