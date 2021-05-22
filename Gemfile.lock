@@ -138,11 +138,9 @@ GEM
     docile (1.4.0)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
-    enumerize (2.4.0)
-      activesupport (>= 3.2)
     erubi (1.10.0)
     execjs (2.7.0)
-    ffi (1.15.0)
+    ffi (1.15.1)
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
       rake
@@ -368,7 +366,6 @@ DEPENDENCIES
   devise-bootstrap-views (~> 1.0)
   devise_invitable (~> 2.0.0)
   discard (~> 1.0)
-  enumerize
   high_voltage (~> 3.1)
   hiredis
   http_accept_language

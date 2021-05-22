@@ -42,12 +42,11 @@ class Package < ApplicationRecord
             format: { with: NAME_FORMAT }
   validates :icon, size: { less_than: MAX_ICON_SIZE }
   validates :external_url,
-            format: URI.regexp(%w[http https]),
+            format: URI.regexp(%w[https]),
             length: { maximum: 2048 },
             allow_nil: true
   validates :replacement,
             package_replacement: true
-  # TODO enumerate validates :destination
 
   after_save :check_external_url
 
