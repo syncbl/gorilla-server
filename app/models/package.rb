@@ -54,9 +54,8 @@ class Package < ApplicationRecord
 
   scope :with_includes, -> { joins(:user) }
 
-  def all_components(packages = Set[])
-    Package.all_components(self, packages)
-    packages.to_a.reverse
+  def all_components
+    Package.all_components(self)
   end
 
   def self.all_components(package, packages = Set[])
@@ -64,6 +63,7 @@ class Package < ApplicationRecord
       packages << p.dependent_package
       Package.all_components(p.dependent_package, packages)
     end
+    packages.to_a.reverse
   end
 
   def replaced_by
