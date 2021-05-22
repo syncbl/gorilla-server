@@ -16,11 +16,6 @@ class User < ApplicationRecord
   has_many :packages, dependent: :destroy
   has_many :endpoints, dependent: :destroy
   has_many :subscriptions, dependent: :nullify, dependent: :destroy
-  has_and_belongs_to_many :maintained,
-                          class_name: "Package",
-                          join_table: :maintainers,
-                          association_foreign_key: :package_id,
-                          dependent: :destroy
   has_many :notifications, as: :recipient
 
   validates :name,

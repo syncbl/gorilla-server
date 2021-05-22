@@ -35,7 +35,9 @@ class ActualizedSettingsService < ApplicationService
       end
     end
     install_packages.each do |p|
-      @settings.create(package: p) if @user.can_use?(p)
+      if @user.can_use?(p)
+        @settings.create(package: p)
+      end
     end
     @settings
   end

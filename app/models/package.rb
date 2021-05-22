@@ -16,12 +16,11 @@ class Package < ApplicationRecord
   has_many :endpoints, through: :settings
   has_many :sources, dependent: :destroy
   has_many :dependencies
-  has_many :dependent_packages, through: :dependencies
-  has_and_belongs_to_many :maintainers,
-                          class_name: "User",
-                          join_table: :maintainers,
-                          association_foreign_key: :user_id,
-                          dependent: :destroy
+  has_many :components, through: :dependencies
+  has_many :maintains
+  has_many :maintainers, through: :maintains,
+                         source: :user
+
   belongs_to :replacement,
              class_name: "Package",
              optional: true
@@ -50,7 +49,6 @@ class Package < ApplicationRecord
             package_replacement: true
   # TODO enumerate validates :destination
 
-  before_create :check_attributes
   after_save :check_external_url
 
   scope :with_includes, -> { joins(:user) }
@@ -65,9 +63,9 @@ class Package < ApplicationRecord
   end
 
   def self.all_components(package, packages = Set[])
-    package.dependencies.with_dependency_type(:component).map do |p|
-      packages << p.dependent_package
-      Package.all_components(p.dependent_package, packages)
+    package.dependencies.map do |p|
+      packages << p.component
+      Package.all_components(p.component, packages)
     end
     packages.to_a.reverse
   end

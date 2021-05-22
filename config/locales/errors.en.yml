@@ -1,16 +1,17 @@
 en:
   errors:
     messages:
-      name_restrict: Restricted name
-      url_is_not_attachment: Incorrect attachment type
-      url_is_not_https: Only secured connections allowed
-      url_must_be_zip: Only zip files allowed for source
-      cannot_publish: Wait until validation finished
+      name_restrict: Restricted name.
+      url_is_not_attachment: Incorrect attachment type.
+      url_is_not_https: Only secured connections allowed.
+      url_must_be_zip: Only zip files allowed for source.
+      cannot_publish: Wait until validation finished.
     attributes:
       package:
-        replacement_old: Replacement must be newer than original package
-        dependency_unpublished: Dependent package must be published.
+        replacement_old: Replacement must be newer than original package.
+        dependency_itself: Package can't be dependent on itself.
         dependency_not_component: Dependent package must be component.
+        owner_already: You already owner of this package
       source:
         packed_file_too_big: "File is too big: %{name}:%{size}"
         packed_files_too_many: Too many files

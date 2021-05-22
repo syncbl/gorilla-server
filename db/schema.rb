@@ -46,14 +46,12 @@ ActiveRecord::Schema.define(version: 2021_05_21_213921) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "dependencies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "dependencies", id: false, force: :cascade do |t|
     t.uuid "package_id", null: false
-    t.uuid "dependent_package_id", null: false
-    t.string "dependency_type"
+    t.uuid "component_id", null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at"
-    t.index ["dependent_package_id"], name: "index_dependencies_on_dependent_package_id"
-    t.index ["package_id", "dependent_package_id"], name: "index_dependencies_on_package_id_and_dependent_package_id", unique: true
+    t.index ["component_id"], name: "index_dependencies_on_component_id"
+    t.index ["package_id", "component_id"], name: "index_dependencies_on_package_id_and_component_id", unique: true
     t.index ["package_id"], name: "index_dependencies_on_package_id"
   end
 
@@ -74,13 +72,13 @@ ActiveRecord::Schema.define(version: 2021_05_21_213921) do
     t.index ["user_id"], name: "index_endpoints_on_user_id"
   end
 
-  create_table "maintainers", id: false, force: :cascade do |t|
+  create_table "maintains", id: false, force: :cascade do |t|
     t.uuid "package_id", null: false
     t.uuid "user_id", null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["package_id", "user_id"], name: "index_maintainers_on_package_id_and_user_id", unique: true
-    t.index ["package_id"], name: "index_maintainers_on_package_id"
-    t.index ["user_id"], name: "index_maintainers_on_user_id"
+    t.index ["package_id", "user_id"], name: "index_maintains_on_package_id_and_user_id", unique: true
+    t.index ["package_id"], name: "index_maintains_on_package_id"
+    t.index ["user_id"], name: "index_maintains_on_user_id"
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -200,8 +198,8 @@ ActiveRecord::Schema.define(version: 2021_05_21_213921) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "dependencies", "packages"
   add_foreign_key "endpoints", "users"
-  add_foreign_key "maintainers", "packages"
-  add_foreign_key "maintainers", "users"
+  add_foreign_key "maintains", "packages"
+  add_foreign_key "maintains", "users"
   add_foreign_key "packages", "packages", column: "replacement_id"
   add_foreign_key "packages", "users"
   add_foreign_key "products", "packages"

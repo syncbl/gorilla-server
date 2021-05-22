@@ -1,5 +1,5 @@
 json = {
-  id: endpoint.id,
+  id: user.id,
   name: user.name,
   fullname: user.fullname,
   locale: user.locale,

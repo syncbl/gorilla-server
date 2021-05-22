@@ -1,21 +1,15 @@
 class Dependency < ApplicationRecord
-  extend Enumerize
-
   belongs_to :package
-  belongs_to :dependent_package,
+  belongs_to :component,
              class_name: "Package"
 
-  # Types of dependency:
-  # - component (install after main package as part)
-  # - required (must be installed before main package)
-  # - optional (user can install or not)
-  enumerize :dependency_type,
-            in: [:component, :required, :optional],
-            default: :component,
-            scope: true
-
-  validates :dependent_package,
-            dependency_published: true
+  validates_each :component do |record, attr, value|
+    if !value.is_component
+      record.errors.add :component, I18n.t("errors.attributes.package.dependency_not_component")
+    elsif record.package == value
+      record.errors.add :component, I18n.t("errors.attributes.package.dependency_itself")
+    end
+  end
 
   # TODO: Check dependency:
   # - not same id
