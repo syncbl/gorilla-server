@@ -1,14 +1,17 @@
 class ActualizedSettingsService < ApplicationService
   def initialize(settings)
     @settings = settings
+    @user = @settings.first&.endpoint.user
   end
 
   def call
     # TODO: Replace discard with events
+
     discard_packages = Set[]
     install_packages = Set[]
     @settings.map do |setting|
-      if setting.replaced?
+      if setting.replaced? &&
+         @user.can_use?(setting.package.replaced_by)
         # TODO: Add upgrade strategy
         setting.discard
         discard_packages << setting.package
@@ -17,9 +20,9 @@ class ActualizedSettingsService < ApplicationService
     end
     @settings.map do |setting|
       if setting.discarded?
-        setting.package.all_components(discard_packages)
+        discard_packages = setting.package.all_components
       else
-        setting.package.all_components(install_packages)
+        install_packages = setting.package.all_components
       end
     end
     @settings.map do |setting|
@@ -30,7 +33,9 @@ class ActualizedSettingsService < ApplicationService
         install_packages.delete(setting.package)
       end
     end
-    install_packages.each { |p| @settings.create(package: p) }
-    @settings #.reload
+    install_packages.each do |p|
+      @settings.create(package: p) if @user.can_use?(p)
+    end
+    @settings
   end
 end

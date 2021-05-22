@@ -17,7 +17,7 @@ class SettingsController < ApplicationController
 
   # POST /endpoints/1/settings
   def create
-    check_view! package = Package.find(params[:package_id])
+    check_use! package = Package.find(params[:package_id])
     respond_to do |format|
       if @setting = @endpoint.install(package)
         format.html do

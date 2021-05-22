@@ -5,17 +5,16 @@ module Permissable
     object.user == self
   end
 
-  def can_use?(object)
-    can_view?(object) || object.is_component
+  def can_edit?(object)
+    is_owner?(object) || maintained.include?(object)
   end
 
   def can_view?(object)
-    can_edit?(object) ||
-      # TODO: object.user.subscription.paid? &&
-        (object.published? || object.product&.validated_at < Time.current)
+    can_edit?(object) || object.published?
+    # TODO: object.user.subscription.paid? &&
   end
 
-  def can_edit?(object)
-    is_owner?(object) || maintained.include?(object)
+  def can_use?(object)
+    can_view?(object) || object.is_component
   end
 end

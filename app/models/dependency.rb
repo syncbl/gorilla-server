@@ -16,4 +16,8 @@ class Dependency < ApplicationRecord
 
   validates :dependent_package,
             dependency_published: true
+
+  # TODO: Check dependency:
+  # - not same id
+  # - no crossreference
 end

@@ -13,11 +13,9 @@ class User < ApplicationRecord
   has_secure_token :authentication_token
   attr_accessor :token
 
-  # Because of company support and installed packages we can't allow to delete resources
-  # has_many (as on Git) OR belongs_to :w, optional: true
   has_many :packages, dependent: :destroy
   has_many :endpoints, dependent: :destroy
-  has_many :subscriptions, dependent: :nullify
+  has_many :subscriptions, dependent: :nullify, dependent: :destroy
   has_and_belongs_to_many :maintained,
                           class_name: "Package",
                           join_table: :maintainers,
