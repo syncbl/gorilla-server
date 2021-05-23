@@ -7,5 +7,7 @@ class PackageDependencyValidator < ActiveModel::EachValidator
       record.errors.add :component,
         I18n.t("errors.attributes.package.dependency_itself")
     end
+
+    # TODO: Check deep all dependencies
   end
 end

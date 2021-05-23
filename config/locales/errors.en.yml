@@ -10,6 +10,7 @@ en:
       package:
         replacement_old: Replacement must be newer than original package.
         dependency_itself: Package can't be dependent on itself.
+        replacement_itself: Package can't be replaced by itself.
         dependency_not_component: Dependent package must be component.
         owner_already: You already owner of this package
       source:
