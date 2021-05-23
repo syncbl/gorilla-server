@@ -15,14 +15,14 @@ class ApplicationController < ActionController::Base
   # TODO: Layout
   def render_403
     respond_to do |format|
-      format.html { render "errors/403", status: :forbidden }
+      format.html { render "errors/403", layout: "errors", status: :forbidden }
       format.any { head :forbidden }
     end
   end
 
   def render_404
     respond_to do |format|
-      format.html { render "errors/404", status: :not_found }
+      format.html { render "errors/404", layout: "errors", status: :not_found }
       format.any { head :not_found }
     end
   end
