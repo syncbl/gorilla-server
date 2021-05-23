@@ -5,7 +5,7 @@ class NameRestrictValidator < ActiveModel::EachValidator
     value_d = value.downcase
 
     if value_d.in?(RESTRICTED_NAMES) || valid_uuid.match?(value_d)
-      record.errors[attribute] << I18n.t('errors.messages.name_restrict')
+      record.errors.add :name, I18n.t('errors.messages.name_restrict')
     end
   end
 end
