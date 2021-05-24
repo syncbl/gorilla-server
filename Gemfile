@@ -38,6 +38,7 @@ gem "high_voltage", "~> 3.1" # Rails engine for static pages.
 #gem "hotwire-rails" # Hotwire is an alternative approach to building modern web applications without using much JavaScript.
 gem "http_accept_language" # Detect the users preferred language, as sent by the "Accept-Language" HTTP header.
 gem "jb" # A simpler and faster Jbuilder alternative.
+gem "jsonb_accessor", "~> 1" # Adds typed jsonb backed fields as first class citizens to your ActiveRecord models.
 gem "jwt" # A ruby implementation of the RFC 7519 OAuth JSON Web Token (JWT) standard.
 gem "lockbox" # Modern encryption for Ruby and Rails.
 #gem "omniauth" # Standardized Multi-Provider Authentication.
