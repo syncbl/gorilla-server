@@ -8,7 +8,7 @@ class PackagesController < ApplicationController
   def index
     @pagy, @packages =
       pagy_countless(
-        current_user.packages.apps,
+        current_user.packages.without_components,
         items: params[:items],
       )
   end

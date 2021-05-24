@@ -52,7 +52,7 @@ class Package < ApplicationRecord
 
   scope :with_includes, -> { joins(:user) }
 
-  scope :apps, -> {
+  scope :without_components, -> {
       includes(:icon_attachment)
         .where(is_component: false)
     }

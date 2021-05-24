@@ -1,6 +1,8 @@
 class Component < Package
   before_save :set_component
 
+  validates :is_component, inclusion: [true]
+
   default_scope -> {
                   where(is_component: true)
                 }
