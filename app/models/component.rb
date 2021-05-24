@@ -2,8 +2,8 @@ class Component < Package
   before_save :set_component
 
   default_scope -> {
-    where(is_component: true)
-  }
+                  where(is_component: true)
+                }
 
   def self.extract(package, packages = Set[])
     package.dependencies.map do |p|
