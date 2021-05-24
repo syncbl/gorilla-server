@@ -57,7 +57,7 @@ class Package < ApplicationRecord
         .where(is_component: false)
     }
 
-  def all_components
+  def get_components
     Component.extract(self)
   end
 

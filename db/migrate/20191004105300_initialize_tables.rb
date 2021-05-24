@@ -64,6 +64,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       # TODO: Components will be removed after parent package delete
       t.boolean :is_component, null: false, default: false
+      t.boolean :is_optional, null: false, default: false
       # Persistent packages excluded from autoupdate, CAN'T BE CHANGED
       #t.boolean :is_persistent, null: false, default: false
 

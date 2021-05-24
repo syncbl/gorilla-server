@@ -21,9 +21,9 @@ class ActualizedSettingsService < ApplicationService
     end
     @settings.map do |setting|
       if setting.discarded?
-        discard_packages = setting.package.all_components
+        discard_packages = setting.package.get_components
       else
-        install_packages = setting.package.all_components
+        install_packages = setting.package.get_components
       end
     end
     @settings.map do |setting|
@@ -35,7 +35,7 @@ class ActualizedSettingsService < ApplicationService
       end
     end
     install_packages.each do |p|
-      if @user.can_use?(p)
+      if @user.can_use?(p) && !p.is_optional?
         @settings.create(package: p)
       end
     end

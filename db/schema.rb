@@ -102,6 +102,7 @@ ActiveRecord::Schema.define(version: 2021_05_21_213921) do
     t.string "external_url"
     t.string "mime_type"
     t.boolean "is_component", default: false, null: false
+    t.boolean "is_optional", default: false, null: false
     t.uuid "user_id", null: false
     t.uuid "replacement_id"
     t.datetime "validated_at"
