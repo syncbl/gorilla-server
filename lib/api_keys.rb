@@ -1,6 +1,4 @@
-module ApiKeys
-  # TODO: Move to separate class/module
-
+class ApiKeys
   class << self
     def user
       @_user_keys ||= Set[app_key("files/hqdefault.jpg")]

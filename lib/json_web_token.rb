@@ -1,4 +1,4 @@
-module JsonWebToken
+class JsonWebToken
   require "jwt"
 
   class << self
