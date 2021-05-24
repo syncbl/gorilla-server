@@ -62,15 +62,17 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.string :external_url
       t.string :mime_type
 
-      # Components will be autoremoved after parent package delete
+      # TODO: Components will be removed after parent package delete
       t.boolean :is_component, null: false, default: false
       # Persistent packages excluded from autoupdate, CAN'T BE CHANGED
       #t.boolean :is_persistent, null: false, default: false
 
       # TODO: Copyrignt and else in t.jsonb :data
 
-      t.references :user, type: :uuid, index: true, null: false, foreign_key: true
-      t.references :replacement, type: :uuid, index: true, foreign_key: { to_table: :packages }
+      t.references :user, type: :uuid, index: true, null: false,
+                          foreign_key: true
+      t.references :replacement, type: :uuid, index: true,
+                                 foreign_key: { to_table: :packages }
 
       t.datetime :validated_at
       t.datetime :published_at
@@ -87,8 +89,10 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
     # ----------
     create_table :dependencies, id: false do |t|
-      t.references :package, type: :uuid, index: true, null: false, foreign_key: true
-      t.references :component, class_name: "Package", type: :uuid, index: true, null: false
+      t.references :package, type: :uuid, index: true, null: false,
+                             foreign_key: true
+      t.references :component, type: :uuid, index: true, null: false,
+                               foreign_key: { to_table: :packages }
       t.datetime :created_at, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.index %i[package_id component_id], unique: true
     end

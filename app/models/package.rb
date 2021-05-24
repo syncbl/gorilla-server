@@ -58,15 +58,7 @@ class Package < ApplicationRecord
     }
 
   def all_components
-    Package.all_components(self)
-  end
-
-  def self.all_components(package, packages = Set[])
-    package.dependencies.map do |p|
-      packages << p.component
-      Package.all_components(p.component, packages)
-    end
-    packages.to_a.reverse
+    Component.extract(self)
   end
 
   def replaced_by

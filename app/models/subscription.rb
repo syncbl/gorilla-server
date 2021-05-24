@@ -1,5 +1,9 @@
 class Subscription < ApplicationRecord
-  # Subscription allows to use more space for packages
+  # Subscription types:
+  # - Basic (only download)
+  # - Personal (only own packages)
+  # - Pro (can publish 10gb)
+  # - Business (can publish 100gb and can control endpoints)
 
   belongs_to :user
 

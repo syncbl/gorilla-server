@@ -53,7 +53,7 @@ when "development"
   s.publish!
   Product.create(package: p, validated_at: Time.current)
 
-  Package.last.components << Package.find_by(name: "Openssl-2_0")
+  Package.last.components << Component.find_by(name: "Openssl-2_0")
   Package.last.maintainers << u2
 
   Endpoint.create name: "Test2", user: u1, id: "253307f5-0e4f-4a76-9b04-da35ba6345d5"
