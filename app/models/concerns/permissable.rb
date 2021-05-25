@@ -11,10 +11,7 @@ module Permissable
 
   def can_view?(object)
     can_edit?(object) ||
-      (object.published? && subscriptions.extended?)
-  end
-
-  def can_use?(object)
-    can_view?(object) || object.is_component
+      ((object.published? || object.is_component) &&
+       object.user.subscriptions.extended?)
   end
 end

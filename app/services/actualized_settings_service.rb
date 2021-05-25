@@ -1,7 +1,7 @@
 class ActualizedSettingsService < ApplicationService
   def initialize(settings)
     @settings = settings
-    @user = @settings.first&.endpoint.user
+    #@user = @settings.first&.endpoint.user
   end
 
   def call
@@ -11,8 +11,7 @@ class ActualizedSettingsService < ApplicationService
     discard_packages = Set[]
     install_packages = Set[]
     @settings.map do |setting|
-      if setting.replaced? &&
-         @user.can_use?(setting.package.replaced_by)
+      if setting.replaced?
         # TODO: Add upgrade strategy
         setting.discard
         discard_packages << setting.package
@@ -35,7 +34,7 @@ class ActualizedSettingsService < ApplicationService
       end
     end
     install_packages.each do |p|
-      if @user.can_use?(p) && !p.is_optional?
+      if !p.is_optional?
         @settings.create(package: p)
       end
     end

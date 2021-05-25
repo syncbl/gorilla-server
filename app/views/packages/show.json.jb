@@ -2,15 +2,12 @@ json = render "layouts/header", object: @package
 
 json_package = render "show", package: @package
 
-json_package[:components] = @package.components.map do |p|
-  render "show", package: p
-end
-
-# TODO: Optimize JSON output for different scenarios
-
 if @package.external?
   json_package[:external_url] = @package.external_url
 elsif @package.published?
+  json_package[:components] = @package.components.map do |p|
+    render "show", package: p
+  end
   json_package[:destination] = @package.destination
   json_package[:sources] = @package.sources.published.map do |source|
     render "sources/show", source: source

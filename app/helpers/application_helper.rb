@@ -60,10 +60,6 @@ module ApplicationHelper
     time.nil? ? nil : time.to_i
   end
 
-  def check_use!(object)
-    render_403 unless current_user&.can_use? object
-  end
-
   def check_view!(object)
     render_403 unless current_user&.can_view? object
   end

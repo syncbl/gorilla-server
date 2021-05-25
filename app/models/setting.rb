@@ -22,6 +22,7 @@ class Setting < ApplicationRecord
         }
 
   def replaced?
-    package.replacement_id.present?
+    package.replacement_id.present? &&
+    endpoint.user.can_view?(package.replaced_by)
   end
 end
