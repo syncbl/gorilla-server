@@ -12,6 +12,9 @@ JOB_TIMEOUT = 5.minutes
 USER_SESSION_TIME = 1.month
 ENDPOINT_SESSION_TIME = 1.month
 USER_AGENT = "Syncable Server/Net::HTTP/1.0 https://syncbl.com"
+SUBSCRIPTION_PLAN_PERSONAL = 1.gigabyte
+SUBSCRIPTION_PLAN_PROFESSIONAL = 10.gigabytes
+SUBSCRIPTION_PLAN_BUSINESS = 100.gigabytes
 
 RESTRICTED_NAMES = %w[
   setting    sign_in       api

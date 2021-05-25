@@ -21,6 +21,19 @@ class Subscription < ApplicationRecord
     paid? && %w[professional business].include?(active.first.user.plan)
   end
 
+  def self.size_limit
+    case active.first.user.plan
+    when "personal"
+      SUBSCRIPTION_PLAN_PERSONAL
+    when "professional"
+      SUBSCRIPTION_PLAN_PROFESSIONAL
+    when "business"
+      SUBSCRIPTION_PLAN_BUSINESS
+    else
+      0
+    end
+  end
+
   private
 
   def validate_time

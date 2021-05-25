@@ -49,7 +49,7 @@ when "development"
   Product.create(package: p, validated_at: Time.current)
 
   p = Package.find_by(name: "openssl-dev")
-  s = p.sources.create
+  s = p.sources.create(size: 1000)
   AttachmentService.call s, "files/test.zip"
   s.validate!
   s.publish!

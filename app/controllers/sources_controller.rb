@@ -1,7 +1,7 @@
 class SourcesController < ApplicationController
   include SourcesHelper
   before_action :authenticate_user!
-  before_action :set_source, except: %i[index new create merge]
+  before_action :set_source, except: %i[index new create merge attach]
   before_action :check_file_params, only: %i[create]
   before_action :check_permissions!, only: %i[update destroy]
 
@@ -26,7 +26,8 @@ class SourcesController < ApplicationController
   # POST /sources
   def create
     # Params removed from create() because user must fill fields only after creation
-    @source = current_user.packages.find_by!(id: params[:package_id])&.sources.create
+    @source = current_user.packages.find_by!(id: params[:package_id])&.
+      sources.create(size: params[:file].size)
     respond_to do |format|
       if @source.save
         if file = source_exists?(current_user, params[:file].size, params[:checksum])

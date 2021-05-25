@@ -16,3 +16,4 @@ en:
       source:
         packed_file_too_big: "File is too big: %{name}:%{size}"
         packed_files_too_many: Too many files
+        limit_reached: You have exceeded the space available for your subscription

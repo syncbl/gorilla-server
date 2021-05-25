@@ -3,8 +3,9 @@ class Source < ApplicationRecord
   include Blockable
   include Publishable
 
-  belongs_to :package
+  attribute :size
 
+  belongs_to :package
   has_one_attached :file,
                    service: :external,
                    dependent: :purge_later
@@ -15,6 +16,7 @@ class Source < ApplicationRecord
             length: { maximum: MAX_DESCRIPTION_LENGTH }
   validates :version,
             length: { maximum: MAX_VERSION_LENGTH }
+  validates_with SubscriptionSourceSizeValidator
 
   default_scope { joins(:file_attachment) }
 
@@ -34,7 +36,7 @@ class Source < ApplicationRecord
 
   def check_publishable
     if published_at.present? && !validated?
-      errors.add(:published_at, I18n.('model.source.error.cannot_publish'))
+      errors.add(:published_at, I18n.("errors.messages.cannot_publish"))
     end
   end
 end
