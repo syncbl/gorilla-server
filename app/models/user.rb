@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   include Blockable
   include Permissable
+  extend Enumerize
 
   # Include default devise modules. Others available are:
   # :rememberable, :confirmable, :lockable, :trackable and :omniauthable
@@ -9,6 +10,10 @@ class User < ApplicationRecord
          :recoverable,
          :timeoutable,
          :validatable
+
+  enumerize :plan,
+            in: %w[personal professional business],
+            scope: true
 
   has_secure_token :authentication_token
   attr_accessor :token

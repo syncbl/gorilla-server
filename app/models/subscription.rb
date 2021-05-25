@@ -1,6 +1,5 @@
 class Subscription < ApplicationRecord
   # Subscription types:
-  # - Basic (only download)
   # - Personal (only own packages)
   # - Pro (can publish 10gb)
   # - Business (can publish 100gb and can control endpoints)
@@ -16,6 +15,10 @@ class Subscription < ApplicationRecord
 
   def self.paid?
     self.active.any?
+  end
+
+  def self.extended?
+    paid? && %w[professional business].include?(active.first.user.plan)
   end
 
   private

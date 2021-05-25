@@ -10,8 +10,8 @@ module Permissable
   end
 
   def can_view?(object)
-    can_edit?(object) || object.published?
-    # TODO: object.user.subscription.paid? &&
+    can_edit?(object) ||
+      (object.published? && subscriptions.extended?)
   end
 
   def can_use?(object)

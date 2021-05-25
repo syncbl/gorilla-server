@@ -12,11 +12,13 @@ when "development"
   u1 = User.create fullname: "Eldar Avatov",
                    name: "deadalice",
                    email: "eldar.avatov@gmail.com",
-                   password: "111111"
+                   password: "111111",
+                   plan: :professional
   u2 = User.create fullname: "Test Test",
                    name: "tester",
                    email: "tester@example.com",
-                   password: "123456"
+                   password: "123456",
+                   plan: :personal
   u1.subscriptions.create
   u2.subscriptions.create
 

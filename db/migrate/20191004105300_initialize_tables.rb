@@ -9,6 +9,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       t.citext :name, null: false, index: true, unique: true
       t.string :locale
+      t.string :plan, index: true
 
       #t.boolean :trusted, default: false
       #t.boolean :admin, default: false
