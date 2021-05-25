@@ -18,11 +18,11 @@ class Subscription < ApplicationRecord
   end
 
   def self.extended?
-    paid? && %w[professional business].include?(active.first.user.plan)
+    paid? && %w[professional business].include?(active.last.user.plan)
   end
 
   def self.size_limit
-    case active.first.user.plan
+    case active.last.user.plan
     when "personal"
       SUBSCRIPTION_PLAN_PERSONAL
     when "professional"
