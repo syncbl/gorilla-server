@@ -47,6 +47,7 @@ class Package < ApplicationRecord
             allow_nil: true
   validates :replacement,
             package_replacement: true
+  validates_with PackageSubscriptionValidator
 
   after_save :check_external_url
 
