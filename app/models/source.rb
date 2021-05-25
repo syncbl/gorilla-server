@@ -16,7 +16,7 @@ class Source < ApplicationRecord
             length: { maximum: MAX_DESCRIPTION_LENGTH }
   validates :version,
             length: { maximum: MAX_VERSION_LENGTH }
-  validates_with SubscriptionSourceSizeValidator
+  validates_with SourceValidator
 
   default_scope { joins(:file_attachment) }
 

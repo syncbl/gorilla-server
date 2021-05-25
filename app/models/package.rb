@@ -44,7 +44,8 @@ class Package < ApplicationRecord
   validates :external_url,
             format: URI.regexp(%w[https]),
             length: { maximum: 2048 },
-            allow_nil: true
+            allow_nil: true,
+            package_external_url: true
   validates :replacement,
             package_replacement: true
   validates_with PackageSubscriptionValidator

@@ -22,25 +22,31 @@ when "development"
   u1.subscriptions.create
   u2.subscriptions.create
 
-  puts Package.create(
+  puts External.create(
     [
       {
         name: "openssl-1_0",
         user: u1,
         external_url: "https://www.heidisql.com/installers/HeidiSQL_11.0.0.5919_Setup.exe",
       },
-      { name: "Openssl-1_1", user: u1 },
-      { name: "Openssl-1_2", user: u1 },
       {
         name: "Openssl-2_0",
         user: u2,
         external_url: "https://www.7-zip.org/a/7z1900-x64.exe",
         is_component: true,
       },
+    ]
+  )
+
+  puts Package.create(
+    [
+      { name: "Openssl-1_1", user: u1 },
+      { name: "Openssl-1_2", user: u1 },
       { name: "openssl-2_1", user: u2 },
       { name: "openssl-dev", user: u1 },
     ]
   )
+
   Package.first.icon.attach(io: File.open("files/hqdefault.jpg"), filename: "hqdefault.jpg")
 
   p = Package.find_by(name: "Openssl-2_0")

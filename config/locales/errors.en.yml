@@ -14,7 +14,8 @@ en:
         replacement_itself: Package can't be replaced by itself.
         dependency_not_component: Dependent package must be component.
         owner_already: You already owner of this package.
-        external: Cannot add components to external package.
+        external: Cannot add components for external package.
+        internal: Cannot set external URL for internal package.
       source:
         packed_file_too_big: "File is too big: %{name}:%{size}"
         packed_files_too_many: Too many files

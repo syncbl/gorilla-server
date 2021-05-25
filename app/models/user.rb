@@ -12,7 +12,11 @@ class User < ApplicationRecord
          :validatable
 
   enumerize :plan,
-            in: %w[personal professional business],
+            in: {
+              personal: 1,
+              professional: 2,
+              business: 3,
+            },
             scope: true
 
   has_secure_token :authentication_token
