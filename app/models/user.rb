@@ -20,7 +20,7 @@ class User < ApplicationRecord
             scope: true
 
   has_secure_token :authentication_token
-  attr_accessor :token
+  attribute :token
 
   has_many :packages, dependent: :destroy
   has_many :endpoints, dependent: :destroy

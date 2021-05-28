@@ -5,9 +5,12 @@ class Setting < ApplicationRecord
   belongs_to :source, counter_cache: true, optional: true
   belongs_to :endpoint
 
-  validates :package_id, uniqueness: { scope: :endpoint_id }
+  attribute :decryption_key
+  encrypts :data, algorithm: "hybrid",
+                  encryption_key: Rails.application.credentials.encryption_key,
+                  decryption_key: -> { decryption_key }
 
-  #encrypts :data, algorithm: "hybrid", encryption_key: encryption_key, decryption_key: decryption_key
+  validates :package_id, uniqueness: { scope: :endpoint_id }
 
   scope :with_includes,
         -> {

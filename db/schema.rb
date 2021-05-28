@@ -132,6 +132,7 @@ ActiveRecord::Schema.define(version: 2021_05_21_213921) do
     t.uuid "endpoint_id", null: false
     t.uuid "package_id", null: false
     t.uuid "source_id"
+    t.jsonb "data"
     t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at"
