@@ -4,6 +4,7 @@ class Source < ApplicationRecord
   include Publishable
 
   attribute :size
+  translates :description
 
   belongs_to :package
   has_one_attached :file,

@@ -96,14 +96,15 @@ ActiveRecord::Schema.define(version: 2021_05_21_213921) do
 
   create_table "packages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.citext "name", null: false
+    t.jsonb "caption_translations"
+    t.jsonb "description_translations"
     t.string "destination", default: "", null: false
-    t.string "description"
     t.bigint "size", default: 0, null: false
     t.bigint "settings_count", default: 0, null: false
-    t.string "external_url"
-    t.string "mime_type"
     t.boolean "is_component", default: false, null: false
     t.boolean "is_optional", default: false, null: false
+    t.string "external_url"
+    t.string "mime_type"
     t.uuid "user_id", null: false
     t.uuid "replacement_id"
     t.datetime "validated_at"
@@ -146,7 +147,7 @@ ActiveRecord::Schema.define(version: 2021_05_21_213921) do
   end
 
   create_table "sources", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "description"
+    t.jsonb "description_translations"
     t.string "version"
     t.jsonb "filelist"
     t.integer "file_count", default: 0, null: false

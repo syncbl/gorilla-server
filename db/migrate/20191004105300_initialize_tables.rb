@@ -51,24 +51,19 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     create_table :packages, id: :uuid do |t|
       t.citext :name, null: false
 
-      # TODO: Multilanguage support for title and description
-      #t.string :title, null: false
+      t.jsonb :caption_translations
+      t.jsonb :description_translations
 
       t.string :destination, null: false, default: ""
-
-      t.string :description
 
       t.bigint :size, null: false, default: 0
       t.bigint :settings_count, null: false, default: 0
 
-      t.string :external_url
-      t.string :mime_type
-
       # TODO: Components will be removed after parent package delete
       t.boolean :is_component, null: false, default: false
       t.boolean :is_optional, null: false, default: false
-      # Persistent packages excluded from autoupdate, CAN'T BE CHANGED
-      #t.boolean :is_persistent, null: false, default: false
+      t.string :external_url
+      t.string :mime_type
 
       # TODO: Copyrignt and else in t.jsonb :data
 
@@ -84,8 +79,6 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.datetime :discarded_at, index: true
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.datetime :updated_at
-
-      # Packages will be unique for everyone or for selected user
 
       t.index %i[user_id name], unique: true
     end
@@ -103,7 +96,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     # ----------
     create_table :sources, id: :uuid do |t|
       # TODO: What to do with file: run, unpack, exec
-      t.string :description
+      t.jsonb :description_translations
       t.string :version
       t.jsonb :filelist
       t.integer :file_count, null: false, default: 0

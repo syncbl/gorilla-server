@@ -2,13 +2,13 @@ class Package < ApplicationRecord
   include Blockable
   include Publishable
 
-  # TODO: MUST!!! Sign packages with endpoint certificate before send and check sign on client-side.
-
-  # TODO: Messages for feed/forum
+  # TODO: Messages for feed/forum - like update news etc.
 
   # TODO: Markers to detect package is already installed:
   # - registry key
   # - file exists
+
+  translates :caption, :description
 
   belongs_to :user
   has_one :product
@@ -40,7 +40,8 @@ class Package < ApplicationRecord
               case_sensitive: false,
             },
             format: { with: NAME_FORMAT }
-  validates :icon, size: { less_than: MAX_ICON_SIZE }
+  validates :icon,
+            size: { less_than: MAX_ICON_SIZE }
   validates :external_url,
             format: URI.regexp(%w[https]),
             length: { maximum: 2048 },
