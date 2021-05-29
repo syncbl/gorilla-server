@@ -36,6 +36,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       # TODO: Store PC parameters here
 
       t.string :authentication_token, null: false, index: true, unique: true
+      t.string :encryption_key
 
       t.references :user, type: :uuid, index: true, foreign_key: true
 
@@ -136,7 +137,6 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.references :source, type: :uuid, index: true, foreign_key: true
 
       t.jsonb :data
-      t.string :encryption_key
 
       t.datetime :discarded_at, index: true
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }

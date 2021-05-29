@@ -5,3 +5,7 @@ json = {
   created_at: json_time(endpoint.created_at),
   updated_at: json_time(endpoint.updated_at),
 }
+
+json[:decryption_key] = endpoint.decryption_key if endpoint.decryption_key?
+
+json

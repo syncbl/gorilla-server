@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 2021_05_21_213921) do
     t.inet "remote_ip"
     t.string "locale"
     t.string "authentication_token", null: false
+    t.string "encryption_key"
     t.uuid "user_id"
     t.datetime "blocked_at"
     t.string "block_reason"
@@ -133,7 +134,6 @@ ActiveRecord::Schema.define(version: 2021_05_21_213921) do
     t.uuid "package_id", null: false
     t.uuid "source_id"
     t.jsonb "data"
-    t.string "encryption_key"
     t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at"
