@@ -32,12 +32,4 @@ class Source < ApplicationRecord
   def published?
     published_at.present?
   end
-
-  private
-
-  def check_publishable
-    if published_at.present? && !validated?
-      errors.add(:published_at, I18n.("errors.messages.cannot_publish"))
-    end
-  end
 end
