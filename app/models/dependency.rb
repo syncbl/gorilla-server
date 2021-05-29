@@ -4,7 +4,4 @@ class Dependency < ApplicationRecord
   # If we will use package scope then we need to add - class_name: "Package"
 
   validates :component, package_dependency: true
-
-  # TODO: Check dependency:
-  # - no crossreference
 end

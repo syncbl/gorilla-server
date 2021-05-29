@@ -7,12 +7,13 @@ class Component < Package
                   where(is_component: true)
                 }
 
-  def self.extract(package, packages = Set[])
-    package.dependencies.map do |p|
-      packages << p.component
-      self.extract(p.component, packages)
+  def self.extract(package, components = Set[])
+    package.dependencies.select { |d| !components.include?(d.component) }
+      .map do |d|
+      components << d.component
+      self.extract(d.component, components)
     end
-    packages.to_a.reverse
+    components.to_a.reverse
   end
 
   protected
