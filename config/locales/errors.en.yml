@@ -6,7 +6,8 @@ en:
       url_is_not_https: Only secured connections allowed.
       url_must_be_zip: Only zip files allowed for source.
       cannot_publish: Wait until validation finished.
-      no_subscription: There are no active subscriptions for this action.
+      no_subscription: There are no active subscription for this action.
+      no_maintainer_subscription: Maintainer must have active subscription for this action.
     attributes:
       package:
         replacement_old: Replacement must be newer than original package.

@@ -12,11 +12,11 @@ class User < ApplicationRecord
          :validatable
 
   enumerize :plan,
-            in: {
-              personal: 1,
-              professional: 2,
-              business: 3,
-            },
+            in: [
+              :personal,
+              :pro,
+              :business,
+            ],
             scope: true
 
   has_secure_token :authentication_token
@@ -24,7 +24,7 @@ class User < ApplicationRecord
 
   has_many :packages, dependent: :destroy
   has_many :endpoints, dependent: :destroy
-  has_many :subscriptions, dependent: :nullify, dependent: :destroy
+  has_many :subscriptions, dependent: :nullify
   has_many :notifications, as: :recipient
 
   validates :name,

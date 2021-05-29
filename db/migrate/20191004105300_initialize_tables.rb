@@ -154,6 +154,9 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     # ----------
     create_table :subscriptions do |t|
       t.references :user, type: :uuid, index: true, null: false, foreign_key: true
+
+      # Payment info
+
       t.datetime :start_time
       t.datetime :end_time
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }

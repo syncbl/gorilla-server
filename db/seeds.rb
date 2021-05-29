@@ -13,7 +13,7 @@ when "development"
                    name: "deadalice",
                    email: "eldar.avatov@gmail.com",
                    password: "111111",
-                   plan: :professional
+                   plan: :pro
   u2 = User.create fullname: "Test Test",
                    name: "tester",
                    email: "tester@example.com",
