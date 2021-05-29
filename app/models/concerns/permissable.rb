@@ -6,7 +6,8 @@ module Permissable
   end
 
   def can_edit?(object)
-    is_owner?(object) || maintained.include?(object)
+    paid? &&
+      (is_owner?(object) || maintained.include?(object))
   end
 
   def can_view?(object)
