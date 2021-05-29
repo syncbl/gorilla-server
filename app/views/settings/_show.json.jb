@@ -1,17 +1,21 @@
-is_published = setting.package.external? &&
-               setting.endpoint.user.can_view?(setting.package)
+is_available = setting.endpoint.user.can_view?(setting.package)
 
 json = {
   name: setting.package.name,
-  is_published: is_published,
+  is_available: is_available,
   # TODO: Planned package discard with message
   is_discarded: setting.discarded_at.present?,
 }
 
-if is_published
-  json[:sources] = setting.package.sources.published.map do |source|
-    if source.published_at > setting.updated_at
-      render "sources/show", source: source
+if is_available
+  if setting.package.external?
+    json[:external_url] = setting.package.external_url
+    # TODO: json[:mime_type] = setting.package.mime_type
+  else
+    json[:sources] = setting.package.sources.published.map do |source|
+      if source.published_at > setting.updated_at
+        render "sources/show", source: source
+      end
     end
   end
 end
