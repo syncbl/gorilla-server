@@ -54,7 +54,6 @@ class Package < ApplicationRecord
   after_save :check_external_url
 
   scope :with_includes, -> { joins(:user) }
-
   scope :without_components, -> {
       includes(:icon_attachment)
         .where(is_component: false)

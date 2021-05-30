@@ -15,7 +15,6 @@ class Setting < ApplicationRecord
         -> {
           includes([:package])
         }
-
   scope :updated,
         -> {
           where(
