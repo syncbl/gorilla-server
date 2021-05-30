@@ -8,12 +8,13 @@ class JsonWebToken
           scope: resource.class.name,
           uuid: resource.id,
           token: resource.authentication_token,
-          exp: Time.current.to_i + case resource
-          when Endpoint
-            ENDPOINT_SESSION_TIME
-          when User
-            USER_SESSION_TIME
-          end,
+          exp: Time.current.to_i +
+               case resource
+               when User
+                 USER_SESSION_TIME
+               when Endpoint
+                 ENDPOINT_SESSION_TIME
+               end,
         },
         Rails.application.credentials.jwt_secret,
         "HS256"
