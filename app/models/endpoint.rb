@@ -9,8 +9,6 @@ class Endpoint < ApplicationRecord
   has_many :settings, dependent: :destroy
   has_many :packages, through: :settings
 
-  before_create :generate_key
-
   validates :name,
             length: { maximum: MAX_NAME_LENGTH }
   validates :locale,
