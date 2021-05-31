@@ -30,7 +30,7 @@ class Endpoint < ApplicationRecord
 
   def reset_token
     regenerate_authentication_token
-    self.token = JsonWebToken.encode(self)
+    self.token = ApiToken.encode(self)
   end
 
   private

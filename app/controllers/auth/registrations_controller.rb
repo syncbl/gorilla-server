@@ -7,7 +7,7 @@ class Auth::RegistrationsController < Devise::RegistrationsController
         @user.locale = http_accept_language.compatible_language_from(I18n.available_locales)
         if @user.save
           sign_in @user
-          current_user.token = JsonWebToken.encode(@user)
+          current_user.token = ApiToken.encode(@user)
           render 'users/show'
         else
           #puts @user.errors.to_json

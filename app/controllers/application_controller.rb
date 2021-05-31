@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
   def api_check_headers
     service = request.headers["X-API-Service"]
     if request.headers["X-API-Token"]
-      if payload = JsonWebToken.decode(request.headers["X-API-Token"])
+      if payload = ApiToken.decode(request.headers["X-API-Token"])
         scope = payload[:scope]
         uuid = payload[:uuid]
         token = payload[:token]

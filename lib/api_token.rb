@@ -1,4 +1,4 @@
-class JsonWebToken
+class ApiToken
   require "jwt"
 
   class << self
