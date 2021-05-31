@@ -1,4 +1,4 @@
-class ComponentPackage < Package
+class Package::Component < Package
   before_save :set_component
 
   validates :is_component, inclusion: [true]

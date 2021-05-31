@@ -22,7 +22,7 @@ when "development"
   u1.subscriptions.create
   u2.subscriptions.create
 
-  puts ExternalPackage.create(
+  puts Package::External.create(
     [
       {
         name: "openssl-1_0",
@@ -37,7 +37,7 @@ when "development"
     ]
   )
 
-  puts ComponentPackage.create(
+  puts Package::Component.create(
     [
       { name: "Openssl-1_1", user: u1 },
       { name: "Openssl-1_2", user: u1 },
@@ -65,7 +65,7 @@ when "development"
   s.publish!
   Product.create(package: p, validated_at: Time.current)
 
-  Package.last.components << ComponentPackage.find_by(name: "Openssl-2_1")
+  Package.last.components << Package::Component.find_by(name: "Openssl-2_1")
   Package.last.maintainers << u2
 
   Endpoint.create name: "Test2", user: u1, id: "253307f5-0e4f-4a76-9b04-da35ba6345d5"
