@@ -10,7 +10,6 @@ class Source < ApplicationRecord
   has_one_attached :file,
                    service: :external,
                    dependent: :purge_later
-  encrypts_attached :file
 
   validates :file,
             size: { less_than: MAX_FILE_SIZE }
