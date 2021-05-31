@@ -22,7 +22,7 @@ when "development"
   u1.subscriptions.create
   u2.subscriptions.create
 
-  puts External.create(
+  puts ExternalPackage.create(
     [
       {
         name: "openssl-1_0",
@@ -33,16 +33,20 @@ when "development"
         name: "Openssl-2_0",
         user: u2,
         external_url: "https://www.7-zip.org/a/7z1900-x64.exe",
-        is_component: true,
       },
+    ]
+  )
+
+  puts ComponentPackage.create(
+    [
+      { name: "Openssl-1_1", user: u1 },
+      { name: "Openssl-1_2", user: u1 },
+      { name: "openssl-2_1", user: u2 },
     ]
   )
 
   puts Package.create(
     [
-      { name: "Openssl-1_1", user: u1 },
-      { name: "Openssl-1_2", user: u1 },
-      { name: "openssl-2_1", user: u2 },
       { name: "openssl-dev", user: u1 },
     ]
   )
@@ -61,7 +65,7 @@ when "development"
   s.publish!
   Product.create(package: p, validated_at: Time.current)
 
-  Package.last.components << Component.find_by(name: "Openssl-2_0")
+  Package.last.components << ComponentPackage.find_by(name: "Openssl-2_1")
   Package.last.maintainers << u2
 
   Endpoint.create name: "Test2", user: u1, id: "253307f5-0e4f-4a76-9b04-da35ba6345d5"

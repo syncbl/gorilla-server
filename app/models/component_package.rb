@@ -1,4 +1,4 @@
-class Component < Package
+class ComponentPackage < Package
   before_save :set_component
 
   validates :is_component, inclusion: [true]
@@ -6,6 +6,8 @@ class Component < Package
   default_scope -> {
                   where(is_component: true)
                 }
+
+  # TODO: Destroy orphaned components. Try dependent: :destroy like in activestorage
 
   def self.extract(package, components = Set[])
     package.dependencies.select { |d| !components.include?(d.component) }
