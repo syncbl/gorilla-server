@@ -4,7 +4,6 @@ class Endpoint < ApplicationRecord
   has_secure_token :authentication_token
   # attribute :locale, :string, default: "en"
   attribute :token
-  attribute :decryption_key
 
   belongs_to :user, optional: true
   has_many :settings, dependent: :destroy
@@ -31,13 +30,5 @@ class Endpoint < ApplicationRecord
   def reset_token
     regenerate_authentication_token
     self.token = ApiToken.encode(self)
-  end
-
-  private
-
-  def generate_key
-    key_pair = Lockbox.generate_key_pair
-    self.encryption_key = key_pair[:encryption_key]
-    self.decryption_key = key_pair[:decryption_key]
   end
 end

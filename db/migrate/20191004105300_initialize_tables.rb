@@ -36,7 +36,6 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       # TODO: Store PC parameters here
 
       t.string :authentication_token, null: false, index: true, unique: true
-      t.string :encryption_key
 
       t.references :user, type: :uuid, index: true, foreign_key: true
 
