@@ -44,7 +44,7 @@ class ApplicationController < ActionController::Base
         uuid = payload[:uuid]
         token = payload[:token]
       else
-        false
+        render_json_error I18n.t("devise.failure.timeout"), status: :unauthorized
       end
     end
     # Idea: add blocked uuid to array in order to avoid multiqueries
