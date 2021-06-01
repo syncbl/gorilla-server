@@ -54,6 +54,7 @@ module ApplicationHelper
   def log_json(json)
     @logger ||= Logger.new("#{Rails.root}/log/json.log")
     @logger.debug "#{caller[0].split(/[\/:]/)[-4..-3].join("/")}:\n#{JSON.pretty_generate(json)}"
+    json
   end
 
   def json_time(time)

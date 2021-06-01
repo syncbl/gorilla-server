@@ -3,5 +3,3 @@ json = render "layouts/header", object: @endpoint
 json[:endpoint] = render "endpoints/show", endpoint: @endpoint
 
 log_json json
-
-json

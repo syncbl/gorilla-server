@@ -3,5 +3,3 @@ json = render "layouts/header", object: @source
 json[:source] = render "show", source: @source
 
 log_json json
-
-json

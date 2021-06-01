@@ -3,5 +3,3 @@ json = render "layouts/header", object: @setting
 json[:setting] = render "settings/show", setting: @setting
 
 log_json json
-
-json
