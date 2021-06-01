@@ -48,6 +48,7 @@ when "development"
   puts Package.create(
     [
       { name: "openssl-dev", user: u1 },
+      { name: "openssl-dev-2", user: u1 },
     ]
   )
 

@@ -5,39 +5,31 @@ class ActualizedSettingsService < ApplicationService
   end
 
   def call
-    # TODO: Replace discard with events
-    # TODO: Replace with stored proc
-
-    discard_packages = Set[]
-    install_packages = Set[]
-    @settings.map do |setting|
-      if setting.replaced?
-        # TODO: Add upgrade strategy
-        setting.discard
-        discard_packages << setting.package
-        install_packages << setting.package.replaced_by
-      end
-    end
-    @settings.map do |setting|
-      if setting.discarded?
-        discard_packages = setting.package.get_components
+    # TODO: Remove old components
+    components = Set[]
+    @settings.with_includes.map do |s|
+      if s.replaced?
+        s.update(package: s.package.replaced_by)
+        s.package.replaced_by.get_components.each do |c|
+          components << c.id
+          unless @settings.exists?(package: c) || c.is_optional
+            @settings.create(package: c)
+          end
+        end
       else
-        install_packages = setting.package.get_components
+        s.package.get_components.each do |c|
+          components << c.id
+          unless @settings.exists?(package: c) || c.is_optional
+            @settings.create(package: c)
+          end
+        end
       end
     end
-    @settings.map do |setting|
-      if setting.kept? && discard_packages.include?(setting.package)
-        setting.discard
-      elsif install_packages.include?(setting.package)
-        setting.undiscard
-        install_packages.delete(setting.package)
-      end
+
+    @settings.reload.with_includes.where(package: { is_component: true }).map do |s|
+      s.destroy unless components.include?(s.package.id)
     end
-    install_packages.each do |p|
-      if !p.is_optional?
-        @settings.create(package: p)
-      end
-    end
+
     @settings
   end
 end

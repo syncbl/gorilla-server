@@ -20,7 +20,7 @@ class MergeSourcesService < ApplicationService
               dstzipfile.remove(dstz)
               dstzipfile.commit
             end
-            dst.discard if dstzipfile.size == 0
+            #dst.discard if dstzipfile.size == 0
           end
           AttachmentService.call dst, dstfile
         end

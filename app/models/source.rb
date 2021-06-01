@@ -1,5 +1,4 @@
 class Source < ApplicationRecord
-  include Discard::Model
   include Blockable
   include Publishable
 

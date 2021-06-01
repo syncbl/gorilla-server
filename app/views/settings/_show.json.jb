@@ -3,8 +3,6 @@ is_available = setting.endpoint.user.can_view?(setting.package)
 json = {
   name: setting.package.name,
   is_available: is_available,
-  # TODO: Planned package discard with message
-  is_discarded: setting.discarded_at.present?,
 }
 
 if is_available

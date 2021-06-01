@@ -7,7 +7,7 @@ class SettingsController < ApplicationController
 
   # GET /settings
   def index
-    settings = ActualizedSettingsService.call(@endpoint.settings.with_includes)
+    settings = ActualizedSettingsService.call(@endpoint.settings)
     @pagy, @settings = params[:updates] ? pagy_countless(settings.updated) :
       pagy_countless(settings.all)
   end
@@ -48,8 +48,8 @@ class SettingsController < ApplicationController
   # No need in permission check here: endpoint is already authorized
   def destroy
     respond_to do |format|
-      setting = @endpoint.settings.find_by(package_id: params[:package_id])&.discard
-      if setting.discarded?
+      setting = @endpoint.settings.find_by(package_id: params[:package_id])
+      if setting.destroy
         format.html do
           redirect_to settings_url, notice: "Package was successfully removed."
         end

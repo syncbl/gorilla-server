@@ -53,7 +53,7 @@ class Package < ApplicationRecord
     }
 
   def get_components
-    ComponentPackage.extract(self)
+    Package::Component.extract(self)
   end
 
   def replaced_by

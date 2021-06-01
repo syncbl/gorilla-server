@@ -32,7 +32,7 @@ gem "clamby" # This gem's function is to simply scan a given file.
 gem "devise" # Devise is a flexible authentication solution for Rails based on Warden.
 gem "devise_invitable" # Adds support to Devise for sending invitations by email.
 gem "devise-bootstrap-views" # Devise views with Bootstrap 4.
-gem "discard" # Soft deletes for ActiveRecord done right.
+#gem "discard" # Soft deletes for ActiveRecord done right.
 gem "enumerize" # Enumerated attributes with I18n and ActiveRecord/Mongoid/MongoMapper/Sequel support
 gem "high_voltage" # Rails engine for static pages.
 #gem "hotwire-rails" # Hotwire is an alternative approach to building modern web applications without using much JavaScript.

@@ -22,7 +22,6 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       t.datetime :blocked_at
       t.string :block_reason
-      t.datetime :discarded_at, index: true
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.datetime :updated_at
     end
@@ -41,7 +40,6 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       t.datetime :blocked_at
       t.string :block_reason
-      t.datetime :discarded_at, index: true
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.datetime :updated_at
     end
@@ -75,7 +73,6 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.datetime :published_at
       t.datetime :blocked_at
       t.string :block_reason
-      t.datetime :discarded_at, index: true
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.datetime :updated_at
 
@@ -109,7 +106,6 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.datetime :validated_at
       t.datetime :blocked_at
       t.string :block_reason
-      t.datetime :discarded_at, index: true
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.datetime :updated_at
     end
@@ -124,7 +120,6 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       t.jsonb :data
 
-      t.datetime :discarded_at, index: true
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.datetime :updated_at
 

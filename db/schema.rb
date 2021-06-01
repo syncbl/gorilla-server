@@ -60,16 +60,13 @@ ActiveRecord::Schema.define(version: 2021_05_21_213921) do
     t.inet "remote_ip"
     t.string "locale"
     t.string "authentication_token", null: false
-    t.string "encryption_key"
     t.uuid "user_id"
     t.datetime "blocked_at"
     t.string "block_reason"
-    t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at"
     t.index ["authentication_token"], name: "index_endpoints_on_authentication_token"
     t.index ["created_at"], name: "index_endpoints_on_created_at"
-    t.index ["discarded_at"], name: "index_endpoints_on_discarded_at"
     t.index ["user_id"], name: "index_endpoints_on_user_id"
   end
 
@@ -111,11 +108,9 @@ ActiveRecord::Schema.define(version: 2021_05_21_213921) do
     t.datetime "published_at"
     t.datetime "blocked_at"
     t.string "block_reason"
-    t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at"
     t.index ["created_at"], name: "index_packages_on_created_at"
-    t.index ["discarded_at"], name: "index_packages_on_discarded_at"
     t.index ["replacement_id"], name: "index_packages_on_replacement_id"
     t.index ["user_id", "name"], name: "index_packages_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_packages_on_user_id"
@@ -135,11 +130,9 @@ ActiveRecord::Schema.define(version: 2021_05_21_213921) do
     t.uuid "package_id", null: false
     t.uuid "source_id"
     t.jsonb "data"
-    t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at"
     t.index ["created_at"], name: "index_settings_on_created_at"
-    t.index ["discarded_at"], name: "index_settings_on_discarded_at"
     t.index ["endpoint_id", "package_id"], name: "index_settings_on_endpoint_id_and_package_id", unique: true
     t.index ["endpoint_id"], name: "index_settings_on_endpoint_id"
     t.index ["package_id"], name: "index_settings_on_package_id"
@@ -159,11 +152,9 @@ ActiveRecord::Schema.define(version: 2021_05_21_213921) do
     t.datetime "validated_at"
     t.datetime "blocked_at"
     t.string "block_reason"
-    t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at"
     t.index ["created_at"], name: "index_sources_on_created_at"
-    t.index ["discarded_at"], name: "index_sources_on_discarded_at"
     t.index ["package_id"], name: "index_sources_on_package_id"
   end
 
@@ -184,7 +175,6 @@ ActiveRecord::Schema.define(version: 2021_05_21_213921) do
     t.string "authentication_token", null: false
     t.datetime "blocked_at"
     t.string "block_reason"
-    t.datetime "discarded_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at"
     t.string "email", default: "", null: false
@@ -193,7 +183,6 @@ ActiveRecord::Schema.define(version: 2021_05_21_213921) do
     t.datetime "reset_password_sent_at"
     t.index ["authentication_token"], name: "index_users_on_authentication_token"
     t.index ["created_at"], name: "index_users_on_created_at"
-    t.index ["discarded_at"], name: "index_users_on_discarded_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["name"], name: "index_users_on_name"
     t.index ["plan"], name: "index_users_on_plan"
