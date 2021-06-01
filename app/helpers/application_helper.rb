@@ -52,8 +52,10 @@ module ApplicationHelper
   end
 
   def log_json(json)
-    @logger ||= Logger.new("#{Rails.root}/log/json.log")
-    @logger.debug "#{caller[0].split(/[\/:]/)[-4..-3].join("/")}:\n#{JSON.pretty_generate(json)}"
+    if Rails.env.development?
+      @logger ||= Logger.new("#{Rails.root}/log/json.log")
+      @logger.debug "#{caller[0].split(/[\/:]/)[-4..-3].join("/")}:\n#{JSON.pretty_generate(json)}"
+    end
     json
   end
 
