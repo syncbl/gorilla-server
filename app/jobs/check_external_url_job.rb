@@ -11,8 +11,8 @@ class CheckExternalUrlJob < ApplicationJob
       object.update(
         size: new_size,
         mime_type: new_type,
-        validated_at: Time.current,
       )
+      object.validate!
     end
   rescue StandardError => e
     object.block! e.message
