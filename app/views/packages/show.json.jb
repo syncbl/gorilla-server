@@ -9,8 +9,9 @@ elsif @package.published?
     render "show", package: p
   end
   json_package[:destination] = @package.destination
+  # Only merged sources will be there, because non-merged is updates
   json_package[:sources] = @package.sources.published.map do |source|
-    render "sources/show", source: source
+    render "sources/show", source: source if source.is_merged
   end
 end
 

@@ -15,8 +15,10 @@ class AttachmentService < ApplicationService
     File.delete(@filename) unless File.basename(@filename) == "test.zip"
     if @source.package.size == 0
       @source.package.update(size: @source.unpacked_size)
+      @source.is_merged = true
     end
-    @source.update(validated_at: Time.current)
+    @source.validated_at = Time.current
+    @source.save
   end
 
   protected
@@ -38,7 +40,7 @@ class AttachmentService < ApplicationService
     end
     @source.filelist = filelist
     @source.file_count = filelist.size
-    @source.save
+    # TODO: @source.save
   rescue StandardError => e # TODO: Make more specific
     Rails.logger.debug "+++ #{e.class} #{e.message}"
     @source.block! e.message
