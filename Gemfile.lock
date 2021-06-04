@@ -70,7 +70,7 @@ GEM
     awesome_print (1.9.2)
     aws-eventstream (1.1.1)
     aws-partitions (1.465.0)
-    aws-sdk-core (3.114.0)
+    aws-sdk-core (3.114.1)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
       aws-sigv4 (~> 1.1)
@@ -78,7 +78,7 @@ GEM
     aws-sdk-kms (1.43.0)
       aws-sdk-core (~> 3, >= 3.112.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.95.1)
+    aws-sdk-s3 (1.96.0)
       aws-sdk-core (~> 3, >= 3.112.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.1)
@@ -133,8 +133,6 @@ GEM
       actionmailer (>= 5.0)
       devise (>= 4.6)
     diff-lcs (1.4.4)
-    discard (1.2.0)
-      activerecord (>= 4.2, < 7)
     docile (1.4.0)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
@@ -208,7 +206,7 @@ GEM
     minitest (5.14.4)
     msgpack (1.4.2)
     nio4r (2.5.7)
-    nokogiri (1.11.6-x86_64-linux)
+    nokogiri (1.11.7-x86_64-linux)
       racc (~> 1.4)
     noticed (1.4.1)
       http (>= 4.0.0)
@@ -372,7 +370,6 @@ DEPENDENCIES
   devise
   devise-bootstrap-views
   devise_invitable
-  discard
   enumerize
   high_voltage
   hiredis
