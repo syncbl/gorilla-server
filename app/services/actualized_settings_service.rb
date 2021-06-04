@@ -26,7 +26,7 @@ class ActualizedSettingsService < ApplicationService
       end
     end
 
-    @settings.reload.with_includes.where(package: { is_component: true }).map do |s|
+    @settings.with_includes.where(package: { is_component: true }).map do |s|
       s.destroy unless components.include?(s.package.id)
     end
 
