@@ -15,6 +15,7 @@ USER_AGENT = "Syncable Server/Net::HTTP/1.0 https://syncbl.com"
 SUBSCRIPTION_PLAN_PERSONAL = 1.gigabyte
 SUBSCRIPTION_PLAN_PRO = 10.gigabytes
 SUBSCRIPTION_PLAN_BUSINESS = 100.gigabytes
+NOTIFICATION_EXPIRES_IN = 3.days
 
 RESTRICTED_NAMES = %w[
   setting    sign_in       api

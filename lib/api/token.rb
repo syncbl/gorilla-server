@@ -1,4 +1,4 @@
-class ApiToken
+class Api::Token
   require "jwt"
 
   class << self

@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   include Blockable
   include Permissable
+  include Notificable
   extend Enumerize
 
   # Include default devise modules. Others available are:
@@ -25,7 +26,6 @@ class User < ApplicationRecord
   has_many :packages, dependent: :destroy
   has_many :endpoints, dependent: :destroy
   has_many :subscriptions, dependent: :nullify
-  has_many :notifications, as: :recipient
 
   validates :name,
             name_restrict: true,

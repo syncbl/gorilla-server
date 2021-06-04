@@ -8,7 +8,7 @@ class Auth::SessionsController < Devise::SessionsController
         session.update old_session.except("session_id")
         self.resource = warden.authenticate!(auth_options)
         sign_in(resource_name, resource)
-        current_user.token = ApiToken.encode(resource)
+        current_user.token = Api::Token.encode(resource)
         render 'users/show'
       end
     end

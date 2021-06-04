@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
   def api_check_headers
     service = request.headers["X-API-Service"]
     if request.headers["X-API-Token"]
-      if payload = ApiToken.decode(request.headers["X-API-Token"])
+      if payload = Api::Token.decode(request.headers["X-API-Token"])
         scope = payload[:scope]
         uuid = payload[:uuid]
         token = payload[:token]
@@ -48,7 +48,7 @@ class ApplicationController < ActionController::Base
       end
     end
     # Idea: add blocked uuid to array in order to avoid multiqueries
-    if scope == Endpoint.name && ApiKeys.endpoint.include?(service)
+    if scope == Endpoint.name && Api::Token.endpoint.include?(service)
       if endpoint = cached_endpoint(uuid, token)
         rand(ENDPOINT_TOKEN_REGEN_RANDOM) == 0 ? endpoint.reset_token : endpoint.touch
       else
@@ -56,14 +56,14 @@ class ApplicationController < ActionController::Base
         Endpoint.active.find_by(id: uuid)&.regenerate_authentication_token
         render_json_error I18n.t("devise.failure.blocked"), status: :unauthorized
       end
-    elsif scope == User.name && ApiKeys.user.include?(service)
+    elsif scope == User.name && Api::Token.user.include?(service)
       if user = cached_user(uuid, token)
         sign_in user
       else
         Rails.logger.warn "Blocked request: #{scope} #{uuid}"
         render_json_error I18n.t("devise.failure.blocked"), status: :unauthorized
       end
-    elsif ApiKeys.anonymous.include?(service)
+    elsif Api::Token.anonymous.include?(service)
       true
     elsif service
       head :upgrade_required

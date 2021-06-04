@@ -45,14 +45,15 @@ when "development"
     ]
   )
 
-  puts Package.create(
+  puts Package::Default.create(
     [
       { name: "openssl-dev", user: u1 },
       { name: "openssl-dev-2", user: u1 },
     ]
   )
 
-  Package.first.icon.attach(io: File.open("files/hqdefault.jpg"), filename: "hqdefault.jpg")
+  Package::Default.first.icon.attach(io: File.open("files/hqdefault.jpg"),
+                                     filename: "hqdefault.jpg")
 
   p = Package.find_by(name: "Openssl-2_0")
   p.validate!

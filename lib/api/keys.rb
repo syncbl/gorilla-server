@@ -1,4 +1,4 @@
-class ApiKeys
+class Api::Keys
   class << self
     def user
       @_user_keys ||= Set[app_key("files/hqdefault.jpg")]

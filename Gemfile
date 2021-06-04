@@ -20,8 +20,8 @@ gem "uglifier", ">= 1.3.0" # Ruby wrapper for UglifyJS JavaScript compressor.
 # Database
 gem "pg", "~> 1" # Pg is the Ruby interface to the PostgreSQL RDBMS.
 #gem 'pg_search' # PgSearch builds named scopes that take advantage of PostgreSQL's full text search.
-gem "redis", "~> 4.0" # A Ruby client that tries to match Redis' API one-to-one.
 gem "hiredis" # Ruby extension that wraps hiredis.
+gem "redis", "~> 4.0" # A Ruby client that tries to match Redis' API one-to-one.
 
 # Other
 gem "active_storage_validations" # Active Storage Validations.
@@ -43,7 +43,7 @@ gem "jsonb_accessor", "~> 1" # Adds typed jsonb backed fields as first class cit
 gem "jwt" # A ruby implementation of the RFC 7519 OAuth JSON Web Token (JWT) standard.
 #gem "lockbox" # Modern encryption for Ruby and Rails.
 #gem "omniauth" # Standardized Multi-Provider Authentication.
-gem "noticed" # Notifications for your Ruby on Rails app.
+#gem "noticed" # Notifications for your Ruby on Rails app.
 gem "pagy", "~> 3.8" # Pagination gem that outperforms the others in each and every benchmark and comparison.
 #gem "pundit" # Set of helpers to build an authorization system.
 gem "rbnacl" # Ruby binding for libsodium, a fork of the Networking and Cryptography library.

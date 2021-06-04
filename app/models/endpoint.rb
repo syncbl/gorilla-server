@@ -1,5 +1,6 @@
 class Endpoint < ApplicationRecord
   include Blockable
+  include Notificable
 
   has_secure_token :authentication_token
   # attribute :locale, :string, default: "en"
@@ -27,6 +28,6 @@ class Endpoint < ApplicationRecord
 
   def reset_token
     regenerate_authentication_token
-    self.token = ApiToken.encode(self)
+    self.token = Api::Token.encode(self)
   end
 end
