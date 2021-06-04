@@ -1,6 +1,6 @@
 class Endpoint < ApplicationRecord
   include Blockable
-  include Notificable
+  include Notifiable
 
   has_secure_token :authentication_token
   # attribute :locale, :string, default: "en"

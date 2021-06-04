@@ -1,4 +1,4 @@
-module Notificable
+module Notifiable
   extend ActiveSupport::Concern
 
   def notify(method, object)

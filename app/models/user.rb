@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   include Blockable
   include Permissable
-  include Notificable
+  include Notifiable
   extend Enumerize
 
   # Include default devise modules. Others available are:
