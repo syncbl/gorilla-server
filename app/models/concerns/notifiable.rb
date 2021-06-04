@@ -12,7 +12,7 @@ module Notifiable
     Rails.cache.redis.scan_each(match: "Notification_#{self.id}.*") do |key|
       message = Rails.cache.read key
       messages << message unless message.nil?
-      Rails.cache.redis.del(key)
+      Rails.cache.redis.del key
     end
     messages
   end
