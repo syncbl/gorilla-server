@@ -13,7 +13,7 @@ module Notifiable
       messages << Rails.cache.read(key)
       Rails.cache.redis.del(key)
     end
-    messages
+    messages.to_a
   end
 
   def notify_package_install(object)
