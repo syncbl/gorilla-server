@@ -31,9 +31,8 @@ class PackagesController < ApplicationController
   # POST /packages
   # POST /packages.json
   def create
-    @package = current_user.packages.create(package_params)
     respond_to do |format|
-      if @package.save
+      if @package = current_user.packages.create(package_params)
         format.html do
           redirect_to @package, notice: "Package was successfully created."
         end

@@ -5,10 +5,6 @@ class Setting < ApplicationRecord
 
   validates :package_id, uniqueness: { scope: :endpoint_id }
 
-  scope :with_includes,
-        -> {
-          includes([:package])
-        }
   scope :updated,
         -> {
           where(

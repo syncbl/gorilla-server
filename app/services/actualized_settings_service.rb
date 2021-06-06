@@ -7,7 +7,7 @@ class ActualizedSettingsService < ApplicationService
   def call
     # TODO: Remove old components
     components = Set[]
-    @settings.with_includes.map do |s|
+    @settings.joins([:package]).map do |s|
       if s.replaced?
         s.update(package: s.package.replaced_by)
         s.package.replaced_by.get_components.each do |c|
@@ -26,7 +26,7 @@ class ActualizedSettingsService < ApplicationService
       end
     end
 
-    @settings.with_includes.where(package: { is_component: true }).map do |s|
+    @settings.joins([:package]).where(package: { is_component: true }).map do |s|
       s.destroy unless components.include?(s.package.id)
     end
 

@@ -55,18 +55,18 @@ class EndpointsController < ApplicationController
   # DELETE /endpoints/1
   # DELETE /endpoints/1.json
   def destroy
-    if @endpoint.destroy
-      respond_to do |format|
+    respond_to do |format|
+      if @endpoint.destroy
         format.html do
           redirect_to endpoints_url,
                       notice: "Endpoint was successfully destroyed."
         end
         format.json { head :no_content }
-      end
-    else
-      format.html { render :edit }
-      format.json do
-        render_json_error @endpoint.errors.full_messages, status: :unprocessable_entity
+      else
+        format.html { render :edit }
+        format.json do
+          render_json_error @endpoint.errors.full_messages, status: :unprocessable_entity
+        end
       end
     end
   end

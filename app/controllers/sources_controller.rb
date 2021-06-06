@@ -26,15 +26,13 @@ class SourcesController < ApplicationController
   # POST /sources
   def create
     # Params removed from create() because user must fill fields only after creation
-    @source = current_user.packages.find_by!(id: params[:package_id])&.
-      sources.create(size: params[:file].size)
+    check_edit! @package = current_user.packages.find(params[:package_id])
     respond_to do |format|
-      if @source.save
+      if @source = @package.sources.create(size: params[:file].size)
         if file = source_exists?(current_user, params[:file].size, params[:checksum])
           # TODO: Warn about existing file if it's own or public
         end
         ProcessSourceJob.perform_later @source, write_tmp(params[:file])
-        #end
         format.html { redirect_to [@source.package, @source], notice: "Source was successfully created." }
         format.json { render :show, status: :created, location: [@source.package, @source] }
       else

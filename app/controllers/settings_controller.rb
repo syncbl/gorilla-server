@@ -68,7 +68,7 @@ class SettingsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   # ActiveRecord::RecordNotFound only with find_by
   def set_setting
-    @setting = @endpoint.settings.with_includes.find_by!(package_id: params[:id])
+    @setting = @endpoint.settings.find_by!(package_id: params[:id])
   end
 
   def set_endpoint
