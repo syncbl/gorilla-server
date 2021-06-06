@@ -20,7 +20,11 @@ class Auth::SessionsController < Devise::SessionsController
   end
 
   def destroy
-    current_user.regenerate_authentication_token
-    super
+    respond_to do |format|
+      format.any(*navigational_formats) { super }
+      format.json do
+        current_user.regenerate_authentication_token
+      end
+    end
   end
 end
