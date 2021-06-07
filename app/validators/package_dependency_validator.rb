@@ -1,6 +1,6 @@
 class PackageDependencyValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
-    if !value.is_component
+    unless value.is_component
       record.errors.add :component,
         I18n.t("errors.attributes.package.dependency.not_component")
     end
@@ -15,7 +15,7 @@ class PackageDependencyValidator < ActiveModel::EachValidator
         I18n.t("errors.attributes.package.dependency.external")
     end
 
-    if !record.package.user.can_view?(value)
+    unless record.package.user.can_view?(value)
       record.errors.add :component,
         I18n.t("errors.attributes.package.dependency.forbidden")
     end

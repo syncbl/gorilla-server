@@ -3,6 +3,7 @@ class SourceValidator < ActiveModel::Validator
     if record.package.external?
       record.errors.add I18n.t("errors.attributes.package.external")
     end
+
     unless record.package.user.subscriptions.paid?
       record.errors.add I18n.t("errors.messages.no_subscription")
     else
