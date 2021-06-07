@@ -1,5 +1,8 @@
 class Package::Component < Package
+  has_many :packages, through: :dependencies
+
   before_save :set_component
+  before_destroy :check_dependency, prepend: true
 
   validates :is_component, inclusion: [true]
 
@@ -23,5 +26,13 @@ class Package::Component < Package
 
   def set_component
     self.is_component = true
+  end
+
+  def check_dependency
+    if packages.size > 0
+      # TODO: Relative path to error
+      errors.add I18n.t("errors.attributes.package.component_used")
+      throw :abort
+    end
   end
 end
