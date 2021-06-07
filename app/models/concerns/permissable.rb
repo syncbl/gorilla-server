@@ -7,7 +7,7 @@ module Permissable
 
   def can_edit?(object)
     subscriptions.paid? &&
-      (is_owner?(object) || maintained.include?(object))
+      (is_owner?(object) || object.maintainers.include?(self))
   end
 
   def can_view?(object)

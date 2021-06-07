@@ -22,6 +22,10 @@ class Package::Component < Package
     components.to_a.reverse
   end
 
+  def orphaned?
+    packages.size == 0
+  end
+
   protected
 
   def set_component
@@ -29,9 +33,9 @@ class Package::Component < Package
   end
 
   def check_dependency
-    if packages.size > 0
+    unless orphaned?
       # TODO: Relative path to error
-      errors.add I18n.t("errors.attributes.package.component_used")
+      errors.add I18n.t("errors.attributes.package.dependency.used")
       throw :abort
     end
   end

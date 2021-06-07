@@ -10,14 +10,17 @@ en:
       no_maintainer_subscription: Maintainer must have active subscription for this action.
     attributes:
       package:
-        replacement_old: Replacement must be newer than original package.
-        dependency_itself: Package can't be dependent on itself.
-        replacement_itself: Package can't be replaced by itself.
-        dependency_not_component: Dependent package must be component.
         owner_already: You already owner of this package.
-        external: Cannot add components for external package.
         internal: Cannot set external URL for internal package.
-        component_used: Can't delete component used in another package.
+        dependency:
+          used: Can't delete component used in another package.
+          forbidden: This component can't be accessed by package owner.
+          not_component: Dependent package must be component.
+          itself: Package can't be dependent on itself.
+          external: Cannot add components for external package.
+        replacement:
+          old: Replacement must be newer than original package.
+          itself: Package can't be replaced by itself.
       source:
         packed_file_too_big: "File is too big: %{name}:%{size}"
         packed_files_too_many: Too many files
