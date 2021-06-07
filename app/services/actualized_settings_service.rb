@@ -10,6 +10,7 @@ class ActualizedSettingsService < ApplicationService
     @settings.joins([:package]).map do |s|
       if s.replaced?
         s.update(package: s.package.replaced_by)
+        s.endpoint.notify :replace, s
         s.package.replaced_by.get_components.each do |c|
           components << c.id
           unless @settings.exists?(package: c) || c.is_optional

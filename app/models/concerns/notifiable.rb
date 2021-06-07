@@ -1,9 +1,9 @@
 module Notifiable
   extend ActiveSupport::Concern
 
-  def notify(scope, method, payload)
+  def notify(method, payload)
     Rails.cache.write "Notification_#{self.id}.#{SecureRandom.uuid}",
-                      Hash["#{scope.downcase}:#{method.downcase}", payload],
+                      Hash["#{method.downcase}", payload],
                       expires_in: NOTIFICATION_EXPIRES_IN
   end
 
@@ -14,9 +14,5 @@ module Notifiable
       Rails.cache.redis.del(key)
     end
     messages.to_a
-  end
-
-  def notify_package_install(object)
-    notify :package, :install, object.id
   end
 end

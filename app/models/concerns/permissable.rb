@@ -5,9 +5,13 @@ module Permissable
     object.user == self
   end
 
+  def is_maintainer?(object)
+    object.maintainers.include?(self)
+  end
+
   def can_edit?(object)
     subscriptions.paid? &&
-      (is_owner?(object) || object.maintainers.include?(self))
+      (is_owner?(object) || is_maintainer?(object))
   end
 
   def can_view?(object)

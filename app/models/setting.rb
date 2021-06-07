@@ -5,6 +5,8 @@ class Setting < ApplicationRecord
 
   validates :package_id, uniqueness: { scope: :endpoint_id }
 
+  after_create :notify_install
+
   scope :updated,
         -> {
           where(
@@ -13,7 +15,12 @@ class Setting < ApplicationRecord
         }
 
   def replaced?
-    package.replacement_id.present? &&
-    endpoint.user.can_view?(package.replaced_by)
+    package.replacement_id.present?
+  end
+
+  private
+
+  def notify_install
+    endpoint.notify :install, self
   end
 end
