@@ -1,4 +1,4 @@
-is_available = setting.endpoint.user.can_view?(setting.package)
+is_available = !setting.package.external? && setting.endpoint.user.can_view?(setting.package)
 
 json = {
   name: setting.package.name,
@@ -6,14 +6,9 @@ json = {
 }
 
 if is_available
-  if setting.package.external?
-    json[:external_url] = setting.package.external_url
-    # TODO: json[:mime_type] = setting.package.mime_type
-  else
-    json[:sources] = setting.package.sources.published.map do |source|
-      if source.published_at > setting.updated_at
-        render "sources/show", source: source
-      end
+  json[:sources] = setting.package.sources.published.map do |source|
+    if source.published_at > setting.updated_at
+      render "sources/show", source: source
     end
   end
 end

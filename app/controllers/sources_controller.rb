@@ -81,11 +81,17 @@ class SourcesController < ApplicationController
   def merge
     check_edit! @source.package
     @package = current_user.packages.find(params[:package_id])
-    if @package.sources.merged?
-      head :unprocessable_entity
-    else
-      MergeSourcesJob.perform_later current_user.packages.find(params[:package_id])
-      head :accepted
+    respond_to do |format|
+      format.html do
+        # TODO: Normal response
+        if @package.sources.merged?
+          head :unprocessable_entity
+        else
+          MergeSourcesJob.perform_later current_user.packages.find(params[:package_id])
+          head :accepted
+        end
+      end
+      format.json { head :method_not_allowed }
     end
   end
 
