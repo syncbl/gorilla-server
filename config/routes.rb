@@ -24,9 +24,7 @@ Rails.application.routes.draw do
   resource :user, only: %i[show] do
     #resource :subscription, only: %i[show create]
   end
-  resources :endpoints, only: %i[index create] do
-    resources :settings, only: %i[create]
-  end
+  resources :endpoints, only: %i[index create]
 
   authenticated :user do
     root to: "packages#index", as: :authenticated_root

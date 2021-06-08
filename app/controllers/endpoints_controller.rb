@@ -55,6 +55,7 @@ class EndpointsController < ApplicationController
   # DELETE /endpoints/1
   # DELETE /endpoints/1.json
   def destroy
+    @endpoint
     respond_to do |format|
       if @endpoint.destroy
         format.html do

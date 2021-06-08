@@ -68,7 +68,7 @@ class PackagesController < ApplicationController
   # DELETE /packages/1
   # DELETE /packages/1.json
   def destroy
-    check_edit! @package
+    check_owner! @package
     respond_to do |format|
       if @package.destroy
         format.html do

@@ -72,7 +72,7 @@ class SettingsController < ApplicationController
   end
 
   def set_endpoint
-    head :unauthorized unless @endpoint = current_endpoint
+    render_403 unless @endpoint = current_endpoint
   end
 
   def set_endpoint_by_id

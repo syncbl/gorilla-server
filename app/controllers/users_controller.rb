@@ -11,10 +11,18 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/1
   def update
-    if @user.update(user_params)
-      redirect_to @user, notice: "User was successfully updated."
-    else
-      format.html { render :edit }
+    respond_to do |format|
+      if @user.update(user_params)
+        format.html do
+          redirect_to @user, notice: "User was successfully updated."
+        end
+        format.json { render :show, status: :ok, location: @user }
+      else
+        format.html { render :edit }
+        format.json do
+          render_json_error @user.errors.full_messages, status: :unprocessable_entity
+        end
+      end
     end
   end
 
