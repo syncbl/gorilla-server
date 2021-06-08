@@ -10,6 +10,8 @@ class Source < ApplicationRecord
                    service: :external,
                    dependent: :purge_later
 
+  delegate :user, to: :package
+
   validates :file,
             size: { less_than: MAX_FILE_SIZE }
   validates :description,
@@ -22,13 +24,5 @@ class Source < ApplicationRecord
 
   def self.merged?
     last&.is_merged == true
-  end
-
-  def validated?
-    validated_at.present?
-  end
-
-  def published?
-    published_at.present?
   end
 end

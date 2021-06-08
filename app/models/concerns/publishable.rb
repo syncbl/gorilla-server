@@ -31,6 +31,14 @@ module Publishable
     action_log
   end
 
+  def validated?
+    validated_at.present?
+  end
+
+  def published?
+    published_at.present? && user.subscriptions.extended?
+  end
+
   private
 
   def check_publishable

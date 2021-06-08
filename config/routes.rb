@@ -29,7 +29,7 @@ Rails.application.routes.draw do
   authenticated :user do
     root to: "packages#index", as: :authenticated_root
   end
-  root to: "products#index" # TODO: home#landing?
+  root to: "packages#index" # TODO: products#landing?
 
   #namespace :api, defaults: { format: :json }, constraints: { subdomain: 'api' }, path: '/' do
   #  list of resources

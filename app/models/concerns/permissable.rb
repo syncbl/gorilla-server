@@ -10,13 +10,10 @@ module Permissable
   end
 
   def can_edit?(object)
-    subscriptions.paid? &&
-      (is_owner?(object) || is_maintainer?(object))
+    is_owner?(object) || is_maintainer?(object)
   end
 
   def can_view?(object)
-    can_edit?(object) ||
-      ((object.published? || object.is_component) &&
-       object.user.subscriptions.extended?)
+    can_edit?(object) || object.published?
   end
 end

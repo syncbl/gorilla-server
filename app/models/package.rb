@@ -64,14 +64,6 @@ class Package < ApplicationRecord
     !external_url.to_s.strip.empty?
   end
 
-  def validated?
-    external? ? validated_at.present? : sources.where.not(validated_at: nil).any?
-  end
-
-  def published?
-    external? ? published_at.present? : sources.where.not(published_at: nil).any?
-  end
-
   private
 
   def _replaced_by
