@@ -28,6 +28,8 @@ class Package < ApplicationRecord
                    service: :internal,
                    dependent: :purge_later
 
+  after_create :set_valid
+
   validates :name,
             name_restrict: true,
             presence: true,
@@ -69,5 +71,10 @@ class Package < ApplicationRecord
   def _replaced_by
     # TODO: Check payment i.e.
     replacement_id.nil? ? self : replacement.replaced_by
+  end
+
+  def set_valid
+    # TODO: Check values
+    validate!
   end
 end

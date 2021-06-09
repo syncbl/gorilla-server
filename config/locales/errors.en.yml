@@ -20,6 +20,8 @@ en:
         replacement:
           old: Replacement must be newer than original package.
           itself: Package can't be replaced by itself.
+      setting:
+        only_internal: External package cannot be used here.
       source:
         packed_file_too_big: "File is too big: %{name}:%{size}"
         packed_files_too_many: Too many files

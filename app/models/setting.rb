@@ -4,6 +4,8 @@ class Setting < ApplicationRecord
   belongs_to :endpoint
 
   validates :package_id, uniqueness: { scope: :endpoint_id }
+  validates :package,
+            setting_package: true
 
   after_create :notify_install
 
@@ -20,6 +22,7 @@ class Setting < ApplicationRecord
 
   private
 
+  # TODO:
   def notify_install
     endpoint.notify :install, self
   end

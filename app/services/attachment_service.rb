@@ -13,11 +13,11 @@ class AttachmentService < ApplicationService
       identify: false,
     )
     File.delete(@filename) unless File.basename(@filename) == "test.zip"
-    if @source.package.sources.size == 0
+    @source.validate!
+    if @source.package.sources.size == 1
       @source.package.update(size: @source.unpacked_size)
       @source.update(is_merged: true)
     end
-    @source.validate!
   end
 
   protected

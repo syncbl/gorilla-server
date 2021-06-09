@@ -2,9 +2,10 @@ json = render "layouts/header", object: @package
 
 json_package = render "show", package: @package
 
+# TODO: Installed package can't be hidden, is it good?
 if @package.external?
   json_package[:external_url] = @package.external_url
-elsif @package.published?
+else
   json_package[:required_components] = []
   json_package[:optional_components] = []
   json_package[:required_packages] = []
