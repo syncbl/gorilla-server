@@ -56,8 +56,6 @@ when "development"
                                      filename: "hqdefault.jpg")
 
   p = Package.find_by(name: "Openssl-2_0")
-  p.validate!
-  p.publish!
   Product.create(package: p, validated_at: Time.current)
 
   p = Package.find_by(name: "openssl-dev")
@@ -72,6 +70,8 @@ when "development"
   p2.maintainers << u1
   p1.components << p2
   p.components << p2
+  p.validate!
+  p.publish!
 
   Endpoint.create name: "Test2", user: u1, id: "253307f5-0e4f-4a76-9b04-da35ba6345d5"
   e = Endpoint.create name: "Test5", user: User.last

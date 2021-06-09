@@ -5,22 +5,22 @@ json_package = render "show", package: @package
 if @package.external?
   json_package[:external_url] = @package.external_url
 elsif @package.published?
-  json_package[:required_components] = @package.dependencies
-    .required_components.map do |d|
-    render "show", package: d.component
+  json_package[:required_components] = []
+  json_package[:optional_components] = []
+  json_package[:required_packages] = []
+  json_package[:optional_packages] = []
+  @package.dependencies.map do |d|
+    if d.is_component && !d.is_optional
+      json_package[:required_components] << (render "show", package: d.component)
+    elsif d.is_component && d.is_optional
+      json_package[:optional_components] << (render "show", package: d.component)
+    elsif !d.is_component && !d.is_optional
+      json_package[:required_packages] << (render "show", package: d.component)
+    else
+      json_package[:optional_packages] << (render "show", package: d.component)
+    end
   end
-  json_package[:optional_components] = @package.dependencies
-    .optional_components.map do |d|
-    render "show", package: d.component
-  end
-  json_package[:required_packages] = @package.dependencies
-    .required_packages.map do |d|
-    render "show", package: d.component
-  end
-  json_package[:optional_packages] = @package.dependencies
-    .optional_packages.map do |d|
-    render "show", package: d.component
-  end
+
   json_package[:destination] = @package.destination
   json_package[:sources] = @package.sources.published.map do |source|
     render "sources/show", source: source
