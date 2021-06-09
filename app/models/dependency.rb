@@ -7,23 +7,39 @@ class Dependency < ApplicationRecord
   validates :component, package_dependency: true
 
   scope :required_components, -> {
-          include(:component)
+          joins(:component)
             .where(component: { is_component: true })
             .where(is_optional: false)
         }
   scope :optional_components, -> {
-          include(:component)
+          joins(:component)
             .where(component: { is_component: true })
             .where(is_optional: true)
         }
   scope :required_packages, -> {
-          include(:component)
+          joins(:component)
             .where(component: { is_component: false })
             .where(is_optional: false)
         }
   scope :optional_packages, -> {
-          include(:component)
+          joins(:component)
             .where(component: { is_component: false })
             .where(is_optional: true)
         }
+
+  def required_component?
+    is_component && !is_optional
+  end
+
+  def optional_component?
+    is_component && is_optional
+  end
+
+  def required_package?
+    !is_component && !is_optional
+  end
+
+  def optional_package?
+    !is_component && is_optional
+  end
 end
