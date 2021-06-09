@@ -1,10 +1,5 @@
 class PackageDependencyValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
-    unless value.is_component
-      record.errors.add :component,
-        I18n.t("errors.attributes.package.dependency.not_component")
-    end
-
     if record.package == value
       record.errors.add :component,
         I18n.t("errors.attributes.package.dependency.itself")

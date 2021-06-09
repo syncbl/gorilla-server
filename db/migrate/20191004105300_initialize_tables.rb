@@ -58,7 +58,6 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       # TODO: Components will be removed after parent package delete
       t.boolean :is_component, null: false, default: false
-      t.boolean :is_optional, null: false, default: false
       t.string :external_url
       t.string :mime_type
 
@@ -85,6 +84,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
                              foreign_key: true
       t.references :component, type: :uuid, index: true, null: false,
                                foreign_key: { to_table: :packages }
+      t.boolean :is_optional, null: false, default: false
       t.datetime :created_at, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.index %i[package_id component_id], unique: true
     end

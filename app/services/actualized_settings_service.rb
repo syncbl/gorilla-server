@@ -13,15 +13,15 @@ class ActualizedSettingsService < ApplicationService
         s.endpoint.notify :replace, s
         s.package.replaced_by.get_components.each do |c|
           components << c.id
-          unless @settings.exists?(package: c) || c.is_optional
-            @settings.create(package: c)
+          unless c.is_optional || @settings.exists?(package: c.component)
+            @settings.create(package: c.component)
           end
         end
       else
         s.package.get_components.each do |c|
-          components << c.id
-          unless @settings.exists?(package: c) || c.is_optional
-            @settings.create(package: c)
+          components << c.component.id
+          unless c.is_optional || @settings.exists?(package: c.component)
+            @settings.create(package: c.component)
           end
         end
       end

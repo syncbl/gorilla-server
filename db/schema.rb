@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   create_table "dependencies", id: false, force: :cascade do |t|
     t.uuid "package_id", null: false
     t.uuid "component_id", null: false
+    t.boolean "is_optional", default: false, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["component_id"], name: "index_dependencies_on_component_id"
     t.index ["package_id", "component_id"], name: "index_dependencies_on_package_id_and_component_id", unique: true
@@ -87,7 +88,6 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.bigint "size", default: 0, null: false
     t.bigint "settings_count", default: 0, null: false
     t.boolean "is_component", default: false, null: false
-    t.boolean "is_optional", default: false, null: false
     t.string "external_url"
     t.string "mime_type"
     t.uuid "user_id", null: false
