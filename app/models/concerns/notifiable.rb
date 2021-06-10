@@ -1,9 +1,17 @@
 module Notifiable
   extend ActiveSupport::Concern
 
-  def notify(method, payload)
-    Rails.cache.write "Notification_#{self.id}.#{SecureRandom.uuid}",
-                      Hash["#{method.downcase}", payload],
+  def notify(method, value)
+    # Notifications can be one per object or one per activity in order to avoid spam
+    if value.is_a? ApplicationRecord
+      payload = value.id
+      name = "Notification_#{self.id}.#{payload}"
+    else
+      payload = value
+      name = "Notification_#{self.id}.#{method}"
+    end
+    Rails.cache.write name,
+                      Hash["#{method}", payload],
                       expires_in: NOTIFICATION_EXPIRES_IN
   end
 
