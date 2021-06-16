@@ -1,7 +1,7 @@
 class Package::Component < Package
   has_many :packages, through: :dependencies
 
-  before_save :set_component
+  before_save :set_package
   before_destroy :check_dependency, prepend: true
 
   validates :is_component, inclusion: [true]
@@ -28,7 +28,7 @@ class Package::Component < Package
 
   protected
 
-  def set_component
+  def set_package
     self.is_component = true
   end
 

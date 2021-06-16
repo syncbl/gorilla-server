@@ -84,7 +84,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.citext "name", null: false
     t.jsonb "caption_translations"
     t.jsonb "description_translations"
-    t.string "destination", default: "", null: false
+    t.string "default_destination", default: "", null: false
     t.bigint "size", default: 0, null: false
     t.bigint "settings_count", default: 0, null: false
     t.boolean "is_component", default: false, null: false
@@ -114,6 +114,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   end
 
   create_table "settings", id: false, force: :cascade do |t|
+    t.string "destination", default: "", null: false
     t.uuid "endpoint_id", null: false
     t.uuid "package_id", null: false
     t.uuid "source_id"

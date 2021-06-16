@@ -55,6 +55,8 @@ when "development"
   Package::Default.first.icon.attach(io: File.open("files/hqdefault.jpg"),
                                      filename: "hqdefault.jpg")
 
+  puts Package::Bundle.create(name: "openssl-bundle", user: u1)
+
   p = Package.find_by(name: "Openssl-2_0")
   Product.create(package: p, validated_at: Time.current)
 

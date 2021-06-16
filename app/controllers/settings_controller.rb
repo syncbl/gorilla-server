@@ -56,7 +56,8 @@ class SettingsController < ApplicationController
       else
         format.html { render :edit }
         format.json do
-          render_json_error @endpoint.errors.full_messages, status: :unprocessable_entity
+          render_json_error @endpoint.errors.full_messages,
+                            status: :unprocessable_entity
         end
       end
     end

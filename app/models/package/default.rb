@@ -1,5 +1,5 @@
 class Package::Default < Package
-  before_save :set_component
+  before_save :set_package
 
   validates :is_component, inclusion: [false]
 
@@ -9,7 +9,7 @@ class Package::Default < Package
 
   protected
 
-  def set_component
+  def set_package
     self.is_component = false
   end
 end

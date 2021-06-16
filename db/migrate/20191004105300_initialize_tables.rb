@@ -51,7 +51,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.jsonb :caption_translations
       t.jsonb :description_translations
 
-      t.string :destination, null: false, default: ""
+      t.string :default_destination, null: false, default: ""
 
       t.bigint :size, null: false, default: 0
       t.bigint :settings_count, null: false, default: 0
@@ -113,6 +113,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     # ----------
     create_table :settings, id: false do |t|
       # TODO: Logs, other data, variables and settings
+      t.string :destination, null: false, default: ""
 
       t.references :endpoint, type: :uuid, index: true, null: false, foreign_key: true
       t.references :package, type: :uuid, index: true, null: false, foreign_key: true

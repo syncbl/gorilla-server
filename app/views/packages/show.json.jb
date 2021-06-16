@@ -26,7 +26,7 @@ else
     end
   end
 
-  json_package[:destination] = @package.destination
+  json_package[:destination] = @package.default_destination
   json_package[:sources] = @package.sources.published.map do |source|
     render "sources/show", source: source
   end
