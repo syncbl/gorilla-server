@@ -6,17 +6,12 @@ class ActualizedSettingsService < ApplicationService
 
   def call
     # Components can sync silently, but replace can by only with notification
-
     components = Set[]
     @settings.joins([:package]).map do |s|
-      if s.replaced?
-        s.endpoint.notify :replace, s
-      else
-        s.package.get_components.each do |c|
-          components << c.component.id
-          unless c.is_optional || @settings.exists?(package: c.component)
-            @settings.create(package: c.component)
-          end
+      s.package.get_components.each do |c|
+        components << c.component.id
+        unless c.is_optional || @settings.exists?(package: c.component)
+          @settings.create(package: c.component)
         end
       end
     end

@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     end
   end
   resource :endpoint, only: %i[show update destroy] do
-    resources :settings, except: %i[create] #do
+    resources :settings, only: %i[index update destroy] #do
       #collection do
         # TODO: post :reset <- to clean all the setting updated_at
       #end
