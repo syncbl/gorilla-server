@@ -14,7 +14,7 @@ class Package::Component < Package
 
   def self.extract(package, components = Set[])
     package.dependencies
-      .select { |d| !components.include?(d.component) && !d.is_optional }
+      .select { |d| !components.include?(d.component) && d.required_component? }
       .map do |d|
       components << d
       self.extract(d.component, components)
