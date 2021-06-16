@@ -15,16 +15,18 @@ Rails.application.routes.draw do
     end
   end
   resource :endpoint, only: %i[show update destroy] do
-    resources :settings, except: %i[create] do
-      collection do
+    resources :settings, except: %i[create] #do
+      #collection do
         # TODO: post :reset <- to clean all the setting updated_at
-      end
-    end
+      #end
+    #end
   end
   resource :user, only: %i[show] do
     #resource :subscription, only: %i[show create]
   end
-  resources :endpoints, only: %i[index create]
+  resources :endpoints, only: %i[index create] do
+    resources :settings, only: %i[create]
+  end
 
   authenticated :user do
     root to: "packages#index", as: :authenticated_root

@@ -113,7 +113,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.index ["package_id"], name: "index_products_on_package_id"
   end
 
-  create_table "settings", force: :cascade do |t|
+  create_table "settings", id: false, force: :cascade do |t|
     t.uuid "endpoint_id", null: false
     t.uuid "package_id", null: false
     t.uuid "source_id"

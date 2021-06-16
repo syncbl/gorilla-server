@@ -1,7 +1,9 @@
-is_available = !setting.package.external? && setting.endpoint.user.can_view?(setting.package)
+is_available = setting.endpoint.user.can_view?(setting.package)
 
 json = {
+  id: setting.package.id,
   name: setting.package.name,
+  caption: setting.package.caption,
   is_available: is_available,
 }
 

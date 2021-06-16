@@ -5,18 +5,12 @@ class ActualizedSettingsService < ApplicationService
   end
 
   def call
-    # TODO: Remove old components
+    # Components can sync silently, but replace can by only with notification
+
     components = Set[]
     @settings.joins([:package]).map do |s|
       if s.replaced?
-        s.update(package: s.package.replaced_by)
         s.endpoint.notify :replace, s
-        s.package.replaced_by.get_components.each do |c|
-          components << c.id
-          unless c.is_optional || @settings.exists?(package: c.component)
-            @settings.create(package: c.component)
-          end
-        end
       else
         s.package.get_components.each do |c|
           components << c.component.id
@@ -27,6 +21,7 @@ class ActualizedSettingsService < ApplicationService
       end
     end
 
+    # Auto cleaning unused components
     @settings.joins([:package]).where(package: { is_component: true }).map do |s|
       s.destroy unless components.include?(s.package.id)
     end

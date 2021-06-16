@@ -7,23 +7,14 @@ class Setting < ApplicationRecord
   validates :package,
             setting_package: true
 
-  after_create :notify_install
-
   scope :updated,
         -> {
-          where(
+          joins(:package).where(
             self.arel_table[:updated_at].lt(Package.arel_table[:updated_at])
           )
         }
 
   def replaced?
     package.replacement_id.present?
-  end
-
-  private
-
-  # TODO:
-  def notify_install
-    endpoint.notify :install, self
   end
 end

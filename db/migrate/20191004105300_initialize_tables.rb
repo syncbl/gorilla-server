@@ -111,7 +111,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     end
 
     # ----------
-    create_table :settings do |t|
+    create_table :settings, id: false do |t|
       # TODO: Logs, other data, variables and settings
 
       t.references :endpoint, type: :uuid, index: true, null: false, foreign_key: true
