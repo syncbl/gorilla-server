@@ -65,9 +65,10 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.datetime "blocked_at"
     t.string "block_reason"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at"
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["authentication_token"], name: "index_endpoints_on_authentication_token"
     t.index ["created_at"], name: "index_endpoints_on_created_at"
+    t.index ["updated_at"], name: "index_endpoints_on_updated_at"
     t.index ["user_id"], name: "index_endpoints_on_user_id"
   end
 
@@ -97,9 +98,10 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.datetime "blocked_at"
     t.string "block_reason"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at"
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_packages_on_created_at"
     t.index ["replacement_id"], name: "index_packages_on_replacement_id"
+    t.index ["updated_at"], name: "index_packages_on_updated_at"
     t.index ["user_id", "name"], name: "index_packages_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_packages_on_user_id"
   end
@@ -108,9 +110,10 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.uuid "package_id", null: false
     t.datetime "validated_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at"
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_products_on_created_at"
     t.index ["package_id"], name: "index_products_on_package_id"
+    t.index ["updated_at"], name: "index_products_on_updated_at"
   end
 
   create_table "settings", id: false, force: :cascade do |t|
@@ -120,12 +123,13 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.uuid "source_id"
     t.jsonb "data"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at"
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_settings_on_created_at"
     t.index ["endpoint_id", "package_id"], name: "index_settings_on_endpoint_id_and_package_id", unique: true
     t.index ["endpoint_id"], name: "index_settings_on_endpoint_id"
     t.index ["package_id"], name: "index_settings_on_package_id"
     t.index ["source_id"], name: "index_settings_on_source_id"
+    t.index ["updated_at"], name: "index_settings_on_updated_at"
   end
 
   create_table "sources", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -142,9 +146,10 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.datetime "blocked_at"
     t.string "block_reason"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at"
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_sources_on_created_at"
     t.index ["package_id"], name: "index_sources_on_package_id"
+    t.index ["updated_at"], name: "index_sources_on_updated_at"
   end
 
   create_table "subscriptions", force: :cascade do |t|
@@ -165,7 +170,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.datetime "blocked_at"
     t.string "block_reason"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at"
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -176,6 +181,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.index ["name"], name: "index_users_on_name"
     t.index ["plan"], name: "index_users_on_plan"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["updated_at"], name: "index_users_on_updated_at"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
