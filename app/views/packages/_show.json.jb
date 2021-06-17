@@ -1,6 +1,7 @@
 json = {
   id: package.id,
   name: package.name,
+  caption: package.caption,
   description: package.description,
   # is_published: package.published?,
   size: package.size,

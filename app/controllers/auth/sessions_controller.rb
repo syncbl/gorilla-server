@@ -9,7 +9,11 @@ class Auth::SessionsController < Devise::SessionsController
         self.resource = warden.authenticate!(auth_options)
         sign_in(resource_name, resource)
         if params[:endpoint].present?
-          @endpoint = sign_in_endpoint(current_user.endpoints.find(params[:endpoint]))
+          endpoint = Endpoint.find(params[:endpoint])
+          if endpoint.user_id != current_user.id
+            endpoint.update(user: current_user)
+          end
+          @endpoint = sign_in_endpoint(endpoint)
           render "endpoints/show"
         else
           current_user.token = Api::Token.encode(resource)

@@ -1,10 +1,10 @@
 is_available = setting.endpoint.user.can_view?(setting.package)
 
 json = {
+  is_available: is_available,
   id: setting.package.id,
   name: setting.package.name,
   caption: setting.package.caption,
-  is_available: is_available,
 }
 
 if is_available
