@@ -5,7 +5,6 @@ class ActualizedSettingsService < ApplicationService
   end
 
   def call
-    # Components can sync silently, but replace can by only with notification
     components = Set[]
     @settings.joins([:package]).map do |s|
       s.package.get_components.each do |c|
