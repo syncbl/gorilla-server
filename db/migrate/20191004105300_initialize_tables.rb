@@ -23,7 +23,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.datetime :blocked_at
       t.string :block_reason
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
-      t.datetime :updated_at
+      t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
     end
 
     # ----------
@@ -41,7 +41,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.datetime :blocked_at
       t.string :block_reason
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
-      t.datetime :updated_at
+      t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
     end
 
     # ----------
@@ -73,7 +73,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.datetime :blocked_at
       t.string :block_reason
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
-      t.datetime :updated_at
+      t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
 
       t.index %i[user_id name], unique: true
     end
@@ -107,7 +107,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.datetime :blocked_at
       t.string :block_reason
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
-      t.datetime :updated_at
+      t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
     end
 
     # ----------
@@ -122,7 +122,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.jsonb :data
 
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
-      t.datetime :updated_at
+      t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
 
       t.index %i[endpoint_id package_id], unique: true
     end
@@ -143,7 +143,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       # Price, license, etc.
       t.datetime :validated_at
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
-      t.datetime :updated_at
+      t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
     end
 
     # ----------

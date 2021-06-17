@@ -9,7 +9,9 @@ json = {
 
 if is_available
   json[:sources] = setting.package.sources.published.map do |source|
-    if source.published_at > setting.updated_at
+    # TODO: Only unmerged can be unpublished and unpublished must be all of them
+    if (setting.updated_at == setting.updated_at) ||
+       (source.published_at > setting.updated_at)
       render "sources/show", source: source
     end
   end

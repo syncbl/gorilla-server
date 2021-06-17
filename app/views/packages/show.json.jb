@@ -2,6 +2,8 @@ json = render "layouts/header", object: @package
 
 json_package = render "show", package: @package
 
+json_package[:destination] = @package.default_destination
+
 # TODO: Installed package can't be hidden, is it good?
 if @package.external?
   json_package[:external_url] = @package.external_url
@@ -24,11 +26,6 @@ else
       # Install after main package with separate wizard
       json_package[:optional_packages] << (render "show", package: d.component)
     end
-  end
-
-  json_package[:destination] = @package.default_destination
-  json_package[:sources] = @package.sources.published.map do |source|
-    render "sources/show", source: source
   end
 end
 
