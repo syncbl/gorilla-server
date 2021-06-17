@@ -1,6 +1,8 @@
 module Permissable
   extend ActiveSupport::Concern
 
+  # TODO: Add purchasing feature and rules
+
   def is_owner?(object)
     object.user == self
   end

@@ -13,7 +13,11 @@ class Api::Token
                when User
                  USER_SESSION_TIME
                when Endpoint
-                 ENDPOINT_SESSION_TIME
+                 if resource.user.nil?
+                   ANONYMOUS_SESSION_TIME
+                 else
+                   ENDPOINT_SESSION_TIME
+                 end
                end,
         },
         Rails.application.credentials.jwt_secret,

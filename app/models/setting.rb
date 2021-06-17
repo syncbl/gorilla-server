@@ -4,8 +4,6 @@ class Setting < ApplicationRecord
   belongs_to :endpoint
 
   validates :package_id, uniqueness: { scope: :endpoint_id }
-  validates :package,
-            setting_package: true
 
   scope :updated,
         -> {
