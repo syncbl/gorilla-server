@@ -5,6 +5,10 @@ class AttachmentService < ApplicationService
   end
 
   def call
+    # TODO: unless Clamby.safe?(file)
+    #  source.block! I18n.t("errors.block_reasons.suspicious_attachment")
+    #  return false
+    #end
     return unless build
     @source.file.attach(
       io: File.open(@filename),
@@ -18,6 +22,7 @@ class AttachmentService < ApplicationService
       @source.package.update(size: @source.unpacked_size)
       @source.update(is_merged: true)
     end
+    @source.package.validate!
   end
 
   protected

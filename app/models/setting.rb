@@ -1,10 +1,10 @@
 class Setting < ApplicationRecord
   belongs_to :package, counter_cache: true
-  belongs_to :source, counter_cache: true, optional: true
   belongs_to :endpoint
 
   validates :package_id, uniqueness: { scope: :endpoint_id }
 
+  # TODO: Check scope to get really updated packages
   scope :updated,
         -> {
           joins(:package).where(

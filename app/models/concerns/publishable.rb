@@ -22,12 +22,12 @@ module Publishable
   end
 
   def validate!
-    update!(validated_at: Time.current)
+    update!(validated_at: Time.current) unless validated?
     action_log
   end
 
   def invalidate!
-    update!(validated_at: nil, published_at: nil)
+    update!(validated_at: nil, published_at: nil) if validated?
     action_log
   end
 

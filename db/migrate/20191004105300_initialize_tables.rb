@@ -47,6 +47,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     # ----------
     create_table :packages, id: :uuid do |t|
       t.citext :name, null: false
+      t.string :package_type, index: true
 
       t.jsonb :caption_translations, null: false
       t.jsonb :description_translations
@@ -69,7 +70,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.references :replacement, type: :uuid, index: true,
                                  foreign_key: { to_table: :packages }
 
-      t.datetime :validated_at
+      t.datetime :validated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.datetime :published_at
       t.datetime :blocked_at
       t.string :block_reason

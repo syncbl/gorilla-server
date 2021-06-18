@@ -1,6 +1,7 @@
 class Package < ApplicationRecord
   include Blockable
   include Publishable
+  extend Enumerize
 
   # TODO: Messages for feed/forum - like update news etc.
 
@@ -9,6 +10,9 @@ class Package < ApplicationRecord
   # - file exists
 
   translates :caption, :description
+  enumerize :package_type,
+            in: %i[default external component bundle],
+            scope: true
 
   belongs_to :user
   has_one :product
@@ -28,8 +32,6 @@ class Package < ApplicationRecord
                    service: :internal,
                    dependent: :purge_later
 
-  after_create :set_valid
-
   validates :name,
             name_restrict: true,
             presence: true,
@@ -42,6 +44,8 @@ class Package < ApplicationRecord
               case_sensitive: false,
             },
             format: { with: NAME_FORMAT }
+  validates :package_type,
+            presence: true
   validates :icon,
             size: { less_than: MAX_ICON_SIZE }
   validates :replacement,
@@ -77,10 +81,5 @@ class Package < ApplicationRecord
   def _replaced_by
     # TODO: Check payment i.e.
     replacement_id.nil? ? self : replacement.replaced_by
-  end
-
-  def set_valid
-    # TODO: Check values
-    validate!
   end
 end

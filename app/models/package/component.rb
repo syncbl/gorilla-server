@@ -3,6 +3,7 @@ class Package::Component < Package
 
   before_save :set_package
   before_destroy :check_dependency, prepend: true
+  before_validation :set_type, on: :create
 
   validates :is_component, inclusion: [true]
 
@@ -26,7 +27,11 @@ class Package::Component < Package
     packages.size == 0
   end
 
-  protected
+  private
+
+  def set_type
+    self.package_type = :component
+  end
 
   def set_package
     self.is_component = true
