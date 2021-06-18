@@ -85,7 +85,8 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.citext "name", null: false
     t.jsonb "caption_translations", null: false
     t.jsonb "description_translations"
-    t.string "default_destination", default: "", null: false
+    t.string "default_path", default: "", null: false
+    t.boolean "path_changeable", default: true, null: false
     t.bigint "size", default: 0, null: false
     t.bigint "settings_count", default: 0, null: false
     t.boolean "is_component", default: false, null: false
@@ -117,7 +118,6 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   end
 
   create_table "settings", id: false, force: :cascade do |t|
-    t.string "destination", default: "", null: false
     t.uuid "endpoint_id", null: false
     t.uuid "package_id", null: false
     t.uuid "source_id"

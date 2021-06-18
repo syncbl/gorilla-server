@@ -2,7 +2,7 @@ json = render "layouts/header", object: @package
 
 json_package = render "show", package: @package
 
-json_package[:destination] = @package.default_destination
+json_package[:path] = @package.default_path
 # TODO: Remove to leave it only in settings?
 json_package[:external_url] = @package.external_url if @package.external?
 
