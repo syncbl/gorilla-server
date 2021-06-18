@@ -46,6 +46,12 @@ class Package < ApplicationRecord
             size: { less_than: MAX_ICON_SIZE }
   validates :replacement,
             package_replacement: true
+  validates :caption,
+            presence: true,
+            length: {
+              minimum: MIN_NAME_LENGTH,
+              maximum: MAX_NAME_LENGTH,
+            }
   validates_with PackageSubscriptionValidator
 
   scope :with_includes, -> { joins(:user) }

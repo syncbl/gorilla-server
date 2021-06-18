@@ -26,11 +26,13 @@ when "development"
     [
       {
         name: "openssl-1_0",
+        caption: "Test1",
         user: u1,
         external_url: "https://www.heidisql.com/installers/HeidiSQL_11.0.0.5919_Setup.exe",
       },
       {
         name: "Openssl-2_0",
+        caption: "Test2",
         user: u2,
         external_url: "https://www.7-zip.org/a/7z1900-x64.exe",
       },
@@ -39,23 +41,23 @@ when "development"
 
   puts Package::Component.create(
     [
-      { name: "Openssl-1_1", user: u1 },
-      { name: "Openssl-1_2", user: u1 },
-      { name: "openssl-2_1", user: u2 },
+      { name: "Openssl-1_1", caption: "Test3", user: u1 },
+      { name: "Openssl-1_2", caption: "Test4", user: u1 },
+      { name: "openssl-2_1", caption: "Test5", user: u2 },
     ]
   )
 
   puts Package::Default.create(
     [
-      { name: "openssl-dev", user: u1 },
-      { name: "openssl-dev-2", user: u1 },
+      { name: "openssl-dev", caption: "Test6", user: u1 },
+      { name: "openssl-dev-2", caption: "Test7", user: u1 },
     ]
   )
 
+  puts Package::Bundle.create(name: "openssl-bundle", caption: "Test8", user: u1)
+
   Package::Default.first.icon.attach(io: File.open("files/hqdefault.jpg"),
                                      filename: "hqdefault.jpg")
-
-  puts Package::Bundle.create(name: "openssl-bundle", user: u1)
 
   p = Package.find_by(name: "Openssl-2_0")
   Product.create(package: p, validated_at: Time.current)
