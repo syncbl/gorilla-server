@@ -10,8 +10,8 @@ json = {
 }
 
 if is_available
-  if @package.external?
-    json[:external_url] = @package.external_url
+  if setting.package.external?
+    json[:external_url] = setting.package.external_url
   else
     json[:sources] = setting.package.sources.published.map do |source|
       # TODO: Only unmerged can be unpublished and unpublished must be all of them

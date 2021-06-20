@@ -50,6 +50,7 @@ class ApplicationController < ActionController::Base
     # Idea: add blocked uuid to array in order to avoid multiqueries
     if scope == Endpoint.name && Api::Keys.endpoint.include?(service)
       if endpoint = cached_endpoint(uuid, token)
+        sign_in endpoint.user
         rand(ENDPOINT_TOKEN_REGEN_RANDOM) == 0 ? endpoint.reset_token : endpoint.touch
       else
         Rails.logger.warn "Blocked request: #{scope} #{uuid}"

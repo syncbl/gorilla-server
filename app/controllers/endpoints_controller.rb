@@ -1,5 +1,5 @@
 class EndpointsController < ApplicationController
-  before_action :authenticate_user!, only: %i[index destroy]
+  before_action :authenticate_user!
   before_action :set_endpoint, except: %i[index create]
 
   # GET /endpoints

@@ -1,6 +1,6 @@
 class SettingsController < ApplicationController
   # Settings can be used by user only within packages/endpoints
-  before_action :authenticate_user!, only: %i[create]
+  before_action :authenticate_user!
   before_action :set_endpoint
   before_action :set_setting, except: %i[index create]
 
