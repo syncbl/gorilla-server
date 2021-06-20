@@ -1,6 +1,5 @@
 class SettingsController < ApplicationController
   # Settings can be used by user only within packages/endpoints
-  before_action :authenticate_user!
   before_action :set_endpoint
   before_action :set_setting, except: %i[index create]
 
@@ -73,8 +72,8 @@ class SettingsController < ApplicationController
   end
 
   def set_endpoint
-    @endpoint = params[:endpoint_id] ?
-      current_user&.endpoints.find(params[:endpoint_id]) : current_endpoint
+    @endpoint = current_endpoint ||
+                current_user&.endpoints.find(params[:endpoint_id])
   end
 
   # Only allow a trusted parameter "white list" through.

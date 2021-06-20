@@ -1,5 +1,5 @@
 class EndpointsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: %i[show]
   before_action :set_endpoint, except: %i[index create]
 
   # GET /endpoints
@@ -14,7 +14,9 @@ class EndpointsController < ApplicationController
 
   # GET /endpoints/1
   # GET /endpoints/1.json
-  def show; end
+  def show
+    check_view! @endpoint
+  end
 
   # POST /endpoints.json
   def create
@@ -37,6 +39,7 @@ class EndpointsController < ApplicationController
   # PATCH/PUT /endpoint
   # PATCH/PUT /endpoint.json
   def update
+    check_edit! @endpoint
     respond_to do |format|
       if @endpoint.update(endpoint_params)
         format.html do
@@ -55,7 +58,7 @@ class EndpointsController < ApplicationController
   # DELETE /endpoints/1
   # DELETE /endpoints/1.json
   def destroy
-    @endpoint
+    check_edit! @endpoint
     respond_to do |format|
       if @endpoint.destroy
         format.html do
