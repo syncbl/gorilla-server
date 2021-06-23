@@ -29,6 +29,8 @@ module GpServer
     config.i18n.default_locale = :en
     config.i18n.fallbacks = [config.i18n.default_locale]
     config.active_storage.routes_prefix = '/files'
+    # TODO: Rails 7
+    # config.active_record.async_query_executor = :multi_thread_pool
 
     # Configuration for the application, engines, and railties goes here.
     #
