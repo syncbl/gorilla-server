@@ -24,6 +24,7 @@ class Endpoint < ApplicationRecord
 
   def install(package)
     settings.create(package: package)
+    # TODO: Reset sources
   end
 
   def reset_token
