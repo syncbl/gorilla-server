@@ -46,7 +46,7 @@ gem "jwt" # A ruby implementation of the RFC 7519 OAuth JSON Web Token (JWT) sta
 #gem "noticed" # Notifications for your Ruby on Rails app.
 gem "pagy", "~> 3.8" # Pagination gem that outperforms the others in each and every benchmark and comparison.
 #gem "pundit" # Set of helpers to build an authorization system.
-gem "rbnacl" # Ruby binding for libsodium, a fork of the Networking and Cryptography library.
+#gem "rbnacl" # Ruby binding for libsodium, a fork of the Networking and Cryptography library.
 gem "render_async" # Pages become faster seamlessly by rendering partials to your views.
 gem "rubyzip", require: "zip" # Ruby library for reading and writing zip files.
 #gem "sidekiq" # Simple, efficient background processing for Ruby.
