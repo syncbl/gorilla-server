@@ -68,7 +68,7 @@ GEM
     awesome_print (1.9.2)
     aws-eventstream (1.1.1)
     aws-partitions (1.470.0)
-    aws-sdk-core (3.114.3)
+    aws-sdk-core (3.115.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
       aws-sigv4 (~> 1.1)
@@ -240,8 +240,6 @@ GEM
     rb-fsevent (0.11.0)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    rbnacl (7.1.1)
-      ffi
     redis (4.3.1)
     render_async (2.1.10)
     responders (3.0.1)
@@ -363,7 +361,6 @@ DEPENDENCIES
   rack-attack
   rails (~> 6.1)
   rails-i18n (~> 6.0)
-  rbnacl
   redis (~> 4.0)
   render_async
   rspec-rails (~> 4.0.2)
