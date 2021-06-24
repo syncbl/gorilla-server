@@ -67,12 +67,15 @@ when "development"
   Product.create(package: p, validated_at: Time.current)
 
   p1 = Package.last
-  p2 = Package::Component.find_by(name: "Openssl-2_1")
+  p2 = Package.find_by(name: "Openssl-2_1")
   p2.maintainers << u1
   p1.components << p2
   p.components << p2
   p.validate!
   p.publish!
+
+  p3 = Package.find_by(name: "Openssl-2_0")
+  p3.maintainers << u1
 
   Endpoint.create name: "Test2", user: u1, id: "253307f5-0e4f-4a76-9b04-da35ba6345d5"
   e = Endpoint.create name: "Test5", user: User.last
