@@ -33,7 +33,7 @@ class Api::Token
         { algorithm: "HS256" }
       ).first.with_indifferent_access
     rescue JWT::ExpiredSignature, JWT::DecodeError
-      false
+      nil
     end
   end
 end

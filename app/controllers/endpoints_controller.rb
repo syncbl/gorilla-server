@@ -1,5 +1,5 @@
 class EndpointsController < ApplicationController
-  before_action :authenticate_user!, except: %i[show]
+  before_action :authenticate_user!, except: %i[show update]
   before_action :set_endpoint, except: %i[index create]
 
   # GET /endpoints
@@ -15,7 +15,9 @@ class EndpointsController < ApplicationController
   # GET /endpoints/1
   # GET /endpoints/1.json
   def show
-    check_view! @endpoint
+    unless @endpoint
+      render_json_error I18n.t("devise.failure.timeout"), status: :unauthorized
+    end
   end
 
   # POST /endpoints.json
@@ -80,7 +82,7 @@ class EndpointsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_endpoint
     @endpoint = current_endpoint ||
-                Endpoint.find_by!(id: params[:endpoint_id], user: current_user)
+                Endpoint.find_by(id: params[:endpoint_id], user: current_user)
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

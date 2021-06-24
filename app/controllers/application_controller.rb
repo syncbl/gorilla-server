@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
 
   def api_check_headers
     service = request.headers["X-API-Service"]
-    if request.headers["X-API-Token"]
+    if request.headers["X-API-Token"].present?
       if payload = Api::Token.decode(request.headers["X-API-Token"])
         scope = payload[:scope]
         uuid = payload[:uuid]
@@ -47,6 +47,7 @@ class ApplicationController < ActionController::Base
         render_json_error I18n.t("devise.failure.timeout"), status: :unauthorized
       end
     end
+
     # Idea: add blocked uuid to array in order to avoid multiqueries
     if scope == Endpoint.name && Api::Keys.endpoint.include?(service)
       if endpoint = cached_endpoint(uuid, token)
@@ -63,15 +64,13 @@ class ApplicationController < ActionController::Base
         render_json_error I18n.t("devise.failure.blocked"), status: :unauthorized
       end
     elsif scope == User.name && Api::Keys.user.include?(service)
-      if user = cached_user(uuid, token)
-        sign_in user
-      else
+      unless sign_in cached_user(uuid, token)
         Rails.logger.warn "Blocked request: #{scope} #{uuid}"
         render_json_error I18n.t("devise.failure.blocked"), status: :unauthorized
       end
     elsif Api::Keys.anonymous.include?(service)
       true
-    elsif service
+    elsif service.present?
       head :upgrade_required
     else
       Rails.logger.warn "Forbidden request from #{request.remote_ip}"
