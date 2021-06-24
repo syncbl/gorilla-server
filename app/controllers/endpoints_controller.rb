@@ -79,7 +79,8 @@ class EndpointsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_endpoint
-    @endpoint = current_endpoint || current_user&.endpoints&.find(params[:id])
+    @endpoint = current_endpoint ||
+                Endpoint.find_by!(id: params[:endpoint_id], user: current_user)
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
