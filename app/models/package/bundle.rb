@@ -1,14 +1,20 @@
-class Package::Bundle < Package::Default
+class Package::Bundle < Package
+  before_save :set_package
   before_validation :set_type, on: :create
 
-  validates :external_url,
-            inclusion: [nil]
+  validates :is_component, inclusion: [false]
 
-  # TODO: Bundle is a package without files, only dependent packages
+  default_scope -> {
+                  where(is_component: false)
+                }
 
   private
 
   def set_type
     self.package_type = :bundle
+  end
+
+  def set_package
+    self.is_component = false
   end
 end

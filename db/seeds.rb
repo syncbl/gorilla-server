@@ -47,26 +47,23 @@ when "development"
     ]
   )
 
-  puts Package::Default.create(
+  puts Package::Bundle.create(
     [
       { name: "openssl-dev", caption: "Test6", user: u1 },
       { name: "openssl-dev-2", caption: "Test7", user: u1 },
     ]
   )
 
-  puts Package::Bundle.create(name: "openssl-bundle", caption: "Test8", user: u1)
-
-  Package::Default.first.icon.attach(io: File.open("files/hqdefault.jpg"),
-                                     filename: "hqdefault.jpg")
-
-  p = Package.find_by(name: "Openssl-2_0")
-  Product.create(package: p, validated_at: Time.current)
+  Package::Bundle.first.icon.attach(io: File.open("files/hqdefault.jpg"),
+                                    filename: "hqdefault.jpg")
 
   p = Package.find_by(name: "openssl-dev")
   s = p.sources.create(size: 1000)
   AttachmentService.call s, "files/test.zip"
   s.validate!
   s.publish!
+  p.components << Package.find_by(name: "openssl-1_0")
+  p.components << Package.find_by(name: "openssl-1_1")
   Product.create(package: p, validated_at: Time.current)
 
   p1 = Package.last

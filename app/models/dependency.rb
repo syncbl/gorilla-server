@@ -1,6 +1,6 @@
 class Dependency < ApplicationRecord
   belongs_to :package
-  belongs_to :component, class_name: "Package::Component"
+  belongs_to :component, class_name: "Package"
 
   delegate :is_component, to: :component
 
