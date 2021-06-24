@@ -73,7 +73,7 @@ class SettingsController < ApplicationController
 
   def set_endpoint
     @endpoint = current_endpoint ||
-                current_user&.endpoints.find(params[:endpoint_id])
+                Endpoint.find_by!(id: params[:endpoint_id], user: current_user)
   end
 
   # Only allow a trusted parameter "white list" through.

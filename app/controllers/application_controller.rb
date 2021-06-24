@@ -52,7 +52,11 @@ class ApplicationController < ActionController::Base
       if endpoint = cached_endpoint(uuid, token)
         # Can't allow to endpoint access all other endpoints and user data
         # sign_in endpoint.user
-        rand(ENDPOINT_TOKEN_REGEN_RANDOM) == 0 ? endpoint.reset_token : endpoint.touch
+        if endpoint.token == token
+          endpoint.reset_token
+        else
+          endpoint.touch
+        end
       else
         Rails.logger.warn "Blocked request: #{scope} #{uuid}"
         Endpoint.active.find_by(id: uuid)&.regenerate_authentication_token
