@@ -13,6 +13,7 @@ class Auth::SessionsController < Devise::SessionsController
           if @endpoint.user_id != current_user.id
             @endpoint.update(user: current_user)
           end
+          sign_in_endpoint @endpoint
           render "endpoints/show"
         else
           current_user.token = Api::Token.encode(resource)
