@@ -60,7 +60,7 @@ class ApplicationController < ActionController::Base
         end
       else
         Rails.logger.warn "Blocked request: #{scope} #{uuid}"
-        Endpoint.active.find_by(id: uuid)&.regenerate_authentication_token
+        Endpoint.find_by(id: uuid)&.regenerate_authentication_token
         render_json_error I18n.t("devise.failure.blocked"), status: :unauthorized
       end
     elsif scope == User.name && Api::Keys.user.include?(service)

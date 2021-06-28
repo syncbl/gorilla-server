@@ -20,7 +20,7 @@ class SubscriptionsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_subscription
-      @subscription = current_user.subscriptions.active.first
+      @subscription = current_user.subscriptions.current.first
     end
 
     # Only allow a list of trusted parameters through.

@@ -59,10 +59,6 @@ class Package < ApplicationRecord
   validates_with PackageSubscriptionValidator
 
   scope :with_includes, -> { joins(:user) }
-  scope :without_components, -> {
-      includes(:icon_attachment)
-        .where(is_component: false)
-    }
 
   def get_components
     Package::Component.extract(self)

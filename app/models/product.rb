@@ -7,8 +7,9 @@ class Product < ApplicationRecord
             presence: true,
             uniqueness: true
 
-  scope :active, -> {
-          joins(:package).where(package: Package.active.published)
-            .where.not(validated_at: nil)
+  scope :published, -> {
+          joins(:package).where(package: Package.except_blocked.published)
+            .where(package: { is_component: false })
+            .where.not(validated_at: nil).without_components
         }
 end

@@ -27,12 +27,14 @@ when "development"
       {
         name: "openssl-1_0",
         caption: "Test1",
+        description: "Test package",
         user: u1,
         external_url: "https://www.heidisql.com/installers/HeidiSQL_11.0.0.5919_Setup.exe",
       },
       {
         name: "Openssl-2_0",
         caption: "Test2",
+        description: "Test package",
         user: u2,
         external_url: "https://www.7-zip.org/a/7z1900-x64.exe",
       },
@@ -41,16 +43,26 @@ when "development"
 
   puts Package::Component.create(
     [
-      { name: "Openssl-1_1", caption: "Test3", user: u1 },
-      { name: "Openssl-1_2", caption: "Test4", user: u1 },
-      { name: "openssl-2_1", caption: "Test5", user: u2 },
+      { name: "Openssl-1_1", caption: "Test3",
+        description: "Test package",
+        user: u1 },
+      { name: "Openssl-1_2", caption: "Test4",
+        description: "Test package",
+        user: u1 },
+      { name: "openssl-2_1", caption: "Test5",
+        description: "Test package",
+        user: u2 },
     ]
   )
 
   puts Package::Bundle.create(
     [
-      { name: "openssl-dev", caption: "Test6", user: u1 },
-      { name: "openssl-dev-2", caption: "Test7", user: u1 },
+      { name: "openssl-dev", caption: "Test6",
+        description: "Test package",
+        user: u1 },
+      { name: "openssl-dev-2", caption: "Test7",
+        description: "Test package",
+        user: u1 },
     ]
   )
 
@@ -58,7 +70,11 @@ when "development"
                                     filename: "hqdefault.jpg")
 
   p = Package.find_by(name: "openssl-dev")
-  s = p.sources.create(size: 1000)
+  s = p.sources.create(size: 1000, version: "1.0.0", description: "Test update 1")
+  AttachmentService.call s, "files/test.zip"
+  s.validate!
+  s.publish!
+  s = p.sources.create(size: 1000, version: "1.0.0", description: "Test update 2")
   AttachmentService.call s, "files/test.zip"
   s.validate!
   s.publish!
@@ -67,6 +83,10 @@ when "development"
   Product.create(package: p, validated_at: Time.current)
 
   p1 = Package.last
+  # s = p1.sources.create(size: 1000, description: "Test update BAD")
+  # AttachmentService.call s, "files/zbsm.zip"
+  # s.validate!
+  # s.publish!
   p2 = Package.find_by(name: "Openssl-2_1")
   p2.maintainers << u1
   p1.components << p2

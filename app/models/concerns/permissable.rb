@@ -16,6 +16,6 @@ module Permissable
   end
 
   def can_view?(object)
-    can_edit?(object) || object.published?
+    object.published? || can_edit?(object)
   end
 end

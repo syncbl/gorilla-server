@@ -1,5 +1,5 @@
 class EndpointsController < ApplicationController
-  before_action :authenticate_user!, except: %i[show update]
+  before_action :authenticate_user!, except: %i[show create update]
   before_action :set_endpoint, except: %i[index create]
 
   # GET /endpoints

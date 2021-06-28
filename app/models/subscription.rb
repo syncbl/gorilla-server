@@ -8,21 +8,21 @@ class Subscription < ApplicationRecord
 
   before_create :validate_time
 
-  scope :active, -> {
+  scope :current, -> {
           where(self.arel_table[:start_time].lt(Time.current))
             .where(self.arel_table[:end_time].gt(Time.current))
         }
 
   def self.paid?
-    self.active.any?
+    self.current.any?
   end
 
   def self.extended?
-    paid? && %w[pro business].include?(active.last.user.plan)
+    paid? && %w[pro business].include?(current.last.user.plan)
   end
 
   def self.size_limit
-    case active.last.user.plan
+    case current.last.user.plan
     when "personal"
       SUBSCRIPTION_PLAN_PERSONAL
     when "pro"

@@ -31,7 +31,9 @@ class AttachmentService < ApplicationService
     @source.unpacked_size = 0
     filelist = {}
     Zip::File.open(@filename) do |zipfile|
-      raise I18n.t("errors.attributes.source.packed_files_too_many") if zipfile.size > MAX_FILE_COUNT
+      if zipfile.size > MAX_FILE_COUNT
+        raise I18n.t("errors.attributes.source.packed_files_too_many")
+      end
       zipfile.each do |z|
         next if z.directory?
         if z.size > MAX_FILE_SIZE
@@ -40,6 +42,9 @@ class AttachmentService < ApplicationService
         filelist[z.name] = Digest::MD5.base64digest(z.get_input_stream.read) # z.crc
         # Replace with HashFileList.add if needed
         @source.unpacked_size += z.size
+        if @source.unpacked_size > MAX_FILE_SIZE
+          raise I18n.t("errors.attributes.source.packed_files_too_many")
+        end
       end
     end
     @source.filelist = filelist

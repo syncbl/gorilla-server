@@ -27,7 +27,7 @@ module ApplicationHelper
       "#{model.name}_#{id}",
       expires_in: MODEL_CACHE_TIMEOUT,
     ) do
-      model.active.find_by(
+      model.except_blocked.find_by(
         id: id,
         authentication_token: token,
       )
@@ -65,7 +65,7 @@ module ApplicationHelper
 
   def check_view!(object)
     render_403 unless current_user&.can_view?(object) ||
-                      current_endpoint&.user&.can_view?(object)
+                      current_endpoint&.can_view?(object)
   end
 
   def check_edit!(object)

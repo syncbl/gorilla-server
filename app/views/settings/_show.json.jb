@@ -1,4 +1,4 @@
-is_available = setting.endpoint.user.can_view?(setting.package)
+is_available = setting.endpoint.can_view?(setting.package)
 
 json = {
   is_available: is_available,

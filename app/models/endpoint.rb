@@ -31,4 +31,8 @@ class Endpoint < ApplicationRecord
     regenerate_authentication_token
     self.token = Api::Token.encode(self)
   end
+
+  def can_view?(object)
+    object.published? || user&.can_view?(object)
+  end
 end

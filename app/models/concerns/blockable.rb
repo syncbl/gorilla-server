@@ -21,15 +21,11 @@ module Blockable
     blocked_at != nil
   end
 
-  def active?
-    blocked_at.nil?
-  end
-
   def self.included(base)
     base.class_eval {
       after_save :clear_cache
 
-      scope :active, -> {
+      scope :except_blocked, -> {
               where(blocked_at: nil)
             }
     }
