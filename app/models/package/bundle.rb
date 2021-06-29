@@ -8,6 +8,8 @@ class Package::Bundle < Package
                   where(is_component: false)
                 }
 
+  # TODO: Add "data" subattributes!
+
   private
 
   def set_type
