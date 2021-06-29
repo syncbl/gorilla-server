@@ -17,16 +17,17 @@ class EndpointsController < ApplicationController
   def show; end
 
   # POST /endpoints.json
+  # TODO: Change everything! Updates for current_endpoint to PUT!
   def create
     respond_to do |format|
       format.html { head :method_not_allowed }
       format.json do
-        @endpoint = current_endpoint || Endpoint.new(user: current_user)
+        @endpoint = Endpoint.new
         @endpoint.update({
           name: endpoint_params[:name],
           user: current_user,
           remote_ip: request.remote_ip, # TODO: Additional security by IP compare
-          locale: current_user&.locale || I18n.default_locale.to_s,
+          locale: I18n.default_locale.to_s,
         })
         sign_in_endpoint(@endpoint)
         render :show, status: :created, location: @endpoint
