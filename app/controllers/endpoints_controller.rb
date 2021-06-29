@@ -1,6 +1,6 @@
 class EndpointsController < ApplicationController
   before_action :authenticate_user!, except: %i[show create update]
-  before_action :set_endpoint, except: %i[index create]
+  before_action :set_endpoint, except: %i[index]
 
   # GET /endpoints
   # GET /endpoints.json
@@ -14,21 +14,17 @@ class EndpointsController < ApplicationController
 
   # GET /endpoints/1
   # GET /endpoints/1.json
-  def show
-    unless @endpoint
-      render_json_error I18n.t("devise.failure.timeout"), status: :unauthorized
-    end
-  end
+  def show; end
 
   # POST /endpoints.json
   def create
     respond_to do |format|
-      # We allowing to register anonymous endpoints without any limit
       format.html { head :method_not_allowed }
       format.json do
-        @endpoint = Endpoint.find_by(id: endpoint_params[:id], user: current_user) ||
-                    Endpoint.new(name: endpoint_params[:name], user: current_user)
+        @endpoint = current_endpoint || Endpoint.new(user: current_user)
         @endpoint.update({
+          name: endpoint_params[:name],
+          user: current_user,
           remote_ip: request.remote_ip, # TODO: Additional security by IP compare
           locale: current_user&.locale || I18n.default_locale.to_s,
         })
@@ -82,7 +78,7 @@ class EndpointsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_endpoint
     @endpoint = current_endpoint ||
-                Endpoint.find_by(id: params[:endpoint_id], user: current_user)
+                Endpoint.find(params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
