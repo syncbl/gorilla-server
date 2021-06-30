@@ -13,6 +13,8 @@ class Package < ApplicationRecord
   enumerize :package_type,
             in: %i[bundle external component],
             scope: true
+  jsonb_accessor :data,
+                 require_administrator: :boolean
 
   belongs_to :user
   has_one :product
