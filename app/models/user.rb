@@ -23,6 +23,10 @@ class User < ApplicationRecord
   has_many :endpoints, dependent: :destroy
   has_many :subscriptions, dependent: :nullify
 
+  validates :email,
+            format: { with: URI::MailTo::EMAIL_REGEXP },
+            uniqueness: { case_sensitive: false },
+            presence: true
   validates :name,
             name_restrict: true,
             presence: true,
