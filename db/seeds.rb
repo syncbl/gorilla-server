@@ -80,6 +80,7 @@ when "development"
   s.publish!
   p.components << Package.find_by(name: "openssl-1_0")
   p.components << Package.find_by(name: "openssl-1_1")
+  p.components << Package.find_by(name: "openssl-1_2")
   Product.create(package: p, validated_at: Time.current)
 
   p1 = Package.last
