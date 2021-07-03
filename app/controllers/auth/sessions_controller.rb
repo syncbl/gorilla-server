@@ -14,8 +14,9 @@ class Auth::SessionsController < Devise::SessionsController
         else
           id = params.dig("endpoint", "id")
           @endpoint = id.present? ?
-            Endpoint.find(params.dig("endpoint", "id")) : current_user.endpoints.new
+            Endpoint.find(params.dig("endpoint", "id")) : Endpoint.new
           @endpoint.update({
+            user: current_user,
             name: params.dig("endpoint", "name"),
             remote_ip: request.remote_ip, # TODO: Additional security by IP compare
             locale: current_user.locale,
