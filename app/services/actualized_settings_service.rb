@@ -19,9 +19,7 @@ class ActualizedSettingsService < ApplicationService
 
     # Auto cleaning unused components
     @settings.joins([:package]).where(package: { is_component: true })
-      .where.not(package: components).map do |s|
-      s.destroy
-    end
+      .where.not(package: components).map(&:destroy)
 
     @settings
   end
