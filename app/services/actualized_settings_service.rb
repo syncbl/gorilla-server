@@ -8,7 +8,7 @@ class ActualizedSettingsService < ApplicationService
     components = Set[]
     @settings.joins([:package]).map do |s|
       next if components.include?(s.package.id)
-      s.package.get_components.each do |c|
+      s.package.get_components.map do |c|
         next if components.include?(c.dependent_package.id)
         components << c.dependent_package.id
         unless c.is_optional || @settings.exists?(package: c.dependent_package)
