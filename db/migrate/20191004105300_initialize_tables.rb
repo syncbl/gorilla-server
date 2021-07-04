@@ -87,11 +87,11 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     create_table :dependencies, id: false do |t|
       t.references :package, type: :uuid, index: true, null: false,
                              foreign_key: true
-      t.references :component, type: :uuid, index: true, null: false,
+      t.references :dependent_package, type: :uuid, index: true, null: false,
                                foreign_key: { to_table: :packages }
       t.boolean :is_optional, null: false, default: false
       t.datetime :created_at, null: false, default: -> { "CURRENT_TIMESTAMP" }
-      t.index %i[package_id component_id], unique: true
+      t.index %i[package_id dependent_package_id], unique: true
     end
 
     # ----------

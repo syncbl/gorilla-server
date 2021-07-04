@@ -1,10 +1,10 @@
 class Dependency < ApplicationRecord
   belongs_to :package
-  belongs_to :component, class_name: "Package"
+  belongs_to :dependent_package, class_name: "Package"
 
-  delegate :is_component, to: :component
+  delegate :is_component, to: :dependent_package
 
-  validates :component, package_dependency: true
+  validates :dependent_package, package_dependency: true
 
   def required_component?
     is_component && !is_optional

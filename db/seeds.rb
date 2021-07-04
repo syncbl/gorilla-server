@@ -78,9 +78,9 @@ when "development"
   AttachmentService.call s, "files/test.zip"
   s.validate!
   s.publish!
-  p.components << Package.find_by(name: "openssl-1_0")
-  p.components << Package.find_by(name: "openssl-1_1")
-  p.components << Package.find_by(name: "openssl-1_2")
+  p.dependent_packages << Package.find_by(name: "openssl-1_0")
+  p.dependent_packages << Package.find_by(name: "openssl-1_1")
+  p.dependent_packages << Package.find_by(name: "openssl-1_2")
   Product.create(package: p, validated_at: Time.current)
 
   p1 = Package.last
@@ -90,8 +90,8 @@ when "development"
   # s.publish!
   p2 = Package.find_by(name: "Openssl-2_1")
   p2.maintainers << u1
-  p1.components << p2
-  p.components << p2
+  p1.dependent_packages << p2
+  p.dependent_packages << p2
   p.validate!
   p.publish!
 

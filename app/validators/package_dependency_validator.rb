@@ -1,17 +1,17 @@
 class PackageDependencyValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     if record.package == value
-      record.errors.add :component,
+      record.errors.add :dependent_package,
         I18n.t("errors.attributes.package.dependency.itself")
     end
 
     if record.package.external? && (record.is_component == true)
-      record.errors.add :component,
+      record.errors.add :dependent_package,
         I18n.t("errors.attributes.package.dependency.external")
     end
 
     unless record.package.user.can_view?(value)
-      record.errors.add :component,
+      record.errors.add :dependent_package,
         I18n.t("errors.attributes.package.dependency.forbidden")
     end
 

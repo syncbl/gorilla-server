@@ -14,11 +14,9 @@ class Package::Component < Package
   # TODO: Destroy orphaned components. Try dependent: :destroy like in activestorage
 
   def self.extract(package, components = Set[])
-    package.dependencies
-      .select { |d| !components.include?(d.component) && d.required_component? }
-      .map do |d|
-      components << d
-      self.extract(d.component, components)
+    package.dependencies.map do |d|
+      components << d if d.required_component?
+      self.extract(d.dependent_package, components)
     end
     components.to_a.reverse
   end

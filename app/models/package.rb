@@ -22,7 +22,7 @@ class Package < ApplicationRecord
   has_many :endpoints, through: :settings
   has_many :sources, dependent: :destroy
   has_many :dependencies
-  has_many :components, through: :dependencies
+  has_many :dependent_packages, through: :dependencies
   has_many :maintains
   has_many :maintainers, through: :maintains,
                          source: :user

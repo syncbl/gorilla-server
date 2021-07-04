@@ -7,17 +7,20 @@ class ActualizedSettingsService < ApplicationService
   def call
     components = Set[]
     @settings.joins([:package]).map do |s|
+      next if components.include?(s.package.id)
       s.package.get_components.each do |c|
-        components << c.component.id
-        unless c.is_optional || @settings.exists?(package: c.component)
+        next if components.include?(c.dependent_package.id)
+        components << c.dependent_package.id
+        unless c.is_optional || @settings.exists?(package: c.dependent_package)
           @settings.create(package: c.component)
         end
       end
     end
 
     # Auto cleaning unused components
-    @settings.joins([:package]).where(package: { is_component: true }).map do |s|
-      s.destroy unless components.include?(s.package.id)
+    @settings.joins([:package]).where(package: { is_component: true })
+      .where.not(package: components).map do |s|
+      s.destroy
     end
 
     @settings

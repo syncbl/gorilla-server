@@ -48,11 +48,11 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
 
   create_table "dependencies", id: false, force: :cascade do |t|
     t.uuid "package_id", null: false
-    t.uuid "component_id", null: false
+    t.uuid "dependent_package_id", null: false
     t.boolean "is_optional", default: false, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["component_id"], name: "index_dependencies_on_component_id"
-    t.index ["package_id", "component_id"], name: "index_dependencies_on_package_id_and_component_id", unique: true
+    t.index ["dependent_package_id"], name: "index_dependencies_on_dependent_package_id"
+    t.index ["package_id", "dependent_package_id"], name: "index_dependencies_on_package_id_and_dependent_package_id", unique: true
     t.index ["package_id"], name: "index_dependencies_on_package_id"
   end
 
@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.string "package_type"
     t.jsonb "caption_translations", null: false
     t.jsonb "description_translations"
+    t.jsonb "data"
     t.string "default_path", default: "", null: false
     t.boolean "path_changeable", default: true, null: false
     t.bigint "size", default: 0, null: false
@@ -190,7 +191,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "dependencies", "packages"
-  add_foreign_key "dependencies", "packages", column: "component_id"
+  add_foreign_key "dependencies", "packages", column: "dependent_package_id"
   add_foreign_key "endpoints", "users"
   add_foreign_key "maintains", "packages"
   add_foreign_key "maintains", "users"
