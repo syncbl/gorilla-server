@@ -41,12 +41,10 @@ gem "jb" # A simpler and faster Jbuilder alternative.
 gem "json_translate" # Rails I18n library for ActiveRecord model/data translation
 gem "jsonb_accessor", "~> 1" # Adds typed jsonb backed fields as first class citizens to your ActiveRecord models.
 gem "jwt" # A ruby implementation of the RFC 7519 OAuth JSON Web Token (JWT) standard.
-#gem "lockbox" # Modern encryption for Ruby and Rails.
 #gem "omniauth" # Standardized Multi-Provider Authentication.
 #gem "noticed" # Notifications for your Ruby on Rails app.
 gem "pagy", "~> 3.8" # Pagination gem that outperforms the others in each and every benchmark and comparison.
 #gem "pundit" # Set of helpers to build an authorization system.
-#gem "rbnacl" # Ruby binding for libsodium, a fork of the Networking and Cryptography library.
 gem "render_async" # Pages become faster seamlessly by rendering partials to your views.
 gem "rubyzip", require: "zip" # Ruby library for reading and writing zip files.
 #gem "sidekiq" # Simple, efficient background processing for Ruby.

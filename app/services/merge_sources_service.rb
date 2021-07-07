@@ -15,7 +15,7 @@ class MergeSourcesService < ApplicationService
         diff = (dst.filelist.to_a & src.filelist.to_a).to_h
         next if diff.empty?
         dst.file.open do |dstfile|
-          Zip::File.open(dstfile, Zip::File::CREATE) do |dstzipfile|
+          Zip::File.open(dstfile, create: false) do |dstzipfile|
             dstzipfile.select { |d| !d.directory? && diff[d.name].present? }.each do |dstz|
               dstzipfile.remove(dstz)
               dstzipfile.commit
