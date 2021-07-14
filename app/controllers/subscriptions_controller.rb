@@ -11,20 +11,21 @@ class SubscriptionsController < ApplicationController
     @subscription = Subscription.new(subscription_params)
 
     if @subscription.save
-      redirect_to @subscription, notice: 'Subscription was successfully created.'
+      redirect_to @subscription, notice: "Subscription was successfully created."
     else
       render :new
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_subscription
-      @subscription = current_user.subscriptions.current.first
-    end
 
-    # Only allow a list of trusted parameters through.
-    def subscription_params
-      params.fetch(:subscription, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_subscription
+    @subscription = current_user.subscriptions.current.take
+  end
+
+  # Only allow a list of trusted parameters through.
+  def subscription_params
+    params.fetch(:subscription, {})
+  end
 end
