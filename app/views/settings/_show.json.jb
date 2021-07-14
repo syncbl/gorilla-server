@@ -4,6 +4,7 @@ json = {
   is_available: is_available,
   id: setting.package.id,
   name: setting.package.name,
+  package_type: setting.package.package_type,
   caption: setting.package.caption,
   size: setting.package.size,
   h_size: number_to_human_size(setting.package.size),
