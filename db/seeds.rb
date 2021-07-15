@@ -71,14 +71,14 @@ when "development"
 
   p = Package.find_by(name: "openssl-dev")
   s = p.sources.create(size: 1000, version: "1.0.0", description: "Test update 1")
-  AttachmentService.call s, "files/test.zip"
+  AttachmentService.call s, "files/test1.zip"
   s.validate!
   s.publish!
   s = p.sources.create(size: 1000, version: "1.0.0", description: "Test update 2")
-  AttachmentService.call s, "files/test.zip"
+  AttachmentService.call s, "files/test2.zip"
   s.validate!
   s.publish!
-  p.dependent_packages << Package.find_by(name: "openssl-1_0")
+  # p.dependent_packages << Package.find_by(name: "openssl-1_0")
   p.dependent_packages << Package.find_by(name: "openssl-1_1")
   p.dependent_packages << Package.find_by(name: "openssl-1_2")
   Product.create(package: p, validated_at: Time.current)
