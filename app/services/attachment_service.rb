@@ -16,7 +16,7 @@ class AttachmentService < ApplicationService
       content_type: "application/zip",
       identify: false,
     )
-    File.delete(@filename) unless File.basename(@filename) == "test.zip"
+    File.delete(@filename) unless File.basename(@filename).start_with?("test")
     @source.validate!
     if @source.package.sources.size == 1
       @source.package.update(size: @source.unpacked_size)
