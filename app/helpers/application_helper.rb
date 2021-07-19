@@ -22,26 +22,6 @@ module ApplicationHelper
     end
   end
 
-  def cache_fetch(model, id, token)
-    Rails.cache.fetch(
-      "#{model.name}_#{id}",
-      expires_in: MODEL_CACHE_TIMEOUT,
-    ) do
-      model.except_blocked.find_by(
-        id: id,
-        authentication_token: token,
-      )
-    end
-  end
-
-  def cached_endpoint(id, token)
-    @_cached_endpoint ||= cache_fetch(Endpoint, id, token)
-  end
-
-  def cached_user(id, token)
-    @_cached_user ||= cache_fetch(User, id, token)
-  end
-
   def current_endpoint
     @_cached_endpoint
   end

@@ -7,7 +7,7 @@ class SettingsController < ApplicationController
   def index
     # TODO: Only updated settings, because we don't need all here!
     # TODO: Exclude locally deleted! I.e. we can delete if no local uuid.
-    settings = ActualizedSettingsService.call(@endpoint.settings)
+    settings = @endpoint.actualized_settings
     @pagy, @settings = pagy_countless(settings.updated, items: SETTINGS_PER_REQUEST)
   end
 

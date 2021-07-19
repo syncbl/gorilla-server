@@ -24,7 +24,16 @@ class Endpoint < ApplicationRecord
 
   def install(package)
     settings.create(package: package)
-    # TODO: Reset sources
+    Rails.cache.delete_matched("SettingsIndex_#{id}")
+  end
+
+  def actualized_settings
+    Rails.cache.fetch(
+      "SettingsIndex_#{id}",
+      expires_in: MODEL_CACHE_TIMEOUT,
+    ) do
+      ActualizedSettingsService.call(settings)
+    end
   end
 
   def reset_token
