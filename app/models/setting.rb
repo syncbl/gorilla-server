@@ -2,6 +2,8 @@ class Setting < ApplicationRecord
   belongs_to :package, counter_cache: true
   belongs_to :endpoint
 
+  # TODO: Can't install if no required packages installed
+
   validates :package_id, uniqueness: { scope: :endpoint_id }
 
   # TODO: Check scope to get really updated packages

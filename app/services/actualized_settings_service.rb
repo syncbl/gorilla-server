@@ -12,7 +12,7 @@ class ActualizedSettingsService < ApplicationService
         next if components.include?(c.dependent_package.id)
         components << c.dependent_package.id
         unless c.is_optional || @settings.exists?(package: c.dependent_package)
-          @settings.create(package: c.component)
+          @settings.create(package: c.dependent_package)
         end
       end
     end

@@ -23,8 +23,8 @@ class Endpoint < ApplicationRecord
   end
 
   def install(package)
-    settings.create(package: package)
     Rails.cache.delete_matched("SettingsIndex_#{id}")
+    settings.create(package: package)
   end
 
   def actualized_settings
@@ -38,7 +38,7 @@ class Endpoint < ApplicationRecord
 
   def reset_token
     regenerate_authentication_token
-    self.token = Api::Token.encode(self)
+    Api::Token.encode(self)
   end
 
   def can_view?(object)

@@ -3,7 +3,7 @@ class Api::Token
 
   class << self
     def encode(resource)
-      JWT.encode(
+      resource.token = JWT.encode(
         {
           scope: resource.class.name,
           uuid: resource.id,

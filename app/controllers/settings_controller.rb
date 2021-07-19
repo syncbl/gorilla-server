@@ -8,7 +8,7 @@ class SettingsController < ApplicationController
     # TODO: Only updated settings, because we don't need all here!
     # TODO: Exclude locally deleted! I.e. we can delete if no local uuid.
     settings = @endpoint.actualized_settings
-    @pagy, @settings = pagy_countless(settings.updated, items: SETTINGS_PER_REQUEST)
+    @pagy, @settings = pagy_countless(settings, items: SETTINGS_PER_REQUEST)
   end
 
   # GET /settings/1
