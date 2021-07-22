@@ -27,7 +27,6 @@ module ApplicationHelper
   end
 
   def sign_in_endpoint(endpoint)
-    endpoint.reset_token
     @_cached_endpoint ||= endpoint
   end
 

@@ -1,6 +1,7 @@
 class Endpoint < ApplicationRecord
   include Blockable
   include Notifiable
+  include JwtTokenable
 
   has_secure_token :authentication_token
   # attribute :locale, :string, default: "en"
@@ -34,11 +35,6 @@ class Endpoint < ApplicationRecord
     ) do
       ActualizedSettingsService.call(settings)
     end
-  end
-
-  def reset_token
-    regenerate_authentication_token
-    Api::Token.encode(self)
   end
 
   def can_view?(object)

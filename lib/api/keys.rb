@@ -2,13 +2,13 @@ class Api::Keys
   class << self
     def user
       @_user_keys ||= Set[app_key("files/hqdefault.jpg")]
-      @_user_keys << "@@" if Rails.env.development?
+      @_user_keys << "@user@" if Rails.env.development?
     end
 
     def endpoint
       # TODO: Add dictionary of available services
       @_endpoint_keys ||= Set[app_key("files/hqdefault.jpg")]
-      @_endpoint_keys << "@@" if Rails.env.development?
+      @_endpoint_keys << "@endpoint@" if Rails.env.development?
     end
 
     def anonymous

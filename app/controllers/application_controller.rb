@@ -40,31 +40,21 @@ class ApplicationController < ActionController::Base
   def api_check_headers
     service = request.headers["X-API-Service"]
     if request.headers["X-API-Token"].present?
-      if payload = Api::Token.decode(request.headers["X-API-Token"])
-        scope = payload[:scope]
-        uuid = payload[:uuid]
-        token = payload[:token]
-      else
+      uuid, token = decode_token(request.headers["X-API-Token"])
+      unless uuid
         render_json_error I18n.t("devise.failure.timeout"), status: :unauthorized
       end
     end
 
-    # Idea: add blocked uuid to array in order to avoid multiqueries
-    if scope == Endpoint.name && Api::Keys.endpoint.include?(service)
-      if endpoint = cached_endpoint(uuid, token)
-        # Can't allow to endpoint access all other endpoints and user data
-        # sign_in endpoint.user
-        sign_in_endpoint endpoint
-      else
-        Rails.logger.warn "Blocked request: #{scope} #{uuid}"
+    if Api::Keys.endpoint.include?(service)
+      unless sign_in_endpoint cached_endpoint(uuid, token)
         Endpoint.find_by(id: uuid)&.regenerate_authentication_token
-        render_json_error I18n.t("devise.failure.blocked"), status: :unauthorized
-      end
-    elsif scope == User.name && Api::Keys.user.include?(service)
+        render_json_error I18n.t("devise.failure.unauthenticated"), status: :unauthorized
+      end if uuid
+    elsif Api::Keys.user.include?(service) && uuid
       unless sign_in cached_user(uuid, token)
-        Rails.logger.warn "Blocked request: #{scope} #{uuid}"
-        render_json_error I18n.t("devise.failure.blocked"), status: :unauthorized
-      end
+        render_json_error I18n.t("devise.failure.unauthenticated"), status: :unauthorized
+      end if uuid
     elsif Api::Keys.anonymous.include?(service)
       true
     elsif service.present?
@@ -73,6 +63,18 @@ class ApplicationController < ActionController::Base
       Rails.logger.warn "Forbidden request from #{request.remote_ip}"
       head :forbidden
     end
+  end
+
+  def decode_token(token)
+    payload = JWT.decode(
+      token,
+      Rails.application.credentials.jwt_secret,
+      true,
+      { algorithm: "HS256" }
+    ).first.with_indifferent_access
+    return payload[:uuid], payload[:token]
+  rescue JWT::ExpiredSignature, JWT::DecodeError
+    nil
   end
 
   def configure_permitted_parameters

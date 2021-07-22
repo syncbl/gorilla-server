@@ -1,5 +1,4 @@
 NAME_FORMAT = /\A[A-Za-z\d\-\_]*\z/
-ENDPOINT_TOKEN_REGEN_RANDOM = 5
 MAX_FILE_COUNT = 100000
 MAX_ICON_SIZE = 1.megabyte
 MAX_FILE_SIZE = 1.gigabyte
@@ -11,7 +10,6 @@ MODEL_CACHE_TIMEOUT = 3.hours # TODO: Increase
 JOB_TIMEOUT = 5.minutes
 USER_SESSION_TIME = 1.week
 ENDPOINT_SESSION_TIME = 1.month
-ANONYMOUS_SESSION_TIME = 1.year
 USER_AGENT = "Syncbl Server/Net::HTTP/1.0 https://syncbl.com"
 SUBSCRIPTION_PLAN_PERSONAL = 1.gigabyte
 SUBSCRIPTION_PLAN_PRO = 10.gigabytes

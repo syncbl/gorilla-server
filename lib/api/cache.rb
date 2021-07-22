@@ -18,6 +18,6 @@ module Api::Cache
         id: id,
       )
     end
-    cached_model if cached_model.authentication_token == token
+    cached_model if cached_model&.authentication_token == token
   end
 end
