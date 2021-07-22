@@ -6,9 +6,6 @@ class MergeSourcesService < ApplicationService
   def call
     return unless @package.sources.size > 1
 
-    published_at = @package.published_at
-    @package.update(published_at: nil)
-
     @package.sources.each_with_index.reverse_each.map do |src, i|
       break if src.is_merged
       @package.sources.each_with_index.reverse_each.drop(@package.sources.size - i).map do |dst, j|
@@ -33,7 +30,6 @@ class MergeSourcesService < ApplicationService
     old_size = @package.size
     @package.size = 0
     @package.sources.each { |s| @package.size += s.unpacked_size }
-    @package.published_at = published_at
     if @package.save
       # TODO: Notify old_size - package.reload.size
     else
