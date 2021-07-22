@@ -10,19 +10,21 @@ class AttachmentService < ApplicationService
     #  return false
     #end
     return unless build
-    @source.file.attach(
-      io: File.open(@filename),
-      filename: "#{@source.created_at.strftime("%y%m%d%H%M%S%2L")}.zip",
-      content_type: "application/zip",
-      identify: false,
-    )
-    File.delete(@filename) unless File.basename(@filename).start_with?("test")
-    @source.validate!
-    if @source.package.sources.size == 1
-      @source.package.update(size: @source.unpacked_size)
-      @source.update(is_merged: true)
+    ActiveRecord::Base.transaction do
+      @source.file.attach(
+        io: File.open(@filename),
+        filename: "#{@source.created_at.strftime("%y%m%d%H%M%S%2L")}.zip",
+        content_type: "application/zip",
+        identify: false,
+      )
+      File.delete(@filename) unless File.basename(@filename).start_with?("test")
+      @source.validate!
+      if @source.package.sources.size == 1
+        @source.package.update(size: @source.unpacked_size)
+        @source.update(is_merged: true)
+      end
+      @source.package.validate!
     end
-    @source.package.validate!
   end
 
   protected

@@ -25,15 +25,17 @@ class MergeSourcesService < ApplicationService
       end
     end
 
-    @package.sources.update_all(is_merged: true)
-    # TODO: Inform about freed space
-    old_size = @package.size
-    @package.size = 0
-    @package.sources.each { |s| @package.size += s.unpacked_size }
-    if @package.save
-      # TODO: Notify old_size - package.reload.size
-    else
-      # TODO: Something wrong
+    ActiveRecord::Base.transaction do
+      @package.sources.update_all(is_merged: true)
+      # TODO: Inform about freed space
+      old_size = @package.size
+      @package.size = 0
+      @package.sources.each { |s| @package.size += s.unpacked_size }
+      if @package.save
+        # TODO: Notify old_size - package.reload.size
+      else
+        # TODO: Something wrong
+      end
     end
   end
 end
