@@ -48,7 +48,6 @@ class AttachmentService < ApplicationService
       end
     end
     @source.filelist = filelist
-    @source.file_count = filelist.size
     # TODO: @source.save
   rescue StandardError => e # TODO: Make more specific
     Rails.logger.debug "+++ #{e.class} #{e.message}"

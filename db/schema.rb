@@ -140,7 +140,6 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.jsonb "description_translations"
     t.string "version"
     t.jsonb "filelist"
-    t.integer "file_count", default: 0, null: false
     t.bigint "unpacked_size", default: 0, null: false
     t.boolean "is_merged", default: false, null: false
     t.datetime "published_at"
