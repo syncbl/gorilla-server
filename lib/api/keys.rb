@@ -5,7 +5,7 @@
 class Api::Keys
   def initialize
     @keys ||= Set[app_key("files/hqdefault.jpg")]
-    @keys << "@user@" if Rails.env.development?
+    @keys << "@@" if Rails.env.development?
   end
 
   def find(key)

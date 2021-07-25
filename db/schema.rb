@@ -64,10 +64,12 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.uuid "user_id"
     t.datetime "blocked_at"
     t.string "block_reason"
+    t.datetime "reseted_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["authentication_token"], name: "index_endpoints_on_authentication_token"
     t.index ["created_at"], name: "index_endpoints_on_created_at"
+    t.index ["reseted_at"], name: "index_endpoints_on_reseted_at"
     t.index ["updated_at"], name: "index_endpoints_on_updated_at"
     t.index ["user_id"], name: "index_endpoints_on_user_id"
   end
@@ -170,6 +172,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.string "authentication_token", null: false
     t.datetime "blocked_at"
     t.string "block_reason"
+    t.datetime "reseted_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "email", default: "", null: false
@@ -182,6 +185,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.index ["name"], name: "index_users_on_name"
     t.index ["plan"], name: "index_users_on_plan"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["reseted_at"], name: "index_users_on_reseted_at"
     t.index ["updated_at"], name: "index_users_on_updated_at"
   end
 
