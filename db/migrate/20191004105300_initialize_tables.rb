@@ -52,11 +52,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.jsonb :caption_translations, null: false
       t.jsonb :description_translations
 
-      t.jsonb :data
-
-      # TODO: Move path to data
-      t.string :default_path, null: false, default: ""
-      t.boolean :path_changeable, null: false, default: true
+      t.jsonb :data, null: false, default: {}
 
       t.bigint :size, null: false, default: 0
       t.bigint :settings_count, null: false, default: 0

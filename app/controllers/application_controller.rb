@@ -46,17 +46,10 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    if Api::Keys.endpoint.include?(service)
+    if Api::Keys.new.find(service)
       unless sign_in_endpoint cached_endpoint(uuid, token)
-        Endpoint.find_by(id: uuid)&.regenerate_authentication_token
         render_json_error I18n.t("devise.failure.unauthenticated"), status: :unauthorized
       end if uuid
-    elsif Api::Keys.user.include?(service) && uuid
-      unless sign_in cached_user(uuid, token)
-        render_json_error I18n.t("devise.failure.unauthenticated"), status: :unauthorized
-      end if uuid
-    elsif Api::Keys.anonymous.include?(service)
-      true
     elsif service.present?
       head :upgrade_required
     else

@@ -14,7 +14,10 @@ class Package < ApplicationRecord
             in: %i[bundle external component],
             scope: true
   jsonb_accessor :data,
-                 require_administrator: :boolean
+                 path: [:string, default: ""],
+                 path_persistent: [:boolean, default: false],
+                 allow_api_access: [:string, array: true, default: []],
+                 require_administrator: [:boolean, default: false]
 
   belongs_to :user
   has_one :product
@@ -26,13 +29,14 @@ class Package < ApplicationRecord
   has_many :maintains
   has_many :maintainers, through: :maintains,
                          source: :user
-
   belongs_to :replacement,
              class_name: "Package",
              optional: true
   has_one_attached :icon,
                    service: :internal,
                    dependent: :purge_later
+
+  # before_create :init_data
 
   validates :name,
             name_restrict: true,

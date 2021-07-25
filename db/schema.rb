@@ -86,9 +86,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.string "package_type"
     t.jsonb "caption_translations", null: false
     t.jsonb "description_translations"
-    t.jsonb "data"
-    t.string "default_path", default: "", null: false
-    t.boolean "path_changeable", default: true, null: false
+    t.jsonb "data", default: {}, null: false
     t.bigint "size", default: 0, null: false
     t.bigint "settings_count", default: 0, null: false
     t.boolean "is_component", default: false, null: false
