@@ -27,6 +27,9 @@
           <%= content_tag :div, msg, class: ["alert", alert_for(name)] %>
         <% end %>
       <% end %>
+      <% current_user&.notifications.each do |msg| %>
+        <%= content_tag :div, msg, class: ["alert", "alert-info"] %>
+      <% end %>
       <div class="">
         <div class="container">
           <%= yield %>
