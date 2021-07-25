@@ -3,7 +3,7 @@ module JwtTokenable
   require "jwt"
 
   def reset_token
-    # regenerate_authentication_token
+    regenerate_authentication_token if rand(TOKEN_RANDOM_FACTOR) == 0
     self.token = JWT.encode(
       {
         scope: self.class.name,
@@ -21,6 +21,4 @@ module JwtTokenable
       "HS256"
     )
   end
-
-
 end
