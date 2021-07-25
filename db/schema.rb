@@ -139,7 +139,8 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   create_table "sources", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "description_translations"
     t.string "version"
-    t.jsonb "filelist"
+    t.jsonb "files", default: {}, null: false
+    t.jsonb "delete_files", default: {}, null: false
     t.bigint "unpacked_size", default: 0, null: false
     t.boolean "is_merged", default: false, null: false
     t.datetime "published_at"

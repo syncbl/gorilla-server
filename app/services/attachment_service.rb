@@ -49,7 +49,7 @@ class AttachmentService < ApplicationService
         end
       end
     end
-    @source.filelist = filelist
+    @source.files = filelist
     # TODO: @source.save
   rescue StandardError => e # TODO: Make more specific
     Rails.logger.debug "+++ #{e.class} #{e.message}"

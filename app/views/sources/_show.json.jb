@@ -2,7 +2,8 @@ json = {
   id: source.id,
   description: source.description,
   version: source.version,
-  filelist: source.filelist,
+  files: source.files,
+  delete_files: source.delete_files,
   created_at: source.created_at.to_i,
   updated_at: source.updated_at.to_i,
 }

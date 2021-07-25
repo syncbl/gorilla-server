@@ -97,7 +97,8 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       # TODO: What to do with file: run, unpack, exec
       t.jsonb :description_translations
       t.string :version
-      t.jsonb :filelist
+      t.jsonb :files, null: false, default: {}
+      t.jsonb :delete_files, null: false, default: {}
       t.bigint :unpacked_size, null: false, default: 0
       t.boolean :is_merged, null: false, default: false
       t.datetime :published_at

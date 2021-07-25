@@ -78,6 +78,15 @@ class Package < ApplicationRecord
     !external_url.to_s.strip.empty?
   end
 
+  def filelist
+    files = {}
+    sources.map do |s|
+      files.merge!(s.files)
+      files = (files.to_a - s.delete_files.to_a).to_h
+    end
+    files
+  end
+
   private
 
   def _replaced_by
