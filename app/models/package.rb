@@ -3,8 +3,6 @@ class Package < ApplicationRecord
   include Publishable
   extend Enumerize
 
-  # TODO: Messages for feed/forum - like update news etc.
-
   # TODO: Markers to detect package is already installed:
   # - registry key
   # - file exists
@@ -85,8 +83,16 @@ class Package < ApplicationRecord
       available_files -= s.delete_files.keys
     end
     # It would be strange if we allow to delete files added by the same source
-    available_files -= sources.last.files.keys if sources.size > 0
-    update(files: available_files)
+    available_files -= sources.last.files.keys if sources.size > 1
+    # TODO: Optimize
+    update(filelist: available_files)
+  end
+
+  def add_link(source:, destination:)
+    if filelist.include? source
+      self.data[:links] = {} if self.data[:links].nil?
+      self.data[:links][source] = destination
+    end
   end
 
   private
