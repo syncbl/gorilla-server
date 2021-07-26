@@ -23,6 +23,7 @@ class AttachmentService < ApplicationService
         @source.package.update(size: @source.unpacked_size)
         @source.update(is_merged: true)
       end
+      @source.package.generate_filelist!
       @source.package.validate!
     end
   end

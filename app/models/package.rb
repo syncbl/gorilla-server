@@ -78,13 +78,15 @@ class Package < ApplicationRecord
     !external_url.to_s.strip.empty?
   end
 
-  def filelist
-    files = {}
+  def generate_filelist!
+    available_files = Set[]
     sources.map do |s|
-      files.merge!(s.files)
-      files = (files.to_a - s.delete_files.to_a).to_h
+      available_files += s.files.keys
+      available_files -= s.delete_files.keys
     end
-    files
+    # It would be strange if we allow to delete files added by the same source
+    available_files -= sources.last.files.keys if sources.size > 0
+    update(files: available_files)
   end
 
   private

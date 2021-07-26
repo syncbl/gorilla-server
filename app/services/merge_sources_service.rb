@@ -10,11 +10,11 @@ class MergeSourcesService < ApplicationService
       break if src.is_merged
       @package.sources.each_with_index.reverse_each.drop(@package.sources.size - i).map do |dst, j|
         next unless src.file.attached? && dst.file.attached?
-        diff = (dst.files.to_a & src.files.to_a).to_h
+        diff = dst.files.keys & src.files.keys & src.delete_files.keys
         next if diff.empty?
         dst.file.open do |dstfile|
           Zip::File.open(dstfile, create: false) do |dstzipfile|
-            dstzipfile.select { |d| !d.directory? && diff[d.name].present? }.each do |dstz|
+            dstzipfile.select { |d| !d.directory? && diff.include?(d.name) }.each do |dstz|
               dstzipfile.remove(dstz)
               dstzipfile.commit
             end
