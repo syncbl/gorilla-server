@@ -17,10 +17,10 @@ module Notifiable
 
   def notifications
     messages = Set[]
-    Rails.cache.redis.scan_each(match: "Notification_#{self.id}.*") do |key|
-      messages << Rails.cache.read(key)
-      Rails.cache.redis.del(key)
-    end
+    #Rails.cache.redis.scan_each(match: "Notification_#{self.id}.*") do |key|
+    #  messages << Rails.cache.read(key)
+    #  Rails.cache.redis.del(key)
+    #end
     messages.to_a
   end
 end

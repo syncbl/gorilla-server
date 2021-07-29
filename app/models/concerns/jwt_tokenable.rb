@@ -3,7 +3,7 @@ module JwtTokenable
   require "jwt"
 
   def reset_token
-    if Time.current - reseted_at > TOKEN_RESET_PERIOD
+    unless reseted_at.nil? || (Time.current - reseted_at < TOKEN_RESET_PERIOD)
       regenerate_authentication_token
     end
     self.token = JWT.encode(
