@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   include ApplicationHelper
   include Pagy::Backend
+  include Pundit
   include Api::Cache
 
   protect_from_forgery with: :exception, unless: -> { request.format.json? }
@@ -9,6 +10,7 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
 
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
+  rescue_from Pundit::NotAuthorizedError, with: :render_403
 
   protected
 

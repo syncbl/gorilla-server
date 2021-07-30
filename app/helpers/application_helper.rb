@@ -46,12 +46,4 @@ module ApplicationHelper
     render_403 unless current_user&.can_view?(object) ||
                       current_endpoint&.can_view?(object)
   end
-
-  def check_edit!(object)
-    render_403 unless current_user&.can_edit? object
-  end
-
-  def check_owner!(object)
-    render_403 unless current_user&.is_owner? object
-  end
 end

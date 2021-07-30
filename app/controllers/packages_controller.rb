@@ -16,7 +16,7 @@ class PackagesController < ApplicationController
   # GET /packages/1
   # GET /packages/1.json
   def show
-    check_view! @package
+    authorize @package
   end
 
   # GET /packages/new
@@ -49,7 +49,7 @@ class PackagesController < ApplicationController
   # PATCH/PUT /packages/1
   # PATCH/PUT /packages/1.json
   def update
-    check_edit! @package
+    authorize @package
     respond_to do |format|
       if @package.update(package_params)
         format.html do
@@ -68,7 +68,7 @@ class PackagesController < ApplicationController
   # DELETE /packages/1
   # DELETE /packages/1.json
   def destroy
-    check_owner! @package
+    authorize @package
     respond_to do |format|
       if @package.destroy
         format.html do

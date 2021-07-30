@@ -38,7 +38,7 @@ class EndpointsController < ApplicationController
   # PATCH/PUT /endpoint
   # PATCH/PUT /endpoint.json
   def update
-    check_edit! @endpoint
+    authorize @endpoint
     respond_to do |format|
       if @endpoint.update(endpoint_params)
         format.html do
@@ -57,7 +57,7 @@ class EndpointsController < ApplicationController
   # DELETE /endpoints/1
   # DELETE /endpoints/1.json
   def destroy
-    check_edit! @endpoint
+    authorize @endpoint
     respond_to do |format|
       if @endpoint.destroy
         format.html do

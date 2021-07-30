@@ -5,21 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>
-      <%=
-        if content_for?(:title)
-          "#{yield(:title)} - Syncbl"
-        else
-          "Syncbl"
-        end
-      %>
+      <%= if content_for?(:title)
+            "#{yield(:title)} - Syncbl"
+          else
+            "Syncbl"
+          end %>
     </title>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag "application", media: "all", 'data-turbolinks-track': "reload" %>
+    <%= javascript_pack_tag "application", 'data-turbolinks-track': "reload" %>
     <%= csrf_meta_tags %>
   </head>
   <body>
-    <%= render 'layouts/header' %>
+    <%= render "layouts/header" %>
 
     <div class="container-fluid">
       <% flash.each do |name, msg| %>
@@ -27,8 +25,10 @@
           <%= content_tag :div, msg, class: ["alert", alert_for(name)] %>
         <% end %>
       <% end %>
-      <% current_user&.notifications.each do |msg| %>
-        <%= content_tag :div, msg, class: ["alert", "alert-info"] %>
+      <% if user_signed_in? %>
+        <% current_user&.notifications.each do |msg| %>
+          <%= content_tag :div, msg, class: ["alert", "alert-info"] %>
+        <% end %>
       <% end %>
       <div class="">
         <div class="container">

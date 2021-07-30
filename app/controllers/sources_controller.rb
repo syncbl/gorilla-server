@@ -3,7 +3,6 @@ class SourcesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_source, except: %i[index new create merge]
   before_action :check_file_params, only: %i[create]
-  before_action :check_permissions!, only: %i[update destroy]
 
   # GET /sources
   def index
@@ -12,7 +11,7 @@ class SourcesController < ApplicationController
 
   # GET /sources/1
   def show
-    check_view! @source.package
+    authorize @source.package
   end
 
   # GET /sources/new
@@ -26,7 +25,7 @@ class SourcesController < ApplicationController
   # POST /sources
   def create
     # Params removed from create() because user must fill fields only after creation
-    check_edit! @package = current_user.packages.find(params[:package_id])
+    authorize @package = current_user.packages.find(params[:package_id])
     respond_to do |format|
       if @source = @package.sources.create(size: params[:file].size)
         if file = source_exists?(current_user, params[:file].size, params[:checksum])
@@ -46,7 +45,7 @@ class SourcesController < ApplicationController
 
   # PATCH/PUT /sources/1
   def update
-    check_edit! @source.package
+    authorize @source.package
     respond_to do |format|
       if @source.update(source_params)
         redirect_to @source, notice: "Source was successfully updated."
@@ -61,7 +60,7 @@ class SourcesController < ApplicationController
 
   # DELETE /sources/1
   def destroy
-    check_edit! @source.package
+    authorize @source.package
     respond_to do |format|
       if @source.destroy
         format.html do
@@ -79,7 +78,7 @@ class SourcesController < ApplicationController
 
   # POST /package/1/sources/merge
   def merge
-    check_edit! @source.package
+    authorize @source.package
     @package = current_user.packages.find(params[:package_id])
     respond_to do |format|
       format.html do
@@ -110,9 +109,5 @@ class SourcesController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   def source_params
     params.require(:source).permit(:description)
-  end
-
-  def check_permissions!
-    check_edit! @source.package
   end
 end

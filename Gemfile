@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "3.0.1"
+ruby "3.0.2"
 
 # Core
 gem "rails", "~> 6.1" # Ruby on Rails is a full-stack web framework.
@@ -19,7 +19,7 @@ gem "uglifier", ">= 1.3.0" # Ruby wrapper for UglifyJS JavaScript compressor.
 
 # Database
 gem "pg", "~> 1" # Pg is the Ruby interface to the PostgreSQL RDBMS.
-#gem 'pg_search' # PgSearch builds named scopes that take advantage of PostgreSQL's full text search.
+gem 'pg_search' # PgSearch builds named scopes that take advantage of PostgreSQL's full text search.
 gem "hiredis" # Ruby extension that wraps hiredis.
 gem "redis", "~> 4.0" # A Ruby client that tries to match Redis' API one-to-one.
 
@@ -44,7 +44,7 @@ gem "jwt" # A ruby implementation of the RFC 7519 OAuth JSON Web Token (JWT) sta
 #gem "omniauth" # Standardized Multi-Provider Authentication.
 #gem "noticed" # Notifications for your Ruby on Rails app.
 gem "pagy", "~> 3.8" # Pagination gem that outperforms the others in each and every benchmark and comparison.
-#gem "pundit" # Set of helpers to build an authorization system.
+gem "pundit" # Set of helpers to build an authorization system.
 gem "render_async" # Pages become faster seamlessly by rendering partials to your views.
 gem "rubyzip", require: "zip" # Ruby library for reading and writing zip files.
 #gem "sidekiq" # Simple, efficient background processing for Ruby.
@@ -56,7 +56,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
   gem "simplecov", require: false
-  gem "rspec-rails", "~> 4.0.2"
+  gem "rspec-rails", "~> 5.0"
 end
 
 group :development do

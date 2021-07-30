@@ -1,12 +1,19 @@
 class Package < ApplicationRecord
+  include PgSearch::Model
   include Blockable
   include Publishable
+  include DataAwareable
   extend Enumerize
 
   # TODO: Markers to detect package is already installed:
   # - registry key
   # - file exists
 
+  pg_search_scope :search_by_text,
+                  against: [:name,
+                            :caption_translations,
+                            :description_translations,
+                            :external_url]
   translates :caption, :description
   enumerize :package_type,
             in: %i[bundle external component],
@@ -86,13 +93,6 @@ class Package < ApplicationRecord
     available_files -= sources.last.files.keys if sources.size > 1
     # TODO: Optimize
     update(filelist: available_files)
-  end
-
-  def add_link(source:, destination:)
-    if filelist.include? source
-      self.data[:links] = {} if self.data[:links].nil?
-      self.data[:links][source] = destination
-    end
   end
 
   private
