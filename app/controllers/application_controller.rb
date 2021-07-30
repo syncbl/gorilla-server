@@ -84,4 +84,8 @@ class ApplicationController < ActionController::Base
                          I18n.default_locale.to_s
     I18n.locale = session[:locale]
   end
+
+  def pundit_user
+    current_user || current_endpoint
+  end
 end

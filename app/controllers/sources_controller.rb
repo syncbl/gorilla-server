@@ -6,7 +6,7 @@ class SourcesController < ApplicationController
 
   # GET /sources
   def index
-    @sources = current_user.packages.find(params[:package_id]).sources
+    @sources = policy_scope(Package).find(params[:package_id]).sources
   end
 
   # GET /sources/1
@@ -25,7 +25,7 @@ class SourcesController < ApplicationController
   # POST /sources
   def create
     # Params removed from create() because user must fill fields only after creation
-    authorize @package = current_user.packages.find(params[:package_id])
+    authorize @package = policy_scope(Package).find(params[:package_id])
     respond_to do |format|
       if @source = @package.sources.create(size: params[:file].size)
         if file = source_exists?(current_user, params[:file].size, params[:checksum])
@@ -79,14 +79,14 @@ class SourcesController < ApplicationController
   # POST /package/1/sources/merge
   def merge
     authorize @source.package
-    @package = current_user.packages.find(params[:package_id])
+    @package = policy_scope(Package).find(params[:package_id])
     respond_to do |format|
       format.html do
         # TODO: Normal response
         if @package.sources.merged?
           head :unprocessable_entity
         else
-          MergeSourcesJob.perform_later current_user.packages.find(params[:package_id])
+          MergeSourcesJob.perform_later policy_scope(Package).find(params[:package_id])
           head :accepted
         end
       end
@@ -98,7 +98,7 @@ class SourcesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_source
-    @source = current_user.packages.find_by(package_id: params[:package_id])&.
+    @source = policy_scope(Package).find_by(package_id: params[:package_id])&.
       sources.find(params[:id])
   end
 

@@ -8,7 +8,7 @@ class PackagesController < ApplicationController
   def index
     @pagy, @packages =
       pagy_countless(
-        current_user.packages,
+        policy_scope(Package),
         items: params[:items],
       )
   end
@@ -22,7 +22,7 @@ class PackagesController < ApplicationController
   # GET /packages/new
   # TODO: Store in cache during edit to allow update page
   def new
-    @package = current_user.packages.new
+    @package = policy_scope(Package).new
   end
 
   # GET /packages/1/edit
@@ -32,7 +32,7 @@ class PackagesController < ApplicationController
   # POST /packages.json
   def create
     respond_to do |format|
-      if @package = current_user.packages.create(package_params)
+      if @package = policy_scope(Package).create(package_params)
         format.html do
           redirect_to @package, notice: "Package was successfully created."
         end
@@ -83,6 +83,11 @@ class PackagesController < ApplicationController
         end
       end
     end
+  end
+
+  def search
+    packages = Package.search_by_text(params[:q])
+      .keep_if { |p| authorize p }
   end
 
   private

@@ -7,7 +7,7 @@ class EndpointsController < ApplicationController
   def index
     # TODO: Add group
     @pagy, @endpoints = pagy_countless(
-      current_user.endpoints,
+      policy_scope(Endpoint),
       items: params[:items],
     )
   end

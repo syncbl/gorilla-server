@@ -22,6 +22,10 @@ class PackagePolicy
     @user.is_owner? @record
   end
 
+  def search?
+    user&.can_view?(@record) || @record.product.nil?
+  end
+
   class Scope
     attr_reader :user, :scope
 
@@ -31,7 +35,7 @@ class PackagePolicy
     end
 
     def resolve
-      @user.endpoints
+      @user.packages
     end
   end
 end
