@@ -122,10 +122,9 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.index ["updated_at"], name: "index_products_on_updated_at"
   end
 
-  create_table "settings", id: false, force: :cascade do |t|
+  create_table "settings", force: :cascade do |t|
     t.uuid "endpoint_id", null: false
     t.uuid "package_id", null: false
-    t.uuid "source_id"
     t.jsonb "data"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -133,7 +132,6 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.index ["endpoint_id", "package_id"], name: "index_settings_on_endpoint_id_and_package_id", unique: true
     t.index ["endpoint_id"], name: "index_settings_on_endpoint_id"
     t.index ["package_id"], name: "index_settings_on_package_id"
-    t.index ["source_id"], name: "index_settings_on_source_id"
     t.index ["updated_at"], name: "index_settings_on_updated_at"
   end
 
@@ -203,7 +201,6 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   add_foreign_key "products", "packages"
   add_foreign_key "settings", "endpoints"
   add_foreign_key "settings", "packages"
-  add_foreign_key "settings", "sources"
   add_foreign_key "sources", "packages"
   add_foreign_key "subscriptions", "users"
 end

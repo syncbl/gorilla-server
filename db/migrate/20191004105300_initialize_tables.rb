@@ -115,12 +115,12 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     end
 
     # ----------
-    create_table :settings, id: false do |t|
+    create_table :settings do |t|
       # TODO: Logs, other data, variables and settings
 
       t.references :endpoint, type: :uuid, index: true, null: false, foreign_key: true
       t.references :package, type: :uuid, index: true, null: false, foreign_key: true
-      t.references :source, type: :uuid, index: true, foreign_key: true
+      #t.references :source, type: :uuid, index: true, foreign_key: true
 
       t.jsonb :data
 

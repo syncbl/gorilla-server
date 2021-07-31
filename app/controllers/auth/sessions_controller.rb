@@ -9,7 +9,6 @@ class Auth::SessionsController < Devise::SessionsController
         self.resource = warden.authenticate!(auth_options)
         sign_in(resource_name, resource)
         if params[:endpoint].nil?
-          current_user.token = Api::Token.encode(resource)
           render "users/show"
         else
           id = params.dig("endpoint", "id")

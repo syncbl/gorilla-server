@@ -42,16 +42,22 @@ class ApplicationController < ActionController::Base
   def api_check_headers
     service = request.headers["X-API-Service"]
     if request.headers["Authorization"].present?
-      uuid, token = decode_token(request.headers["Authorization"])
+      scope, uuid, token = decode_token(request.headers["Authorization"])
       unless uuid
         render_json_error I18n.t("devise.failure.timeout"), status: :unauthorized
       end
     end
 
     if Api::Keys.new.find(service)
-      unless sign_in_endpoint cached_endpoint(uuid, token)
-        render_json_error I18n.t("devise.failure.unauthenticated"), status: :unauthorized
-      end if uuid
+      if scope == "Endpoint"
+        unless sign_in_endpoint cached_endpoint(uuid, token)
+          render_json_error I18n.t("devise.failure.unauthenticated"), status: :unauthorized
+        end
+      elsif scope == "User"
+        unless sign_in cached_user(uuid, token)
+          render_json_error I18n.t("devise.failure.unauthenticated"), status: :unauthorized
+        end
+      end
     elsif service.present?
       head :upgrade_required
     else
@@ -67,7 +73,7 @@ class ApplicationController < ActionController::Base
       true,
       { algorithm: "HS256" }
     ).first.with_indifferent_access
-    return payload[:uuid], payload[:token]
+    return payload[:scope], payload[:uuid], payload[:token]
   rescue JWT::ExpiredSignature, JWT::DecodeError
     nil
   end
