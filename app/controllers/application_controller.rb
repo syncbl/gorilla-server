@@ -41,8 +41,8 @@ class ApplicationController < ActionController::Base
 
   def api_check_headers
     service = request.headers["X-API-Service"]
-    if request.headers["X-API-Token"].present?
-      uuid, token = decode_token(request.headers["X-API-Token"])
+    if request.headers["Authorization"].present?
+      uuid, token = decode_token(request.headers["Authorization"])
       unless uuid
         render_json_error I18n.t("devise.failure.timeout"), status: :unauthorized
       end
