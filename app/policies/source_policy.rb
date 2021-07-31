@@ -7,15 +7,15 @@ class SourcePolicy
   end
 
   def show?
-    @user.can_view? @record
+    @user.can_view? @record.package
   end
 
   def create?
-    @user.can_edit? @record
+    @user.can_edit? @record.package
   end
 
   def update?
-    @user.can_edit? @record
+    @user.can_edit? @record.package
   end
 
   def edit?

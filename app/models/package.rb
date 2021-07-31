@@ -87,7 +87,7 @@ class Package < ApplicationRecord
     available_files = Set[]
     sources.map do |s|
       available_files += s.files.keys
-      available_files -= s.delete_files.keys
+      available_files -= s.delete_files
     end
     # It would be strange if we allow to delete files added by the same source
     available_files -= sources.last.files.keys if sources.size > 1

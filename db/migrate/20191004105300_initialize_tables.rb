@@ -83,7 +83,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     end
 
     # ----------
-    create_table :dependencies, id: false do |t|
+    create_table :dependencies do |t|
       t.references :package, type: :uuid, index: true, null: false,
                              foreign_key: true
       t.references :dependent_package, type: :uuid, index: true, null: false,
@@ -99,7 +99,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.jsonb :description_translations
       t.string :version
       t.jsonb :files, null: false, default: {}
-      t.jsonb :delete_files, null: false, default: {}
+      t.jsonb :delete_files, null: false, default: []
       t.bigint :unpacked_size, null: false, default: 0
       t.boolean :is_merged, null: false, default: false
       t.datetime :published_at

@@ -3,6 +3,7 @@ class Setting < ApplicationRecord
   belongs_to :endpoint
 
   # TODO: Can't install if no required packages installed
+  # TODO: Validate install
 
   validates :package_id, uniqueness: { scope: :endpoint_id }
 

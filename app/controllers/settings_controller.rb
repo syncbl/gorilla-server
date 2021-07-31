@@ -16,7 +16,7 @@ class SettingsController < ApplicationController
 
   # POST /endpoints/1/settings
   def create
-    authorize package = Package.find(params[:package_id])
+    package = Package.find(params[:package_id])
     respond_to do |format|
       if @setting = @endpoint.install(package)
         format.html do

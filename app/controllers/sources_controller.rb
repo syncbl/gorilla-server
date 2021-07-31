@@ -11,7 +11,7 @@ class SourcesController < ApplicationController
 
   # GET /sources/1
   def show
-    authorize @source.package
+    authorize @source
   end
 
   # GET /sources/new
@@ -25,7 +25,8 @@ class SourcesController < ApplicationController
   # POST /sources
   def create
     # Params removed from create() because user must fill fields only after creation
-    authorize @package = policy_scope(Package).find(params[:package_id])
+    @package = policy_scope(Package).find(params[:package_id])
+    authorize @package, policy_class: PackagePolicy
     respond_to do |format|
       if @source = @package.sources.create(size: params[:file].size)
         if file = source_exists?(current_user, params[:file].size, params[:checksum])
@@ -45,7 +46,7 @@ class SourcesController < ApplicationController
 
   # PATCH/PUT /sources/1
   def update
-    authorize @source.package
+    authorize @source
     respond_to do |format|
       if @source.update(source_params)
         redirect_to @source, notice: "Source was successfully updated."
@@ -60,7 +61,7 @@ class SourcesController < ApplicationController
 
   # DELETE /sources/1
   def destroy
-    authorize @source.package
+    authorize @source
     respond_to do |format|
       if @source.destroy
         format.html do
@@ -78,7 +79,7 @@ class SourcesController < ApplicationController
 
   # POST /package/1/sources/merge
   def merge
-    authorize @source.package
+    authorize @source
     @package = policy_scope(Package).find(params[:package_id])
     respond_to do |format|
       format.html do

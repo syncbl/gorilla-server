@@ -44,10 +44,10 @@ when "development"
   puts Package::Component.create(
     [
       { name: "Openssl-1_1", caption: "Test3",
-        description: "Test package",
+        description: "Test packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest package",
         user: u1 },
       { name: "Openssl-1_2", caption: "Test4",
-        description: "Test package",
+        description: "Test packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest package",
         user: u1 },
       { name: "openssl-2_1", caption: "Test5",
         description: "Test package",
@@ -84,7 +84,9 @@ when "development"
   s.publish!
   # p.dependent_packages << Package.find_by(name: "openssl-1_0")
   p.dependent_packages << Package.find_by(name: "openssl-1_1")
+  p.dependencies.last.update(is_optional: true)
   p.dependent_packages << Package.find_by(name: "openssl-1_2")
+  p.dependencies.last.update(is_optional: true)
   Product.create(package: p, validated_at: Time.current)
 
   p1 = Package.last

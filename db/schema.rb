@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "dependencies", id: false, force: :cascade do |t|
+  create_table "dependencies", force: :cascade do |t|
     t.uuid "package_id", null: false
     t.uuid "dependent_package_id", null: false
     t.boolean "is_optional", default: false, null: false
@@ -141,7 +141,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.jsonb "description_translations"
     t.string "version"
     t.jsonb "files", default: {}, null: false
-    t.jsonb "delete_files", default: {}, null: false
+    t.jsonb "delete_files", default: [], null: false
     t.bigint "unpacked_size", default: 0, null: false
     t.boolean "is_merged", default: false, null: false
     t.datetime "published_at"
