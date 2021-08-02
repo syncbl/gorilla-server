@@ -64,7 +64,9 @@ class Package < ApplicationRecord
             }
   validates_with PackageSubscriptionValidator
 
-  scope :with_includes, -> { joins(:user) }
+  default_scope {
+    joins(:user)
+  }
 
   def get_components
     Package::Component.extract(self)

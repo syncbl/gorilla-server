@@ -6,6 +6,10 @@ class Dependency < ApplicationRecord
 
   validates :dependent_package, package_dependency: true
 
+  default_scope {
+    includes([:dependent_package])
+  }
+
   def required_component?
     is_component && !is_optional
   end
