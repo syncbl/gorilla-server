@@ -18,11 +18,6 @@ class Package < ApplicationRecord
   enumerize :package_type,
             in: %i[bundle external component],
             scope: true
-  jsonb_accessor :data,
-                 path: [:string, default: ""],
-                 path_persistent: [:boolean, default: false],
-                 allow_api_access: [:string, array: true, default: []],
-                 require_administrator: [:boolean, default: false]
 
   belongs_to :user
   has_one :product
