@@ -1,4 +1,4 @@
-class Package::External < Package
+class Package::External < Package::Bundle
   validates :external_url,
             format: URI.regexp(%w[https]),
             length: { maximum: 2048 },

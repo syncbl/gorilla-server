@@ -49,7 +49,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     # ----------
     create_table :packages, id: :uuid do |t|
       t.citext :name, null: false
-      t.string :package_type, index: true
+      t.string :package_type, index: true, null: false
 
       t.jsonb :caption_translations, null: false
       t.jsonb :description_translations
@@ -61,7 +61,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.bigint :settings_count, null: false, default: 0
 
       # TODO: Components will be removed after parent package delete
-      t.boolean :is_component, null: false, default: false
+      t.boolean :is_component, null: false
       t.string :external_url
       t.string :mime_type
 

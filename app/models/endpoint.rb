@@ -25,7 +25,6 @@ class Endpoint < ApplicationRecord
   end
 
   def install(package)
-    Rails.cache.delete_matched("SettingsIndex_#{id}")
     settings.create(package: package)
   end
 
