@@ -3,6 +3,7 @@ class Package < ApplicationRecord
   include Blockable
   include Publishable
   include DataAwareable
+  include IdentityCache
   extend Enumerize
 
   # TODO: Markers to detect package is already installed:

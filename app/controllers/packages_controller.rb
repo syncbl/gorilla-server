@@ -4,7 +4,6 @@ class PackagesController < ApplicationController
 
   # GET /packages
   # GET /packages.json
-  # TODO: Components
   def index
     @pagy, @packages =
       pagy_countless(
@@ -20,7 +19,6 @@ class PackagesController < ApplicationController
   end
 
   # GET /packages/new
-  # TODO: Store in cache during edit to allow update page
   def new
     @package = policy_scope(Package).new
   end

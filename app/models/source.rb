@@ -1,6 +1,7 @@
 class Source < ApplicationRecord
   include Blockable
   include Publishable
+  include IdentityCache
 
   attribute :size
   translates :description
