@@ -19,9 +19,7 @@ Rails.application.configure do
   if Rails.root.join("tmp", "caching-dev.txt").exist?
     config.action_controller.perform_caching = true
     config.action_controller.enable_fragment_cache_logging = true
-    config.cache_store =
-      :redis_cache_store, { url: "redis://127.0.0.1:6379/1/cache" }
-    #config.cache_store = :memory_store
+    config.cache_store = :mem_cache_store
     config.public_file_server.headers = {
       "Cache-Control" => "public, max-age=#{2.days.to_i}",
     }
@@ -87,4 +85,9 @@ Rails.application.configure do
     Bullet.bullet_logger = true
     Bullet.raise = false # raise an error if an n+1 query occurs
   end
+
+  config.identity_cache_store = :mem_cache_store, "localhost", "localhost", {
+    expires_in: 6.hours.to_i, # in case of network errors when sending a cache invalidation
+    failover: false, # avoids more cache consistency issues
+  }
 end

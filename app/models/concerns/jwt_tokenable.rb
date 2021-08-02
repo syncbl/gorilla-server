@@ -28,10 +28,6 @@ module JwtTokenable
     base.class_eval {
       before_save :update_reseted_at, if: :authentication_token_changed?
 
-      scope :except_blocked, -> {
-              where(blocked_at: nil)
-            }
-
       private
 
       def update_reseted_at

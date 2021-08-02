@@ -3,6 +3,7 @@ class User < ApplicationRecord
   include Permissable
   include Notifiable
   include JwtTokenable
+  include IdentityCache
   extend Enumerize
 
   # Include default devise modules. Others available are:

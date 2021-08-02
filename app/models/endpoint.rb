@@ -2,6 +2,7 @@ class Endpoint < ApplicationRecord
   include Blockable
   include Notifiable
   include JwtTokenable
+  include IdentityCache
 
   has_secure_token :authentication_token
   # attribute :locale, :string, default: "en"

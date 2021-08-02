@@ -115,4 +115,9 @@ Rails.application.configure do
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
   config.hosts = 'syncbl.com'
+
+  config.identity_cache_store = :mem_cache_store, "localhost", "localhost", {
+    expires_in: 6.hours.to_i, # in case of network errors when sending a cache invalidation
+    failover: false, # avoids more cache consistency issues
+  }
 end

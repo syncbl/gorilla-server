@@ -10,14 +10,9 @@ module Api::Cache
   private
 
   def cache_fetch(model, id, token)
-    cached_model = Rails.cache.fetch(
-      "#{model.name}_#{id}",
-      expires_in: MODEL_CACHE_TIMEOUT,
-    ) do
-      model.except_blocked.find_by(
-        id: id,
-      )
+    cached_model = model.fetch(id)
+    if cached_model&.authentication_token == token && !cached_model&.blocked?
+      cached_model
     end
-    cached_model if cached_model&.authentication_token == token
   end
 end
