@@ -9,6 +9,9 @@ class Setting < ApplicationRecord
 
   validates :package_id, uniqueness: { scope: :endpoint_id }
 
+  default_scope {
+    includes([:user])
+  }
   # TODO: Check scope to get really updated packages
   scope :updated,
         -> {
