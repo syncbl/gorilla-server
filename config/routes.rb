@@ -13,6 +13,9 @@ Rails.application.routes.draw do
         post :merge
       end
     end
+    collection do
+      post :search
+    end
   end
   resource :endpoint, only: %i[show update] do
     resources :settings #do

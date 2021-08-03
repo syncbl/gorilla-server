@@ -3,7 +3,6 @@ en:
     messages:
       name_restrict: Restricted name.
       url_is_not_attachment: Incorrect attachment type.
-      url_is_not_https: Only secured connections allowed.
       cannot_publish: Wait until validation finished.
       no_subscription: There are no active subscription for this action.
       no_maintainer_subscription: Maintainer must have active subscription for this action.

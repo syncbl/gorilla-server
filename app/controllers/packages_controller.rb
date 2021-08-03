@@ -1,6 +1,6 @@
 class PackagesController < ApplicationController
-  before_action :authenticate_user!, except: %i[show]
-  before_action :set_package, except: %i[index new create]
+  before_action :authenticate_user!, except: %i[show search]
+  before_action :set_package, except: %i[index new create search]
 
   # GET /packages
   # GET /packages.json
@@ -84,8 +84,8 @@ class PackagesController < ApplicationController
   end
 
   def search
-    packages = Package.search_by_text(params[:q])
-      .keep_if { |p| authorize p }
+    @packages = Package.published.search_by_text(params[:q]).limit(15)
+    #.keep_if { |p| authorize p }
   end
 
   private

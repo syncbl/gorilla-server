@@ -14,11 +14,11 @@ class Subscription < ApplicationRecord
         }
 
   def self.paid?
-    self.current.any? || self.user.plan == "unlimited"
+    self.current.any?
   end
 
   def self.extended?
-    paid? && %w[pro business].include?(current.last.user.plan)
+    paid? && %w[pro business unlimited].include?(current.last.user.plan)
   end
 
   def self.size_limit
@@ -42,6 +42,10 @@ class Subscription < ApplicationRecord
     current = Subscription.current.where(user: user).order(end_time: :desc).first
     start_time = current.present? ? current.end_time : Time.current
     self.start_time = start_time
-    self.end_time = start_time + 1.month
+    if user.plan == "unlimited"
+      self.end_time = start_time + 100.years
+    else
+      self.end_time = start_time + 1.month
+    end
   end
 end

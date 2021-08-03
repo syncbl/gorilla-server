@@ -50,6 +50,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     create_table :packages, id: :uuid do |t|
       t.citext :name, null: false
       t.string :package_type, index: true, null: false
+      t.string :version
 
       t.jsonb :caption_translations, null: false
       t.jsonb :description_translations

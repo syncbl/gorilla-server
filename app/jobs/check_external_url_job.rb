@@ -10,6 +10,7 @@ class CheckExternalUrlJob < ApplicationJob
       mime_type: new_type,
     )
     object.validate!
+    object.publish!
   rescue StandardError => e
     object.block! e.message
   end
@@ -24,8 +25,6 @@ class CheckExternalUrlJob < ApplicationJob
     if uri.instance_of?(URI::HTTPS)
       http.use_ssl = true
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-    else
-      raise I18n.t("errors.messages.url_is_not_https")
     end
     response = http.head(uri.path, { 'User-Agent': USER_AGENT, 'Accept': "application/*" })
     if response.is_a?(Net::HTTPRedirection) && redirect_count < 10

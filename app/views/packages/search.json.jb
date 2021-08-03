@@ -1,0 +1,5 @@
+json = render "layouts/header", pagy: @pagy
+
+json[:packages] = render "packages/index", packages: @packages
+
+json

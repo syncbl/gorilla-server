@@ -1,6 +1,6 @@
 class Package::External < Package::Bundle
   validates :external_url,
-            format: URI.regexp(%w[https]),
+            format: URI.regexp(%w[http https]),
             length: { maximum: 2048 },
             presence: true,
             package_external_url: true
@@ -12,6 +12,7 @@ class Package::External < Package::Bundle
 
   def set_type
     self.package_type = :external
+    self.validated?
   end
 
   def check_external_url

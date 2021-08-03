@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   create_table "packages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.citext "name", null: false
     t.string "package_type", null: false
+    t.string "version"
     t.jsonb "caption_translations", null: false
     t.jsonb "description_translations"
     t.jsonb "data", default: {}, null: false
