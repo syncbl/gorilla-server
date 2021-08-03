@@ -1,4 +1,15 @@
 class Package::External < Package::Bundle
+  validates :name,
+            name_restrict: true,
+            presence: true,
+            length: {
+              minimum: MIN_NAME_LENGTH,
+              maximum: MAX_NAME_LENGTH,
+            },
+            uniqueness: {
+              case_sensitive: false,
+            },
+            format: { with: NAME_FORMAT }
   validates :external_url,
             format: URI.regexp(%w[http https]),
             length: { maximum: 2048 },

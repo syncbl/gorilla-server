@@ -83,6 +83,7 @@ class PackagesController < ApplicationController
     end
   end
 
+  # TODO: Move it to index
   def search
     @packages = Package.published.search_by_text(params[:q]).limit(15)
     #.keep_if { |p| authorize p }
@@ -93,10 +94,14 @@ class PackagesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
 
   def set_package
-    @package = params[:user_id].present? ?
-      Package.where(user: { name: params[:user_id] })
-      .find_by!(name: params[:package_id]) :
-      Package.find(params[:id])
+    @package = if params[:user_id].present?
+        Package.where(user: { name: params[:user_id] })
+          .find_by!(name: params[:id])
+      else
+        Package.where(id: params[:id])
+          .or(Package::External.where(name: params[:id]))
+          .first
+      end
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
