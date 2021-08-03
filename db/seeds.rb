@@ -30,7 +30,7 @@ when "development"
         description: "Test package",
         user: u1,
         external_url: "https://www.heidisql.com/installers/HeidiSQL_11.0.0.5919_Setup.exe",
-        path: "D:\TEST",
+        path: 'D:\TEST',
       },
       {
         name: "Openssl-2_0",
@@ -38,7 +38,7 @@ when "development"
         description: "Test package",
         user: u2,
         external_url: "https://www.7-zip.org/a/7z1900-x64.exe",
-        path: "D:\TEST",
+        path: 'D:\TEST',
       },
     ]
   )
@@ -48,15 +48,15 @@ when "development"
       { name: "Openssl-1_1", caption: "Test3",
         description: "Test packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest package",
         user: u1,
-        path: "D:\TEST" },
+        path: 'D:\TEST' },
       { name: "Openssl-1_2", caption: "Test4",
         description: "Test packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest package",
         user: u1,
-        path: "D:\TEST" },
+        path: 'D:\TEST' },
       { name: "openssl-2_1", caption: "Test5",
         description: "Test package",
         user: u2,
-        path: "D:\TEST" },
+        path: 'D:\TEST' },
     ]
   )
 
@@ -65,11 +65,11 @@ when "development"
       { name: "openssl-dev", caption: "Test6",
         description: "Test package",
         user: u1,
-        path: "D:\TEST" },
+        path: 'D:\TEST' },
       { name: "openssl-dev-2", caption: "Test7",
         description: "Test package",
         user: u1,
-        path: "D:\TEST" },
+        path: 'D:\TEST' },
     ]
   )
 
@@ -80,7 +80,7 @@ when "development"
   s = p.sources.create(size: 1000, version: "1.0.0", description: "Test update 1")
   AttachmentService.call s, "files/test1.zip"
   p.add_data_link("anyconnect-win-3.1.05187-web-deploy-k9.exe",
-                  "{DESKTOP}\\Test.lnk")
+                  '{DESKTOP}\Test.lnk')
   p.add_data_requirement("registry",
                          "test")
   s.validate!

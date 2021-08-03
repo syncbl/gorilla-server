@@ -83,9 +83,14 @@ class PackagesController < ApplicationController
     end
   end
 
-  # TODO: Move it to index
   def search
-    @packages = Package.published.search_by_text(params[:q]).limit(15)
+    if params[:q].present? && params[:q].size >= MIN_NAME_LENGTH
+      @pagy, @packages =
+        pagy(
+          Package.published.search_by_text(params[:q]),
+          items: params[:items],
+        )
+    end
     #.keep_if { |p| authorize p }
   end
 
