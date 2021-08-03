@@ -97,7 +97,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.string "mime_type"
     t.uuid "user_id", null: false
     t.uuid "replacement_id"
-    t.datetime "validated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "validated_at"
     t.datetime "published_at"
     t.datetime "blocked_at"
     t.string "block_reason"
@@ -109,7 +109,6 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.index ["updated_at"], name: "index_packages_on_updated_at"
     t.index ["user_id", "name"], name: "index_packages_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_packages_on_user_id"
-    t.index ["validated_at"], name: "index_packages_on_validated_at"
   end
 
   create_table "products", force: :cascade do |t|

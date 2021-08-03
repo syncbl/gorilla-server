@@ -1,4 +1,4 @@
-NAME_FORMAT = /\A[A-Za-z\d\-\_]*\z/
+NAME_FORMAT = /\A[A-Za-z\d\-\_\!]*\z/
 MAX_FILE_COUNT = 100000
 MAX_ICON_SIZE = 1.megabyte
 MAX_FILE_SIZE = 1.gigabyte
@@ -19,16 +19,16 @@ SETTINGS_PER_REQUEST = 50
 TOKEN_RESET_PERIOD = 1.minute # TODO: Increase
 
 RESTRICTED_NAMES = %w[
-  setting    sign_in       api
-  settings   sign_out      actuator
-  page       file
-  pages      files
-  source     test
-  sources    admin
-  package    console
-  packages   wp-admin
-  user       _ignition
-  users      autodiscover
-  endpoint   mifs
-  endpoints  vendor
+  setting sign_in api
+  settings sign_out actuator
+  page file
+  pages files
+  source test
+  sources admin
+  package console
+  packages wp-admin
+  user _ignition
+  users autodiscover
+  endpoint mifs
+  endpoints vendor
 ]

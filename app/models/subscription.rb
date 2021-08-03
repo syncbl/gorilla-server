@@ -14,7 +14,7 @@ class Subscription < ApplicationRecord
         }
 
   def self.paid?
-    self.current.any?
+    self.current.any? || self.user.plan == "unlimited"
   end
 
   def self.extended?
@@ -28,6 +28,8 @@ class Subscription < ApplicationRecord
     when "pro"
       SUBSCRIPTION_PLAN_PRO
     when "business"
+      SUBSCRIPTION_PLAN_BUSINESS
+    when "unlimited"
       SUBSCRIPTION_PLAN_BUSINESS
     else
       0

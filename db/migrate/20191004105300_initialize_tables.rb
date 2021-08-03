@@ -72,7 +72,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.references :replacement, type: :uuid, index: true,
                                  foreign_key: { to_table: :packages }
 
-      t.datetime :validated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
+      t.datetime :validated_at
       t.datetime :published_at
       t.datetime :blocked_at
       t.string :block_reason
@@ -87,7 +87,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.references :package, type: :uuid, index: true, null: false,
                              foreign_key: true
       t.references :dependent_package, type: :uuid, index: true, null: false,
-                               foreign_key: { to_table: :packages }
+                                       foreign_key: { to_table: :packages }
       t.boolean :is_optional, null: false, default: false
       t.datetime :created_at, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.index %i[package_id dependent_package_id], unique: true

@@ -15,7 +15,7 @@ class User < ApplicationRecord
          :validatable
 
   enumerize :plan,
-            in: %i[personal pro business],
+            in: %i[personal pro business unlimited],
             scope: true
 
   has_secure_token :authentication_token
