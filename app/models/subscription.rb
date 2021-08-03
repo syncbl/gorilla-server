@@ -42,10 +42,12 @@ class Subscription < ApplicationRecord
     current = Subscription.current.where(user: user).order(end_time: :desc).first
     start_time = current.present? ? current.end_time : Time.current
     self.start_time = start_time
-    if user.plan == "unlimited"
-      self.end_time = start_time + 100.years
-    else
-      self.end_time = start_time + 1.month
+    if self.end_time.nil?
+      if user.plan == "unlimited"
+        self.end_time = start_time + 100.years
+      else
+        self.end_time = start_time + 1.month
+      end
     end
   end
 end
