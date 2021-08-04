@@ -2,7 +2,7 @@ require "yaml"
 
 namespace :winget do
   desc "Create WinGet account"
-  task :create => [:environment] do
+  task create: [:environment] do
     u = User.create(
       name: "WinGetMirror",
       fullname: "Microsoft WinGet (unofficial)",
@@ -18,7 +18,7 @@ namespace :winget do
   end
 
   desc "Empty WinGet account"
-  task :clear => [:environment] do
+  task clear: [:environment] do
     User.find_by!(name: "WinGetMirror").packages.delete_all
   end
 
