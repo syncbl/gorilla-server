@@ -23,10 +23,10 @@ namespace :winget do
   end
 
   desc "Import all the files"
-  task :import, [:path] => [:environment] do |task, args|
+  task import: [:environment] do
     sh "git -C ~/winget-pkgs pull"
     user = User.find_by!(name: "WinGetMirror")
-    Dir.glob("#{args[:path]}/**/*.yaml").each do |f|
+    Dir.glob("../winget-pkgs/manifests/**/*.yaml").each do |f|
       y = YAML.load_file(f)
       unless y["Installers"].nil? || y["PackageName"].nil?
         name = y["PackageName"].gsub(" ", "").gsub(".", "_")
