@@ -23,14 +23,14 @@ namespace :winget do
   end
 
   desc "Update WinGet repo"
-  task clear: [:environment] do
+  task update: [:environment] do
     sh "git -C ~/winget-pkgs pull"
   end
 
   # TODO: Bulk Upsert using activerecord-import
   namespace :import do
     desc "Import all files with versions"
-    task versions: [:environment] do
+    task all: [:environment] do
       c = 0
       user = User.find_by!(name: "WinGetMirror")
       Dir.glob("../winget-pkgs/manifests/**/*.yaml").each do |f|
