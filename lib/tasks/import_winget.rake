@@ -22,31 +22,68 @@ namespace :winget do
     User.find_by!(name: "WinGetMirror").packages.delete_all
   end
 
-  desc "Import all the files"
-  task import: [:environment] do
+  desc "Update WinGet repo"
+  task clear: [:environment] do
     sh "git -C ~/winget-pkgs pull"
-    user = User.find_by!(name: "WinGetMirror")
-    Dir.glob("../winget-pkgs/manifests/**/*.yaml").each do |f|
-      y = YAML.load_file(f)
-      unless y["Installers"].nil? || y["PackageName"].nil?
-        name = y["PackageName"].gsub(" ", "").gsub(".", "_")
-        version = y["PackageVersion"].to_s.gsub(".", "_")
-        p = Package::External.find_by(name: "#{name}-#{version}", version: version) ||
-            Package::External.new(
-              name: "#{name}-#{version}",
-              user: user,
-              version: version,
-            )
-        p.caption = name
-        p.description = y["ShortDescription"]
-        p.external_url = y["Installers"][0]["InstallerUrl"]
-        p.save
-        if p.persisted?
-          puts "+ #{p.name}"
-        else
-          puts "- #{p.errors.full_messages} #{p.name} #{p.caption}"
+  end
+
+  # TODO: Bulk Upsert using activerecord-import
+  namespace :import do
+    desc "Import all files with versions"
+    task versions: [:environment] do
+      c = 0
+      user = User.find_by!(name: "WinGetMirror")
+      Dir.glob("../winget-pkgs/manifests/**/*.yaml").each do |f|
+        y = YAML.load_file(f)
+        unless y["Installers"].nil? || y["PackageName"].nil?
+          name = y["PackageName"].gsub(" ", "").gsub(".", "_")
+          version = y["PackageVersion"].to_s.gsub(".", "_")
+          p = Package::External.find_by(name: "#{name}-#{version}", version: version) ||
+              Package::External.new(
+                name: "#{name}-#{version}",
+                user: user,
+                version: version,
+              )
+          p.caption = name
+          p.description = y["ShortDescription"]
+          p.external_url = y["Installers"][0]["InstallerUrl"]
+          if p.save
+            c += 1
+          else
+            puts "- #{p.name} #{p.errors.full_messages}"
+          end
         end
       end
+      puts "#{c} packages imported"
     end
+
+    desc "Import latest files"
+    task latest: [:environment] do
+      c = 0
+      user = User.find_by!(name: "WinGetMirror")
+      Dir.glob("../winget-pkgs/manifests/**/*.yaml").each do |f|
+        y = YAML.load_file(f)
+        unless y["Installers"].nil? || y["PackageName"].nil?
+          name = y["PackageName"].gsub(" ", "").gsub(".", "_")
+          version = y["PackageVersion"].to_s.gsub(".", "_")
+          p = Package::External.find_by(name: "#{name}") ||
+              Package::External.new(
+                name: "#{name}",
+                user: user,
+                version: version,
+              )
+          p.caption = name
+          p.description = y["ShortDescription"]
+          p.external_url = y["Installers"][0]["InstallerUrl"]
+          if p.save
+            c += 1
+            puts "+ #{p.name}"
+          else
+            puts "- #{p.name} #{p.errors.full_messages}"
+          end
+        end
+      end
+      puts "#{c} packages imported"
+    end    
   end
 end

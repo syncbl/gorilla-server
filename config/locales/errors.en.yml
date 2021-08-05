@@ -1,23 +1,23 @@
 en:
   errors:
     messages:
-      name_restrict: Restricted name.
-      url_is_not_attachment: Incorrect attachment type.
-      cannot_publish: Wait until validation finished.
-      no_subscription: There are no active subscription for this action.
-      no_maintainer_subscription: Maintainer must have active subscription for this action.
+      name_restrict: is restricted
+      url_is_not_attachment: Incorrect attachment type
+      cannot_publish: Wait until validation finished
+      no_subscription: There are no active subscription for this action
+      no_maintainer_subscription: Maintainer must have active subscription for this action
     attributes:
       package:
-        owner_already: You already owner of this package.
-        internal: Cannot set external URL for internal package.
+        owner_already: You already owner of this package
+        internal: Cannot set external URL for internal package
         dependency:
-          used: Can't delete component used in another package.
-          forbidden: This component can't be accessed by package owner.
-          itself: Package can't be dependent on itself.
-          external: Cannot add components for external package.
+          used: Can't delete component used in another package
+          forbidden: This component can't be accessed by package owner
+          itself: Package can't be dependent on itself
+          external: Cannot add components for external package
         replacement:
-          old: Replacement must be newer than original package.
-          itself: Package can't be replaced by itself.
+          old: Replacement must be newer than original package
+          itself: Package can't be replaced by itself
       source:
         packed_file_too_big: "File is too big: %{name}:%{size}"
         packed_files_too_many: Too many files

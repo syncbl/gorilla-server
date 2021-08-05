@@ -24,6 +24,7 @@ gem "pg_search" # PgSearch builds named scopes that take advantage of PostgreSQL
 #gem "redis", "~> 4.0" # A Ruby client that tries to match Redis' API one-to-one.
 
 # Other
+gem "activerecord-import"
 gem "active_storage_validations" # Active Storage Validations.
 gem "aws-sdk-s3", require: false # Official AWS Ruby gem for Amazon Simple Storage Service (Amazon S3)
 gem "bcrypt" # Provides a simple wrapper for safely handling passwords.

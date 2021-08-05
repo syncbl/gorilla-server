@@ -1,4 +1,4 @@
-NAME_FORMAT = /\A[A-Za-z\d\-\_\!\(\)\[\]\+]*\z/
+NAME_FORMAT = /\A[A-Za-z\d\-\_\!\(\)\[\]\+\']*\z/
 MAX_FILE_COUNT = 100000
 MAX_ICON_SIZE = 1.megabyte
 MAX_FILE_SIZE = 1.gigabyte
