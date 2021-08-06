@@ -9,24 +9,21 @@ if @package.external?
   json[:hash_type] = @package.hash_type
 end
 
-json_package[:required_components] = []
-json_package[:optional_components] = []
-json_package[:required_packages] = []
-json_package[:optional_packages] = []
 @package.dependencies.map do |d|
-  if d.required_component?
-    # Install after main package
-    json_package[:required_components] << (render "show", package: d.dependent_package)
-  elsif d.optional_component?
-    # Selectable options, install after main package
-    json_package[:optional_components] << (render "show", package: d.dependent_package)
-  elsif d.required_package?
-    # Install before main package
-    json_package[:required_packages] << (render "show", package: d.dependent_package)
-  elsif d.optional_package?
-    # Install after main package with separate wizard
-    json_package[:optional_packages] << (render "show", package: d.dependent_package)
-  end
+  component_type = if d.required_component?
+      # Install after main package
+      :required_components
+    elsif d.optional_component?
+      # Selectable options, install after main package
+      :optional_components
+    elsif d.required_package?
+      # Install before main package
+      :required_packages
+    elsif d.optional_package?
+      # Install after main package with separate wizard
+      :optional_packages
+    end
+  json_package[component_type] << (render "show", package: d.dependent_package)
 end
 
 json_package[:data] = @package.data.except(:allow_api_access)
