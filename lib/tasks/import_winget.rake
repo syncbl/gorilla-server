@@ -47,6 +47,12 @@ namespace :winget do
           p.caption = name
           p.description = y["ShortDescription"]
           p.external_url = y["Installers"][0]["InstallerUrl"]
+          if y["Installers"][0]["InstallerSha256"]
+            p.checksum = y["Installers"][0]["InstallerSha256"]
+            p.hash_type = :sha256                     
+          end
+          p.validated_at = Time.current
+          p.published_at = Time.current
           if p.save
             c += 1
           else
@@ -75,6 +81,12 @@ namespace :winget do
           p.caption = name
           p.description = y["ShortDescription"]
           p.external_url = y["Installers"][0]["InstallerUrl"]
+          if y["Installers"][0]["InstallerSha256"]
+            p.checksum = y["Installers"][0]["InstallerSha256"]
+            p.hash_type = :sha256                     
+          end
+          p.validated_at = Time.current
+          p.published_at = Time.current
           if p.save
             c += 1
             puts "+ #{p.name}"

@@ -105,7 +105,7 @@ class PackagesController < ApplicationController
       else
         Package.where(id: params[:id])
           .or(Package::External.where(name: params[:id]))
-          .first
+          .first!
       end
   end
 

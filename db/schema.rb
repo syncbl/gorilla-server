@@ -96,6 +96,8 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.boolean "is_component", null: false
     t.string "external_url"
     t.string "mime_type"
+    t.string "checksum"
+    t.string "hash_type"
     t.uuid "user_id", null: false
     t.uuid "replacement_id"
     t.datetime "validated_at"

@@ -19,6 +19,8 @@ class Package < ApplicationRecord
   enumerize :package_type,
             in: %i[bundle external component],
             scope: true
+  enumerize :hash_type,
+            in: %i[md5 sha256]
 
   belongs_to :user
   has_one :product

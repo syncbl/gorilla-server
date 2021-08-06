@@ -65,6 +65,8 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.boolean :is_component, null: false
       t.string :external_url
       t.string :mime_type
+      t.string :checksum
+      t.string :hash_type
 
       # TODO: Copyrignt and else in t.jsonb :data
 
