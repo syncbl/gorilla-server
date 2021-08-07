@@ -1,7 +1,6 @@
 class Package::Bundle < Package
   include ParamAwareable
 
-  before_save :set_package
   before_validation :set_type, on: :create
 
   validates :is_component, inclusion: [false]
@@ -14,9 +13,7 @@ class Package::Bundle < Package
 
   def set_type
     self.package_type = :bundle
-  end
-
-  def set_package
     self.is_component = false
   end
+
 end

@@ -1,9 +1,12 @@
-class Package::External < Package::Bundle
+class Package::External < Package
+  # TODO: Validate mime/extension, get file size
   jsonb_accessor :params,
                  external_url: [:string],
                  mime_type: [:string],
                  checksum: [:string],
-                 hash_type: [:string]
+                 hash_type: [:string],
+                 switches: [:string],
+                 uninstall: [:string]
   enumerize :hash_type,
             in: %i[md5 sha256]
 
@@ -24,6 +27,11 @@ class Package::External < Package::Bundle
             presence: true,
             package_external_url: true
 
+  default_scope -> {
+                  where(is_component: false)
+                }
+  validates :is_component, inclusion: [false]
+
   after_save :check_external_url
   before_validation :set_type, on: :create
 
@@ -31,7 +39,9 @@ class Package::External < Package::Bundle
 
   def set_type
     self.package_type = :external
-    self.validated?
+    self.is_component = false
+    self.validated_at = Time.current
+    self.published_at = Time.current
   end
 
   def check_external_url

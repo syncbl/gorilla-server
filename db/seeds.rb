@@ -30,7 +30,6 @@ when "development"
         description: "Test package",
         user: u1,
         external_url: "https://www.heidisql.com/installers/HeidiSQL_11.0.0.5919_Setup.exe",
-        path: 'D:\TEST',
       },
       {
         name: "Openssl-2_0",
@@ -38,7 +37,6 @@ when "development"
         description: "Test package",
         user: u2,
         external_url: "https://www.7-zip.org/a/7z1900-x64.exe",
-        path: 'D:\TEST',
       },
     ]
   )

@@ -4,8 +4,6 @@ json = {
   package_type: package.package_type,
   caption: package.caption,
   description: package.description,
-  # TODO: Params in params
-  params: package.params,
   # is_published: package.published?,
   size: package.size,
   h_size: number_to_human_size(package.size),

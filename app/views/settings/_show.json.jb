@@ -8,6 +8,7 @@ json = {
   caption: setting.package.caption,
   size: setting.package.size,
   h_size: number_to_human_size(setting.package.size),
+  params: setting.package.params,
 }
 
 if is_available
