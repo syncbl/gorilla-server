@@ -78,9 +78,9 @@ when "development"
   s = p.sources.create(size: 1000, version: "1.0.0", description: "Test update 1")
   AttachmentService.call s, "files/test1.zip"
   p.add_params_link("anyconnect-win-3.1.05187-web-deploy-k9.exe",
-                  '{DESKTOP}\Test.lnk')
+                    '{DESKTOP}\Test.lnk')
   p.add_params_requirement("registry",
-                         "test")
+                           "test")
   s.validate!
   s.publish!
   s = p.sources.create(size: 1000, version: "1.0.0", description: "Test update 2")
