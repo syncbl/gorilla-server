@@ -17,9 +17,9 @@ class User < ApplicationRecord
   enumerize :plan,
             in: %i[personal pro business unlimited],
             scope: true
-
   has_secure_token :authentication_token
   attribute :token
+  # TODO: encrypts :email, deterministic: true, downcase: true
 
   has_many :packages, dependent: :destroy
   has_many :endpoints, dependent: :destroy
