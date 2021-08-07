@@ -20,7 +20,7 @@ json[:icon] = render "layouts/file", file: package.icon, prefix: "i"
 
 if current_user
   json[:params] = package.params
-  json.merge!(render "layouts/attachments", package: package)
+  json[:sources] = render "layouts/attachments", package: package
 end
 
 json

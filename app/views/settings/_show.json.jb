@@ -12,7 +12,7 @@ json = {
 }
 
 if is_available
-  json.merge!(render "layouts/attachments", package: setting.package)
+  json[:sources] = render "layouts/attachments", package: setting.package
 end
 
 json
