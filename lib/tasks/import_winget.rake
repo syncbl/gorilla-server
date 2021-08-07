@@ -49,7 +49,6 @@ namespace :winget do
           p.external_url = y["Installers"][0]["InstallerUrl"]
           if y["InstallerSwitches"]
             p.switches = y["InstallerSwitches"]["Silent"] || y["InstallerSwitches"]["SilentWithProgress"]
-            puts "#{p.name} #{p.switches}"
           end
           if y["Installers"][0]["InstallerSha256"]
             p.checksum = y["Installers"][0]["InstallerSha256"]
