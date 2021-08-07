@@ -25,7 +25,7 @@ class CheckExternalUrlJob < ApplicationJob
     http.read_timeout = 5
     if uri.instance_of?(URI::HTTPS)
       http.use_ssl = true
-      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      http.verify_mode = OpenSSL::SSL::VERIFY_PEER
     end
     response = http.head(uri.path, { 'User-Agent': USER_AGENT, 'Accept': "application/*" })
     if response.is_a?(Net::HTTPRedirection) && redirect_count < 10
