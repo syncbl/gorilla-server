@@ -1,4 +1,7 @@
 class Package::External < Package::Bundle
+  enumerize :hash_type,
+            in: %i[md5 sha256]
+
   validates :name,
             name_restrict: true,
             presence: true,

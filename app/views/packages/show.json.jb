@@ -4,9 +4,9 @@ json_package = render "show", package: @package
 
 # TODO: Remove to leave it only in settings?
 if @package.external?
-  json_package[:external_url] = @package.external_url
-  json[:checksum] = @package.checksum
-  json[:hash_type] = @package.hash_type
+  json_package[:external_url] = @package.params[:external_url]
+  json[:checksum] = @package.params[:checksum]
+  json[:hash_type] = @package.params[:hash_type]
 end
 
 @package.dependencies.map do |d|
@@ -23,10 +23,11 @@ end
       # Install after main package with separate wizard
       :optional_packages
     end
+  json_package[component_type] ||= []
   json_package[component_type] << (render "show", package: d.dependent_package)
 end
 
-json_package[:data] = @package.data.except(:allow_api_access)
+json_package[:params] = @package.params.except(:allow_api_access)
 
 json[:package] = json_package
 

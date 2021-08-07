@@ -1,4 +1,6 @@
 class Package::Bundle < Package
+  include ParamAwareable
+
   before_save :set_package
   before_validation :set_type, on: :create
 

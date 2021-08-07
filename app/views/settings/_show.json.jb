@@ -12,9 +12,9 @@ json = {
 
 if is_available
   if setting.package.external?
-    json[:external_url] = setting.package.external_url
-    json[:checksum] = setting.package.checksum
-    json[:hash_type] = setting.package.hash_type
+    json[:external_url] = setting.package.params[:external_url]
+    json[:checksum] = setting.package.params[:checksum]
+    json[:hash_type] = setting.package.params[:hash_type]
   else
     json[:sources] = setting.package.sources.published.map do |source|
       # TODO: Only unmerged can be unpublished and unpublished must be all of them

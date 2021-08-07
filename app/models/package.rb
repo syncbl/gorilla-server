@@ -2,7 +2,6 @@ class Package < ApplicationRecord
   include PgSearch::Model
   include Blockable
   include Publishable
-  include DataAwareable
   include IdentityCache
   extend Enumerize
 
@@ -10,17 +9,19 @@ class Package < ApplicationRecord
   # - registry key
   # - file exists
 
+  jsonb_accessor :data,
+                 external_url: [:string],
+                 mime_type: [:string],
+                 checksum: [:string],
+                 hash_type: [:string]
   pg_search_scope :search_by_text,
                   against: [:name,
                             :caption_translations,
-                            :description_translations,
-                            :external_url]
+                            :description_translations]
   translates :caption, :description
   enumerize :package_type,
             in: %i[bundle external component],
             scope: true
-  enumerize :hash_type,
-            in: %i[md5 sha256]
 
   belongs_to :user
   has_one :product
@@ -80,7 +81,7 @@ class Package < ApplicationRecord
   end
 
   def external?
-    !external_url.to_s.strip.empty?
+    !data[:external_url].to_s.strip.empty?
   end
 
   def generate_filelist!

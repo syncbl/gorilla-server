@@ -1,4 +1,6 @@
 class Package::Component < Package
+  include ParamAwareable
+
   has_many :packages, through: :dependencies
 
   before_save :set_package
