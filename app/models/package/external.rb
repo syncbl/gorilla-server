@@ -22,7 +22,7 @@ class Package::External < Package
             },
             format: { with: NAME_FORMAT }
   validates :external_url,
-            format: { with: URI.regexp(%w[https]), message: I18n.t('errors.messages.url_is_not_allowed') },
+            format: { with: URI.regexp(%w[https http]), message: I18n.t('errors.messages.url_is_not_allowed') },
             length: { maximum: 2048 },
             presence: true,
             package_external_url: true
