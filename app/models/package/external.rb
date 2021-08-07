@@ -10,6 +10,7 @@ class Package::External < Package
   enumerize :hash_type,
             in: %i[md5 sha256]
 
+  # TODO: More validation messages          
   validates :name,
             name_restrict: true,
             presence: true,
