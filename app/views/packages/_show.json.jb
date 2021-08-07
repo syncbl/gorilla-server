@@ -18,4 +18,9 @@ json = {
 # TODO: Add dimensions
 json[:icon] = render "layouts/file", file: package.icon, prefix: "i"
 
+if current_user
+  json[:params] = package.params
+  json.merge!(render "attachments", package: package)
+end
+
 json
