@@ -55,7 +55,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.jsonb :caption_translations, null: false
       t.jsonb :description_translations
 
-      t.jsonb :data, null: false, default: {}
+      t.jsonb :params, null: false, default: {}
       t.jsonb :filelist, null: false, default: []
 
       t.bigint :size, null: false, default: 0

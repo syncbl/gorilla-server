@@ -9,11 +9,6 @@ class Package < ApplicationRecord
   # - registry key
   # - file exists
 
-  jsonb_accessor :data,
-                 external_url: [:string],
-                 mime_type: [:string],
-                 checksum: [:string],
-                 hash_type: [:string]
   pg_search_scope :search_by_text,
                   against: [:name,
                             :caption_translations,
@@ -69,7 +64,7 @@ class Package < ApplicationRecord
   validates_with PackageSubscriptionValidator
 
   default_scope {
-    joins(:user).includes([:icon_attachment])
+    joins(:user).includes([icon_attachment: :blob])
   }
 
   def get_components
@@ -81,7 +76,7 @@ class Package < ApplicationRecord
   end
 
   def external?
-    !data[:external_url].to_s.strip.empty?
+    !params[:external_url].to_s.strip.empty?
   end
 
   def generate_filelist!
