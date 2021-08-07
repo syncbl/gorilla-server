@@ -1,11 +1,11 @@
 class Package::External < Package::Bundle
   enumerize :hash_type,
             in: %i[md5 sha256]
-            jsonb_accessor :params,
-            external_url: [:string],
-            mime_type: [:string],
-            checksum: [:string],
-            hash_type: [:string]
+  jsonb_accessor :params,
+                 external_url: [:string],
+                 mime_type: [:string],
+                 checksum: [:string],
+                 hash_type: [:string]
 
   validates :name,
             name_restrict: true,
