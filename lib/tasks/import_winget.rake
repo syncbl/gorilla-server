@@ -84,6 +84,7 @@ namespace :winget do
               user: user,
               version: y["PackageVersion"],
             )
+        # TODO: Architecture check for x64
         p.caption = name
         p.description = y["ShortDescription"]
         p.external_url = y["Installers"][0]["InstallerUrl"]
