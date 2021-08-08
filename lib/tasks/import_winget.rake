@@ -36,7 +36,7 @@ namespace :winget do
       Dir.glob("../winget-pkgs/manifests/**/*.yaml").each do |f|
         y = YAML.load_file(f)
         unless y["Installers"].nil? || y["PackageName"].nil?
-          name = y["PackageName"].gsub(/[ ]/, "").gsub(/[.:#&+]/, "_").gsub("__", "_")
+          name = y["PackageName"].gsub(/[ ]/, "").gsub(/[.:#&]/, "_").gsub("__", "_")
           version = y["PackageVersion"].to_s.gsub(".", "_")
           p = Package::External.find_by(user: user, name: "#{name}-#{version}", version: version) ||
               Package::External.new(
