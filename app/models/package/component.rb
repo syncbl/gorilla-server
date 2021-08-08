@@ -3,11 +3,11 @@ class Package::Component < Package
 
   has_many :packages, through: :dependencies
 
-  before_save :set_package
   before_destroy :check_dependency, prepend: true
   before_validation :set_type, on: :create
 
   validates :is_component, inclusion: [true]
+  validates :is_external, inclusion: [false]
 
   default_scope -> {
                   where(is_component: true)
@@ -31,10 +31,8 @@ class Package::Component < Package
 
   def set_type
     self.package_type = :component
-  end
-
-  def set_package
     self.is_component = true
+    self.is_external = false
   end
 
   def check_dependency

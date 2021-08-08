@@ -27,9 +27,10 @@ class Package::External < Package
             length: { maximum: 2048 },
             presence: true,
             package_external_url: true
+  validates :is_external, inclusion: [true]
 
   default_scope -> {
-                  where(is_component: false)
+                  where(is_component: false, is_external: true)
                 }
   validates :is_component, inclusion: [false]
 
@@ -41,6 +42,7 @@ class Package::External < Package
   def set_type
     self.package_type = :external
     self.is_component = false
+    self.is_external = true
     self.validated_at = Time.current
     self.published_at = Time.current
   end
@@ -48,7 +50,11 @@ class Package::External < Package
   def check_external_url
     if saved_change_to_external_url?
       invalidate!
-      CheckExternalUrlJob.perform_later self
+      if File.basename($0) == 'rake'
+        CheckExternalUrlJob.perform_now self
+      else
+        CheckExternalUrlJob.perform_later self
+      end
     end
   end
 end

@@ -75,10 +75,6 @@ class Package < ApplicationRecord
     _replaced_by unless replacement_id.nil?
   end
 
-  def external?
-    !params[:external_url].to_s.strip.empty?
-  end
-
   def generate_filelist!
     available_files = Set[]
     sources.map do |s|

@@ -56,7 +56,7 @@ class User < ApplicationRecord
   end
 
   def used_space
-    packages.select { |p| !p.external? }.map(&:size).sum
+    packages.where(is_external: false).map(&:size).sum
   end
 
   private

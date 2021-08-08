@@ -1,4 +1,4 @@
-unless package.external?
+unless package.is_external
   package.sources.published.map do |source|
     # TODO: Only unmerged can be unpublished and unpublished must be all of them
     render "sources/show", source: source

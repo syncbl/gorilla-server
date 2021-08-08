@@ -63,6 +63,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       # TODO: Components will be removed after parent package delete
       t.boolean :is_component, null: false
+      t.boolean :is_external, null: false
 
       # TODO: Copyrignt and else in t.jsonb :data
 

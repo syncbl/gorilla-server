@@ -87,9 +87,11 @@ class PackagesController < ApplicationController
     if params[:q].present? && params[:q].size >= MIN_NAME_LENGTH
       @pagy, @packages =
         pagy(
-          Package.published.search_by_text(params[:q]),
+          Package::External.except_blocked.published.search_by_text(params[:q]),
           items: params[:items],
         )
+    else
+      render_json_error I18n.t("errors.messages.search_query_error"), status: :not_found
     end
     #.keep_if { |p| authorize p }
   end

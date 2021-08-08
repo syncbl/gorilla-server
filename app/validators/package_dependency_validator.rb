@@ -5,7 +5,7 @@ class PackageDependencyValidator < ActiveModel::EachValidator
         I18n.t("errors.attributes.package.dependency.itself")
     end
 
-    if record.package.external? && (record.is_component == true)
+    if record.package.is_external && record.is_component
       record.errors.add :dependent_package,
         I18n.t("errors.attributes.package.dependency.external")
     end
