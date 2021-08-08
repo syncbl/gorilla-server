@@ -77,7 +77,7 @@ namespace :winget do
           z = YAML.load_file(files[i + 1])
           next if y["PackageName"] == z["PackageName"]
         end
-        name = y["PackageName"].gsub(/[ ]/, "").gsub(/[.:#&+]/, "_").gsub("__", "_")
+        name = y["PackageName"].gsub(/[ ]/, "").gsub(/[.:#&]/, "_").gsub("__", "_")
         p = Package::External.find_by(user: user, name: "#{name}") ||
             Package::External.new(
               name: "#{name}",
