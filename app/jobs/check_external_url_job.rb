@@ -7,10 +7,9 @@ class CheckExternalUrlJob < ApplicationJob
     new_size, new_type = get_attachment_info(object.external_url)
     object.update(
       size: new_size,
-      h_size: number_to_human_size(new_size),
       mime_type: new_type,
       validated_at: Time.current,
-      published_at: Time.current
+      published_at: Time.current,
     )
   rescue StandardError => e
     object.block! e.message

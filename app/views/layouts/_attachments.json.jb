@@ -3,4 +3,6 @@ unless package.is_external
     # TODO: Only unmerged can be unpublished and unpublished must be all of them
     render "sources/show", source: source
   end
+else
+  []
 end
