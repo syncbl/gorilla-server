@@ -93,7 +93,6 @@ class PackagesController < ApplicationController
     else
       render_json_error I18n.t("errors.messages.search_query_error"), status: :not_found
     end
-    #.keep_if { |p| authorize p }
   end
 
   private
