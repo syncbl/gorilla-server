@@ -6,7 +6,7 @@ class Package::External < Package
                  checksum: [:string],
                  hash_type: [:string],
                  switches: [:string],
-                 uninstall: [:string]
+                 uninstall: [:string],
   enumerize :hash_type,
             in: %i[md5 sha256]
 
@@ -34,7 +34,6 @@ class Package::External < Package
                 }
   validates :is_component, inclusion: [false]
 
-  after_save :check_external_url
   before_validation :set_type, on: :create
 
   private
@@ -44,17 +43,7 @@ class Package::External < Package
     self.is_component = false
     self.is_external = true
     self.validated_at = Time.current
+    # TODO: ?
     self.published_at = Time.current
-  end
-
-  def check_external_url
-    if saved_change_to_external_url?
-      invalidate!
-      if File.basename($0) == 'rake'
-        CheckExternalUrlJob.perform_now self
-      else
-        CheckExternalUrlJob.perform_later self
-      end
-    end
   end
 end

@@ -6,8 +6,6 @@ json = {
   name: setting.package.name,
   package_type: setting.package.package_type,
   caption: setting.package.caption,
-  size: setting.package.size,
-  h_size: setting.package.size == 0 ? '' : number_to_human_size(setting.package.size),
   params: setting.package.params,
 }
 

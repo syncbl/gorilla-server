@@ -6,7 +6,7 @@ json = {
   description: package.description,
   # is_published: package.published?,
   size: package.size,
-  h_size: number_to_human_size(package.size),
+  h_size: package.size == 0 ? '' : number_to_human_size(package.size),
   install_count: package.settings_count, # TODO: Cache
   h_install_count: number_to_human(package.settings_count, precision: 1),
   # replaced_by: package.replaced_by&.id,
