@@ -6,7 +6,7 @@ class Package::External < Package
                  checksum: [:string],
                  hash_type: [:string],
                  switches: [:string],
-                 uninstall: [:string],
+                 uninstall: [:string]
   enumerize :hash_type,
             in: %i[md5 sha256]
 
