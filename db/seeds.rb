@@ -75,7 +75,7 @@ when "development"
                                     filename: "hqdefault.jpg")
 
   p = Package::Bundle.find_by(name: "openssl-dev")
-  s = p.sources.create(size: 1000, version: "1.0.0", description: "Test update 1")
+  s = p.sources.create(size: 1000, version: "1.0.1", description: "Test update 1")
   AttachmentService.call s, "files/test1.zip"
   p.add_params_link("anyconnect-win-3.1.05187-web-deploy-k9.exe",
                     '{DESKTOP}\Test.lnk')
@@ -83,7 +83,7 @@ when "development"
                            "test")
   s.validate!
   s.publish!
-  s = p.sources.create(size: 1000, version: "1.0.0", description: "Test update 2")
+  s = p.sources.create(size: 1000, version: "1.0.2", description: "Test update 2")
   AttachmentService.call s, "files/test2.zip"
   s.validate!
   s.publish!

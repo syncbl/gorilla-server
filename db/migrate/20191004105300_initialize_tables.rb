@@ -15,7 +15,8 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       #t.boolean :admin, default: false
       #t.boolean :developer, default: false
       # TODO: Purchases table for user or company
-
+      # TODO: Referrals: t.references :invited_by, type: :uuid, index: true,
+      # foreign_key: { to_table: :user }
       # TODO: Is company? Show other info.
 
       t.string :authentication_token, null: false, index: true, unique: true
