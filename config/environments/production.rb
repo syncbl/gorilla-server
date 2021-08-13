@@ -115,7 +115,11 @@ Rails.application.configure do
   # config.active_record.database_selector = { delay: 2.seconds }
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
-  config.hosts = "syncbl.com"
+  if ENV["RAILS_DOMAIN"]
+    config.hosts = ENV["RAILS_DOMAIN"]
+  else
+    raise StandardError, "RAILS_DOMAIN is not set!"
+  end
 
   config.identity_cache_store = :mem_cache_store, "localhost", "localhost", {
     expires_in: 6.hours.to_i, # in case of network errors when sending a cache invalidation
