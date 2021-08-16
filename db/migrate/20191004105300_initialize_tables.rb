@@ -132,7 +132,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     end
 
     # ----------
-    create_table :maintains, id: false do |t|
+    create_table :maintenances, id: false do |t|
       t.references :package, type: :uuid, index: true, null: false, foreign_key: true
       t.references :user, type: :uuid, index: true, null: false, foreign_key: true
 

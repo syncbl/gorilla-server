@@ -1,4 +1,4 @@
-class PackageMaintainValidator < ActiveModel::EachValidator
+class PackageMaintainerValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     if record.package.user == value
       record.errors.add :maintainers,

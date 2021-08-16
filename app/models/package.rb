@@ -25,8 +25,8 @@ class Package < ApplicationRecord
   has_many :sources, dependent: :destroy
   has_many :dependencies
   has_many :dependent_packages, through: :dependencies
-  has_many :maintains
-  has_many :maintainers, through: :maintains,
+  has_many :maintenances
+  has_many :maintainers, through: :maintenances,
                          source: :user
   belongs_to :replacement,
              class_name: "Package",
