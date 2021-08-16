@@ -27,7 +27,7 @@ end
   json_package[component_type] << (render "show", package: d.dependent_package)
 end
 
-json_package[:params] = @package.params.except(:allow_api_access)
+json_package[:params] = @package.filtered_params
 
 json[:package] = json_package
 

@@ -87,6 +87,10 @@ class Package < ApplicationRecord
     update(filelist: available_files)
   end
 
+  def filtered_params
+    params.except(:allow_api_access)
+  end
+
   private
 
   def _replaced_by
