@@ -1,5 +1,4 @@
 class Package::External < Package
-  # TODO: Validate mime/extension, get file size
   jsonb_accessor :params,
                  external_url: [:string],
                  checksum: [:string],
