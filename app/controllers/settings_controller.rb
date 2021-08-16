@@ -5,9 +5,10 @@ class SettingsController < ApplicationController
 
   # GET /endpoints/1/settings
   def index
-    # TODO: Only updated settings, because we don't need all here!
-    # TODO: Exclude locally deleted! I.e. we can delete if no local uuid.
-    settings = @endpoint.actualized_settings
+    # TODO: Timestamp is REQUIRED. We show here:
+    # - Settings with ALL sources if created_at > timestamp
+    # - ELSE Settings with current sources if updated_at > timestamp
+    settings = @endpoint.actualized_settings(setting_index_params[:t])
     @pagy, @settings = pagy_countless(settings, items: SETTINGS_PER_REQUEST)
   end
 
@@ -15,6 +16,7 @@ class SettingsController < ApplicationController
   def show; end
 
   # POST /endpoints/1/settings
+  # TODO: Return all components as index output to avoid using 2 queries
   def create
     package = Package.find(params[:package_id])
     respond_to do |format|
@@ -78,4 +80,8 @@ class SettingsController < ApplicationController
   #def setting_params
   #  params.permit(:id, :updates)
   #end
+
+  def setting_index_params
+    params.require(:t)
+  end
 end

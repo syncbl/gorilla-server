@@ -6,7 +6,7 @@ class Source < ApplicationRecord
   attribute :size
   translates :description
 
-  belongs_to :package
+  belongs_to :package, touch: true
   has_one_attached :file,
                    service: :external,
                    dependent: :purge_later
