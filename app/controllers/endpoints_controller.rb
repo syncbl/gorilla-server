@@ -1,6 +1,6 @@
 class EndpointsController < ApplicationController
-  before_action :authenticate_user!, except: %i[show create update]
-  before_action :set_endpoint, except: %i[index create]
+  before_action :authenticate_user!, only: %i[index destroy]
+  before_action :set_endpoint, only: %i[show update]
 
   # GET /endpoints
   # GET /endpoints.json
