@@ -3,7 +3,7 @@ class SettingsController < ApplicationController
   before_action :set_endpoint
   before_action :set_setting, except: %i[index create]
 
-  # GET /settings
+  # GET /endpoints/1/settings
   def index
     # TODO: Only updated settings, because we don't need all here!
     # TODO: Exclude locally deleted! I.e. we can delete if no local uuid.
@@ -11,7 +11,7 @@ class SettingsController < ApplicationController
     @pagy, @settings = pagy_countless(settings, items: SETTINGS_PER_REQUEST)
   end
 
-  # GET /settings/1
+  # GET /endpoints/1/settings/1
   def show; end
 
   # POST /endpoints/1/settings
@@ -30,8 +30,7 @@ class SettingsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /settings/1
-
+  # PATCH/PUT /endpoints/1/settings/1
   # TODO: Add source_id updating to show current state
   def update
     respond_to do |format|
@@ -43,7 +42,7 @@ class SettingsController < ApplicationController
     end
   end
 
-  # DELETE /settings/1
+  # DELETE /endpoints/1/settings/1
   # No need in permission check here: endpoint is already authorized
   def destroy
     respond_to do |format|
