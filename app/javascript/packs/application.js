@@ -3,22 +3,23 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
-// import 'bootstrap/js/src/alert'
-import 'bootstrap/js/src/button'
-// import 'bootstrap/js/src/carousel'
-// import 'bootstrap/js/src/collapse'
-import 'bootstrap/js/src/dropdown'
-// import 'bootstrap/js/src/modal'
-// import 'bootstrap/js/src/popover'
-// import 'bootstrap/js/src/scrollspy'
-import 'bootstrap/js/src/tab'
-// import 'bootstrap/js/src/toast'
-// import 'bootstrap/js/src/tooltip'
-
 require("@rails/ujs").start()
-// require("jquery")
+require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
+
+// import the bootstrap javascript module
+import "bootstrap"
+
+// import the application.scss we created for the bootstrap CSS (if you are not using assets stylesheet)
+import "../../stylesheets/application"
+
+var jQuery = require('jquery')
+
+// include jQuery in global and window scope (so you can access it globally)
+// in your web browser, when you type $('.div'), it is actually refering to global.$('.div')
+global.$ = global.jQuery = jQuery;
+window.$ = window.jQuery = jQuery;
 
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
