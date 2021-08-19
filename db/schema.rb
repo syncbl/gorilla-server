@@ -93,8 +93,6 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.jsonb "filelist", default: [], null: false
     t.bigint "size", default: 0, null: false
     t.bigint "settings_count", default: 0, null: false
-    t.boolean "is_component", null: false
-    t.boolean "is_external", null: false
     t.uuid "user_id", null: false
     t.uuid "replacement_id"
     t.datetime "validated_at"

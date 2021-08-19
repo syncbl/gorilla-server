@@ -8,7 +8,7 @@ class Package::External < Package
   enumerize :hash_type,
             in: %i[md5 sha256]
 
-  # TODO: More validation messages          
+  # TODO: More validation messages
   validates :name,
             name_restrict: true,
             presence: true,
@@ -21,25 +21,21 @@ class Package::External < Package
             },
             format: { with: NAME_FORMAT }
   validates :external_url,
-            format: { with: URI.regexp(%w[https http]), message: I18n.t('errors.messages.url_is_not_allowed') },
+            format: { with: URI.regexp(%w[https http]), message: I18n.t("errors.messages.url_is_not_allowed") },
             length: { maximum: 2048 },
             presence: true,
             package_external_url: true
-  validates :is_external, inclusion: [true]
-
-  default_scope -> {
-                  where(is_component: false, is_external: true)
-                }
-  validates :is_component, inclusion: [false]
 
   before_validation :set_type, on: :create
+
+  default_scope -> {
+                  with_package_type(:external)
+                }
 
   private
 
   def set_type
     self.package_type = :external
-    self.is_component = false
-    self.is_external = true
     self.validated_at = Time.current
     # TODO: ?
     self.published_at = Time.current

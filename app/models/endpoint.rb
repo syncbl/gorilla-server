@@ -28,12 +28,12 @@ class Endpoint < ApplicationRecord
     settings.create(package: package)
   end
 
-  def actualized_settings
+  def actualized_settings(timestamp)
     Rails.cache.fetch(
       "SettingsIndex_#{id}",
       expires_in: MODEL_CACHE_TIMEOUT,
     ) do
-      ActualizedSettingsService.call(settings)
+      ActualizedSettingsService.call(settings, timestamp)
     end
   end
 

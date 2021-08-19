@@ -1,7 +1,7 @@
 class ActualizedSettingsService < ApplicationService
-  def initialize(settings, timestamp = 0)
+  def initialize(settings, timestamp)
     @settings = settings
-    @timestamp = Time.at(timestamp) # TODO: Time.zone.at ???
+    @timestamp = timestamp ? Time.at(timestamp) : Time.at(0) # TODO: Time.zone.at ???
     #@user = @settings.first&.endpoint.user
   end
 
@@ -19,10 +19,12 @@ class ActualizedSettingsService < ApplicationService
     end
 
     # Auto cleaning unused components
-    @settings.where(package: { is_component: true })
+    @settings.where(package: { package_type: :component })
       .where.not(package: components).map(&:destroy)
 
     # Only updated packages  
-    @settings.select { |s| s.package.updated_at > timestamp }
+    @settings.select { |s| s.package.updated_at > @timestamp }
+
+    @settings
   end
 end

@@ -1,6 +1,6 @@
 class SourceValidator < ActiveModel::Validator
   def validate(record)
-    if record.package.is_external
+    if record.package.package_type.external?
       record.errors.add I18n.t("errors.attributes.package.external")
     end
 

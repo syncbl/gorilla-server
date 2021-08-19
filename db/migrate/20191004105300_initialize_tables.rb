@@ -62,10 +62,6 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.bigint :size, null: false, default: 0
       t.bigint :settings_count, null: false, default: 0
 
-      # TODO: Components will be removed after parent package delete
-      t.boolean :is_component, null: false
-      t.boolean :is_external, null: false
-
       # TODO: Copyrignt and else in t.jsonb :data
 
       t.references :user, type: :uuid, index: true, null: false,
