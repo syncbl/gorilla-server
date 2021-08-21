@@ -35,8 +35,6 @@ class Package < ApplicationRecord
                    service: :internal,
                    dependent: :purge_later
 
-  # before_create :init_data
-
   validates :name,
             name_restrict: true,
             presence: true,

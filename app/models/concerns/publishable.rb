@@ -42,8 +42,8 @@ module Publishable
   private
 
   def check_publishable
-    if published_at.present?
-      errors.add(I18n.t("errors.messages.cannot_publish")) unless validated?
+    if published_at.present? && !validated_at.present?
+      errors.add(I18n.t("errors.messages.cannot_publish"))
     end
   end
 end

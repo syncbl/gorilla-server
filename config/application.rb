@@ -25,11 +25,15 @@ module GpServer
     config.load_defaults 6.0
     config.enable_dependency_loading = true
     config.autoload_paths += %W[#{config.root}/lib]
-    config.i18n.available_locales = %i[en ru]
+    config.i18n.available_locales = %i[en]
     config.i18n.default_locale = :en
     config.i18n.fallbacks = [config.i18n.default_locale]
     config.active_storage.routes_prefix = "/files"
     config.active_storage.resolve_model_to_route = :rails_storage_proxy
+    config.identity_cache_store = :mem_cache_store, "localhost", "localhost", {
+      expires_in: 6.hours.to_i, # in case of network errors when sending a cache invalidation
+      failover: false, # avoids more cache consistency issues
+    }
     # TODO: Rails 7
     # config.active_record.async_query_executor = :multi_thread_pool
 

@@ -85,9 +85,4 @@ Rails.application.configure do
     Bullet.bullet_logger = true
     Bullet.raise = false # raise an error if an n+1 query occurs
   end
-
-  config.identity_cache_store = :mem_cache_store, "localhost", "localhost", {
-    expires_in: 6.hours.to_i, # in case of network errors when sending a cache invalidation
-    failover: false, # avoids more cache consistency issues
-  }
 end

@@ -120,9 +120,4 @@ Rails.application.configure do
   else
     raise StandardError, "RAILS_DOMAIN is not set!"
   end
-
-  config.identity_cache_store = :mem_cache_store, "localhost", "localhost", {
-    expires_in: 6.hours.to_i, # in case of network errors when sending a cache invalidation
-    failover: false, # avoids more cache consistency issues
-  }
 end
