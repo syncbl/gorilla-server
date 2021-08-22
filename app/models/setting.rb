@@ -16,7 +16,8 @@ class Setting < ApplicationRecord
   # TODO: Check scope to get really updated packages
   scope :updated,
         -> {
-          joins(:package).where(
+          # ??? joins(:package).
+          where(
             self.arel_table[:updated_at].lt(Package.arel_table[:updated_at])
           )
         }

@@ -22,7 +22,7 @@ class Endpoint < ApplicationRecord
 
   default_scope {
     includes(:user)
-  }  
+  }
 
   def installed?(package)
     settings.exists?(package: package)

@@ -29,7 +29,7 @@ gem "active_storage_validations" # Active Storage Validations.
 gem "aws-sdk-s3", require: false # Official AWS Ruby gem for Amazon Simple Storage Service (Amazon S3)
 gem "bcrypt" # Provides a simple wrapper for safely handling passwords.
 gem "bootstrap", "~> 4.6.0" # Bootstrap ruby gem for Ruby on Rails.
-gem "cityhash"        # optional, for faster hashing (C-Ruby only)
+gem "cityhash" # optional, for faster hashing (C-Ruby only)
 gem "clamby" # This gem's function is to simply scan a given file.
 gem "dalli" # To use :mem_cache_store
 gem "devise" # Devise is a flexible authentication solution for Rails based on Warden.
@@ -37,10 +37,11 @@ gem "devise_invitable" # Adds support to Devise for sending invitations by email
 gem "devise-bootstrap-views" # Devise views with Bootstrap 4.
 #gem "discard" # Soft deletes for ActiveRecord done right.
 gem "enumerize" # Enumerated attributes with I18n and ActiveRecord/Mongoid/MongoMapper/Sequel support
+gem "goldiloader" # ActiveRecord eager loading
 gem "high_voltage" # Rails engine for static pages.
 #gem "hotwire-rails" # Hotwire is an alternative approach to building modern web applications without using much JavaScript.
 gem "http_accept_language" # Detect the users preferred language, as sent by the "Accept-Language" HTTP header.
-gem "identity_cache"
+gem "identity_cache" # Opt in read through ActiveRecord caching used in production and extracted from Shopify.
 gem "jb" # A simpler and faster Jbuilder alternative.
 gem "json_translate" # Rails I18n library for ActiveRecord model/data translation
 gem "jsonb_accessor", "~> 1" # Adds typed jsonb backed fields as first class citizens to your ActiveRecord models.
@@ -74,7 +75,6 @@ group :development do
   gem "memory_profiler"
   gem "derailed_benchmarks"
   gem "i18n-tasks", "~> 0.9.30"
-  #gem 'goldiloader'
   gem "bullet"
   gem "rufo"
   gem "query_count"

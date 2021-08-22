@@ -26,7 +26,7 @@ class Package::External < Package
   before_validation :set_type, on: :create
 
   default_scope -> {
-                  with_package_type(:external)
+    Package.with_package_type(:external)
                 }
 
   def publishable?
