@@ -7,6 +7,10 @@ class Package::Bundle < Package
                   with_package_type(:bundle)
                 }
 
+  def publishable?
+    true
+  end
+
   private
 
   def set_type

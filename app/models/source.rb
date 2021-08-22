@@ -26,4 +26,10 @@ class Source < ApplicationRecord
   def self.merged?
     last&.is_merged == true
   end
+
+  private
+
+  def check_publishable
+    file.attached?
+  end
 end

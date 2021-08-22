@@ -1,9 +1,12 @@
 module Publishable
   extend ActiveSupport::Concern
 
+  LOCKED_FIELDS = %w[params file external_url checksum hash_type switches uninstall]
+
   def self.included(base)
     base.class_eval {
-      validate :check_publishable
+      validate :try_check_publishable, if: :published_at_changed?
+      validate :lock_published, unless: :published_at_changed?
 
       scope :published, -> {
               where(self.arel_table[:published_at].lt(Time.current))
@@ -21,29 +24,21 @@ module Publishable
     action_log
   end
 
-  def validate!
-    update!(validated_at: Time.current) unless validated?
-    action_log
-  end
-
-  def invalidate!
-    update!(validated_at: nil, published_at: nil) if validated?
-    action_log
-  end
-
-  def validated?
-    validated_at.present?
-  end
-
   def published?
     published_at.present? && user.subscriptions.extended?
   end
 
   private
 
-  def check_publishable
-    if published_at.present? && !validated_at.present?
-      errors.add(I18n.t("errors.messages.cannot_publish"))
+  def try_check_publishable
+    if published_at.present? && self.respond_to?(:publishable?) && !self.send(:publishable?)
+      errors.add :published_at, I18n.t("errors.messages.cannot_publish") # TODO: Edit i18n
     end
+  end
+
+  def lock_published
+    if published_at.present? && (changed & LOCKED_FIELDS).size > 0
+      errors.add :published_at, I18n.t("errors.messages.locked_published")
+    end 
   end
 end

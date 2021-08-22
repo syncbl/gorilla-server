@@ -82,11 +82,15 @@ class Package < ApplicationRecord
     # It would be strange if we allow to delete files added by the same source
     available_files -= sources.last.files.keys if sources.size > 1
     # TODO: Optimize
-    update(filelist: available_files)
+    update_column :filelist, available_files
   end
 
   def filtered_params
     params.except(:allow_api_access)
+  end
+
+  def check_publishable
+    false
   end
 
   private

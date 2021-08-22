@@ -24,6 +24,10 @@ class Package::Component < Package
     packages.size == 0
   end
 
+  def publishable?
+    true
+  end
+
   private
 
   def set_type
@@ -33,7 +37,7 @@ class Package::Component < Package
   def check_dependency
     unless orphaned?
       # TODO: Relative path to error
-      errors.add I18n.t("errors.attributes.package.dependency.used")
+      errors.add :size, I18n.t("errors.attributes.package.dependency.used")
       throw :abort
     end
   end

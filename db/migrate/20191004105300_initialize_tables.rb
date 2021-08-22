@@ -69,7 +69,6 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.references :replacement, type: :uuid, index: true,
                                  foreign_key: { to_table: :packages }
 
-      t.datetime :validated_at
       t.datetime :published_at
       t.datetime :blocked_at
       t.string :block_reason
@@ -99,12 +98,11 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.jsonb :delete_files, null: false, default: []
       t.bigint :unpacked_size, null: false, default: 0
       t.boolean :is_merged, null: false, default: false
-      t.datetime :published_at
       t.bigint :settings_count, null: false, default: 0
 
       t.references :package, type: :uuid, index: true, null: false, foreign_key: true
 
-      t.datetime :validated_at
+      t.datetime :published_at
       t.datetime :blocked_at
       t.string :block_reason
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
@@ -141,7 +139,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.references :package, type: :uuid, index: true, unique: true, null: false, foreign_key: true
 
       # Price, license, etc.
-      t.datetime :validated_at
+      # TODO: validation mark like t.datetime :validated_at
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
     end

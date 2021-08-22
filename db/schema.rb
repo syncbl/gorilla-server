@@ -95,7 +95,6 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.bigint "settings_count", default: 0, null: false
     t.uuid "user_id", null: false
     t.uuid "replacement_id"
-    t.datetime "validated_at"
     t.datetime "published_at"
     t.datetime "blocked_at"
     t.string "block_reason"
@@ -111,7 +110,6 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
 
   create_table "products", force: :cascade do |t|
     t.uuid "package_id", null: false
-    t.datetime "validated_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_products_on_created_at"
@@ -139,10 +137,9 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.jsonb "delete_files", default: [], null: false
     t.bigint "unpacked_size", default: 0, null: false
     t.boolean "is_merged", default: false, null: false
-    t.datetime "published_at"
     t.bigint "settings_count", default: 0, null: false
     t.uuid "package_id", null: false
-    t.datetime "validated_at"
+    t.datetime "published_at"
     t.datetime "blocked_at"
     t.string "block_reason"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false

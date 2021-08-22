@@ -81,29 +81,25 @@ when "development"
                     '{DESKTOP}\Test.lnk')
   p.add_params_requirement("registry",
                            "test")
-  s.validate!
   s.publish!
   s = p.sources.create(size: 1000, version: "1.0.2", description: "Test update 2")
   AttachmentService.call s, "files/test2.zip"
-  s.validate!
   s.publish!
   # p.dependent_packages << Package.find_by(name: "openssl-1_0")
   p.dependent_packages << Package.find_by(name: "openssl-1_1")
   p.dependencies.last.update(is_optional: true)
   p.dependent_packages << Package.find_by(name: "openssl-1_2")
   p.dependencies.last.update(is_optional: true)
-  Product.create(package: p, validated_at: Time.current)
+  Product.create(package: p)
 
   p1 = Package.last
   # s = p1.sources.create(size: 1000, description: "Test update BAD")
   # AttachmentService.call s, "files/zbsm.zip"
-  # s.validate!
   # s.publish!
   p2 = Package.find_by(name: "Openssl-2_1")
   p2.maintainers << u1
   p1.dependent_packages << p2
   p.dependent_packages << p2
-  p.validate!
   p.publish!
 
   p3 = Package.find_by(name: "Openssl-2_0")

@@ -32,11 +32,14 @@ class Package::External < Package
                   with_package_type(:external)
                 }
 
+  def publishable?
+    external_url.present?
+  end
+
   private
 
   def set_type
     self.package_type = :external
-    self.validated_at = Time.current
     # TODO: ?
     self.published_at = Time.current
   end
