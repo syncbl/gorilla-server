@@ -51,8 +51,7 @@ namespace :winget do
             p.switches = y["InstallerSwitches"]["Silent"] || y["InstallerSwitches"]["SilentWithProgress"]
           end
           if y["Installers"][0]["InstallerSha256"]
-            p.checksum = y["Installers"][0]["InstallerSha256"]
-            p.hash_type = :sha256
+            p.checksum = "sha256:#{y["Installers"][0]["InstallerSha256"]}"
           end
           p.blocked_at = nil
           if p.save
@@ -92,8 +91,7 @@ namespace :winget do
           p.switches = y["InstallerSwitches"]["Silent"] || y["InstallerSwitches"]["SilentWithProgress"]
         end
         if y["Installers"][0]["InstallerSha256"]
-          p.checksum = y["Installers"][0]["InstallerSha256"]
-          p.hash_type = :sha256
+          p.checksum = "sha256:#{y["Installers"][0]["InstallerSha256"]}"
         end
         p.blocked_at = nil
         if p.save

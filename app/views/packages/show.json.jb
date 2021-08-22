@@ -6,7 +6,6 @@ json_package = render "show", package: @package
 if @package.package_type.external?
   json_package[:external_url] = @package.params[:external_url]
   json[:checksum] = @package.params[:checksum].downcase
-  json[:hash_type] = @package.params[:hash_type]
 end
 
 @package.dependencies.map do |d|

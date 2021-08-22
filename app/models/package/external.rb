@@ -2,11 +2,8 @@ class Package::External < Package
   jsonb_accessor :params,
                  external_url: [:string],
                  checksum: [:string],
-                 hash_type: [:string],
                  switches: [:string],
                  uninstall: [:string]
-  enumerize :hash_type,
-            in: %i[md5 sha256]
 
   # TODO: More validation messages
   validates :name,
