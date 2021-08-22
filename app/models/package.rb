@@ -62,7 +62,7 @@ class Package < ApplicationRecord
   validates_with PackageSubscriptionValidator
 
   default_scope {
-    joins(:user).includes([icon_attachment: :blob])
+    joins(:user).includes(icon_attachment: :blob).includes(:dependencies, :maintainers)
   }
 
   def get_components

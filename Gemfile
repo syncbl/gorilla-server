@@ -14,7 +14,7 @@ gem "rack-attack" # Rack middleware for blocking & throttling abusive requests.
 gem "webpacker", "~> 5.4" # Webpacker makes it easy to use the JavaScript pre-processor.
 gem "turbolinks", "~> 5.0" # Turbolinks makes following links in your web application faster (use with Rails Asset Pipeline).
 gem "jquery-rails" # JQuery support
-gem 'sass-rails', '~> 6' # Official integration for Ruby on Rails projects with the Sass stylesheet language.
+gem "sass-rails", "~> 6" # Official integration for Ruby on Rails projects with the Sass stylesheet language.
 gem "uglifier", ">= 1.3.0" # Ruby wrapper for UglifyJS JavaScript compressor.
 
 # Database
@@ -40,7 +40,7 @@ gem "enumerize" # Enumerated attributes with I18n and ActiveRecord/Mongoid/Mongo
 gem "high_voltage" # Rails engine for static pages.
 #gem "hotwire-rails" # Hotwire is an alternative approach to building modern web applications without using much JavaScript.
 gem "http_accept_language" # Detect the users preferred language, as sent by the "Accept-Language" HTTP header.
-gem 'identity_cache'
+gem "identity_cache"
 gem "jb" # A simpler and faster Jbuilder alternative.
 gem "json_translate" # Rails I18n library for ActiveRecord model/data translation
 gem "jsonb_accessor", "~> 1" # Adds typed jsonb backed fields as first class citizens to your ActiveRecord models.
@@ -77,6 +77,7 @@ group :development do
   #gem 'goldiloader'
   gem "bullet"
   gem "rufo"
+  gem "query_count"
 end
 
 group :production do

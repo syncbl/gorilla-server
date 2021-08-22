@@ -20,6 +20,10 @@ class Endpoint < ApplicationRecord
             allow_nil: true,
             length: { is: 24 }
 
+  default_scope {
+    includes(:user)
+  }  
+
   def installed?(package)
     settings.exists?(package: package)
   end

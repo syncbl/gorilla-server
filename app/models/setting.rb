@@ -10,7 +10,7 @@ class Setting < ApplicationRecord
   validates :package_id, uniqueness: { scope: :endpoint_id }
 
   default_scope {
-    joins([:package])
+    includes(:package, :endpoint)
   }
 
   # TODO: Check scope to get really updated packages

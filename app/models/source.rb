@@ -21,7 +21,9 @@ class Source < ApplicationRecord
             length: { maximum: MAX_VERSION_LENGTH }
   validates_with SourceValidator
 
-  default_scope { includes(:file_attachment) }
+  default_scope {
+    joins(package: :user).includes(file_attachment: :blob)
+  }
 
   def self.merged?
     last&.is_merged == true
