@@ -1,10 +1,16 @@
 class Package::Bundle < Package
   include ParamAwareable
 
+  jsonb_accessor :params,
+                 external_url: [:string],
+                 checksum: [:string],
+                 switches: [:string],
+                 uninstall: [:string]
+
   before_validation :set_type, on: :create
 
   default_scope -> {
-    Package.with_package_type(:bundle)
+                  with_package_type(:bundle)
                 }
 
   def publishable?

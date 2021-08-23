@@ -6,6 +6,9 @@ class PackageReplacementValidator < ActiveModel::EachValidator
     elsif record == value
       record.errors.add :replaced_by,
         I18n.t("errors.attributes.package.replacement.itself")
+    elsif value.present? && !value.published?
+      record.errors.add :replaced_by,
+        I18n.t("errors.attributes.package.replacement.not_published")
     end
   end
 end

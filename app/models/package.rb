@@ -90,7 +90,7 @@ class Package < ApplicationRecord
   end
 
   def check_publishable
-    false
+    raise I18n.t("errors.messages.not_implenented")
   end
 
   private

@@ -7,7 +7,7 @@ class Package::Component < Package
   before_validation :set_type, on: :create
 
   default_scope -> {
-    Package.with_package_type(:component)
+                  with_package_type(:component)
                 }
 
   # TODO: Destroy orphaned components. Try dependent: :destroy like in activestorage

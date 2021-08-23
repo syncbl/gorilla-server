@@ -9,6 +9,7 @@ en:
       no_subscription: There are no active subscription for this action
       no_maintainer_subscription: Maintainer must have active subscription for this action
       search_query_error: Search query is wrong
+      not_implemented: This feature is not implemented
     attributes:
       package:
         owner_already: You already owner of this package
@@ -21,6 +22,7 @@ en:
         replacement:
           old: Replacement must be newer than original package
           itself: Package can't be replaced by itself
+          not_published: Replacement must be published
       source:
         packed_file_too_big: "File is too big: %{name}:%{size}"
         packed_files_too_many: Too many files

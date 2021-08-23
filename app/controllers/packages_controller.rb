@@ -108,6 +108,7 @@ class PackagesController < ApplicationController
           .or(Package.where(name: params[:id]))
           .first!
       end
+    byebug
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

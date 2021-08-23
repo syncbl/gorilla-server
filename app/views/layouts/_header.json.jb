@@ -1,8 +1,12 @@
-json = {
-  session: {
-    token: current_endpoint&.reset_token || current_user&.reset_token,
-  },
-}
+json = {}
+
+new_token = current_endpoint&.reset_token || current_user&.reset_token
+
+if new_token.present?
+  json[:session] = {
+    token: new_token,
+  }
+end
 
 unless @pagy.nil?
   json[:page] = @pagy.page
