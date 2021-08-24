@@ -17,7 +17,7 @@ module JwtTokenable
                when Endpoint
                  ENDPOINT_SESSION_TIME
                end,
-              }.to_a.shuffle.to_h,
+        }.to_a.shuffle.to_h,
         Rails.application.credentials.jwt_secret,
         "HS256"
       )
@@ -28,7 +28,7 @@ module JwtTokenable
 
   def self.included(base)
     base.class_eval {
-      before_save :update_reseted_at, if: :authentication_token_changed?
+      validate :update_reseted_at, if: :authentication_token_changed?
 
       private
 
