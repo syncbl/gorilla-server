@@ -23,6 +23,6 @@ class ActualizedSettingsService < ApplicationService
       .where.not(package: components).map(&:destroy)
 
     # Only updated packages
-    @settings.joins(:sources).all.where(Source.arel_table[:created_at].gt(@timestamp)).uniq
+    @settings.joins(:sources).where(Source.arel_table[:created_at].gt(@timestamp)).uniq
   end
 end
