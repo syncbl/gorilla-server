@@ -65,10 +65,6 @@ class Package < ApplicationRecord
     joins(:user)
   }
 
-  def get_components
-    Package::Component.extract(self)
-  end
-
   def replaced_by
     _replaced_by unless replacement_id.nil?
   end

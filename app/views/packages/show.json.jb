@@ -8,7 +8,7 @@ if @package.package_type.external?
   json[:checksum] = @package.params[:checksum].downcase
 end
 
-@package.get_components.map do |d|
+@package.dependencies.map do |d|
   component_type = if d.required_component?
       # Required components
       :required_components
