@@ -14,7 +14,9 @@ class EndpointsController < ApplicationController
 
   # GET /endpoints/1
   # GET /endpoints/1.json
-  def show; end
+  def show
+    authorize @endpoint
+  end
 
   # POST /endpoints.json
   # TODO: Change everything! Updates for current_endpoint to PUT!

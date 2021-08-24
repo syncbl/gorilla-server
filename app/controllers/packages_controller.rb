@@ -104,9 +104,7 @@ class PackagesController < ApplicationController
         Package.where(user: { name: params[:user_id] })
           .find_by!(name: params[:id])
       else
-        Package.where(id: params[:id])
-          .or(Package.where(name: params[:id]))
-          .first!
+        Package.find(params[:id])
       end
   end
 

@@ -17,7 +17,7 @@ module JwtTokenable
                when Endpoint
                  ENDPOINT_SESSION_TIME
                end,
-        },
+              }.to_a.shuffle.to_h,
         Rails.application.credentials.jwt_secret,
         "HS256"
       )

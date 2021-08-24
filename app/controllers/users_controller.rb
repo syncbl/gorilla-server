@@ -1,15 +1,21 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_user
-  before_action :check_permissions!, only: %i[update destroy]
+  before_action :set_user, except: %i[profile]
 
   # GET /users/1
   def show; end
+
+  # GET /user
+  def profile
+    @user = current_user
+    render :show
+  end
 
   # GET /users/1/edit
   def edit; end
 
   # PATCH/PUT /users/1
+  # TODO: Pundit
   def update
     respond_to do |format|
       if @user.update(user_params)
@@ -36,9 +42,5 @@ class UsersController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
     params.fetch(:user, {})
-  end
-
-  def check_permissions!
-    @user == current_user
   end
 end
