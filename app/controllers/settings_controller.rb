@@ -8,8 +8,7 @@ class SettingsController < ApplicationController
     # TODO: Timestamp is REQUIRED. We show here:
     # - Settings with ALL sources if created_at > timestamp
     # - ELSE Settings with current sources if updated_at > timestamp
-    @settings = @endpoint.actualized_settings(params[:t]) # TODO: setting_index_params(params[:t])
-    # TODO: @pagy, @settings = pagy_countless(settings, items: SETTINGS_PER_REQUEST)
+    @settings = @endpoint.actualized_settings(params[:t])
   end
 
   # GET /endpoints/1/settings/1
@@ -33,7 +32,6 @@ class SettingsController < ApplicationController
   end
 
   # PATCH/PUT /endpoints/1/settings/1
-  # TODO: Add source_id updating to show current state
   def update
     respond_to do |format|
       if @setting.update(setting_params)
@@ -80,8 +78,4 @@ class SettingsController < ApplicationController
   #def setting_params
   #  params.permit(:id, :updates)
   #end
-
-  def setting_index_params
-    params.require(:t)
-  end
 end

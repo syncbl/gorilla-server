@@ -3,6 +3,7 @@ class Setting < ApplicationRecord
 
   belongs_to :package, counter_cache: true
   belongs_to :endpoint
+  has_many :sources, through: :package
 
   # TODO: Can't install if no required packages installed
   # TODO: Validate install

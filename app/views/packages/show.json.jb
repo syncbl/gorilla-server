@@ -8,9 +8,9 @@ if @package.package_type.external?
   json[:checksum] = @package.params[:checksum].downcase
 end
 
-@package.dependencies.map do |d|
+@package.get_components.map do |d|
   component_type = if d.required_component?
-      # Install after main package
+      # Required components
       :required_components
     elsif d.optional_component?
       # Selectable options, install after main package

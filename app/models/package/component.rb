@@ -14,7 +14,7 @@ class Package::Component < Package
 
   def self.extract(package, components = Set[])
     package.dependencies.map do |d|
-      components << d if d.required_component?
+      components << d
       self.extract(d.dependent_package, components)
     end
     components.to_a.reverse
