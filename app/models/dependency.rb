@@ -21,4 +21,12 @@ class Dependency < ApplicationRecord
   def optional_package?
     !package_type.component? && is_optional
   end
+
+  def self.extract(package, components = Set[])
+    package.dependencies.map do |d|
+      components << d
+      self.extract(d.dependent_package, components)
+    end
+    components.to_a.reverse
+  end
 end
