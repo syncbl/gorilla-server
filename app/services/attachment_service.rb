@@ -9,8 +9,8 @@ class AttachmentService < ApplicationService
     #  source.block! I18n.t("errors.block_reasons.suspicious_attachment")
     #  return false
     #end
-    return unless build
     ActiveRecord::Base.transaction do
+      return unless build
       @source.file.attach(
         io: File.open(@filename),
         filename: "#{@source.created_at.strftime("%y%m%d%H%M%S%2L")}.zip",

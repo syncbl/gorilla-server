@@ -82,16 +82,14 @@ class Package < ApplicationRecord
   end
 
   def recalculate_size!
-    ActiveRecord::Base.transaction do
-      # TODO: Inform about freed space
-      old_size = size
-      size = 0
-      sources.each { |s| size += s.unpacked_size }
-      if save
-        # TODO: Notify old_size - package.reload.size if smaller
-      else
-        # TODO: Something wrong
-      end
+    # TODO: Inform about freed space
+    old_size = size
+    size = 0
+    sources.each { |s| size += s.unpacked_size }
+    if save
+      # TODO: Notify old_size - package.reload.size if smaller
+    else
+      # TODO: Something wrong
     end
   end
 
