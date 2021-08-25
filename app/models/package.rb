@@ -100,7 +100,7 @@ class Package < ApplicationRecord
   end
 
   def check_publishable
-    raise Exceptions::NotImplementedError
+    raise Exception::NotImplementedError
   end
 
   private
