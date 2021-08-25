@@ -19,4 +19,7 @@ if @object && @object.errors.any?
   json[:errors] = @object
 end
 
+notifications = render "layouts/notifications"
+json[:notifications] = notifications if notifications.any?
+
 json

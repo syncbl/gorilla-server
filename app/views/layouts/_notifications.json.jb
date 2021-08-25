@@ -1,0 +1,15 @@
+json = {}
+
+# TODO: News, messages, etc.
+
+@_install&.map do |install|
+  json[:install] ||= []
+  json[:install] << install
+end
+
+@_uninstall&.map do |uninstall|
+  json[:uninstall] ||= []
+  json[:uninstall] << uninstall
+end
+
+json

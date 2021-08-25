@@ -5,10 +5,7 @@ class SettingsController < ApplicationController
 
   # GET /endpoints/1/settings
   def index
-    # TODO: Timestamp is REQUIRED. We show here:
-    # - Settings with ALL sources if created_at > timestamp
-    # - ELSE Settings with current sources if updated_at > timestamp
-    @settings = @endpoint.actualized_settings(params[:t])
+    @settings, @_install, @_uninstall = @endpoint.actualized_settings(params[:t])
   end
 
   # GET /endpoints/1/settings/1
