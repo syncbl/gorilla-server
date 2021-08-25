@@ -83,4 +83,5 @@ end
 group :production do
   # Foreman for workers
   #gem "foreman"
+  gem "connection_pool"
 end
