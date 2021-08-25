@@ -18,24 +18,17 @@ class MergeSourcesService < ApplicationService
               dstzipfile.remove(dstz)
               dstzipfile.commit
             end
-            # TODO: dst.discard if dstzipfile.size == 0
+            if dstzipfile.size == 0
+              dst.destroy
+              # TODO: Notify user about deletion
+            end
           end
           AttachmentService.call dst, dstfile
         end
       end
     end
 
-    ActiveRecord::Base.transaction do
-      @package.sources.update_all(is_merged: true)
-      # TODO: Inform about freed space
-      old_size = @package.size
-      @package.size = 0
-      @package.sources.each { |s| @package.size += s.unpacked_size }
-      if @package.save
-        # TODO: Notify old_size - package.reload.size
-      else
-        # TODO: Something wrong
-      end
-    end
+    @package.sources.update_all(is_merged: true)
+    @package.recalculate_size!
   end
 end

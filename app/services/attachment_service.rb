@@ -18,10 +18,8 @@ class AttachmentService < ApplicationService
         identify: false,
       )
       File.delete(@filename) unless File.basename(@filename).start_with?("test")
-      if @source.package.sources.size == 1
-        @source.package.update(size: @source.unpacked_size)
-        @source.update(is_merged: true)
-      end
+      @source.update(is_merged: true) if @source.package.sources.size == 1
+      @source.package.recalculate_size!
       @source.package.generate_filelist!
     end
   end

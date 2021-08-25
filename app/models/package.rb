@@ -81,12 +81,26 @@ class Package < ApplicationRecord
     update_column :filelist, available_files
   end
 
+  def recalculate_size!
+    ActiveRecord::Base.transaction do
+      # TODO: Inform about freed space
+      old_size = size
+      size = 0
+      sources.each { |s| size += s.unpacked_size }
+      if save
+        # TODO: Notify old_size - package.reload.size if smaller
+      else
+        # TODO: Something wrong
+      end
+    end
+  end
+
   def filtered_params
     params.except(:allow_api_access)
   end
 
   def check_publishable
-    raise I18n.t("errors.messages.not_implenented")
+    raise Exceptions::NotImplementedError
   end
 
   private
