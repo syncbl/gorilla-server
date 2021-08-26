@@ -22,7 +22,7 @@ Bundler.require(*Rails.groups)
 module GpServer
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.0
+    config.load_defaults 6.1
     config.enable_dependency_loading = true
     config.autoload_paths += %W[#{config.root}/lib]
     config.i18n.available_locales = %i[en]
