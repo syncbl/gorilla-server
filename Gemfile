@@ -71,12 +71,15 @@ group :development do
   gem "awesome_print", :require => "ap"
   gem "better_errors"
   gem "binding_of_caller"
-  gem "memory_profiler"
   gem "derailed_benchmarks"
-  gem "i18n-tasks", "~> 0.9.30"
+  gem "i18n-tasks"
   gem "bullet"
   gem "rufo"
   gem "query_count"
+  gem "traceroute"
+  gem "rack-mini-profiler"
+  gem "memory_profiler"
+  gem "rails_best_practices"
 end
 
 group :production do

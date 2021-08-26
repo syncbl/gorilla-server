@@ -4,7 +4,7 @@ class ActualizedSettingsService < ApplicationService
     @timestamp = timestamp ? Time.at(timestamp.to_i) : Time.at(0)
   end
 
-  # TODO: Notify of new installs instead of that. 
+  # TODO: Notify of new installs instead of that.
   def call
     components = Set[]
     install = Set[]
@@ -25,8 +25,8 @@ class ActualizedSettingsService < ApplicationService
     # Auto cleaning unused components
     @settings.where(package: { package_type: :component })
       .where.not(package: components).map do |s|
-        uninstall << s.id
-      end
+      uninstall << s.id
+    end
 
     # Only updated packages
     settings = @settings.joins(:sources).where(Source.arel_table[:created_at].gt(@timestamp)).uniq
