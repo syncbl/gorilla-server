@@ -21,7 +21,8 @@ module.exports = function(api) {
         '@babel/preset-env',
         {
           targets: {
-            node: 'current'
+            node: 'current',
+            loose: true
           }
         }
       ],
@@ -51,19 +52,22 @@ module.exports = function(api) {
       [
         '@babel/plugin-proposal-object-rest-spread',
         {
-          useBuiltIns: true
+          useBuiltIns: true,
+          loose: true
         }
       ],
       [
         '@babel/plugin-transform-runtime',
         {
-          helpers: false
+          helpers: false,
+          loose: true
         }
       ],
       [
         '@babel/plugin-transform-regenerator',
         {
-          async: false
+          async: false,
+          loose: true
         }
       ]
     ].filter(Boolean)

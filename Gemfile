@@ -14,7 +14,6 @@ gem "rack-attack" # Rack middleware for blocking & throttling abusive requests.
 gem "webpacker", "~> 5.4" # Webpacker makes it easy to use the JavaScript pre-processor.
 gem "turbolinks", "~> 5.0" # Turbolinks makes following links in your web application faster (use with Rails Asset Pipeline).
 gem "jquery-rails" # JQuery support
-gem "sass-rails", "~> 6" # Official integration for Ruby on Rails projects with the Sass stylesheet language.
 gem "uglifier", ">= 1.3.0" # Ruby wrapper for UglifyJS JavaScript compressor.
 
 # Database

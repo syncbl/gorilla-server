@@ -5,10 +5,10 @@ class AttachmentService < ApplicationService
   end
 
   def call
-    # TODO: unless Clamby.safe?(file)
-    #  source.block! I18n.t("errors.block_reasons.suspicious_attachment")
-    #  return false
-    #end
+    if Clamby.virus?(file)
+      source.block! I18n.t("errors.block_reasons.suspicious_attachment")
+      return false
+    end
     ActiveRecord::Base.transaction do
       return unless build
       @source.file.attach(
