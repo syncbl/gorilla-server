@@ -24,7 +24,7 @@ class ActualizedSettingsService < ApplicationService
     # Auto cleaning unused components
     @settings.where(package: { package_type: :component })
       .where.not(package: components).map do |s|
-        @endpoint.notify_object :remove_package, s 
+      @endpoint.notify_object :remove_package, s
     end
 
     # Only updated packages
