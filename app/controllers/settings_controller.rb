@@ -5,7 +5,7 @@ class SettingsController < ApplicationController
 
   # GET /endpoints/1/settings
   def index
-    @settings, @_install, @_uninstall = @endpoint.actualized_settings(params[:t])
+    @settings = @endpoint.actualized_settings(params[:t])
   end
 
   # GET /endpoints/1/settings/1

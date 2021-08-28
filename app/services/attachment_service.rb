@@ -24,7 +24,7 @@ class AttachmentService < ApplicationService
     end
   end
 
-  protected
+  private
 
   def build
     @source.unpacked_size = 0

@@ -1,26 +1,29 @@
 module Notifiable
   extend ActiveSupport::Concern
+  require "redis"
 
-  def notify(method, value)
+  def notify_object(method, object)
     # Notifications can be one per object or one per activity in order to avoid spam
-    if value.is_a? ApplicationRecord
-      payload = value.id
-      name = "Notification_#{self.id}.#{payload}"
-    else
-      payload = value
-      name = "Notification_#{self.id}.#{method}"
-    end
-    Rails.cache.write name,
-                      Hash["#{method}", payload],
-                      expires_in: NOTIFICATION_EXPIRES_IN
+    deliver_notification "N_#{self.id}.#{object.id}", Hash[method, object.id]
   end
 
   def notifications
     messages = Set[]
-    #Rails.cache.redis.scan_each(match: "Notification_#{self.id}.*") do |key|
-    #  messages << Rails.cache.read(key)
-    #  Rails.cache.redis.del(key)
-    #end
+    redis_connection.scan_each(match: "N_#{self.id}.*") do |key|
+      messages << redis_connection.hgetall(key)
+      redis_connection.del(key)
+    end
     messages.to_a
+  end
+
+  private
+
+  def redis_connection
+    @redis_connection ||= Redis.new(url: ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" })
+  end
+
+  def deliver_notification(key, value)
+    redis_connection.mapped_hmset key, value
+    redis_connection.expire key, NOTIFICATION_EXPIRES_IN
   end
 end

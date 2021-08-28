@@ -158,6 +158,7 @@ GEM
       thor
     high_voltage (3.1.2)
     highline (2.0.3)
+    hiredis (0.6.3)
     http_accept_language (2.1.1)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
@@ -273,6 +274,7 @@ GEM
     rb-fsevent (0.11.0)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    redis (4.3.1)
     render_async (2.1.10)
     require_all (3.0.0)
     responders (3.0.1)
@@ -387,6 +389,7 @@ DEPENDENCIES
   enumerize
   goldiloader
   high_voltage
+  hiredis
   http_accept_language
   i18n-tasks
   identity_cache
@@ -408,6 +411,7 @@ DEPENDENCIES
   rails (~> 6.1)
   rails-i18n (~> 6.0)
   rails_best_practices
+  redis (~> 4.0)
   render_async
   rspec-rails (~> 5.0)
   rubyzip
