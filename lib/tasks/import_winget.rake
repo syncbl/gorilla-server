@@ -4,7 +4,7 @@ namespace :winget do
   desc "Create WinGet account"
   task create: [:environment] do
     puts u = User.create(
-      name: "WinGetMirror",
+      name: "WinGet",
       fullname: "Microsoft WinGet (unofficial)",
       email: "admin@syncbl.com",
       password: "testtest",
