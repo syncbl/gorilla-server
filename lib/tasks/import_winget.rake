@@ -20,7 +20,7 @@ namespace :import do
 
     desc "Empty WinGet account"
     task clear: [:environment] do
-      puts User.find_by!(name: "WinGetMirror").packages.delete_all
+      puts User.find_by!(name: "WinGet").packages.delete_all
     end
   end
 
