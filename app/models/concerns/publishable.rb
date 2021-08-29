@@ -1,7 +1,7 @@
 module Publishable
   extend ActiveSupport::Concern
 
-  LOCKED_FIELDS = %w[params file external_url checksum switches uninstall]
+  LOCKED_FIELDS = %w[file]
 
   def self.included(base)
     base.class_eval {
