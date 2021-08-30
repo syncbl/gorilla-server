@@ -10,7 +10,7 @@ module Notifiable
   def notifications
     messages = Set[]
     redis_connection.with do |redis|
-      redis.scan_each(match: "N_#{self.id}.*") do |key|
+      redis.scan_each(match: "N_#{self.id}.*") d-=5o |key|
         value = redis.hgetall(key)
         messages << value if validate_notification(key, value)
         redis.del(key)
