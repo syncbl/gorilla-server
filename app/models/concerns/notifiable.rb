@@ -1,7 +1,5 @@
 module Notifiable
   extend ActiveSupport::Concern
-  require "redis"
-  require "connection_pool"
 
   def notify(method, object)
     # Notifications can be one per object or one per activity in order to avoid spam
@@ -11,7 +9,7 @@ module Notifiable
 
   def notifications
     messages = Set[]
-    redis_pool.with do |redis|
+    Api::Redis.new.pool.with do |redis|
       redis.scan_each(match: "N_#{self.id}.*") do |key|
         value = redis.hgetall(key)
         messages << value if validate_notification(key, value)
@@ -23,15 +21,9 @@ module Notifiable
 
   private
 
-  def redis_pool
-    @redis_pool ||= ConnectionPool.new(size: ActiveRecord::Base.connection_pool.db_config.pool) do
-      Redis.new(url: ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" })
-    end
-  end
-
   def deliver_notification(key, value)
     if validate_notification(key, value)
-      redis_pool.with do |redis|
+      Api::Redis.new.pool.with do |redis|
         redis.mapped_hmset key, value
         redis.expire key, NOTIFICATION_EXPIRES_IN
       end
