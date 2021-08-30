@@ -22,7 +22,7 @@ module Notifiable
   private
 
   def redis_connection
-    @redis_connection = Api::Redis.new.pool
+    @redis_connection ||= Api::Redis.new.pool
   end
 
   def deliver_notification(key, value)
