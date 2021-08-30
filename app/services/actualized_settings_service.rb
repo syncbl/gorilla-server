@@ -16,7 +16,7 @@ class ActualizedSettingsService < ApplicationService
         components << c.dependent_package.id
         unless c.is_optional || @settings.exists?(package: c.dependent_package)
           # @settings.create(package: c.dependent_package)
-          @endpoint.notify_object :add_package, c.dependent_package
+          @endpoint.notify :add_package, c.dependent_package
         end
       end
     end
@@ -24,7 +24,7 @@ class ActualizedSettingsService < ApplicationService
     # Auto cleaning unused components
     @settings.where(package: { package_type: :component })
       .where.not(package: components).map do |s|
-      @endpoint.notify_object :remove_package, s
+      @endpoint.notify :remove_package, s
     end
 
     # Only updated packages

@@ -3,9 +3,10 @@ module Notifiable
   require "redis"
   require "connection_pool"
 
-  def notify_object(method, object)
+  def notify(method, object)
     # Notifications can be one per object or one per activity in order to avoid spam
-    deliver_notification "N_#{self.id}.#{object.id}", Hash[method, object.id]
+    notification = object.is_a?(ApplicationRecord) ? object.id : object
+    deliver_notification "N_#{self.id}.#{notification}", Hash[method, notification]
   end
 
   def notifications
