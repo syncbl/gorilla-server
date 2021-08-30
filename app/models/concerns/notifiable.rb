@@ -12,7 +12,8 @@ module Notifiable
     messages = Set[]
     redis_pool.with do |redis|
       redis.scan_each(match: "N_#{self.id}.*") do |key|
-        messages << redis.hgetall(key)
+        value = redis.hgetall(key)
+        messages << value if validate_notification(key, value)
         redis.del(key)
       end
     end
@@ -28,9 +29,15 @@ module Notifiable
   end
 
   def deliver_notification(key, value)
-    redis_pool.with do |redis|
-      redis.mapped_hmset key, value
-      redis.expire key, NOTIFICATION_EXPIRES_IN
+    if validate_notification(key, value)
+      redis_pool.with do |redis|
+        redis.mapped_hmset key, value
+        redis.expire key, NOTIFICATION_EXPIRES_IN
+      end
     end
+  end
+
+  def validate_notification(key, value)
+    %i[add_package remove_package].include?(key) && value.size > 0
   end
 end
