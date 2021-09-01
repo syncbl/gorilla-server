@@ -1,6 +1,6 @@
 module Exception
   class NotImplementedError < StandardError
-    def initialize(msg = I18n.t("errors.messages.not_implenented"))
+    def initialize(msg = "This feature is not implemented")
       super
     end
   end

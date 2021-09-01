@@ -126,15 +126,6 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     end
 
     # ----------
-    create_table :maintenances, id: false do |t|
-      t.references :package, type: :uuid, index: true, null: false, foreign_key: true
-      t.references :user, type: :uuid, index: true, null: false, foreign_key: true
-
-      t.datetime :created_at, null: false, default: -> { "CURRENT_TIMESTAMP" }
-      t.index %i[package_id user_id], unique: true
-    end
-
-    # ----------
     create_table :products do |t|
       t.references :package, type: :uuid, index: true, unique: true, null: false, foreign_key: true
 
