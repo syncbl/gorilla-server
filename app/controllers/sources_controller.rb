@@ -29,12 +29,18 @@ class SourcesController < ApplicationController
     authorize @package, policy_class: PackagePolicy
     respond_to do |format|
       if @source = @package.sources.create(size: params[:file].size)
-        if file = source_exists?(current_user, params[:file].size, params[:checksum])
+        if file =
+             source_exists?(current_user, params[:file].size, params[:checksum])
           # TODO: Warn about existing file if it's own or public
         end
         ProcessSourceJob.perform_later @source, write_tmp(params[:file])
-        format.html { redirect_to [@source.package, @source], notice: "Source was successfully created." }
-        format.json { render :show, status: :created, location: [@source.package, @source] }
+        format.html do
+          redirect_to [@source.package, @source],
+                      notice: 'Source was successfully created.'
+        end
+        format.json do
+          render :show, status: :created, location: [@source.package, @source]
+        end
       else
         format.html { render :new }
         format.json do
@@ -49,11 +55,12 @@ class SourcesController < ApplicationController
     authorize @source
     respond_to do |format|
       if @source.update(source_params)
-        redirect_to @source, notice: "Source was successfully updated."
+        redirect_to @source, notice: 'Source was successfully updated.'
       else
         format.html { render :edit }
         format.json do
-          render_json_error @package.errors.full_messages, status: :unprocessable_entity
+          render_json_error @package.errors.full_messages,
+                            status: :unprocessable_entity
         end
       end
     end
@@ -65,13 +72,14 @@ class SourcesController < ApplicationController
     respond_to do |format|
       if @source.destroy
         format.html do
-          redirect_to sources_url, notice: "Source was successfully destroyed."
+          redirect_to sources_url, notice: 'Source was successfully destroyed.'
         end
         format.json { head :no_content }
       else
         format.html { render :show }
         format.json do
-          render_json_error @source.errors.full_messages, status: :unprocessable_entity
+          render_json_error @source.errors.full_messages,
+                            status: :unprocessable_entity
         end
       end
     end
@@ -87,7 +95,9 @@ class SourcesController < ApplicationController
         if @package.sources.merged?
           head :unprocessable_entity
         else
-          MergeSourcesJob.perform_later policy_scope(Package).find(params[:package_id])
+          MergeSourcesJob.perform_later policy_scope(Package).find(
+                                          params[:package_id],
+                                        )
           head :accepted
         end
       end
@@ -99,8 +109,11 @@ class SourcesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_source
-    @source = policy_scope(Package).find_by(package_id: params[:package_id])&.
-      sources.find(params[:id])
+    @source =
+      policy_scope(Package)
+        .find_by(package_id: params[:package_id])
+        &.sources
+        .find(params[:id])
   end
 
   def check_file_params

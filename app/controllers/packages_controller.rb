@@ -6,10 +6,7 @@ class PackagesController < ApplicationController
   # GET /packages.json
   def index
     @pagy, @packages =
-      pagy_countless(
-        policy_scope(Package),
-        items: params[:items],
-      )
+      pagy_countless(policy_scope(Package), items: params[:items])
   end
 
   # GET /packages/1
@@ -32,7 +29,7 @@ class PackagesController < ApplicationController
     respond_to do |format|
       if @package = policy_scope(Package).create(package_params)
         format.html do
-          redirect_to @package, notice: "Package was successfully created."
+          redirect_to @package, notice: 'Package was successfully created.'
         end
         format.json { render :show, status: :created, location: @package }
       else
@@ -51,13 +48,14 @@ class PackagesController < ApplicationController
     respond_to do |format|
       if @package.update(package_params)
         format.html do
-          redirect_to @package, notice: "Package was successfully updated."
+          redirect_to @package, notice: 'Package was successfully updated.'
         end
         format.json { render :show, status: :ok, location: @package }
       else
         format.html { render :edit }
         format.json do
-          render_json_error @package.errors.full_messages, status: :unprocessable_entity
+          render_json_error @package.errors.full_messages,
+                            status: :unprocessable_entity
         end
       end
     end
@@ -71,13 +69,14 @@ class PackagesController < ApplicationController
       if @package.destroy
         format.html do
           redirect_to packages_url,
-                      notice: "Package was successfully destroyed."
+                      notice: 'Package was successfully destroyed.'
         end
         format.json { head :no_content }
       else
         format.html { render :edit }
         format.json do
-          render_json_error @package.errors.full_messages, status: :unprocessable_entity
+          render_json_error @package.errors.full_messages,
+                            status: :unprocessable_entity
         end
       end
     end
@@ -91,7 +90,8 @@ class PackagesController < ApplicationController
           items: params[:items],
         )
     else
-      render_json_error I18n.t("errors.messages.search_query_error"), status: :not_found
+      render_json_error I18n.t('errors.messages.search_query_error'),
+                        status: :not_found
     end
   end
 
@@ -100,8 +100,10 @@ class PackagesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
 
   def set_package
-    @package = if params[:user_id].present?
-        Package.where(user: { name: params[:user_id] })
+    @package =
+      if params[:user_id].present?
+        Package
+          .where(user: { name: params[:user_id] })
           .find_by!(name: params[:id])
       else
         Package.find(params[:id])

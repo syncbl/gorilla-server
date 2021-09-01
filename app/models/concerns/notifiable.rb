@@ -4,7 +4,8 @@ module Notifiable
   def notify(method, object)
     # Notifications can be one per object or one per activity in order to avoid spam
     notification = object.is_a?(ApplicationRecord) ? object.id : object
-    deliver_notification "N_#{self.id}.#{notification}", Hash[method, notification]
+    deliver_notification "N_#{self.id}.#{notification}",
+                         Hash[method, notification]
   end
 
   def notifications

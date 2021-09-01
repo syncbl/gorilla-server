@@ -18,12 +18,17 @@ class SettingsController < ApplicationController
     respond_to do |format|
       if @setting = @endpoint.install(package)
         format.html do
-          redirect_to [@endpoint, @setting], notice: "Package soon will be installed."
+          redirect_to [@endpoint, @setting],
+                      notice: 'Package soon will be installed.'
         end
-        format.json { render :show, status: :accepted, location: [@endpoint, @setting] }
+        format.json do
+          render :show, status: :accepted, location: [@endpoint, @setting]
+        end
       else
         format.html { render :edit }
-        format.json { render json: @setting.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @setting.errors, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -32,9 +37,11 @@ class SettingsController < ApplicationController
   def update
     respond_to do |format|
       if @setting.update(setting_params)
-        redirect_to [@endpoint, @setting], notice: "Setting was successfully updated."
+        redirect_to [@endpoint, @setting],
+                    notice: 'Setting was successfully updated.'
       else
-        render_json_error @setting.errors.full_messages, status: :unprocessable_entity
+        render_json_error @setting.errors.full_messages,
+                          status: :unprocessable_entity
       end
     end
   end
@@ -46,7 +53,7 @@ class SettingsController < ApplicationController
       setting = @endpoint.settings.find_by(package_id: params[:package_id])
       if setting.destroy
         format.html do
-          redirect_to settings_url, notice: "Package was successfully removed."
+          redirect_to settings_url, notice: 'Package was successfully removed.'
         end
         format.json { head :no_content }
       else
@@ -67,8 +74,9 @@ class SettingsController < ApplicationController
   end
 
   def set_endpoint
-    @endpoint = current_endpoint ||
-                Endpoint.find_by!(id: params[:endpoint_id], user: current_user)
+    @endpoint =
+      current_endpoint ||
+        Endpoint.find_by!(id: params[:endpoint_id], user: current_user)
   end
 
   # Only allow a trusted parameter "white list" through.
