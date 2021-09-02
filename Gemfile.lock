@@ -80,8 +80,8 @@ GEM
     aws-sdk-kms (1.48.0)
       aws-sdk-core (~> 3, >= 3.120.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.100.0)
-      aws-sdk-core (~> 3, >= 3.119.0)
+    aws-sdk-s3 (1.101.0)
+      aws-sdk-core (~> 3, >= 3.120.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.1)
     aws-sigv4 (1.3.0)
@@ -411,7 +411,7 @@ DEPENDENCIES
   rails (~> 6.1)
   rails-i18n (~> 6.0)
   rails_best_practices
-  redis (~> 4.0)
+  redis
   render_async
   rspec-rails (~> 5.0)
   rubyzip
@@ -423,7 +423,7 @@ DEPENDENCIES
   spring-watcher-listen (~> 2.0.0)
   traceroute
   turbolinks (~> 5.0)
-  uglifier (>= 1.3.0)
+  uglifier
   webpacker (~> 5.4)
   whenever
 
