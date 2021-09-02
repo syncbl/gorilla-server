@@ -5,8 +5,10 @@
 # below each fixture, per the syntax in the comments below
 #
 one:
-  name: 'Test'
-  email: 'test@example.com'
-
+  fullname: 'Test1'
+  email: 'test1@example.com'
+one:
+  fullname: 'Test2'
+  email: 'test2@example.com'
 #two: {}
 #  column: value

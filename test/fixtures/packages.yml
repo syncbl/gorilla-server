@@ -5,7 +5,7 @@
 # below each fixture, per the syntax in the comments below
 #
 one:
-  name: 'openssl-1.0.3'
+  name: 'openssl-1.0'
   trusted: true
   user: one
 
