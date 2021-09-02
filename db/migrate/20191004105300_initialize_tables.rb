@@ -19,7 +19,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       # foreign_key: { to_table: :user }
       # TODO: Is company? Show other info.
 
-      t.string :authentication_token, null: false, index: true, unique: true
+      t.string :authentication_token, index: true, unique: true
 
       t.datetime :blocked_at
       t.string :block_reason
@@ -36,7 +36,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       # TODO: Store PC parameters here
 
-      t.string :authentication_token, null: false, index: true, unique: true
+      t.string :authentication_token, index: true, unique: true
 
       t.references :user, type: :uuid, index: true, foreign_key: true
 

@@ -5,11 +5,26 @@
 # below each fixture, per the syntax in the comments below
 #
 one:
-  name: 'openssl-1.0'
-  trusted: true
+  name: "p-bundle"
+  package_type: :bundle
+  caption_translations: '{"en": "Test Bundle"}'
+  description_translations: '{"en": "Test package"}'
   user: one
 
 two:
-  name: 'openssl-dev'
-  trusted: true
+  name: "p-component"
+  package_type: :component
+  caption_translations: '{"en": "Test Component"}'
+  description_translations: '{"en": "Test package"}'
+  user: one
+
+three:
+  name: "p-external"
+  package_type: :external
+  caption_translations: '{"en": "Test External"}'
+  description_translations: '{"en": "Test package"}'
+  params:
+    {
+      external_url: "https://www.heidisql.com/installers/HeidiSQL_11.0.0.5919_Setup.exe",
+    }
   user: one

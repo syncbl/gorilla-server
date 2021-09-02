@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class EndpointsControllerTest < ActionDispatch::IntegrationTest
+=begin  
   setup do
     @endpoint = endpoints(:one)
     sign_in(users(:one))
@@ -20,4 +21,5 @@ class EndpointsControllerTest < ActionDispatch::IntegrationTest
     get edit_endpoint_url(@endpoint)
     assert_response :success
   end
+=end
 end

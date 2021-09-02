@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.string "name"
     t.inet "remote_ip"
     t.string "locale"
-    t.string "authentication_token", null: false
+    t.string "authentication_token"
     t.uuid "user_id"
     t.datetime "blocked_at"
     t.string "block_reason"
@@ -154,7 +154,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.citext "name", null: false
     t.string "locale"
     t.string "plan"
-    t.string "authentication_token", null: false
+    t.string "authentication_token"
     t.datetime "blocked_at"
     t.string "block_reason"
     t.datetime "reseted_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
