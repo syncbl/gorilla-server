@@ -3,12 +3,12 @@ class Product < ApplicationRecord
 
   belongs_to :package
 
-  validates :package,
-            presence: true,
-            uniqueness: true
+  validates :package, presence: true, uniqueness: true
 
-  scope :published, -> {
-          joins(:package).where(package: Package.except_blocked.published)
+  scope :published,
+        -> {
+          joins(:package)
+            .where(package: Package.except_blocked.published)
             .without_components
         }
 end

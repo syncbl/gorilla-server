@@ -5,6 +5,7 @@ class Endpoint < ApplicationRecord
   include IdentityCache
 
   has_secure_token :authentication_token
+
   # attribute :locale, :string, default: "en"
   attribute :token
 
@@ -12,17 +13,11 @@ class Endpoint < ApplicationRecord
   has_many :settings, dependent: :destroy
   has_many :packages, through: :settings
 
-  validates :name,
-            length: { maximum: MAX_NAME_LENGTH }
-  validates :locale,
-            length: { maximum: 10 }
-  validates :authentication_token,
-            allow_nil: true,
-            length: { is: 24 }
+  validates :name, length: { maximum: MAX_NAME_LENGTH }
+  validates :locale, length: { maximum: 10 }
+  validates :authentication_token, allow_nil: true, length: { is: 24 }
 
-  default_scope {
-    includes(:user)
-  }
+  default_scope { includes(:user) }
 
   def installed?(package)
     settings.exists?(package: package)
@@ -33,12 +28,11 @@ class Endpoint < ApplicationRecord
   end
 
   def actualized_settings(timestamp)
-    Rails.cache.fetch(
-      "SettingsIndex_#{id}",
-      expires_in: MODEL_CACHE_TIMEOUT,
-    ) do
-      ActualizedSettingsService.call(settings, timestamp)
-    end
+    Rails
+      .cache
+      .fetch("EndpointSettings_#{id}", expires_in: MODEL_CACHE_TIMEOUT) do
+        ActualizedSettingsService.call(self, timestamp)
+      end
   end
 
   def can_view?(object)

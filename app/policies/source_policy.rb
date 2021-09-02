@@ -23,10 +23,10 @@ class SourcePolicy
   end
 
   def destroy?
-    update?
+    @user.is_owner? @record
   end
 
   def merge?
-    update?
+    destroy?
   end
 end

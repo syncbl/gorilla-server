@@ -10,16 +10,14 @@ class Setting < ApplicationRecord
 
   validates :package_id, uniqueness: { scope: :endpoint_id }
 
-  default_scope {
-    includes(:package, :endpoint)
-  }
+  default_scope { includes(:package, :endpoint) }
 
   # TODO: Check scope to get really updated packages
   scope :updated,
         -> {
           # ??? joins(:package).
           where(
-            self.arel_table[:updated_at].lt(Package.arel_table[:updated_at])
+            self.arel_table[:updated_at].lt(Package.arel_table[:updated_at]),
           )
         }
 

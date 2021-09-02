@@ -18,6 +18,7 @@
   "repository": "https://gitlab.com/syncable/gp-server.git",
   "author": "Eldar Avatov <eldar.avatov@gmail.com>",
   "devDependencies": {
+    "@prettier/plugin-ruby": "^1.6.1",
     "webpack": "^4.46.0",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.2"

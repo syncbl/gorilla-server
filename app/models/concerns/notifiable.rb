@@ -1,26 +1,41 @@
 module Notifiable
   extend ActiveSupport::Concern
 
-  def notify(method, value)
+  def notify(method, object)
     # Notifications can be one per object or one per activity in order to avoid spam
-    if value.is_a? ApplicationRecord
-      payload = value.id
-      name = "Notification_#{self.id}.#{payload}"
-    else
-      payload = value
-      name = "Notification_#{self.id}.#{method}"
-    end
-    Rails.cache.write name,
-                      Hash["#{method}", payload],
-                      expires_in: NOTIFICATION_EXPIRES_IN
+    notification = object.is_a?(ApplicationRecord) ? object.id : object
+    deliver_notification "N_#{self.id}.#{notification}",
+                         Hash[method, notification]
   end
 
   def notifications
     messages = Set[]
-    #Rails.cache.redis.scan_each(match: "Notification_#{self.id}.*") do |key|
-    #  messages << Rails.cache.read(key)
-    #  Rails.cache.redis.del(key)
-    #end
+    redis_pool.with do |redis|
+      redis.scan_each(match: "N_#{self.id}.*") do |key|
+        value = redis.hgetall(key)
+        messages << value if validate_notification(key, value)
+        redis.del(key)
+      end
+    end
     messages.to_a
+  end
+
+  private
+
+  def redis_pool
+    @redis_pool ||= Api::Redis.new.pool
+  end
+
+  def deliver_notification(key, value)
+    if validate_notification(key, value)
+      redis_pool.with do |redis|
+        redis.mapped_hmset key, value
+        redis.expire key, NOTIFICATION_EXPIRES_IN
+      end
+    end
+  end
+
+  def validate_notification(key, value)
+    %i[add_package remove_package].include?(key) && value.size > 0
   end
 end

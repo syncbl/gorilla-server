@@ -7,12 +7,8 @@ module Permissable
     object.user == self
   end
 
-  def is_maintainer?(object)
-    object.maintainers.include?(self)
-  end
-
   def can_edit?(object)
-    is_owner?(object) || is_maintainer?(object)
+    is_owner?(object)
   end
 
   def can_view?(object)

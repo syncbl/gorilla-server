@@ -10,13 +10,13 @@ class Package < ApplicationRecord
   # - file exists
 
   pg_search_scope :search_by_text,
-                  against: [:name,
-                            :caption_translations,
-                            :description_translations]
+                  against: %i[
+                    name
+                    caption_translations
+                    description_translations
+                  ]
   translates :caption, :description
-  enumerize :package_type,
-            in: %i[bundle external component],
-            scope: true
+  enumerize :package_type, in: %i[bundle external component], scope: true
 
   belongs_to :user
   has_one :product
@@ -25,15 +25,8 @@ class Package < ApplicationRecord
   has_many :sources, dependent: :destroy
   has_many :dependencies
   has_many :dependent_packages, through: :dependencies
-  has_many :maintenances
-  has_many :maintainers, through: :maintenances,
-                         source: :user
-  belongs_to :replacement,
-             class_name: "Package",
-             optional: true
-  has_one_attached :icon,
-                   service: :internal,
-                   dependent: :purge_later
+  belongs_to :replacement, class_name: 'Package', optional: true
+  has_one_attached :icon, service: :internal, dependent: :purge_later
 
   validates :name,
             name_restrict: true,
@@ -46,13 +39,12 @@ class Package < ApplicationRecord
               scope: :user_id,
               case_sensitive: false,
             },
-            format: { with: NAME_FORMAT }
-  validates :package_type,
-            presence: true
-  validates :icon,
-            size: { less_than: MAX_ICON_SIZE }
-  validates :replacement,
-            package_replacement: true
+            format: {
+              with: NAME_FORMAT,
+            }
+  validates :package_type, presence: true
+  validates :icon, size: { less_than: MAX_ICON_SIZE }
+  validates :replacement, package_replacement: true
   validates :caption,
             presence: true,
             length: {
@@ -61,9 +53,7 @@ class Package < ApplicationRecord
             }
   validates_with PackageSubscriptionValidator
 
-  default_scope {
-    joins(:user)
-  }
+  default_scope { joins(:user) }
 
   def replaced_by
     _replaced_by unless replacement_id.nil?
@@ -75,8 +65,10 @@ class Package < ApplicationRecord
       available_files += s.files.keys
       available_files -= s.delete_files
     end
+
     # It would be strange if we allow to delete files added by the same source
     available_files -= sources.last.files.keys if sources.size > 1
+
     # TODO: Optimize
     update_column :filelist, available_files
   end

@@ -19,8 +19,8 @@ gem "uglifier", ">= 1.3.0" # Ruby wrapper for UglifyJS JavaScript compressor.
 # Database
 gem "pg", "~> 1" # Pg is the Ruby interface to the PostgreSQL RDBMS.
 gem "pg_search" # PgSearch builds named scopes that take advantage of PostgreSQL's full text search.
-#gem "hiredis" # Ruby extension that wraps hiredis.
-#gem "redis", "~> 4.0" # A Ruby client that tries to match Redis' API one-to-one.
+gem "redis", "~> 4.0" # A Ruby client that tries to match Redis' API one-to-one.
+gem "hiredis" # Ruby extension that wraps hiredis.
 
 # Other
 gem "activerecord-import"

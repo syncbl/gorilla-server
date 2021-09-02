@@ -74,15 +74,6 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.index ["user_id"], name: "index_endpoints_on_user_id"
   end
 
-  create_table "maintenances", id: false, force: :cascade do |t|
-    t.uuid "package_id", null: false
-    t.uuid "user_id", null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["package_id", "user_id"], name: "index_maintenances_on_package_id_and_user_id", unique: true
-    t.index ["package_id"], name: "index_maintenances_on_package_id"
-    t.index ["user_id"], name: "index_maintenances_on_user_id"
-  end
-
   create_table "packages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.citext "name", null: false
     t.string "package_type", null: false
@@ -188,8 +179,6 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   add_foreign_key "dependencies", "packages"
   add_foreign_key "dependencies", "packages", column: "dependent_package_id"
   add_foreign_key "endpoints", "users"
-  add_foreign_key "maintenances", "packages"
-  add_foreign_key "maintenances", "users"
   add_foreign_key "packages", "packages", column: "replacement_id"
   add_foreign_key "packages", "users"
   add_foreign_key "products", "packages"

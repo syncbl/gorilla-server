@@ -1,17 +1,17 @@
 class SubscriptionsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_subscription, only: [:show, :edit, :update, :destroy]
+  before_action :set_subscription, only: %i[show edit update destroy]
 
   # GET /subscriptions/1
-  def show
-  end
+  def show; end
 
   # POST /subscriptions
   def create
     @subscription = Subscription.new(subscription_params)
 
     if @subscription.save
-      redirect_to @subscription, notice: "Subscription was successfully created."
+      redirect_to @subscription,
+                  notice: 'Subscription was successfully created.'
     else
       render :new
     end

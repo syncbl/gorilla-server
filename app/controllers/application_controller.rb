@@ -17,14 +17,14 @@ class ApplicationController < ActionController::Base
   # TODO: Layout
   def render_403
     respond_to do |format|
-      format.html { render "errors/403", layout: "errors", status: :forbidden }
+      format.html { render 'errors/403', layout: 'errors', status: :forbidden }
       format.any { head :forbidden }
     end
   end
 
   def render_404
     respond_to do |format|
-      format.html { render "errors/404", layout: "errors", status: :not_found }
+      format.html { render 'errors/404', layout: 'errors', status: :not_found }
       format.any { head :not_found }
     end
   end
@@ -40,22 +40,25 @@ class ApplicationController < ActionController::Base
   private
 
   def api_check_headers
-    service = request.headers["X-API-Service"]
-    if request.headers["Authorization"].present?
-      scope, uuid, token = decode_token(request.headers["Authorization"])
+    service = request.headers['X-API-Service']
+    if request.headers['Authorization'].present?
+      scope, uuid, token = decode_token(request.headers['Authorization'])
       unless uuid
-        render_json_error I18n.t("devise.failure.timeout"), status: :unauthorized
+        render_json_error I18n.t('devise.failure.timeout'),
+                          status: :unauthorized
       end
     end
 
     if Api::Keys.new.find(service)
-      if scope == "Endpoint"
+      if scope == 'Endpoint'
         unless sign_in_endpoint cached_endpoint(uuid, token)
-          render_json_error I18n.t("devise.failure.unauthenticated"), status: :unauthorized
+          render_json_error I18n.t('devise.failure.unauthenticated'),
+                            status: :unauthorized
         end
-      elsif scope == "User"
+      elsif scope == 'User'
         unless sign_in cached_user(uuid, token)
-          render_json_error I18n.t("devise.failure.unauthenticated"), status: :unauthorized
+          render_json_error I18n.t('devise.failure.unauthenticated'),
+                            status: :unauthorized
         end
       end
     elsif service.present?
@@ -67,12 +70,16 @@ class ApplicationController < ActionController::Base
   end
 
   def decode_token(token)
-    payload = JWT.decode(
-      token,
-      Rails.application.credentials.jwt_secret,
-      true,
-      { algorithm: "HS256" }
-    ).first.with_indifferent_access
+    payload =
+      JWT
+        .decode(
+          token,
+          Rails.application.credentials.jwt_secret,
+          true,
+          { algorithm: 'HS256' },
+        )
+        .first
+        .with_indifferent_access
     return payload[:scope], payload[:uuid], payload[:token]
   rescue JWT::ExpiredSignature, JWT::DecodeError
     nil
@@ -80,14 +87,17 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: %i[fullname name locale])
-    devise_parameter_sanitizer.permit(:account_update, keys: %i[fullname name locale])
+    devise_parameter_sanitizer.permit(
+      :account_update,
+      keys: %i[fullname name locale],
+    )
   end
 
   def set_locale
-    session[:locale] ||= current_endpoint&.locale ||
-                         current_user&.locale ||
-                         http_accept_language.compatible_language_from(I18n.available_locales) ||
-                         I18n.default_locale.to_s
+    session[:locale] ||=
+      current_endpoint&.locale || current_user&.locale ||
+        http_accept_language.compatible_language_from(I18n.available_locales) ||
+        I18n.default_locale.to_s
     I18n.locale = session[:locale]
   end
 

@@ -1,31 +1,28 @@
+---
 en:
   errors:
-    messages:
-      name_restrict: is restricted
-      url_is_not_attachment: Incorrect attachment type
-      url_is_not_allowed: This URL protocol is not supported
-      cannot_publish: Cannot validate for publication
-      locked_published: Cannot change published items   
-      no_subscription: There are no active subscription for this action
-      no_maintainer_subscription: Maintainer must have active subscription for this action
-      search_query_error: Search query is wrong
-      not_implemented: This feature is not implemented
     attributes:
       package:
-        owner_already: You already owner of this package
-        internal: Cannot set external URL for internal package
         dependency:
-          used: Can't delete component used in another package
+          external: Cannot add components for external package
           forbidden: This component can't be accessed by package owner
           itself: Package can't be dependent on itself
-          external: Cannot add components for external package
+          used: Can't delete component used in another package
+        internal: Cannot set external URL for internal package
         replacement:
-          old: Replacement must be newer than original package
           itself: Package can't be replaced by itself
           not_published: Replacement must be published
+          old: Replacement must be newer than original package
       source:
-        packed_file_too_big: "File is too big: %{name}:%{size}"
-        packed_files_too_many: Too many files
         limit_reached: You have exceeded the space available for your subscription
+        packed_file_too_big: 'File is too big: %{name}:%{size}'
+        packed_files_too_many: Too many files
     block_reasons:
       suspicious_attachment: Suspicious files found!
+    messages:
+      cannot_publish: Cannot validate for publication
+      locked_published: Cannot change published items
+      name_restrict: is restricted
+      no_subscription: There are no active subscription for this action
+      search_query_error: Search query is wrong
+      url_is_not_allowed: This URL protocol is not supported

@@ -5,8 +5,8 @@ class AttachmentService < ApplicationService
   end
 
   def call
-    if Clamby.virus?(file)
-      source.block! I18n.t("errors.block_reasons.suspicious_attachment")
+    if Clamby.virus?(@filename)
+      @source.block! I18n.t("errors.block_reasons.suspicious_attachment")
       return false
     end
     ActiveRecord::Base.transaction do
@@ -24,7 +24,7 @@ class AttachmentService < ApplicationService
     end
   end
 
-  protected
+  private
 
   def build
     @source.unpacked_size = 0

@@ -70,21 +70,21 @@ GEM
     autoprefixer-rails (10.3.1.0)
       execjs (~> 2)
     awesome_print (1.9.2)
-    aws-eventstream (1.1.1)
-    aws-partitions (1.491.0)
-    aws-sdk-core (3.119.1)
+    aws-eventstream (1.2.0)
+    aws-partitions (1.494.0)
+    aws-sdk-core (3.120.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
       aws-sigv4 (~> 1.1)
       jmespath (~> 1.0)
-    aws-sdk-kms (1.46.0)
-      aws-sdk-core (~> 3, >= 3.119.0)
+    aws-sdk-kms (1.48.0)
+      aws-sdk-core (~> 3, >= 3.120.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.99.0)
+    aws-sdk-s3 (1.100.0)
       aws-sdk-core (~> 3, >= 3.119.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.1)
-    aws-sigv4 (1.2.4)
+    aws-sigv4 (1.3.0)
       aws-eventstream (~> 1, >= 1.0.2)
     bcrypt (3.1.16)
     benchmark-ips (2.9.1)
@@ -94,7 +94,7 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (1.0.0)
       debug_inspector (>= 0.0.1)
-    bootsnap (1.8.0)
+    bootsnap (1.8.1)
       msgpack (~> 1.0)
     bootstrap (4.6.0)
       autoprefixer-rails (>= 9.1.0)
@@ -146,7 +146,7 @@ GEM
     erubi (1.10.0)
     erubis (2.7.0)
     execjs (2.8.1)
-    ffi (1.15.3)
+    ffi (1.15.4)
     get_process_mem (0.2.7)
       ffi (~> 1.0)
     globalid (0.5.2)
@@ -158,6 +158,7 @@ GEM
       thor
     high_voltage (3.1.2)
     highline (2.0.3)
+    hiredis (0.6.3)
     http_accept_language (2.1.1)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
@@ -204,7 +205,7 @@ GEM
     minitest (5.14.4)
     msgpack (1.4.2)
     nio4r (2.5.8)
-    nokogiri (1.12.3-x86_64-linux)
+    nokogiri (1.12.4-x86_64-linux)
       racc (~> 1.4)
     orm_adapter (0.5.0)
     pagy (3.11.0)
@@ -225,7 +226,7 @@ GEM
     rack (2.2.3)
     rack-attack (6.5.0)
       rack (>= 1.0, < 3)
-    rack-mini-profiler (2.3.2)
+    rack-mini-profiler (2.3.3)
       rack (>= 1.2.0)
     rack-proxy (0.7.0)
       rack
@@ -273,6 +274,7 @@ GEM
     rb-fsevent (0.11.0)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    redis (4.4.0)
     render_async (2.1.10)
     require_all (3.0.0)
     responders (3.0.1)
@@ -387,6 +389,7 @@ DEPENDENCIES
   enumerize
   goldiloader
   high_voltage
+  hiredis
   http_accept_language
   i18n-tasks
   identity_cache
@@ -408,6 +411,7 @@ DEPENDENCIES
   rails (~> 6.1)
   rails-i18n (~> 6.0)
   rails_best_practices
+  redis (~> 4.0)
   render_async
   rspec-rails (~> 5.0)
   rubyzip
