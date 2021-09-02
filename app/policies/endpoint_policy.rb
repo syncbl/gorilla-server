@@ -1,13 +1,17 @@
 class EndpointPolicy
-  attr_reader :user, :record
+  attr_reader :endpoint, :record
 
-  def initialize(user, record)
-    @user = user
+  def initialize(endpoint, record)
+    @endpoint = endpoint
     @record = record
   end
 
+  def show?
+    @endpoint.user.is_owner? @record
+  end
+
   def update?
-    @user.can_edit? @record
+    show?
   end
 
   def edit?
@@ -21,13 +25,13 @@ class EndpointPolicy
   class Scope
     attr_reader :user, :scope
 
-    def initialize(user, scope)
-      @user = user
+    def initialize(endpoint, scope)
+      @endpoint = endpoint
       @scope = scope
     end
 
     def resolve
-      @user.endpoints
+      @endpoint.user.endpoints
     end
   end
 end

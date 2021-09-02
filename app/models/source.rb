@@ -11,7 +11,11 @@ class Source < ApplicationRecord
 
   delegate :user, to: :package
 
-  validates :file, size: { less_than: MAX_FILE_SIZE }
+  validates :file,
+            content_type: 'application/zip',
+            size: {
+              less_than: MAX_FILE_SIZE,
+            }
   validates :description, length: { maximum: MAX_DESCRIPTION_LENGTH }
   validates :version, length: { maximum: MAX_VERSION_LENGTH }
   validates_with SourceValidator

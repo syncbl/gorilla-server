@@ -18,7 +18,8 @@ class AttachmentService < ApplicationService
         identify: false,
       )
       File.delete(@filename) unless File.basename(@filename).start_with?("test")
-      @source.update(is_merged: true) if @source.package.sources.size == 1
+      @source.is_merged = true if @source.package.sources.size == 1
+      @source.save!
       @source.package.recalculate_size!
       @source.package.generate_filelist!
     end
@@ -47,7 +48,6 @@ class AttachmentService < ApplicationService
       end
     end
     @source.files = filelist
-    # TODO: @source.save
   rescue StandardError => e # TODO: Make more specific
     Rails.logger.debug "+++ #{e.class} #{e.message}"
     @source.block! e.message

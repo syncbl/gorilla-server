@@ -27,12 +27,12 @@ class SourcesController < ApplicationController
     # Params removed from create() because user must fill fields only after creation
     @package = policy_scope(Package).find(params[:package_id])
     authorize @package, policy_class: PackagePolicy
+    if file =
+         source_exists?(current_user, params[:file].size, params[:checksum])
+      # TODO: Warn about existing file if it's own or public
+    end
     respond_to do |format|
       if @source = @package.sources.create(size: params[:file].size)
-        if file =
-             source_exists?(current_user, params[:file].size, params[:checksum])
-          # TODO: Warn about existing file if it's own or public
-        end
         ProcessSourceJob.perform_later @source, write_tmp(params[:file])
         format.html do
           redirect_to [@source.package, @source],
