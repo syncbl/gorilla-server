@@ -29,7 +29,7 @@ class PackagesController < ApplicationController
     respond_to do |format|
       if @package = policy_scope(Package).create(package_params)
         format.html do
-          redirect_to @package, notice: 'Package was successfully created.'
+          redirect_to @package, notice: "Package was successfully created."
         end
         format.json { render :show, status: :created, location: @package }
       else
@@ -48,7 +48,7 @@ class PackagesController < ApplicationController
     respond_to do |format|
       if @package.update(package_params)
         format.html do
-          redirect_to @package, notice: 'Package was successfully updated.'
+          redirect_to @package, notice: "Package was successfully updated."
         end
         format.json { render :show, status: :ok, location: @package }
       else
@@ -69,7 +69,7 @@ class PackagesController < ApplicationController
       if @package.destroy
         format.html do
           redirect_to packages_url,
-                      notice: 'Package was successfully destroyed.'
+                      notice: "Package was successfully destroyed."
         end
         format.json { head :no_content }
       else
@@ -82,16 +82,21 @@ class PackagesController < ApplicationController
     end
   end
 
+  # POST /packages/search
   def search
-    if params[:q].present? && params[:q].size >= MIN_NAME_LENGTH
-      @pagy, @packages =
-        pagy(
-          Package::External.except_blocked.published.search_by_text(params[:q]),
-          items: params[:items],
-        )
-    else
-      render_json_error I18n.t('errors.messages.search_query_error'),
-                        status: :not_found
+    respond_to do |format|
+      format.json do
+        if params[:q].present? && params[:q].size >= MIN_NAME_LENGTH
+          @pagy, @packages =
+            pagy(
+              Package::External.except_blocked.published.search_by_text(params[:q]),
+              items: params[:items],
+            )
+        else
+          render_json_error I18n.t("errors.messages.search_query_error"),
+                            status: :not_found
+        end
+      end
     end
   end
 
@@ -100,8 +105,7 @@ class PackagesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
 
   def set_package
-    @package =
-      if params[:user_id].present?
+    @package = if params[:user_id].present?
         Package
           .where(user: { name: params[:user_id] })
           .find_by!(name: params[:id])

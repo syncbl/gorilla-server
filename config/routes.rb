@@ -14,7 +14,7 @@ Rails.application.routes.draw do
       end
     end
     collection do
-      get :search
+      post :search
     end
   end
   resource :endpoint, only: %i[show update] do

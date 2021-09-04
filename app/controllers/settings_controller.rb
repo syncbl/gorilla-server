@@ -19,7 +19,7 @@ class SettingsController < ApplicationController
       if @setting = @endpoint.install(package)
         format.html do
           redirect_to [@endpoint, @setting],
-                      notice: 'Package soon will be installed.'
+                      notice: "Package soon will be installed."
         end
         format.json do
           render :show, status: :accepted, location: [@endpoint, @setting]
@@ -38,7 +38,7 @@ class SettingsController < ApplicationController
     respond_to do |format|
       if @setting.update(setting_params)
         redirect_to [@endpoint, @setting],
-                    notice: 'Setting was successfully updated.'
+                    notice: "Setting was successfully updated."
       else
         render_json_error @setting.errors.full_messages,
                           status: :unprocessable_entity
@@ -53,7 +53,7 @@ class SettingsController < ApplicationController
       setting = @endpoint.settings.find_by(package_id: params[:package_id])
       if setting.destroy
         format.html do
-          redirect_to settings_url, notice: 'Package was successfully removed.'
+          redirect_to settings_url, notice: "Package was successfully removed."
         end
         format.json { head :no_content }
       else

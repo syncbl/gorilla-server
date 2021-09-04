@@ -12,7 +12,7 @@ namespace :import do
         plan: :unlimited,
       )
       Subscription.create(
-        user: u,
+        user_id: u.id,
         start_time: Time.current,
         end_time: Time.current + 100.years,
       )
@@ -26,7 +26,11 @@ namespace :import do
 
   desc "Import latest files"
   task winget: [:environment] do
-    sh "git -C ~/winget-pkgs pull"
+    if Dir.exists?(File.expand_path("~/winget-pkgs"))
+      sh "git -C ~/winget-pkgs pull"
+    else
+      sh "git clone git@github.com:microsoft/winget-pkgs.git ~/winget-pkgs"
+    end
     c = 0
     user = User.find_by!(name: "WinGet")
     user.packages.update_all(updated_at: Time.at(0))

@@ -10,7 +10,7 @@ module Api::Cache
   private
 
   def cache_fetch(model, id, token)
-    cached_model = model.fetch("#{model.class.name}.#{model.id}")
+    cached_model = model.fetch(id)
     if cached_model&.authentication_token == token && !cached_model&.blocked?
       cached_model
     end

@@ -91,7 +91,10 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.string "block_reason"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["caption_translations"], name: "index_packages_on_caption_translations"
     t.index ["created_at"], name: "index_packages_on_created_at"
+    t.index ["description_translations"], name: "index_packages_on_description_translations"
+    t.index ["name"], name: "index_packages_on_name"
     t.index ["package_type"], name: "index_packages_on_package_type"
     t.index ["replacement_id"], name: "index_packages_on_replacement_id"
     t.index ["updated_at"], name: "index_packages_on_updated_at"
