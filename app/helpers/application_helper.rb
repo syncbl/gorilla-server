@@ -41,4 +41,8 @@ module ApplicationHelper
   def json_time(time)
     time.nil? ? nil : time.to_i
   end
+
+  def current_anyone
+    current_endpoint || current_user
+  end
 end

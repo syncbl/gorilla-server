@@ -1,6 +1,6 @@
 json = {}
 
-new_token = (current_endpoint || current_user)&.reset_token
+new_token = current_anyone&.reset_token
 
 if new_token.present?
   json[:session] = {
@@ -19,7 +19,8 @@ if @object && @object.errors.any?
   json[:errors] = @object
 end
 
-notifications = (current_endpoint || current_user)&.notifications
+notifications =
+  current_anyone&.notifications
 json[:notifications] = notifications if notifications&.any?
 
 json
