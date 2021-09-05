@@ -84,19 +84,15 @@ class PackagesController < ApplicationController
 
   # POST /packages/search
   def search
-    respond_to do |format|
-      format.json do
-        if params[:q].present? && params[:q].size >= MIN_NAME_LENGTH
-          @pagy, @packages =
-            pagy(
-              Package::External.except_blocked.published.search_by_text(params[:q]),
-              items: params[:items],
-            )
-        else
-          render_json_error I18n.t("errors.messages.search_query_error"),
-                            status: :not_found
-        end
-      end
+    if params[:q].present? && params[:q].size >= MIN_NAME_LENGTH
+      @pagy, @packages =
+        pagy(
+          Package::External.except_blocked.published.search_by_text(params[:q]),
+          items: params[:items],
+        )
+    else
+      render_json_error I18n.t("errors.messages.search_query_error"),
+                        status: :not_found
     end
   end
 
