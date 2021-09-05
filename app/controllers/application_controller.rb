@@ -55,6 +55,11 @@ class ApplicationController < ActionController::Base
           render_json_error I18n.t("devise.failure.unauthenticated"),
                             status: :unauthorized
         end
+        if current_endpoint.remote_ip != request.remote_ip
+          Rails.logger.warn "Endpoint #{current_endpoint.id} IP changed from #{current_endpoint.remote_ip} to #{request.remote_ip}"
+          current_endpoint.update(remote_ip: request.remote_ip,
+                                  reseted_at: nil)
+        end
       elsif scope == "User"
         unless sign_in cached_user(uuid, token)
           render_json_error I18n.t("devise.failure.unauthenticated"),

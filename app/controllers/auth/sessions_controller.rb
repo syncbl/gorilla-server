@@ -17,7 +17,7 @@ class Auth::SessionsController < Devise::SessionsController
           @endpoint.update({
             user: current_user,
             name: params.dig("endpoint", "name"),
-            remote_ip: request.remote_ip, # TODO: Additional security by IP compare
+            remote_ip: request.remote_ip,
             locale: current_user.locale,
           })
           sign_in_endpoint @endpoint

@@ -5,9 +5,10 @@ class Auth::RegistrationsController < Devise::RegistrationsController
       format.json do
         @user = User.new(registration_params)
         @user.locale = http_accept_language.compatible_language_from(I18n.available_locales)
+        @user.reseted_at = Time.current
         if @user.save
           sign_in @user
-          render 'users/show'
+          render "users/show"
         else
           #puts @user.errors.to_json
           #render json: @user.errors, status: :unauthorized

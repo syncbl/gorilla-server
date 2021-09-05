@@ -23,7 +23,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       t.datetime :blocked_at
       t.string :block_reason
-      t.datetime :reseted_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
+      t.datetime :reseted_at
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
     end
@@ -42,7 +42,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       t.datetime :blocked_at
       t.string :block_reason
-      t.datetime :reseted_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
+      t.datetime :reseted_at
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
     end
