@@ -8,26 +8,26 @@ class PackagesControllerTest < ActionDispatch::IntegrationTest
       package_type: :bundle,
       caption: '{"en": "Test Bundle"}',
       description: '{"en": "Test package"}',
-      user: users(:one),
     }
     sign_in(users(:one))
   end
 
   test "should get index" do
-    get packages_url
+    get packages_url, as: :json
     assert_response :success
   end
 
   test "should create package" do
-    assert_difference("Package.count") do
-      post packages_url, params: { package: @new_package }
-      puts assigns(:package).errors.full_message
-    end
-    assert_redirected_to package_url(Package.last)
+    #assert_difference("Package.count") do
+    post packages_url, params: { package: @new_package },
+                       as: :json
+    puts response.body
+    #end
+    assert_response :created
   end
 
   test "should show package" do
-    get package_url(@package)
+    get package_url(@package), as: :json
     assert_response :success
   end
 
@@ -37,7 +37,9 @@ class PackagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should destroy package" do
-    assert_difference("Package.count", -1) { delete package_url(@package) }
+    assert_difference("Package.count", -1) {
+      delete package_url(@package), as: :json
+    }
 
     assert_redirected_to packages_url
   end

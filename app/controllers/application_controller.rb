@@ -40,6 +40,8 @@ class ApplicationController < ActionController::Base
   private
 
   def api_check_headers
+    return true if Rails.env.test?
+
     service = request.headers["X-API-Service"]
     if request.headers["Authorization"].present?
       scope, uuid, token = decode_token(request.headers["Authorization"])
