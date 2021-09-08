@@ -2,22 +2,6 @@ require "yaml"
 
 namespace :import do
   namespace :winget do
-    desc "Create WinGet account"
-    task create: [:environment] do
-      puts u = User.create(
-        name: "WinGet",
-        fullname: "Microsoft WinGet (unofficial)",
-        email: "admin@syncbl.com",
-        password: "testtest",
-        plan: :unlimited,
-      )
-      Subscription.create(
-        user_id: u.id,
-        start_time: Time.current,
-        end_time: Time.current + 100.years,
-      )
-    end
-
     desc "Empty WinGet account"
     task clear: [:environment] do
       puts User.find_by!(name: "WinGet").packages.delete_all
@@ -32,7 +16,20 @@ namespace :import do
       sh "git clone git@github.com:microsoft/winget-pkgs.git ~/winget-pkgs"
     end
     c = 0
-    user = User.find_by!(name: "WinGet")
+    unless user = User.find_by(name: "WinGet")
+      puts user = User.create(
+        name: "WinGet",
+        fullname: "Microsoft WinGet (unofficial)",
+        email: "admin@syncbl.com",
+        password: "testtest",
+        plan: :unlimited,
+      )
+      Subscription.create(
+        user: user,
+        start_time: Time.current,
+        end_time: Time.current + 100.years,
+      )
+    end
     user.packages.update_all(updated_at: Time.at(0))
     files = Dir.glob("../winget-pkgs/manifests/**/*.yaml").sort
     files.each_with_index do |f, i|
