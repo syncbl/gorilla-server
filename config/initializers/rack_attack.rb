@@ -48,7 +48,7 @@ end
 
 Rack::Attack.blocklisted_response = lambda do |request|
   # Redirect to nginx 444
-  [302, { "Location" => "/x" }, []]
+  [302, { "Location": "/x" }, []]
 end
 
 Rack::Attack.blocklist("Malicious scanners") do |request|
