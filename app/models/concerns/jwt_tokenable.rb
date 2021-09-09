@@ -2,10 +2,6 @@ module JwtTokenable
   extend ActiveSupport::Concern
   require "jwt"
 
-  def expire_token!
-    update(reseted_at: nil)
-  end
-
   def reset_token
     if token_needs_reset?
       regenerate_authentication_token
@@ -33,6 +29,8 @@ module JwtTokenable
 
   def self.included(base)
     base.class_eval do
+      has_event :reset, skip_scopes: true
+
       validate :update_reseted_at, if: :authentication_token_changed?
 
       private

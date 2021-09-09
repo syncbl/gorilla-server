@@ -5,6 +5,8 @@ module Publishable
 
   def self.included(base)
     base.class_eval {
+      has_event :publish
+
       validate :try_check_publishable, if: :published_at_changed?
       validate :lock_published, unless: :published_at_changed?
 
@@ -16,16 +18,10 @@ module Publishable
 
   def publish!(time = Time.current)
     update!(published_at: time)
-    action_log
-  end
-
-  def unpublish!
-    update!(published_at: nil)
-    action_log
   end
 
   def published?
-    published_at.present? && user.subscriptions.extended?
+    super && user.subscriptions.extended?
   end
 
   private

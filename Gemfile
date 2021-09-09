@@ -23,7 +23,7 @@ gem "redis" # A Ruby client that tries to match Redis' API one-to-one.
 gem "hiredis" # Ruby extension that wraps hiredis.
 
 # Other
-gem "activerecord-import"
+gem "active_record-events" # An ActiveRecord extension providing convenience methods for timestamp management.
 gem "active_storage_validations" # Active Storage Validations.
 gem "aws-sdk-s3", require: false # Official AWS Ruby gem for Amazon Simple Storage Service (Amazon S3)
 gem "bcrypt" # Provides a simple wrapper for safely handling passwords.

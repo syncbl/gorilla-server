@@ -6,7 +6,6 @@ module Blockable
       blocked_at: Time.current,
       block_reason: reason,
     })
-    action_log
   end
 
   def unblock!
@@ -14,18 +13,11 @@ module Blockable
       blocked_at: nil,
       block_reason: nil,
     })
-    action_log
-  end
-
-  def blocked?
-    blocked_at != nil
   end
 
   def self.included(base)
     base.class_eval {
-      scope :except_blocked, -> {
-              where(blocked_at: nil)
-            }
+      has_event :block
     }
   end
 end
