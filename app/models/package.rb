@@ -15,7 +15,7 @@ class Package < ApplicationRecord
                     caption_translations
                     description_translations
                   ]
-  translates :caption, :description
+  translates :caption, :description, :release_note
   enumerize :package_type, in: %i[bundle external component], scope: true
 
   belongs_to :user
@@ -25,7 +25,7 @@ class Package < ApplicationRecord
   has_many :sources, dependent: :destroy
   has_many :dependencies
   has_many :dependent_packages, through: :dependencies
-  belongs_to :replacement, class_name: 'Package', optional: true
+  belongs_to :replacement, class_name: "Package", optional: true
   has_one_attached :icon, service: :internal, dependent: :purge_later
 
   validates :name,

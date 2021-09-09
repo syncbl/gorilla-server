@@ -64,12 +64,11 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.uuid "user_id"
     t.datetime "blocked_at"
     t.string "block_reason"
-    t.datetime "reseted_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "reseted_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["authentication_token"], name: "index_endpoints_on_authentication_token"
     t.index ["created_at"], name: "index_endpoints_on_created_at"
-    t.index ["reseted_at"], name: "index_endpoints_on_reseted_at"
     t.index ["updated_at"], name: "index_endpoints_on_updated_at"
     t.index ["user_id"], name: "index_endpoints_on_user_id"
   end
@@ -80,6 +79,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.string "version"
     t.jsonb "caption_translations", null: false
     t.jsonb "description_translations"
+    t.jsonb "release_note_translations"
     t.jsonb "params", default: {}, null: false
     t.jsonb "filelist", default: [], null: false
     t.bigint "size", default: 0, null: false
@@ -91,10 +91,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.string "block_reason"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["caption_translations"], name: "index_packages_on_caption_translations"
     t.index ["created_at"], name: "index_packages_on_created_at"
-    t.index ["description_translations"], name: "index_packages_on_description_translations"
-    t.index ["name"], name: "index_packages_on_name"
     t.index ["package_type"], name: "index_packages_on_package_type"
     t.index ["replacement_id"], name: "index_packages_on_replacement_id"
     t.index ["updated_at"], name: "index_packages_on_updated_at"
@@ -154,13 +151,14 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "fullname"
+    t.jsonb "disclaimer_translations"
     t.citext "name", null: false
     t.string "locale"
     t.string "plan"
     t.string "authentication_token"
     t.datetime "blocked_at"
     t.string "block_reason"
-    t.datetime "reseted_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "reseted_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "email", default: "", null: false
@@ -173,7 +171,6 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.index ["name"], name: "index_users_on_name"
     t.index ["plan"], name: "index_users_on_plan"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["reseted_at"], name: "index_users_on_reseted_at"
     t.index ["updated_at"], name: "index_users_on_updated_at"
   end
 

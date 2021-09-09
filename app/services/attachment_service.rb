@@ -5,6 +5,7 @@ class AttachmentService < ApplicationService
   end
 
   def call
+    # TODO: File.chmod(0644, @filename)
     if Clamby.virus?(@filename)
       @source.block! I18n.t("errors.block_reasons.suspicious_attachment")
       return false
