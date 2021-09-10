@@ -5,14 +5,14 @@ class Source < ApplicationRecord
 
   attribute :size
   translates :description
+  strip_attributes
 
   belongs_to :package, touch: true
   has_one_attached :file, service: :external, dependent: :purge_later
-
   delegate :user, to: :package
 
   validates :file,
-            content_type: 'application/zip',
+            content_type: "application/zip",
             size: {
               less_than: MAX_FILE_SIZE,
             }

@@ -5,6 +5,8 @@ class Package::External < Package
                  switches: [:string],
                  uninstall: [:string]
 
+  strip_attributes
+
   # TODO: More validation messages
   validates :name,
             name_restrict: true,

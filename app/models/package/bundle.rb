@@ -7,6 +7,8 @@ class Package::Bundle < Package
                  switches: [:string],
                  uninstall: [:string]
 
+  strip_attributes
+
   before_validation :set_type, on: :create
 
   default_scope -> {

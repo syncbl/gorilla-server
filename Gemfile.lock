@@ -72,8 +72,8 @@ GEM
       execjs (~> 2)
     awesome_print (1.9.2)
     aws-eventstream (1.2.0)
-    aws-partitions (1.494.0)
-    aws-sdk-core (3.120.0)
+    aws-partitions (1.499.0)
+    aws-sdk-core (3.121.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
       aws-sigv4 (~> 1.1)
@@ -81,11 +81,11 @@ GEM
     aws-sdk-kms (1.48.0)
       aws-sdk-core (~> 3, >= 3.120.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.101.0)
+    aws-sdk-s3 (1.102.0)
       aws-sdk-core (~> 3, >= 3.120.0)
       aws-sdk-kms (~> 1)
-      aws-sigv4 (~> 1.1)
-    aws-sigv4 (1.3.0)
+      aws-sigv4 (~> 1.4)
+    aws-sigv4 (1.4.0)
       aws-eventstream (~> 1, >= 1.0.2)
     bcrypt (3.1.16)
     benchmark-ips (2.9.1)
@@ -321,6 +321,8 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    strip_attributes (1.11.0)
+      activemodel (>= 3.0, < 7.0)
     terminal-table (3.0.1)
       unicode-display_width (>= 1.1.1, < 3)
     thor (1.1.0)
@@ -404,6 +406,7 @@ DEPENDENCIES
   rails_best_practices
   redis
   render_async
+  ruby-progressbar
   rubyzip
   rufo
   scenic
@@ -411,6 +414,7 @@ DEPENDENCIES
   simplecov
   spring
   spring-watcher-listen (~> 2.0.0)
+  strip_attributes
   traceroute
   turbolinks (~> 5.0)
   uglifier

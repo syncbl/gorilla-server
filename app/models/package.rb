@@ -17,6 +17,7 @@ class Package < ApplicationRecord
                   ]
   translates :caption, :description, :release_note
   enumerize :package_type, in: %i[bundle external component], scope: true
+  strip_attributes
 
   belongs_to :user
   has_one :product

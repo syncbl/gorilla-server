@@ -16,6 +16,7 @@ namespace :import do
       sh "git clone git@github.com:microsoft/winget-pkgs.git ~/winget-pkgs"
     end
     c = 0
+    # TODO: Empty password for nologin
     unless user = User.find_by(name: "WinGet")
       puts user = User.create(
         name: "WinGet",
@@ -32,7 +33,9 @@ namespace :import do
     end
     user.packages.update_all(updated_at: Time.at(0))
     files = Dir.glob("../winget-pkgs/manifests/**/*.yaml").sort
+    progressbar = ProgressBar.create(total: files.size)
     files.each_with_index do |f, i|
+      progressbar.increment
       y = YAML.load_file(f)
       next if y["Installers"].nil? || y["PackageName"].nil?
       if i < files.size - 1
@@ -57,14 +60,9 @@ namespace :import do
         p.checksum = "sha256:#{y["Installers"][0]["InstallerSha256"]}"
       end
       p.blocked_at = nil
-      if p.save
-        c += 1
-        puts "+ #{p.name}"
-      else
-        puts "- #{p.name} #{p.errors.full_messages}"
-      end
+      c += 1 if p.save
     end
     user.packages.where(updated_at: Time.at(0)).update_all(published_at: nil)
-    puts "#{c} packages imported"
+    puts "#{c} from #{files.size} packages imported"
   end
 end
