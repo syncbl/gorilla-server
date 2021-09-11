@@ -3,11 +3,13 @@ module Notifiable
 
   def notify(method, object, payload = nil)
     # Notifications can be one per object or one per activity in order to avoid spam
-    notification = object.is_a?(ApplicationRecord) ? object.id : object
-    payload ||= Hash[method, notification]
-    deliver_notification "N_#{self.id}.#{method}.#{notification}", payload
+    value = object.is_a?(ApplicationRecord) ? object.id : object
+    notification = Hash[method, value]
+    notification[:message] = payload if payload
+    deliver_notification "N_#{self.id}.#{method}.#{value}", notification
   end
 
+  # TODO: Payload must be text only
   def notifications
     messages = Set[]
     redis_pool.with do |redis|
@@ -36,6 +38,7 @@ module Notifiable
   end
 
   def validate_notification(payload)
-    payload.size > 0 && %w[add_package remove_package].include?(payload.keys[0])
+    payload.size > 0 && %w[add_package remove_package flash_alert flash_notice]
+      .include?(payload.keys[0])
   end
 end

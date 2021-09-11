@@ -75,15 +75,12 @@ class Package < ApplicationRecord
   end
 
   def recalculate_size!
-    # TODO: Inform about freed space
     old_size = size
-    size = 0
-    sources.each { |s| size += s.unpacked_size }
-    if save
-      # TODO: Notify old_size - package.reload.size if smaller
-    else
-      # TODO: Something wrong
-    end
+    self.size = 0
+    sources.each { |s| self.size += s.unpacked_size }
+    user.notify(:flash_notice, self, I18n.t("notices.attributes.source.shrinked",
+                                            size: old_size - self.size))
+    save!
   end
 
   def filtered_params

@@ -27,16 +27,16 @@ class SourcesController < ApplicationController
     # Params removed from create() because user must fill fields only after creation
     @package = policy_scope(Package).find(params[:package_id])
     authorize @package, policy_class: PackagePolicy
-    if file =
-         source_exists?(current_user, params[:file].size, params[:checksum])
-      # TODO: Warn about existing file if it's own or public
+    if source = source_exists?(current_user, params[:file].size, params[:checksum])
+      # TODO: Link to source
+      current_user.notify(:flash_alert, @package, I18n.t("warnings.attributes.source.file_already_exists"))
     end
     respond_to do |format|
       if @source = @package.sources.create(size: params[:file].size)
         ProcessSourceJob.perform_later @source, write_tmp(params[:file])
         format.html do
           redirect_to [@source.package, @source],
-                      notice: 'Source was successfully created.'
+                      notice: "Source was successfully created."
         end
         format.json do
           render :show, status: :created, location: [@source.package, @source]
@@ -55,7 +55,7 @@ class SourcesController < ApplicationController
     authorize @source
     respond_to do |format|
       if @source.update(source_params)
-        redirect_to @source, notice: 'Source was successfully updated.'
+        redirect_to @source, notice: "Source was successfully updated."
       else
         format.html { render :edit }
         format.json do
@@ -72,7 +72,7 @@ class SourcesController < ApplicationController
     respond_to do |format|
       if @source.destroy
         format.html do
-          redirect_to sources_url, notice: 'Source was successfully destroyed.'
+          redirect_to sources_url, notice: "Source was successfully destroyed."
         end
         format.json { head :no_content }
       else

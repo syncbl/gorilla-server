@@ -13,7 +13,7 @@
     </title>
 
     <%= stylesheet_link_tag "application", media: "all", 'data-turbolinks-track': "reload" %>
-    <%= stylesheet_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag "application", 'data-turbolinks-track': "reload" %>
     <%= javascript_pack_tag "application", 'data-turbolinks-track': "reload" %>
     <%= csrf_meta_tags %>
   </head>
@@ -27,8 +27,9 @@
         <% end %>
       <% end %>
       <% if user_signed_in? %>
+        # TODO: notifications expand
         <% current_user&.notifications.each do |msg| %>
-          <%= content_tag :div, msg, class: ["alert", "alert-info"] %>
+          <%= content_tag :div, msg[:message], class: ["alert", "alert-info"] %>
         <% end %>
       <% end %>
       <div class="">
