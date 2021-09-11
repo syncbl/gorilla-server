@@ -4,7 +4,7 @@ class SourceValidator < ActiveModel::Validator
       record.errors.add I18n.t("errors.attributes.package.external")
     end
 
-    unless record.package.user.subscriptions.paid?
+    unless record.package.user.subscriptions.active?
       record.errors.add I18n.t("errors.messages.no_subscription")
     else
       # This hack allows to validate source size with user subscription on create

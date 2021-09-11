@@ -4,6 +4,9 @@ class Subscription < ApplicationRecord
   # - Pro (can publish 10gb)
   # - Business (can publish 100gb and can control endpoints)
 
+  # TODO: Must be rewrited!
+  # Bugs: subscription used only last, personal is a bullshit.
+
   belongs_to :user
 
   before_create :validate_time
@@ -15,23 +18,19 @@ class Subscription < ApplicationRecord
           )
         }
 
-  def self.paid?
-    self.current.any?
-  end
-
-  def self.extended?
-    paid? && %w[pro business unlimited].include?(current.last.user.plan)
+  def self.active?
+    current.first&.user&.plan.in? %w[pro business unlimited]
   end
 
   def self.size_limit
     case current.last.user.plan
-    when 'personal'
+    when "personal"
       SUBSCRIPTION_PLAN_PERSONAL
-    when 'pro'
+    when "pro"
       SUBSCRIPTION_PLAN_PRO
-    when 'business'
+    when "business"
       SUBSCRIPTION_PLAN_BUSINESS
-    when 'unlimited'
+    when "unlimited"
       SUBSCRIPTION_PLAN_BUSINESS
     else
       0
@@ -46,7 +45,7 @@ class Subscription < ApplicationRecord
     start_time = current.present? ? current.end_time : Time.current
     self.start_time = start_time
     if self.end_time.nil?
-      if user.plan == 'unlimited'
+      if user.plan == "unlimited"
         self.end_time = start_time + 100.years
       else
         self.end_time = start_time + 1.month

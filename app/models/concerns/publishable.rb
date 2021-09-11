@@ -21,7 +21,7 @@ module Publishable
   end
 
   def published?
-    super && user.subscriptions.extended?
+    super && user.subscriptions.active?
   end
 
   private
