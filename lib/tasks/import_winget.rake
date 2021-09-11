@@ -33,7 +33,7 @@ namespace :import do
     end
     user.packages.update_all(updated_at: Time.at(0))
     files = Dir.glob("../winget-pkgs/manifests/**/*.yaml").sort
-    progressbar = ProgressBar.create(total: files.size)
+    progressbar = ProgressBar.create(total: files.size, title: "WinGet")
     files.each_with_index do |f, i|
       progressbar.increment
       y = YAML.load_file(f)
