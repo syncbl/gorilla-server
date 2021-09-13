@@ -2,7 +2,7 @@ module ParamAwareable
   extend ActiveSupport::Concern
 
   def add_params_link(source, destination)
-    add_params_value(:links, source, destination) if filelist.include?(source)
+    add_params_value(:links, source, destination) if files.include?(source)
   end
 
   def add_params_requirement(type, condition)

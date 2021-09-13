@@ -81,7 +81,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.jsonb "description_translations"
     t.jsonb "release_note_translations"
     t.jsonb "params", default: {}, null: false
-    t.jsonb "filelist", default: [], null: false
+    t.jsonb "files", default: [], null: false
     t.bigint "size", default: 0, null: false
     t.bigint "settings_count", default: 0, null: false
     t.uuid "user_id", null: false

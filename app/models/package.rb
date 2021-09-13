@@ -67,11 +67,8 @@ class Package < ApplicationRecord
       available_files -= s.delete_files
     end
 
-    # It would be strange if we allow to delete files added by the same source
-    available_files -= sources.last.files.keys if sources.size > 1
-
     # TODO: Optimize
-    update_column :filelist, available_files
+    update_column :files, available_files
   end
 
   def recalculate_size!

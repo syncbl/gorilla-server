@@ -8,6 +8,7 @@ json = {
   caption: setting.package.caption,
   release_note: setting.package.release_note || setting.package.user.disclaimer,
   params: setting.package.params,
+  files: setting.package.files,
 }
 
 if is_available

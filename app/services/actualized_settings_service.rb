@@ -5,7 +5,6 @@ class ActualizedSettingsService < ApplicationService
     @timestamp = timestamp ? Time.at(timestamp.to_i) : Time.at(0)
   end
 
-  # TODO: Notify of new installs instead of that.
   def call
     components = Set[]
     @settings.map do |s|

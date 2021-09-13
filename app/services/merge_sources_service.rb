@@ -19,8 +19,8 @@ class MergeSourcesService < ApplicationService
               dstzipfile.commit
             end
             if dstzipfile.size == 0
+              dst.package.user.notify :remove_source, dst.package
               dst.destroy
-              # TODO: Notify user about deletion
             end
           end
           AttachmentService.call dst, dstfile
