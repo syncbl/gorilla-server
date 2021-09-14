@@ -29,7 +29,7 @@ class SourcesController < ApplicationController
     authorize @package, policy_class: PackagePolicy
     if source = source_exists?(current_user, params[:file].size, params[:checksum])
       # TODO: Link to source
-      current_user.notify(:flash_alert, @package, I18n.t("warnings.attributes.source.file_already_exists"))
+      current_user.notify :flash_alert, @package, I18n.t("warnings.attributes.source.file_already_exists")
     end
     respond_to do |format|
       if @source = @package.sources.create(size: params[:file].size)
