@@ -60,17 +60,6 @@ class Package < ApplicationRecord
     _replaced_by unless replacement_id.nil?
   end
 
-  def generate_filelist!
-    available_files = Set[]
-    sources.map do |s|
-      available_files += s.files.keys
-      available_files -= s.delete_files
-    end
-
-    # TODO: Optimize
-    update_column :files, available_files
-  end
-
   def recalculate_size!
     old_size = size
     self.size = 0

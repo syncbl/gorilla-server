@@ -72,7 +72,7 @@ GEM
       execjs (~> 2)
     awesome_print (1.9.2)
     aws-eventstream (1.2.0)
-    aws-partitions (1.499.0)
+    aws-partitions (1.501.0)
     aws-sdk-core (3.121.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
@@ -343,7 +343,7 @@ GEM
       i18n
     warden (1.2.9)
       rack (>= 2.0.9)
-    webpacker (5.4.2)
+    webpacker (5.4.3)
       activesupport (>= 5.2)
       rack-proxy (>= 0.6.1)
       railties (>= 5.2)

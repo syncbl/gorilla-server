@@ -22,7 +22,6 @@ class AttachmentService < ApplicationService
       @source.is_merged = true if @source.package.sources.size == 1
       @source.save!
       @source.package.recalculate_size!
-      @source.package.generate_filelist!
     end
   end
 

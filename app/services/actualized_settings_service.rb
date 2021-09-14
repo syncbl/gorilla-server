@@ -27,8 +27,6 @@ class ActualizedSettingsService < ApplicationService
     end
 
     # Only updated packages
-    settings = @settings.joins(:sources).where(Source.arel_table[:created_at].gt(@timestamp)).uniq
-
-    return settings
+    @settings.joins(:sources).where(Source.arel_table[:created_at].gt(@timestamp)).uniq
   end
 end
