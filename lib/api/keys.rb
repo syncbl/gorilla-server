@@ -15,6 +15,6 @@ class Api::Keys
   private
 
   def app_key(path)
-    "#{File.basename(path)}:#{Digest::MD5.file(path).hexdigest}"
+    "#{File.basename(path)}:#{Digest::SHA256.file(path).hexdigest}"
   end
 end
