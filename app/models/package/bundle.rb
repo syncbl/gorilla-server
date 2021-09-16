@@ -2,12 +2,9 @@ class Package::Bundle < Package
   include ParamAwareable
 
   jsonb_accessor :params,
-                 external_url: [:string],
                  checksum: [:string],
                  switches: [:string],
                  uninstall: [:string]
-
-  strip_attributes
 
   before_validation :set_type, on: :create
 

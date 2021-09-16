@@ -18,7 +18,6 @@ class User < ApplicationRecord
   has_secure_token :authentication_token
   attribute :token
   translates :disclaimer
-  strip_attributes
 
   # TODO: encrypts :email, deterministic: true, downcase: true
 

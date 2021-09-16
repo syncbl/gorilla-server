@@ -1,8 +1,6 @@
 class Package::Component < Package
   include ParamAwareable
 
-  strip_attributes
-
   has_many :packages, through: :dependencies
 
   before_destroy :check_dependency, prepend: true
