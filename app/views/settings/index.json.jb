@@ -1,5 +1,11 @@
 json = render "layouts/header"
 
+if @endpoint == current_endpoint
+  if notifications = @endpoint.notifications
+    json[:notifications] = notifications
+  end
+end
+
 json[:settings] = render "settings/index", settings: @settings
 
 log_json json

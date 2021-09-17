@@ -19,8 +19,4 @@ if @object && @object.errors.any?
   json[:errors] = @object
 end
 
-notifications =
-  current_anyone&.notifications
-json[:notifications] = notifications if notifications&.any?
-
 json

@@ -2,6 +2,12 @@
 
 json = render "layouts/header", object: @user
 
+if @user == current_user
+  if notifications = @user.notifications
+    json[:notifications] = notifications
+  end
+end
+
 json[:user] = render "users/show", user: @user
 
 log_json json
