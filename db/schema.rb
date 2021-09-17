@@ -78,10 +78,10 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.string "package_type", null: false
     t.string "version"
     t.jsonb "caption_translations", null: false
+    t.jsonb "short_description_translations"
     t.jsonb "description_translations"
     t.jsonb "release_note_translations"
     t.jsonb "params", default: {}, null: false
-    t.jsonb "files", default: [], null: false
     t.bigint "size", default: 0, null: false
     t.bigint "settings_count", default: 0, null: false
     t.uuid "user_id", null: false

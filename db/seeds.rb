@@ -31,14 +31,14 @@ when "development"
            {
              name: "openssl-1_0",
              caption: "Test1",
-             description: "Test package",
+             short_description: "Test package",
              user: u1,
              external_url: "https://www.heidisql.com/installers/HeidiSQL_11.0.0.5919_Setup.exe",
            },
            {
              name: "Openssl-2_0",
              caption: "Test2",
-             description: "Test package",
+             short_description: "Test package",
              user: u1,
              external_url: "https://www.7-zip.org/a/7z1900-x64.exe",
            },
@@ -50,6 +50,7 @@ when "development"
            {
              name: "Openssl-1_1",
              caption: "Test3",
+             short_description: "Test",
              description: "Test packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest package",
              user: u1,
              path: 'D:\TEST',
@@ -57,6 +58,7 @@ when "development"
            {
              name: "Openssl-1_2",
              caption: "Test4",
+             short_description: "Test",
              description: "Test packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest package",
              user: u1,
              path: 'D:\TEST',
@@ -64,6 +66,7 @@ when "development"
            {
              name: "openssl-2_1",
              caption: "Test5",
+             short_description: "Test",
              description: "Test package",
              user: u1,
              path: 'D:\TEST',
@@ -76,6 +79,7 @@ when "development"
            {
              name: "openssl-dev",
              caption: "Test6",
+             short_description: "Test",
              description: "Test package",
              release_note: "WOLOLOLO",
              user: u1,
@@ -84,6 +88,7 @@ when "development"
            {
              name: "openssl-dev-2",
              caption: "Test7",
+             short_description: "Test",
              description: "Test package",
              release_note: "WOLOLOLO",
              user: u1,

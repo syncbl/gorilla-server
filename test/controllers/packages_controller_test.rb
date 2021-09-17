@@ -7,6 +7,7 @@ class PackagesControllerTest < ActionDispatch::IntegrationTest
       name: "p-bundle",
       package_type: :bundle,
       caption: '{"en": "Test Bundle"}',
+      short_description: '{"en": "Test package"}',
       description: '{"en": "Test package"}',
     }
     sign_in(users(:one))

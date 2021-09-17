@@ -55,6 +55,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.string :version
 
       t.jsonb :caption_translations, null: false
+      t.jsonb :short_description_translations
       t.jsonb :description_translations
       t.jsonb :release_note_translations
 

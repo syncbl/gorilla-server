@@ -13,9 +13,9 @@ class Package < ApplicationRecord
                   against: %i[
                     name
                     caption_translations
-                    description_translations
+                    short_description_translations
                   ]
-  translates :caption, :description, :release_note
+  translates :caption, :short_description, :description, :release_note
   enumerize :package_type, in: %i[bundle external component], scope: true
 
   belongs_to :user
@@ -42,6 +42,9 @@ class Package < ApplicationRecord
             format: {
               with: NAME_FORMAT,
             }
+  validates :short_description, length: {
+                                  maximum: 300,
+                                }
   validates :package_type, presence: true
   validates :icon, size: { less_than: MAX_ICON_SIZE }
   validates :replacement, package_replacement: true

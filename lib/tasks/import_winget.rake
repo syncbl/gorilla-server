@@ -51,7 +51,7 @@ namespace :import do
           )
       # TODO: Architecture check for x64
       p.caption = name
-      p.description = y["ShortDescription"]
+      p.short_description = y["ShortDescription"]
       p.external_url = y["Installers"][0]["InstallerUrl"]
       if y["InstallerSwitches"]
         p.switches = y["InstallerSwitches"]["Silent"] || y["InstallerSwitches"]["SilentWithProgress"]

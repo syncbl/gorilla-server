@@ -4,6 +4,7 @@ json = {
   name: package.name,
   package_type: package.package_type,
   caption: package.caption,
+  short_description: package.short_description,
   description: package.description,
   # is_published: package.published?,
   size: package.size,

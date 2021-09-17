@@ -2,7 +2,16 @@ module ParamAwareable
   extend ActiveSupport::Concern
 
   def add_params_link(source, destination)
-    add_params_value(:links, source, destination) if files.include?(source)
+    available_files = Set[]
+    sources.map do |s|
+      available_files += s.files.keys
+      available_files -= s.delete_files
+    end
+    if available_files.include?(source)
+      add_params_value(:links, source, destination)
+    else
+      raise I18n.t("errors.messages.link_not_exists")
+    end
   end
 
   def add_params_requirement(type, condition)
