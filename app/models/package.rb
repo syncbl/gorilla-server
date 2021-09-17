@@ -79,6 +79,15 @@ class Package < ApplicationRecord
     raise Exception::NotImplementedError
   end
 
+  def available_files
+    available_files = Set[]
+    sources.map do |s|
+      available_files += s.files.keys
+      available_files -= s.delete_files
+    end
+    available_files
+  end
+
   private
 
   def _replaced_by
