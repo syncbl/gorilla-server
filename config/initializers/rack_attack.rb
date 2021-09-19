@@ -38,17 +38,17 @@ class Rack::Attack
   end
 end
 
-Rack::Attack.blocklist("Block IP from cache") do |request|
-  Api::Redis.new.pool.with { |redis| redis.get("Blocked_IP.#{request.ip}") }
-end
-
-Rack::Attack.throttle("API requests by IP", limit: 1, period: 1) do |request|
-  request.ip if request.path.downcase.ends_with?(".json")
-end
-
 Rack::Attack.blocklisted_response = lambda do |request|
   # Redirect to nginx 444
   [302, { "Location": "/x" }, []]
+end
+
+Rack::Attack.throttle("API requests by IP", limit: 5, period: 1) do |request|
+  request.ip if request.path.downcase.ends_with?(".json")
+end
+
+Rack::Attack.blocklist("Block IP from cache") do |request|
+  Api::Redis.new.pool.with { |redis| redis.get("Blocked_IP.#{request.ip}") }
 end
 
 Rack::Attack.blocklist("Malicious scanners") do |request|
