@@ -3,7 +3,7 @@ is_available = setting.endpoint.can_view?(setting.package)
 json = {
   is_available: is_available,
   id: setting.package.id,
-  name: setting.package.name,
+  name: "#{setting.package.user.name}/#{setting.package.name}",
   package_type: setting.package.package_type,
   caption: setting.package.caption,
   release_note: setting.package.release_note || setting.package.user.disclaimer,

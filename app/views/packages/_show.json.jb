@@ -1,7 +1,7 @@
 json = {
   is_available: current_anyone.can_view?(package),
   id: package.id,
-  name: package.name,
+  name: "#{package.user.name}/#{package.name}",
   package_type: package.package_type,
   caption: package.caption,
   short_description: package.short_description,
