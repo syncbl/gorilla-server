@@ -1,7 +1,7 @@
 json = render "layouts/header", object: @endpoint
 
 if @endpoint == current_endpoint
-  if notifications = @endpoint.notifications
+  if notifications = @endpoint.notifications(only: %w[add_package remove_package])
     json[:notifications] = notifications
   end
 end

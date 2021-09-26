@@ -9,17 +9,20 @@ module Notifiable
     deliver_notification "N_#{self.id}.#{method}.#{value}", notification
   end
 
-  def notifications
+  def notifications(only:, except: [])
     messages = Set[]
     notification_pool.with do |redis|
       redis.scan_each(match: "N_#{self.id}.*") do |key|
         value = redis.hgetall(key)
         if validate_notification(value)
-          messages << value
+          if !(except.is_a?(Array) && payload.keys[0].in?(except)) &&
+             (!only.is_a?(Array) || payload.keys[0].in?(only))
+            messages << value
+            redis.del(key)
+          end
         else
           raise "Outgoing notification is invalid!"
         end
-        redis.del(key)
       end
     end
     messages.to_a
