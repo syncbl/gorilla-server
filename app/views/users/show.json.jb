@@ -3,7 +3,7 @@
 json = render "layouts/header", object: @user
 
 if @user == current_user
-  if notifications = @user.notifications
+  if notifications = @user.notifications(only: USER_NOTIFICATIONS)
     json[:notifications] = notifications
   end
 end

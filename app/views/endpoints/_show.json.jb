@@ -2,5 +2,4 @@ json = {
   id: endpoint.id,
   name: endpoint.name,
   locale: endpoint.locale,
-  # notifications: endpoint.notifications, TODO: only count
 }

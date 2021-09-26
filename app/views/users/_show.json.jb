@@ -4,5 +4,4 @@ json = {
   fullname: user.fullname,
   locale: user.locale,
   # TODO: Icon, company etc.
-  notifications: user.notifications,
 }

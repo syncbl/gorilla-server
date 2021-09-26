@@ -16,6 +16,9 @@ SUBSCRIPTION_PLAN_PRO = 10.gigabytes
 SUBSCRIPTION_PLAN_BUSINESS = 100.gigabytes
 NOTIFICATION_EXPIRES_IN = 3.days
 
+ENDPOINT_NOTIFICATIONS = %w[add_package remove_package]
+USER_NOTIFICATIONS = %w[remove_source flash_alert flash_notice]
+
 RESTRICTED_NAMES = %w[
   setting sign_in api
   settings sign_out actuator
