@@ -1,6 +1,6 @@
 class Dependency < ApplicationRecord
   belongs_to :package
-  belongs_to :dependent_package, class_name: 'Package'
+  belongs_to :dependent_package, class_name: "Package"
 
   delegate :package_type, to: :dependent_package
 
@@ -23,8 +23,8 @@ class Dependency < ApplicationRecord
   end
 
   def self.extract(package, components = Set[])
-    package.dependencies.map do |d|
-      components << d
+    components << package
+    package.dependencies.reject { |d| components.include?(d) }.map do |d|
       self.extract(d.dependent_package, components)
     end
     components.to_a.reverse
