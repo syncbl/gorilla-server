@@ -6,7 +6,6 @@ json = {
   name: "#{setting.package.user.name}/#{setting.package.name}",
   package_type: setting.package.package_type,
   caption: setting.package.caption,
-  release_note: setting.package.release_note || setting.package.user.disclaimer,
   params: setting.package.params,
 }
 

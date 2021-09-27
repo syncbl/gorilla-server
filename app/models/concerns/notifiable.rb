@@ -9,17 +9,19 @@ module Notifiable
     deliver_notification "N_#{self.id}.#{method}.#{value}", notification
   end
 
-  def notifications
+  def notifications(only:)
     messages = Set[]
     notification_pool.with do |redis|
       redis.scan_each(match: "N_#{self.id}.*") do |key|
         value = redis.hgetall(key)
         if validate_notification(value)
-          messages << value
+          if !only.is_a?(Array) || payload.keys[0].in?(only)
+            messages << value
+            redis.del(key)
+          end
         else
           raise "Outgoing notification is invalid!"
         end
-        redis.del(key)
       end
     end
     messages.to_a
@@ -46,7 +48,7 @@ module Notifiable
   def validate_notification(payload)
     payload.size > 0 &&
       (payload[:message].nil? || payload[:message].is_a?(String)) &&
-      ((self.is_a?(Endpoint) && payload.keys[0].in?(%w[add_package remove_package])) ||
-       (self.is_a?(User) && payload.keys[0].in?(%w[remove_source flash_alert flash_notice])))
+      ((self.is_a?(Endpoint) && payload.keys[0].in?(ENDPOINT_NOTIFICATIONS)) ||
+       (self.is_a?(User) && payload.keys[0].in?(USER_NOTIFICATIONS)))
   end
 end
