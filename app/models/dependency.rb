@@ -54,7 +54,13 @@ class Dependency < ApplicationRecord
         SELECT * FROM dependency_tree
       SQL
 
-    ActiveRecord::Associations::Preloader.new.preload Dependency.find_by_sql(sql.chomp),
-                                                      [{ package: :user }, { dependent_package: :user }]
+    dependencies = Dependency.find_by_sql(sql.chomp)
+    ActiveRecord::Associations::Preloader.new.preload dependencies, [
+                                                        { package: :user },
+                                                        { dependent_package: :user },
+                                                        { package: :sources },
+                                                        { dependent_package: :sources },
+                                                      ]
+    dependencies || []
   end
 end
