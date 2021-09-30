@@ -15,7 +15,7 @@ module Notifiable
       redis.scan_each(match: "N_#{self.id}.*") do |key|
         value = redis.hgetall(key)
         if validate_notification(value)
-          if !only.is_a?(Array) || payload.keys[0].in?(only)
+          if !only.is_a?(Array) || value.keys[0].in?(only)
             messages << value
             redis.del(key)
           end
