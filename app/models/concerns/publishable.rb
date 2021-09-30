@@ -9,10 +9,6 @@ module Publishable
 
       validate :try_check_publishable, if: :published_at_changed?
       validate :lock_published, unless: :published_at_changed?
-
-      scope :published, -> {
-              where(self.arel_table[:published_at].lt(Time.current))
-            }
     }
   end
 

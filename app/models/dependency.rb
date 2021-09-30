@@ -22,6 +22,7 @@ class Dependency < ApplicationRecord
     !package_type.component? && is_optional
   end
 
+<<<<<<< HEAD
   def self.extract(package)
     columns = Dependency.column_names
     sql =
@@ -58,6 +59,12 @@ class Dependency < ApplicationRecord
       dependencies
     else
       []
+=======
+  def self.extract(package, components = Set[])
+    components << package
+    package.dependencies.reject { |d| components.include?(d) }.map do |d|
+      self.extract(d.dependent_package, components)
+>>>>>>> 2ce90e1245d9c72468743d66f390e75224495ea2
     end
   end
 end
