@@ -55,7 +55,7 @@ class Dependency < ApplicationRecord
       SQL
 
     if dependencies = Dependency.find_by_sql(sql.chomp)
-      ActiveRecord::Associations::Preloader.new.preload dependencies, [:package, :dependent_package]
+      ActiveRecord::Associations::Preloader.new.preload dependencies, [{package: :user}, {dependent_package: :user}]
       dependencies
     else
       []
