@@ -22,7 +22,7 @@ class Dependency < ApplicationRecord
     !package_type.component? && is_optional
   end
 
-  def self.extract(package)
+  def self.extract_from(endpoint)
     columns = Dependency.column_names
     sql =
       <<-SQL
@@ -34,8 +34,9 @@ class Dependency < ApplicationRecord
           WHERE id IN (
             SELECT
               dependencies.id
-            FROM dependencies, packages
-            WHERE package_id = '#{package.id}'
+            FROM dependencies, packages, settings
+            WHERE settings.endpoint_id = '#{endpoint.id}'
+            AND settings.package_id = dependencies.package_id
             AND packages.id = dependencies.package_id
             AND packages.blocked_at IS NULL
           )

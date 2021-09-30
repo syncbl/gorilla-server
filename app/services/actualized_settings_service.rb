@@ -7,15 +7,11 @@ class ActualizedSettingsService < ApplicationService
 
   def call
     components = Set[]
-    @settings.map do |s|
-      next if components.include?(s.package.id)
-      Dependency.extract(s.package).map do |c|
-        next unless c.required_component? || c.required_package?
-        next if components.include?(c.dependent_package.id)
-        components << c.dependent_package.id
-        unless c.is_optional || @settings.exists?(package: c.dependent_package)
-          @endpoint.notify :add_package, c.dependent_package
-        end
+    Dependency.extract_from(@endpoint).map do |c|
+      next if components.include?(c.dependent_package.id)
+      components << c.dependent_package.id
+      unless @settings.exists?(package: c.dependent_package)
+        @endpoint.notify :add_package, c.dependent_package
       end
     end
 
