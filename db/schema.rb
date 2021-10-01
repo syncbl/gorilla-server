@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   create_table "dependencies", force: :cascade do |t|
     t.uuid "package_id", null: false
     t.uuid "dependent_package_id", null: false
+    t.jsonb "category_translations"
     t.boolean "is_optional", default: false, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["dependent_package_id"], name: "index_dependencies_on_dependent_package_id"

@@ -85,6 +85,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
                              foreign_key: true
       t.references :dependent_package, type: :uuid, index: true, null: false,
                                        foreign_key: { to_table: :packages }
+      t.jsonb :category_translations
       t.boolean :is_optional, null: false, default: false
       t.datetime :created_at, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.index %i[package_id dependent_package_id], unique: true

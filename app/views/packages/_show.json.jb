@@ -3,6 +3,7 @@ json = {
   id: package.id,
   name: "#{package.user.name}/#{package.name}",
   package_type: package.package_type,
+  category: package.category,
   caption: package.caption,
   short_description: package.short_description,
   description: package.description,

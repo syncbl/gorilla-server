@@ -8,7 +8,7 @@ if @package.package_type.external?
   json[:checksum] = @package.params[:checksum]&.downcase
 end
 
-@package.dependencies.map do |d|
+@package.dependencies.categorized.map do |d|
   component_type = if d.required_component?
       # Required components
       :required_components
@@ -22,6 +22,7 @@ end
       # Install after main package with separate wizard
       :optional_packages
     end
+  d.dependent_package.category = d.category
   json_package[component_type] ||= []
   json_package[component_type] << (render "show", package: d.dependent_package)
 end
