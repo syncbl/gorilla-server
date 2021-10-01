@@ -39,7 +39,7 @@ class Dependency < ApplicationRecord
     columns = Dependency.column_names
     sql =
       <<-SQL
-        WITH RECURSIVE dependency_tree (#{columns.join(",")}, level)
+        WITH RECURSIVE dependency_tree (#{columns.join(", ")}, level)
         AS (
           SELECT
             #{columns.join(", ")}, 0
