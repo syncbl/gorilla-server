@@ -16,7 +16,7 @@ class Dependency < ApplicationRecord
             }
 
   scope :categorized, -> {
-          order(Arel.sql("category_translations ->>'#{I18n.locale}'"))
+          order(Arel.sql("category_translations ->>'#{I18n.locale}', category_translations ->>'en'"))
         }
 
   def required_component?

@@ -6,7 +6,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     # ----------
     create_table :users, id: :uuid do |t|
       t.string :fullname
-      t.jsonb :disclaimer_translations
+      t.jsonb :disclaimer_translations, null: false, default: { "en": "" }
 
       t.citext :name, null: false, index: true, unique: true
       t.string :locale
@@ -54,9 +54,9 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.string :package_type, index: true, null: false
       t.string :version
 
-      t.jsonb :caption_translations, null: false
-      t.jsonb :short_description_translations
-      t.jsonb :description_translations
+      t.jsonb :caption_translations, null: false, default: { "en": "" }
+      t.jsonb :short_description_translations, null: false, default: { "en": "" }
+      t.jsonb :description_translations, null: false, default: { "en": "" }
 
       t.jsonb :params, null: false, default: {}
 
@@ -85,7 +85,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
                              foreign_key: true
       t.references :dependent_package, type: :uuid, index: true, null: false,
                                        foreign_key: { to_table: :packages }
-      t.jsonb :category_translations
+      t.jsonb :category_translations, null: false, default: { "en": "" }
       t.boolean :is_optional, null: false, default: false
       t.datetime :created_at, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.index %i[package_id dependent_package_id], unique: true
@@ -94,7 +94,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     # ----------
     create_table :sources, id: :uuid do |t|
       # TODO: What to do with file: run, unpack, exec
-      t.jsonb :description_translations
+      t.jsonb :description_translations, null: false, default: { "en": "" }
       t.string :version
       t.jsonb :files, null: false, default: {}
       t.jsonb :delete_files, null: false, default: []
