@@ -1,22 +1,16 @@
 class Dependency < ApplicationRecord
-  translates :category
-
   belongs_to :package
   belongs_to :dependent_package, class_name: "Package"
+  belongs_to :category, optional: true
 
   delegate :package_type, to: :dependent_package
 
   validates :dependent_package, package_dependency: true
-  validates :category,
-            length: {
-              maximum: MAX_NAME_LENGTH,
-            },
-            format: {
-              with: NAME_FORMAT,
-            }
+
+  default_scope { joins(:dependent_package) }
 
   scope :categorized, -> {
-          order(Arel.sql("category_translations ->>'#{I18n.locale}', category_translations ->>'en'"))
+          order(:category_id)
         }
 
   def required_component?

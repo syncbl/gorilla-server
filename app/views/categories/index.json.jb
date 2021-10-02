@@ -1,0 +1,6 @@
+@categories.map do |category|
+  {
+    id: category.id,
+    url: category_url(category, format: :json)
+  }
+end

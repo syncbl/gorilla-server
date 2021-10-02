@@ -49,6 +49,14 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     end
 
     # ----------
+    create_table :categories do |t|
+      t.jsonb :caption_translations, null: false, default: { "en": "" }
+
+      t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
+      t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
+    end
+
+    # ----------
     create_table :packages, id: :uuid do |t|
       t.citext :name, null: false
       t.string :package_type, index: true, null: false
@@ -85,7 +93,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
                              foreign_key: true
       t.references :dependent_package, type: :uuid, index: true, null: false,
                                        foreign_key: { to_table: :packages }
-      t.jsonb :category_translations, null: false, default: { "en": "" }
+      t.references :category, index: true, foreign_key: true
       t.boolean :is_optional, null: false, default: false
       t.datetime :created_at, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.index %i[package_id dependent_package_id], unique: true

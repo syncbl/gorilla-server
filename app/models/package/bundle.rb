@@ -8,9 +8,7 @@ class Package::Bundle < Package
 
   before_validation :set_type, on: :create
 
-  default_scope -> {
-                  with_package_type(:bundle)
-                }
+  default_scope { with_package_type(:bundle) }
 
   def publishable?
     true

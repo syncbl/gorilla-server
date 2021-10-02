@@ -46,12 +46,21 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "categories", force: :cascade do |t|
+    t.jsonb "caption_translations", default: {"en"=>""}, null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["created_at"], name: "index_categories_on_created_at"
+    t.index ["updated_at"], name: "index_categories_on_updated_at"
+  end
+
   create_table "dependencies", force: :cascade do |t|
     t.uuid "package_id", null: false
     t.uuid "dependent_package_id", null: false
-    t.jsonb "category_translations"
+    t.bigint "category_id"
     t.boolean "is_optional", default: false, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["category_id"], name: "index_dependencies_on_category_id"
     t.index ["dependent_package_id"], name: "index_dependencies_on_dependent_package_id"
     t.index ["package_id", "dependent_package_id"], name: "index_dependencies_on_package_id_and_dependent_package_id", unique: true
     t.index ["package_id"], name: "index_dependencies_on_package_id"
@@ -78,9 +87,9 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.citext "name", null: false
     t.string "package_type", null: false
     t.string "version"
-    t.jsonb "caption_translations", null: false
-    t.jsonb "short_description_translations"
-    t.jsonb "description_translations"
+    t.jsonb "caption_translations", default: {"en"=>""}, null: false
+    t.jsonb "short_description_translations", default: {"en"=>""}, null: false
+    t.jsonb "description_translations", default: {"en"=>""}, null: false
     t.jsonb "params", default: {}, null: false
     t.bigint "size", default: 0, null: false
     t.bigint "settings_count", default: 0, null: false
@@ -122,7 +131,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   end
 
   create_table "sources", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.jsonb "description_translations"
+    t.jsonb "description_translations", default: {"en"=>""}, null: false
     t.string "version"
     t.jsonb "files", default: {}, null: false
     t.jsonb "delete_files", default: [], null: false
@@ -151,7 +160,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "fullname"
-    t.jsonb "disclaimer_translations"
+    t.jsonb "disclaimer_translations", default: {"en"=>""}, null: false
     t.citext "name", null: false
     t.string "locale"
     t.string "plan"
@@ -176,6 +185,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "dependencies", "categories"
   add_foreign_key "dependencies", "packages"
   add_foreign_key "dependencies", "packages", column: "dependent_package_id"
   add_foreign_key "endpoints", "users"

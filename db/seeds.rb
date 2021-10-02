@@ -116,11 +116,13 @@ when "development"
   AttachmentService.call s, "files/test2.zip"
   s.publish!
 
+  c = Category.create(caption: "Test")
+
   # p.dependent_packages << Package.find_by(name: "openssl-1_0")
   p.dependent_packages << Package.find_by(name: "openssl-1_1")
-  p.dependencies.last.update(is_optional: true, category: "Test")
+  p.dependencies.last.update(is_optional: true, category: c)
   p.dependent_packages << Package.find_by(name: "openssl-1_2")
-  p.dependencies.last.update(is_optional: true, category: "Test")
+  p.dependencies.last.update(is_optional: true, category: c)
   Product.create(package: p)
 
   p1 = Package.last
