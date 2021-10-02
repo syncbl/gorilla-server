@@ -12,7 +12,6 @@ class SettingsController < ApplicationController
   def show; end
 
   # POST /endpoints/1/settings
-  # TODO: Return all components as index output to avoid using 2 queries
   def create
     package = Package.find(params[:package_id])
     respond_to do |format|

@@ -14,7 +14,5 @@ class PackageDependencyValidator < ActiveModel::EachValidator
       record.errors.add :dependent_package,
         I18n.t("errors.attributes.package.dependency.forbidden")
     end
-
-    # TODO: Check deep all dependencies
   end
 end

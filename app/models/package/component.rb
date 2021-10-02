@@ -8,8 +8,7 @@ class Package::Component < Package
 
   default_scope { with_package_type(:component) }
 
-  # TODO: Destroy orphaned components. Try dependent: :destroy like in activestorage
-
+  # TODO: Mark orphaned
   def orphaned?
     packages.size == 0
   end

@@ -24,7 +24,7 @@ module Publishable
 
   def try_check_publishable
     if published_at.present? && self.respond_to?(:publishable?) && !self.send(:publishable?)
-      errors.add :published_at, I18n.t("errors.messages.cannot_publish") # TODO: Edit i18n
+      errors.add :published_at, I18n.t("errors.messages.cannot_publish")
     end
   end
 

@@ -14,18 +14,17 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  # TODO: Layout
   def render_403
     respond_to do |format|
       format.html { render "errors/403", layout: "errors", status: :forbidden }
-      format.any { head :forbidden }
+      format.json { render_json_error I18n.t("errors.messages.forbidden"), status: :forbidden }
     end
   end
 
   def render_404
     respond_to do |format|
       format.html { render "errors/404", layout: "errors", status: :not_found }
-      format.any { head :not_found }
+      format.json { render_json_error I18n.t("errors.messages.not_found"), status: :not_found }
     end
   end
 

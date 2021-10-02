@@ -12,15 +12,6 @@ class Setting < ApplicationRecord
 
   default_scope { includes(:package, :endpoint) }
 
-  # TODO: Check scope to get really updated packages
-  scope :updated,
-        -> {
-          # ??? joins(:package).
-          where(
-            self.arel_table[:updated_at].lt(Package.arel_table[:updated_at]),
-          )
-        }
-
   def replaced?
     package.replacement_id.present?
   end

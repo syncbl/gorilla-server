@@ -27,7 +27,7 @@ class EndpointsController < ApplicationController
           {
             name: endpoint_params[:name],
             user: current_user,
-            remote_ip: request.remote_ip, # TODO: Additional security by IP compare
+            remote_ip: request.remote_ip,
             locale: I18n.default_locale.to_s,
           },
         )
