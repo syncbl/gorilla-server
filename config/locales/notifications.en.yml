@@ -8,7 +8,6 @@ en:
           forbidden: This component can't be accessed by package owner
           itself: Package can't be dependent on itself
           used: Can't delete component used in another package
-        internal: Cannot set external URL for internal package
         replacement:
           itself: Package can't be replaced by itself
           not_published: Replacement must be published

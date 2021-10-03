@@ -16,12 +16,16 @@ class Package::External < Package
             uniqueness: {
               case_sensitive: false,
             },
-            format: { with: NAME_FORMAT }
+            format: {
+              with: NAME_FORMAT,
+            }
   validates :external_url,
-            format: { with: URI.regexp(%w[https http]), message: I18n.t("errors.messages.url_is_not_allowed") },
+            format: {
+              with: URI.regexp(%w[https http]),
+              message: I18n.t("errors.messages.url_is_not_allowed"),
+            },
             length: { maximum: 2048 },
-            presence: true,
-            package_external_url: true
+            presence: true
 
   before_validation :set_type, on: :create
 

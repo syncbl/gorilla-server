@@ -6,6 +6,7 @@ class Dependency < ApplicationRecord
   delegate :package_type, to: :dependent_package
 
   validates :dependent_package, package_dependency: true
+  validates_with DependencyValidator
 
   default_scope { joins(:dependent_package) }
 

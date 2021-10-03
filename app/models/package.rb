@@ -58,7 +58,7 @@ class Package < ApplicationRecord
               minimum: MIN_NAME_LENGTH,
               maximum: MAX_NAME_LENGTH,
             }
-  validates_with PackageSubscriptionValidator
+  validates_with PackageValidator
 
   default_scope { joins(:user) }
 
