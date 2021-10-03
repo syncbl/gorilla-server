@@ -1,0 +1,17 @@
+# activerecord.errors.models.[model_name].attributes.[attribute_name]
+# activerecord.errors.models.[model_name]
+# activerecord.errors.messages
+# errors.attributes.[attribute_name]
+# errors.messages
+
+# TODO:
+en:
+  activerecord:
+    errors:
+      models:
+        dependency:
+          external: Cannot add components for external package
+        package:
+          attributes:
+            replacement:
+              itself: Package can't be replaced by itself
