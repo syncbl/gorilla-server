@@ -1,4 +1,6 @@
 class EndpointPolicy
+  include ApplicationHelper
+
   attr_reader :endpoint, :record
 
   def initialize(endpoint, record)

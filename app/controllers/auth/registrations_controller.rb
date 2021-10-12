@@ -6,6 +6,7 @@ class Auth::RegistrationsController < Devise::RegistrationsController
         @user = User.new(registration_params)
         @user.locale = http_accept_language.compatible_language_from(I18n.available_locales)
         @user.reseted_at = Time.current
+        byebug
         if @user.save
           sign_in @user
           render "users/show"

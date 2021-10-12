@@ -82,6 +82,10 @@ class PackagesController < ApplicationController
     end
   end
 
+  # TODO: Change search logic.
+  # - Subscibe to friends and search only there?
+  # - Set user before search or search in current_user? <-
+
   # POST /packages/search
   def search
     if params[:q].present? && params[:q].size >= MIN_NAME_LENGTH
@@ -114,6 +118,7 @@ class PackagesController < ApplicationController
   # <input type="text" name="client[name]" value="Acme" />
   def package_params
     params.require(:package).permit(:user_id, :name, :external_url,
-                                    :replacement, :version, :package_type, :caption, :short_description, :description)
+                                    :replacement, :version, :package_type,
+                                    :caption, :short_description, :description)
   end
 end
