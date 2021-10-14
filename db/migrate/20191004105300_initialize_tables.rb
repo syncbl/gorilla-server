@@ -72,7 +72,6 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.bigint :settings_count, null: false, default: 0
 
       # TODO: Copyrignt and else in t.jsonb :data
-
       t.references :user, type: :uuid, index: true, null: false,
                           foreign_key: true
       t.references :replacement, type: :uuid, index: true,

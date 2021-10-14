@@ -5,7 +5,7 @@ json_package = render "show", package: @package
 # TODO: Remove to leave it only in settings?
 if @package.package_type.external?
   json_package[:external_url] = @package.params[:external_url]
-  json[:checksum] = @package.params[:checksum]&.downcase
+  json_package[:checksum] = @package.params[:checksum]&.downcase
 end
 
 @package.dependencies.categorized.map do |d|
