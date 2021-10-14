@@ -7,7 +7,7 @@ class ActualizedSettingsService < ApplicationService
 
   def call
     components = Set[]
-    Dependency.extract_from(@endpoint).map do |c|
+    DependencyExtractQuery.call(@endpoint).map do |c|
       next if components.include?(c.dependent_package.id)
       components << c.dependent_package.id
       unless @settings.exists?(package: c.dependent_package)
