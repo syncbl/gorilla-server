@@ -5,7 +5,10 @@ class SettingsController < ApplicationController
 
   # GET /endpoints/1/settings
   def index
-    @settings = @endpoint.actualized_settings(params[:t])
+    # TODO: Check values is GUIDs
+    packages = params[:packages]&.split(",")
+      .select { |p| UUID_FORMAT.match?(p) } || []
+    @settings = @endpoint.actualized_settings(packages, params[:t])
   end
 
   # GET /endpoints/1/settings/1

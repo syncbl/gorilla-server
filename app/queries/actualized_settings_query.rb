@@ -1,13 +1,14 @@
-class ActualizedSettingsService < ApplicationService
-  def initialize(endpoint, timestamp)
+class ActualizedSettingsQuery < ApplicationQuery
+  def initialize(endpoint, packages, timestamp)
     @endpoint = endpoint
     @settings = endpoint.settings
+    @packages = packages
     @timestamp = timestamp ? Time.at(timestamp.to_i) : Time.at(0)
   end
 
   def call
     components = Set[]
-    DependencyExtractQuery.call(@endpoint).map do |c|
+    DependencyExtractQuery.call(@endpoint, @packages).map do |c|
       next if components.include?(c.dependent_package.id)
       components << c.dependent_package.id
       unless @settings.exists?(package: c.dependent_package)

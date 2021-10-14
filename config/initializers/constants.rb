@@ -1,4 +1,5 @@
 NAME_FORMAT = /\A[\p{L}\d\-\_\!\(\)\[\]\+\']*\z/
+UUID_FORMAT = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 MAX_FILE_COUNT = 100000
 MAX_ICON_SIZE = 1.megabyte
 MAX_FILE_SIZE = 1.gigabyte

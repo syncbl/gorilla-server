@@ -27,12 +27,8 @@ class Endpoint < ApplicationRecord
     settings.create(package: package)
   end
 
-  def actualized_settings(timestamp)
-    Rails
-      .cache
-      .fetch("EndpointSettings_#{id}", expires_in: MODEL_CACHE_TIMEOUT) do
-        ActualizedSettingsService.call(self, timestamp)
-      end
+  def actualized_settings(packages, timestamp)
+    ActualizedSettingsQuery.call(self, packages, timestamp)
   end
 
   def can_view?(object)

@@ -1,9 +1,11 @@
 class DependencyExtractQuery < ApplicationQuery
-  def initialize(endpoint)
+  def initialize(endpoint, packages)
     @endpoint = endpoint
+    @packages = packages
   end
 
   def call
+    return [] if @packages.size == 0
     columns = Dependency.column_names
     sql =
       <<-SQL
@@ -17,6 +19,7 @@ class DependencyExtractQuery < ApplicationQuery
               dependencies.id
             FROM dependencies, packages, settings
             WHERE settings.endpoint_id = '#{@endpoint.id}'
+            AND settings.package_id::text IN ('#{@packages.join(", ")}')
             AND settings.package_id = dependencies.package_id
             AND packages.id = dependencies.package_id
             AND packages.blocked_at IS NULL
