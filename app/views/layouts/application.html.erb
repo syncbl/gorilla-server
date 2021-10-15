@@ -12,9 +12,8 @@
           end %>
     </title>
 
-    <%= stylesheet_link_tag "application", media: "all", 'data-turbolinks-track': "reload" %>
-    <%= stylesheet_pack_tag "application", 'data-turbolinks-track': "reload" %>
-    <%= javascript_pack_tag "application", 'data-turbolinks-track': "reload" %>
+    <%= stylesheet_packs_with_chunks_tag "application", media: 'all', 'data-turbolinks-track': "reload" %>
+    <%= javascript_packs_with_chunks_tag 'application', 'important_entry_if_existed', 'data-turbolinks-track': "reload" %>
     <%= csrf_meta_tags %>
   </head>
   <body>
