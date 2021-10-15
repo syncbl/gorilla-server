@@ -21,8 +21,7 @@ module.exports = function(api) {
         '@babel/preset-env',
         {
           targets: {
-            node: 'current',
-            loose: true
+            node: 'current'
           }
         }
       ],
@@ -33,8 +32,7 @@ module.exports = function(api) {
           useBuiltIns: 'entry',
           corejs: 3,
           modules: false,
-          exclude: ['transform-typeof-symbol'],
-          loose: true
+          exclude: ['transform-typeof-symbol']
         }
       ]
     ].filter(Boolean),
@@ -52,22 +50,31 @@ module.exports = function(api) {
       [
         '@babel/plugin-proposal-object-rest-spread',
         {
-          useBuiltIns: true,
+          useBuiltIns: true
+        }
+      ],
+      [
+        '@babel/plugin-proposal-private-methods',
+        {
+          loose: true
+        }
+      ],
+      [
+        '@babel/plugin-proposal-private-property-in-object',
+        {
           loose: true
         }
       ],
       [
         '@babel/plugin-transform-runtime',
         {
-          helpers: false,
-          loose: true
+          helpers: false
         }
       ],
       [
         '@babel/plugin-transform-regenerator',
         {
-          async: false,
-          loose: true
+          async: false
         }
       ]
     ].filter(Boolean)
