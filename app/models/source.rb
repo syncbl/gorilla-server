@@ -7,7 +7,9 @@ class Source < ApplicationRecord
   translates :description
 
   belongs_to :package, touch: true
-  has_one_attached :file, service: :external, dependent: :purge_later
+  has_one_attached :file,
+                   service: :external,
+                   dependent: :purge_later
   delegate :user, to: :package
 
   validates :file,
@@ -19,7 +21,9 @@ class Source < ApplicationRecord
   validates :version, length: { maximum: MAX_VERSION_LENGTH }
   validates_with SourceValidator
 
-  default_scope { joins(package: :user) } # GoldiLoader: includes(file_attachment: :blob)
+  default_scope {
+    joins(package: :user)
+  } # GoldiLoader: includes(file_attachment: :blob)
 
   def self.merged?
     last&.is_merged == true
