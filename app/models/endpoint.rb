@@ -15,7 +15,8 @@ class Endpoint < ApplicationRecord
 
   validates :name, length: { maximum: MAX_NAME_LENGTH }
   validates :locale, length: { maximum: 10 }
-  validates :authentication_token, allow_nil: true, length: { is: 24 }
+  validates :authentication_token,
+            allow_nil: true, length: { is: 24 }
 
   default_scope { includes(:user) }
 

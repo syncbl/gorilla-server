@@ -27,7 +27,7 @@ gem "active_record-events" # An ActiveRecord extension providing convenience met
 gem "active_storage_validations" # Active Storage Validations.
 gem "aws-sdk-s3", require: false # Official AWS Ruby gem for Amazon Simple Storage Service (Amazon S3)
 gem "bcrypt" # Provides a simple wrapper for safely handling passwords.
-gem "bootstrap", "~> 4.6.0" # Bootstrap ruby gem for Ruby on Rails.
+#gem "bootstrap", "~> 4.6.0" # Bootstrap ruby gem for Ruby on Rails.
 gem "cityhash" # optional, for faster hashing (C-Ruby only)
 gem "clamby" # This gem's function is to simply scan a given file.
 gem "dalli" # To use :mem_cache_store
@@ -81,6 +81,7 @@ group :development do
   gem "rack-mini-profiler"
   gem "memory_profiler"
   gem "rails_best_practices"
+  gem "brakeman"
 end
 
 group :production do

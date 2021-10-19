@@ -4,7 +4,8 @@
 
 class Api::Keys
   def initialize
-    @keys ||= Set[app_key("files/hqdefault.jpg")]
+    # TODO: Load and cache keys from Packages by name, delete previous
+    @keys ||= Set[] # Set[app_key("files/hqdefault.jpg")]
     @keys << "@@" if Rails.env.development?
   end
 
