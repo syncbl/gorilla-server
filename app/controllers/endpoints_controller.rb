@@ -5,7 +5,6 @@ class EndpointsController < ApplicationController
   # GET /endpoints
   # GET /endpoints.json
   def index
-    # TODO: Add group
     @pagy, @endpoints =
       pagy_countless(policy_scope(Endpoint), items: params[:items])
   end
