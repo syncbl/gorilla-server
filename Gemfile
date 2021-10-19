@@ -81,6 +81,7 @@ group :development do
   gem "rack-mini-profiler"
   gem "memory_profiler"
   gem "rails_best_practices"
+  gem "brakeman"
 end
 
 group :production do
