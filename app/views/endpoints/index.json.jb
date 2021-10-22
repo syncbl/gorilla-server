@@ -1,5 +1,7 @@
 json = render "layouts/header", pagy: @pagy
 
-json[:endpoints] = render "endpoints/index", endpoints: @endpoints
+json[:endpoints] = @endpoints.map do |endpoint|
+  render "show", endpoint: endpoint
+end
 
 json

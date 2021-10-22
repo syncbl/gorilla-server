@@ -6,6 +6,8 @@ if @endpoint == current_endpoint
   end
 end
 
-json[:settings] = render "settings/index", settings: @settings
+json[:settings] = @settings.map do |setting|
+  render "show", setting: setting
+end
 
 log_json json
