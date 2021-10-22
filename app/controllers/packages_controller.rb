@@ -1,4 +1,6 @@
 class PackagesController < ApplicationController
+  include PackagesHelper
+
   before_action :authenticate_user!, except: %i[show search]
   before_action :set_package, except: %i[index new create search]
 
@@ -105,13 +107,7 @@ class PackagesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
 
   def set_package
-    @package = if params[:user_id].present?
-        Package
-          .where(user: { name: params[:user_id] })
-          .find_by!(name: params[:id])
-      else
-        Package.find(params[:id])
-      end
+    @package = find_package_by_params
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
