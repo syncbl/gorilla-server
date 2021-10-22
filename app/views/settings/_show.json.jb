@@ -1,16 +1,14 @@
-is_available = setting.endpoint.can_view?(setting.package)
+# TODO: Username to User
 
 json = {
-  is_available: is_available,
-  id: setting.package.id,
-  name: setting.package.name,
+  is_available: current_anyone.can_view?(setting.package),
   username: setting.package.user.name,
-  package_type: setting.package.package_type,
-  caption: setting.package.caption,
   params: setting.package.params,
 }
 
-if is_available
+json[:package] = render "packages/short", package: setting.package
+
+if json[:package][:is_available]
   json[:params] = setting.package.filtered_params
   unless setting.package.package_type.external?
     json[:sources] = render "layouts/attachments", package: setting.package
