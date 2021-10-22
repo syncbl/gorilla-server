@@ -8,7 +8,7 @@ json = {
 
 json[:package] = render "packages/short", package: setting.package
 
-if json[:package][:is_available]
+if json[:is_available]
   json[:params] = setting.package.filtered_params
   unless setting.package.package_type.external?
     json[:sources] = render "layouts/attachments", package: setting.package

@@ -8,7 +8,9 @@ class Dependency < ApplicationRecord
   validates :dependent_package, package_dependency: true
   validates_with DependencyValidator
 
-  default_scope { joins(:dependent_package) }
+  default_scope {
+    joins(:dependent_package).includes(:category)
+  }
 
   scope :categorized, -> {
           order(:category_id)

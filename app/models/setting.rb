@@ -10,7 +10,9 @@ class Setting < ApplicationRecord
 
   validates :package_id, uniqueness: { scope: :endpoint_id }
 
-  default_scope { includes(:package, :endpoint) }
+  default_scope {
+    includes(:package, :endpoint)
+  }
 
   def replaced?
     package.replacement_id.present?
