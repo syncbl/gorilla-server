@@ -2,7 +2,6 @@
 
 json = {
   is_available: current_anyone.can_view?(setting.package),
-  username: setting.package.user.name,
   params: setting.package.params,
 }
 

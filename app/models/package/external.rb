@@ -3,7 +3,8 @@ class Package::External < Package
                  external_url: [:string],
                  checksum: [:string],
                  switches: [:string],
-                 uninstall: [:string]
+                 uninstall: [:string],
+                 version: [:string]
 
   # TODO: More validation messages
   validates :name,
