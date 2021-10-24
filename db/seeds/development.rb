@@ -1,3 +1,5 @@
+return unless Rails.env.development?
+
 u1 =
   User.create fullname: "Eldar Avatov",
               name: "deadalice",

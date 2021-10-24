@@ -7,7 +7,6 @@ class SettingsController < ApplicationController
 
   # GET /endpoints/1/settings
   def index
-    # TODO: Check values is GUIDs
     packages = params[:packages]&.split(",")
       .select { |p| UUID_FORMAT.match?(p) } || []
     @settings = @endpoint.actualized_settings(packages, params[:t])
