@@ -1,11 +1,12 @@
 class SettingsController < ApplicationController
+  include PackagesHelper
+
   # Settings can be used by user only within packages/endpoints
   before_action :set_endpoint
   before_action :set_setting, except: %i[index create]
 
   # GET /endpoints/1/settings
   def index
-    # TODO: Check values is GUIDs
     packages = params[:packages]&.split(",")
       .select { |p| UUID_FORMAT.match?(p) } || []
     @settings = @endpoint.actualized_settings(packages, params[:t])
@@ -16,7 +17,7 @@ class SettingsController < ApplicationController
 
   # POST /endpoints/1/settings
   def create
-    package = Package.find(params[:package_id])
+    package = find_package_by_params
     respond_to do |format|
       if @setting = @endpoint.install(package)
         format.html do

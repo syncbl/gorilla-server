@@ -1,16 +1,14 @@
-is_available = setting.endpoint.can_view?(setting.package)
+# TODO: Username to User
 
 json = {
-  is_available: is_available,
-  id: setting.package.id,
-  name: "#{setting.package.user.name}/#{setting.package.name}",
-  package_type: setting.package.package_type,
-  caption: setting.package.caption,
+  is_available: current_anyone.can_view?(setting.package),
   params: setting.package.params,
 }
 
-if is_available
-  json[:sources] = render "layouts/attachments", package: setting.package
+json[:package] = render "packages/short", package: setting.package
+
+if json[:is_available]
+  json.merge!(render "packages/includes", package: setting.package)
 end
 
 json

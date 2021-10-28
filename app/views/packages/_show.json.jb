@@ -1,30 +1,21 @@
-json = {
-  is_available: current_anyone.can_view?(package),
-  id: package.id,
-  name: package.name,
-  package_type: package.package_type,
-  category: package.category&.caption,
-  caption: package.caption,
-  short_description: package.short_description,
+json = render "packages/short", package: package
+
+json.merge!({
   description: package.description,
-  # is_published: package.published?,
-  size: package.size,
-  h_size: package.size == 0 ? "" : number_to_human_size(package.size),
   install_count: package.settings_count,
   h_install_count: number_to_human(package.settings_count, precision: 1),
   # replaced_by: package.replaced_by&.id,
   created_at: json_time(package.created_at),
   updated_at: json_time(package.updated_at),
-}
+})
 
 # TODO: May be, move icons into db?
 # TODO: Add dimensions
 json[:icon] = render "layouts/file", file: package.icon, prefix: "i"
-json[:user] = render "users/show", user: package.user
 
-if current_user
-  json[:params] = package.params
-  json[:sources] = render "layouts/attachments", package: package
-end
+# TODO: into edit -> if current_user
+#  json[:params] = package.params
+#  json[:sources] = render "layouts/attachments", package: package
+#end
 
 json

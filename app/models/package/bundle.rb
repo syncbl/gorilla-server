@@ -2,8 +2,6 @@ class Package::Bundle < Package
   include ParamAwareable
 
   jsonb_accessor :params,
-                 checksum: [:string],
-                 switches: [:string],
                  uninstall: [:string]
 
   before_validation :set_type, on: :create

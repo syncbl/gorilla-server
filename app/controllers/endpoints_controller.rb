@@ -1,11 +1,10 @@
 class EndpointsController < ApplicationController
   before_action :authenticate_user!, only: %i[index destroy]
-  before_action :set_endpoint, only: %i[show update]
+  before_action :set_endpoint, only: %i[show update clone]
 
   # GET /endpoints
   # GET /endpoints.json
   def index
-    # TODO: Add group
     @pagy, @endpoints =
       pagy_countless(policy_scope(Endpoint), items: params[:items])
   end
@@ -14,6 +13,7 @@ class EndpointsController < ApplicationController
   # GET /endpoints/1.json
   def show
     authorize @endpoint
+    @endpoint.touch
   end
 
   # POST /endpoints.json
@@ -31,7 +31,7 @@ class EndpointsController < ApplicationController
             locale: I18n.default_locale.to_s,
           },
         )
-        sign_in_endpoint(@endpoint)
+        sign_in_endpoint @endpoint
         render :show, status: :created, location: @endpoint
       end
     end
@@ -44,7 +44,7 @@ class EndpointsController < ApplicationController
     respond_to do |format|
       if @endpoint.update(endpoint_params)
         format.html do
-          redirect_to @endpoint, notice: 'Endpoint was successfully updated.'
+          redirect_to @endpoint, notice: "Endpoint was successfully updated."
         end
         format.json { render :show, status: :ok, location: @endpoint }
       else
@@ -65,7 +65,7 @@ class EndpointsController < ApplicationController
       if @endpoint.destroy
         format.html do
           redirect_to endpoints_url,
-                      notice: 'Endpoint was successfully destroyed.'
+                      notice: "Endpoint was successfully destroyed."
         end
         format.json { head :no_content }
       else
@@ -75,6 +75,20 @@ class EndpointsController < ApplicationController
                             status: :unprocessable_entity
         end
       end
+    end
+  end
+
+  # POST /endpoint/clone
+  # POST /endpoint/clone.json
+  def clone
+    from_endpoint = params[:from_endpoint_id] ? Endpoint.find(params[:from_endpoint_id]) :
+      Endpoint.where.not(id: @endpoint.id).order(updated_at: :desc).first
+    CloneEndpointService.call(from_endpoint, @endpoint)
+    respond_to do |format|
+      format.html do
+        redirect_to @endpoint, notice: "Endpoint was successfully cloned."
+      end
+      format.json { render :show, status: :created, location: @endpoint }
     end
   end
 

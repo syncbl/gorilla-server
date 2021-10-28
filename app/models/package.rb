@@ -60,7 +60,9 @@ class Package < ApplicationRecord
             }
   validates_with PackageValidator
 
-  default_scope { joins(:user) }
+  default_scope {
+    joins(:user)
+  }
 
   def replaced_by
     _replaced_by unless replacement_id.nil?

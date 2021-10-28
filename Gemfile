@@ -6,15 +6,13 @@ ruby "3.0.2"
 # Core
 gem "rails", "~> 6.1" # Ruby on Rails is a full-stack web framework.
 gem "rails-i18n", "~> 6.0" # Centralization of locale data collection for Ruby on Rails.
-gem "puma", "~> 5.1" # Puma is a simple, fast, multi-threaded, and highly concurrent HTTP 1.1 server for Ruby/Rack applications.
+gem "puma", "~> 5.5" # Puma is a simple, fast, multi-threaded, and highly concurrent HTTP 1.1 server for Ruby/Rack applications.
 gem "bootsnap", ">= 1.4.2", require: false # Boot large ruby/rails apps faster.
 gem "rack-attack" # Rack middleware for blocking & throttling abusive requests.
-
-# Javacsript
-gem "webpacker", "~> 5.4" # Webpacker makes it easy to use the JavaScript pre-processor.
 gem "turbolinks", "~> 5.0" # Turbolinks makes following links in your web application faster (use with Rails Asset Pipeline).
-gem "jquery-rails" # JQuery support
 gem "uglifier" # Ruby wrapper for UglifyJS JavaScript compressor.
+gem "sassc" # Sass C implementation, with the ease of use of the original Ruby Sass library.
+gem "webpacker" # Webpacker makes it easy to use the JavaScript pre-processor and bundler Webpack v5
 
 # Database
 gem "pg", "~> 1" # Pg is the Ruby interface to the PostgreSQL RDBMS.
@@ -28,7 +26,7 @@ gem "active_storage_validations" # Active Storage Validations.
 gem "aws-sdk-s3", require: false # Official AWS Ruby gem for Amazon Simple Storage Service (Amazon S3)
 gem "bcrypt" # Provides a simple wrapper for safely handling passwords.
 #gem "bootstrap", "~> 4.6.0" # Bootstrap ruby gem for Ruby on Rails.
-gem "cityhash" # optional, for faster hashing (C-Ruby only)
+gem "cityhash" # For faster hashing (C-Ruby only)
 gem "clamby" # This gem's function is to simply scan a given file.
 gem "dalli" # To use :mem_cache_store
 gem "devise" # Devise is a flexible authentication solution for Rails based on Warden.

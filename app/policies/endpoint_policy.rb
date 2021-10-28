@@ -27,13 +27,13 @@ class EndpointPolicy
   class Scope
     attr_reader :user, :scope
 
-    def initialize(endpoint, scope)
-      @endpoint = endpoint
+    def initialize(user, scope)
+      @user = user
       @scope = scope
     end
 
     def resolve
-      @endpoint.user.endpoints
+      @user.endpoints
     end
   end
 end

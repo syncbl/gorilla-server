@@ -18,8 +18,12 @@ Rails.application.routes.draw do
       post :search
     end
   end
+  # TODO: current_endpoint only for single term
   resource :endpoint, only: %i[show update] do
     resources :settings
+    collection do
+      post :clone
+    end
   end
   resources :endpoints, only: %i[index create destroy] do
     resources :settings, only: %i[create]
@@ -37,7 +41,7 @@ Rails.application.routes.draw do
   # This routes is only for non-API GET requests and must be in the end of route list
 
   get :user, to: "users#profile"
-  get ":user_id/:id", to: "packages#show"
+  get ":user_id/:package_id", to: "packages#show"
   get ":id", to: "users#show"
   #match '*path', to: 'packages#show', via: [:get, :post]
 end
