@@ -12,7 +12,7 @@ class ActualizedSettingsQuery < ApplicationQuery
       next if components.include?(c.dependent_package.id)
       components << c.dependent_package.id
       unless @settings.exists?(package: c.dependent_package)
-        @endpoint.notify :add_package, c.dependent_package
+        @endpoint.notify :add_component, "#{c.dependent_package.id}:#{c.package.id}"
       end
     end
 
