@@ -30,7 +30,7 @@ class EndpointsController < ApplicationController
             locale: I18n.default_locale.to_s,
           },
         )
-        sign_in_endpoint(@endpoint)
+        sign_in_endpoint @endpoint
         render :show, status: :created, location: @endpoint
       end
     end
