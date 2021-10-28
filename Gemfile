@@ -9,12 +9,10 @@ gem "rails-i18n", "~> 6.0" # Centralization of locale data collection for Ruby o
 gem "puma", "~> 5.5" # Puma is a simple, fast, multi-threaded, and highly concurrent HTTP 1.1 server for Ruby/Rack applications.
 gem "bootsnap", ">= 1.4.2", require: false # Boot large ruby/rails apps faster.
 gem "rack-attack" # Rack middleware for blocking & throttling abusive requests.
-
-# Javacsript
-#gem "webpacker", "~> 5.4" # Webpacker makes it easy to use the JavaScript pre-processor.
 gem "turbolinks", "~> 5.0" # Turbolinks makes following links in your web application faster (use with Rails Asset Pipeline).
-gem "jquery-rails" # JQuery support
 gem "uglifier" # Ruby wrapper for UglifyJS JavaScript compressor.
+gem "sassc" # Sass C implementation, with the ease of use of the original Ruby Sass library.
+gem "webpacker" # Webpacker makes it easy to use the JavaScript pre-processor and bundler Webpack v5
 
 # Database
 gem "pg", "~> 1" # Pg is the Ruby interface to the PostgreSQL RDBMS.
