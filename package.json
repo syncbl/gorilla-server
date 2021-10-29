@@ -9,6 +9,7 @@
     "@rails/webpacker": "5.4.3",
     "bootstrap": "^5.1.3",
     "bootstrap.native": "^4.0.6",
+    "jquery": "^3.6.0",
     "sass": "^1.43.4",
     "turbolinks": "^5.2.0"
   },
