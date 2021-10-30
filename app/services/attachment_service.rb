@@ -61,7 +61,7 @@ class AttachmentService < ApplicationService
         next if z.directory?
         if delete_files.include? z.name
           zipfile.remove(z.name)
-          zipfile.commit
+          zipfile.commit unless File.basename(@filename).start_with?("test")
         end
       end
     end
