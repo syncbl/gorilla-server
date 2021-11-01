@@ -22,7 +22,7 @@ class Source < ApplicationRecord
   validates_with SourceValidator
 
   default_scope {
-    joins(package: :user).includes(file_attachment: :blob)
+    joins(package: :user, file_attachment: :blob)
   } # GoldiLoader: includes(file_attachment: :blob)
 
   def self.merged?

@@ -2,6 +2,8 @@ json = {
   id: source.id,
   description: source.description,
   version: source.version,
+  size: source.unpacked_size,
+  h_size: number_to_human_size(source.unpacked_size),
   files: source.files,
   delete_files: source.delete_files,
   created_at: source.created_at.to_i,

@@ -9,7 +9,7 @@ class Dependency < ApplicationRecord
   validates_with DependencyValidator
 
   default_scope {
-    joins(:dependent_package).includes(:category)
+    includes(:dependent_package, :category)
   }
 
   scope :categorized, -> {

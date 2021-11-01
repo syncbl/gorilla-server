@@ -61,7 +61,7 @@ class Package < ApplicationRecord
   validates_with PackageValidator
 
   default_scope {
-    joins(:user)
+    joins(:user).includes(:icon_attachment)
   }
 
   def replaced_by

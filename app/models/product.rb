@@ -7,7 +7,7 @@ class Product < ApplicationRecord
 
   scope :published,
         -> {
-          joins(:package)
+          includes(:package)
             .where(package: Package.now_blocked.published)
             .without_components
         }
