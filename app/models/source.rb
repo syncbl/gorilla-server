@@ -3,7 +3,6 @@ class Source < ApplicationRecord
   include Publishable
   include IdentityCache
 
-  attribute :size
   translates :description
 
   belongs_to :package, touch: true

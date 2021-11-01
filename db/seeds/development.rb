@@ -93,7 +93,7 @@ Package::Bundle.first.icon.attach(
 
 p = Package::Bundle.find_by(name: "openssl-dev")
 s =
-  p.sources.create(size: 1000, version: "1.0.1", description: "Test update 1")
+  p.sources.create(version: "1.0.1", description: "Test update 1")
 AttachmentService.call s, "files/test1.zip"
 
 p.add_params_link(
@@ -103,7 +103,7 @@ p.add_params_link(
 p.add_params_requirement("registry", "test")
 s.publish!
 s =
-  p.sources.create(size: 1000, version: "1.0.2", description: "Test update 2")
+  p.sources.create(version: "1.0.2", description: "Test update 2")
 AttachmentService.call s, "files/test2.zip"
 s.publish!
 

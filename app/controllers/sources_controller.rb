@@ -32,7 +32,7 @@ class SourcesController < ApplicationController
       current_user.notify :flash_alert, @package, I18n.t("warnings.attributes.source.file_already_exists")
     end
     respond_to do |format|
-      if @source = @package.sources.create(size: params[:file].size)
+      if @source = @package.sources.create
         ProcessSourceJob.perform_later @source, write_tmp(params[:file])
         format.html do
           redirect_to [@source.package, @source],
