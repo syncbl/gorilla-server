@@ -18,6 +18,7 @@ module SyncblServer
     config.i18n.fallbacks = [config.i18n.default_locale]
     config.active_storage.routes_prefix = "/files"
     config.active_storage.resolve_model_to_route = :rails_storage_proxy
+    config.active_storage.service_urls_expire_in = 1.hour
     config.identity_cache_store = :mem_cache_store, "localhost", "localhost", {
       expires_in: 6.hours.to_i, # in case of network errors when sending a cache invalidation
       failover: false, # avoids more cache consistency issues

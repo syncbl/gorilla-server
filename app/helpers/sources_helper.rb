@@ -6,13 +6,13 @@ module SourcesHelper
   end
 
   def source_exists?(user, size, checksum)
-    id = ActiveStorage::Attachment.find_by(
+    ids = ActiveStorage::Attachment.where(
       record_type: "Source",
-      blob: ActiveStorage::Blob.find_by(
+      blob: ActiveStorage::Blob.where(
         byte_size: size,
         checksum: checksum,
       ),
     )&.record_id
-    Source.find_by(id: id, package: { user: user })
+    Source.find_by(id: ids, package: { user: user })
   end
 end

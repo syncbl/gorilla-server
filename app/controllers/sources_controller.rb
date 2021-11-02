@@ -22,18 +22,22 @@ class SourcesController < ApplicationController
   # GET /sources/1/edit
   def edit; end
 
+  # TODO: DirectUpload must be used here, but we still need to process the file
+  # URL must be checked to be from S3 server.
+
   # POST /sources
   def create
     # Params removed from create() because user must fill fields only after creation
-    @package = policy_scope(Package).find(params[:package_id])
+    @package = policy_scope(Package).find(file_params[:package_id])
     authorize @package, policy_class: PackagePolicy
-    if source = source_exists?(current_user, params[:file].size, params[:checksum])
+    if source = source_exists?(current_user, file_params[:file].size, params[:checksum])
       # TODO: Link to source
-      current_user.notify :flash_alert, @package, I18n.t("warnings.attributes.source.file_already_exists")
+      current_user.notify :flash_alert, @package,
+                          I18n.t("warnings.attributes.source.file_already_exists")
     end
     respond_to do |format|
       if @source = @package.sources.create
-        ProcessSourceJob.perform_later @source, write_tmp(params[:file])
+        ProcessSourceJob.perform_later @source, write_tmp(file_params[:file])
         format.html do
           redirect_to [@source.package, @source],
                       notice: "Source was successfully created."
@@ -123,5 +127,9 @@ class SourcesController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   def source_params
     params.require(:source).permit(:description)
+  end
+
+  def file_params
+    params.require(:file, :package_id)
   end
 end
