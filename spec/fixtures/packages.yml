@@ -1,0 +1,45 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# This model initially had no columns defined. If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+bundle1:
+  name: bundle1
+  caption: Bundle 1
+  short_description: Test
+  description: Test package
+  user: user1
+  path: D:\TEST
+
+bundle2:
+  name: bundle2
+  caption: Bundle 2
+  short_description: Test
+  description: Test package
+  user: user1
+  path: D:\TEST
+
+component1:
+  name: component1
+  caption: Component 1
+  short_description: Test
+  description: Test package
+  user: user1
+  path: D:\TEST
+
+component2:
+  name: component2
+  caption: Component 2
+  short_description: Test
+  description: Test package
+  user: user1
+  path: D:\TEST
+
+external1:
+  name: external1
+  caption: External 1
+  short_description: Test
+  description: Test package
+  user: user1
+  external_url: https://www.heidisql.com/installers/HeidiSQL_11.0.0.5919_Setup.exe

@@ -5,12 +5,6 @@ class UsersController < ApplicationController
   # GET /users/1
   def show; end
 
-  # GET /user
-  def profile
-    @user = current_user
-    render :show
-  end
-
   # GET /users/1/edit
   def edit; end
 

@@ -60,7 +60,7 @@ group :development, :test do
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
   gem "simplecov", require: false
   gem "rspec-rails"
-  gem "factory_bot_rails"
+  #gem "factory_bot_rails"
   gem "capybara"
   gem "database_cleaner"
 end
