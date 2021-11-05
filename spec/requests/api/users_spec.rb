@@ -12,69 +12,20 @@ require "rails_helper"
 # of tools you can use to make these specs even more expressive, but we're
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
-RSpec.describe "/users", type: :request do
-
-  # User. As you add validations to User, be sure to
-  # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+RSpec.describe "API Users", type: :request do
+  let(:valid_response) {
+    { user: {
+      name: "user1",
+    } }
   }
-
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
-
-  describe "GET /index.json" do
-    it "renders a successful response" do
-      User.create! valid_attributes
-      get users_url, format: :json
-      expect(response).to be_successful
-    end
-  end
 
   describe "GET /show.json" do
     it "renders a successful response" do
-      user = User.create! valid_attributes
-      get user_url(user), format: :json
+      user = FactoryBot.create(:user1)
+      sign_in user
+      get user_url(format: :json)
       expect(response).to be_successful
-    end
-  end
-
-  describe "GET /edit" do
-    it "render a successful response" do
-      user = User.create! valid_attributes
-      get edit_user_url(user), format: :json
-      expect(response).to be_successful
-    end
-  end
-
-  describe "PATCH /update" do
-    context "with valid parameters" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested user" do
-        user = User.create! valid_attributes
-        patch user_url(user), params: { user: new_attributes }, format: :json
-        user.reload
-        skip("Add assertions for updated state")
-      end
-
-      it "redirects to the user" do
-        user = User.create! valid_attributes
-        patch user_url(user), params: { user: new_attributes }, format: :json
-        user.reload
-        expect(response).to redirect_to(user_url(user))
-      end
-    end
-
-    context "with invalid parameters" do
-      it "renders a successful response (i.e. to display the 'edit' template)" do
-        user = User.create! valid_attributes
-        patch user_url(user), params: { user: invalid_attributes }, format: :json
-        expect(response).to be_successful
-      end
+      expect(JSON.parse(response.body)).to include_json(valid_response)
     end
   end
 end

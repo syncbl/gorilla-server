@@ -53,16 +53,17 @@ gem "ruby-progressbar" # The ultimate text progress bar library for Ruby!
 gem "scenic" # Scenic adds methods to ActiveRecord::Migration to create and manage database views in Rails.
 gem "simple_form" # Simple Form aims to be as flexible as possible while helping you with powerful components to create your forms.
 gem "strip_attributes" # Automatically strips all attributes of leading and trailing whitespace before validation.
-gem "whenever", require: false # Provides a clear syntax for writing and deploying cron jobs.
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
   gem "simplecov", require: false
   gem "rspec-rails"
-  #gem "factory_bot_rails"
+  gem "factory_bot_rails"
   gem "capybara"
   gem "database_cleaner"
+  gem "shoulda-matchers"
+  gem "rspec-json_expectations"
 end
 
 group :development do
@@ -86,5 +87,6 @@ group :development do
 end
 
 group :production do
+  gem "whenever", require: false # Provides a clear syntax for writing and deploying cron jobs.
   gem "connection_pool"
 end
