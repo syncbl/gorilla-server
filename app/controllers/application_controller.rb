@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   include Pagy::Backend
   include Pundit
   include Api::Cache
+  include Api::Token
 
   protect_from_forgery with: :exception, unless: -> { request.format.json? }
   before_action :configure_permitted_parameters, if: :devise_controller?
@@ -73,22 +74,6 @@ class ApplicationController < ActionController::Base
       Rails.logger.warn "Forbidden request from #{request.remote_ip}"
       head :forbidden
     end
-  end
-
-  def decode_token(token)
-    payload =
-      JWT
-        .decode(
-          token,
-          Rails.application.credentials.jwt_secret,
-          true,
-          { algorithm: "HS256" },
-        )
-        .first
-        .with_indifferent_access
-    return payload[:scope], payload[:uuid], payload[:token]
-  rescue JWT::ExpiredSignature, JWT::DecodeError
-    nil
   end
 
   def configure_permitted_parameters
