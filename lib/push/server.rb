@@ -15,7 +15,7 @@ class Push::Server
   def run
     Api::Redis.new.pool.with do |redis|
       loop do
-        Thread.fork(@server.accept) do |client|
+        Thread.fork(@@server.accept) do |client|
           process_messages(client)
           @@clients.delete_if { |_, c| c == client }
         end
