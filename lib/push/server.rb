@@ -7,10 +7,9 @@ class Push::Server
   include Api::Token
 
   def initialize
-    @server = TCPServer.open(5000)
+    @@server ||= TCPServer.open(5000)
     # TODO: establish_ssl_connection!
-    @clients = Hash.new
-    run
+    @@clients ||= Hash.new
   end
 
   def run
@@ -18,7 +17,7 @@ class Push::Server
       loop do
         Thread.fork(@server.accept) do |client|
           process_messages(client)
-          @clients.delete_if { |_, c| c == client }
+          @@clients.delete_if { |_, c| c == client }
         end
       end
     end
@@ -28,6 +27,12 @@ class Push::Server
     # TODO:
   end
 
+  def notify(uuid, message)
+    if client = @@clients[uuid]
+      client.puts message
+    end
+  end
+
   private
 
   def process_messages(client)
@@ -35,7 +40,7 @@ class Push::Server
       if payload = client.gets&.chomp
         scope, uuid, token = decode_token(payload)
         if (scope == "Endpoint") && cached_endpoint(uuid, token)
-          @clients[uuid] = client
+          @@clients[uuid] = client
         else
           client.close
           break
