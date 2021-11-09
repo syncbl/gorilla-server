@@ -33,6 +33,10 @@ class Push::Server
     end
   end
 
+  def self.online?(uuid)
+    defined?(@@clients) && @@clients.include?(uuid)
+  end
+
   private
 
   def process_messages(client)

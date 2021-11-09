@@ -6,7 +6,11 @@ module Notifiable
     value = object.is_a?(ApplicationRecord) ? object.id : object
     notification = Hash[method.to_s, value]
     notification[:message] = message if message
-    deliver_notification "N_#{self.id}.#{method}.#{value}", notification
+    if Push::Server.online?(value)
+      Push::Server.new.notify(value, notification)
+    else
+      deliver_notification "N_#{self.id}.#{method}.#{value}", notification
+    end
   end
 
   def notifications(only:)
