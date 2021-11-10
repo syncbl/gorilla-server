@@ -3,13 +3,15 @@ module Notifiable
 
   def notify(method, object, message = nil)
     # Notifications can be one per object or one per activity in order to avoid spam
-    value = object.is_a?(ApplicationRecord) ? object.id : object
-    notification = Hash[method.to_s, value]
+    object_id = object.is_a?(ApplicationRecord) ? object.id : object
+    notification = Hash[method.to_s, object_id]
     notification[:message] = message if message
-    if Push::Server.online?(value)
-      Push::Server.new.notify(value, notification)
+    if validate_notification(notification)
+      unless Push::Server.online?(self.id) && Push::Server.notify(self.id, notification)
+        store_notification(notification)
+      end
     else
-      deliver_notification "N_#{self.id}.#{method}.#{value}", notification
+      raise "Incoming notification is invalid!"
     end
   end
 
@@ -17,10 +19,10 @@ module Notifiable
     messages = Set[]
     notification_pool.with do |redis|
       redis.scan_each(match: "N_#{self.id}.*") do |key|
-        value = redis.hgetall(key)
-        if validate_notification(value)
-          if !only.is_a?(Array) || value.keys[0].in?(only)
-            messages << value
+        notification = redis.hgetall(key)
+        if validate_notification(notification)
+          if !only.is_a?(Array) || notification.keys[0].in?(only)
+            messages << notification
             redis.del(key)
           end
         else
@@ -37,14 +39,12 @@ module Notifiable
     @notification_pool ||= Api::Redis.new.pool
   end
 
-  def deliver_notification(key, value)
-    if validate_notification(value)
-      notification_pool.with do |redis|
-        redis.mapped_hmset key, value
-        redis.expire key, NOTIFICATION_EXPIRES_IN
-      end
-    else
-      raise "Incoming notification is invalid!"
+  def store_notification(value)
+    method, object_id = value.first
+    key = "N_#{self.id}.#{method}.#{object_id}"
+    notification_pool.with do |redis|
+      redis.mapped_hmset key, value
+      redis.expire key, NOTIFICATION_EXPIRES_IN
     end
   end
 

@@ -1,7 +1,7 @@
 # TODO:
 # 1. Puma tcp-mode
 # 2. Timeouts
-# 3. Redis sub
+# 3. Redis, because rake task classes is separate from main code
 
 class Push::Server
   include Api::Token
@@ -10,9 +10,12 @@ class Push::Server
     @@server ||= TCPServer.open(5000)
     # TODO: establish_ssl_connection!
     @@clients ||= Hash.new
+    @@running = false
   end
 
-  def run
+  def run!
+    return false if @@running
+    @@running = true
     Api::Redis.new.pool.with do |redis|
       loop do
         Thread.fork(@@server.accept) do |client|
@@ -25,33 +28,45 @@ class Push::Server
     exit!
   rescue StandardError => e
     # TODO:
+  ensure
+    @@running = false
   end
 
-  def notify(uuid, message)
-    if client = @@clients[uuid]
-      client.puts message
+  class << self
+    def notify(uuid, message)
+      if defined?(@@clients)
+        if client = @@clients[uuid]
+          client.puts message
+        end
+      end
+    rescue StandardError => e # TODO: Find out real error name
+      false
     end
-  end
 
-  def self.online?(uuid)
-    defined?(@@clients) && @@clients.include?(uuid)
+    def online?(uuid)
+      defined?(@@clients) && @@clients.include?(uuid)
+    end
   end
 
   private
 
+  # TODO: No loop, only first message is required, than we can drop thread
   def process_messages(client)
     loop do
       if payload = client.gets&.chomp
-        scope, uuid, token = decode_token(payload)
-        if (scope == "Endpoint") && cached_endpoint(uuid, token)
-          @@clients[uuid] = client
-        else
-          client.close
-          break
-        end
+        break unless command_token(payload)
       else
         break
       end
+    end
+  end
+
+  def command_token(payload)
+    scope, uuid, token = decode_token(payload)
+    if (scope == "Endpoint") && cached_endpoint(uuid, token)
+      @@clients[uuid] = client
+    else
+      false
     end
   end
 
