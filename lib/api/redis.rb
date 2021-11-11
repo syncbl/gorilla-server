@@ -2,8 +2,8 @@ class Api::Redis
   require 'redis'
   require 'connection_pool'
 
-  def pool
-    @redis_pool ||=
+  def self.pool
+    @@redis_pool ||=
       ConnectionPool.new(
         size: ActiveRecord::Base.connection_pool.db_config.pool,
       ) do

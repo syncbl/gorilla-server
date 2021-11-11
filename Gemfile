@@ -34,6 +34,7 @@ gem "devise_invitable" # Adds support to Devise for sending invitations by email
 gem "devise-bootstrap-views" # Devise views with Bootstrap 4.
 #gem "discard" # Soft deletes for ActiveRecord done right.
 gem "enumerize" # Enumerated attributes with I18n and ActiveRecord/Mongoid/MongoMapper/Sequel support
+gem "eventmachine" # EventMachine is an event-driven I/O and lightweight concurrency library for Ruby.
 gem "goldiloader" # ActiveRecord eager loading
 gem "high_voltage" # Rails engine for static pages.
 #gem "hotwire-rails" # Hotwire is an alternative approach to building modern web applications without using much JavaScript.

@@ -14,9 +14,11 @@ class Push::Server
   end
 
   def run!
-    return false if @@running
-    @@running = true
-    Api::Redis.new.pool.with do |redis|
+    # TODO: REDO
+byebug
+    #return false if @@running
+    #@@running = true
+    Api::Redis.pool.with do |redis|
       loop do
         Thread.fork(@@server.accept) do |client|
           process_messages(client)

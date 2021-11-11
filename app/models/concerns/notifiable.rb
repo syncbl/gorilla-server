@@ -17,7 +17,7 @@ module Notifiable
 
   def notifications(only:)
     messages = Set[]
-    notification_pool.with do |redis|
+    Api::Redis.pool.with do |redis|
       redis.scan_each(match: "N_#{self.id}.*") do |key|
         notification = redis.hgetall(key)
         if validate_notification(notification)
@@ -35,14 +35,10 @@ module Notifiable
 
   private
 
-  def notification_pool
-    @notification_pool ||= Api::Redis.new.pool
-  end
-
   def store_notification(value)
     method, object_id = value.first
     key = "N_#{self.id}.#{method}.#{object_id}"
-    notification_pool.with do |redis|
+    Api::Redis.pool.with do |redis|
       redis.mapped_hmset key, value
       redis.expire key, NOTIFICATION_EXPIRES_IN
     end
