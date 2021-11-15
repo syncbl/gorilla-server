@@ -7,9 +7,9 @@ module Notifiable
     notification = Hash[method.to_s, object_id]
     notification[:message] = message if message
     if validate_notification(notification)
-      unless Push::Server.online?(self.id) && Push::Server.notify(self.id, notification)
-        store_notification(notification)
-      end
+      #unless Push::Server.online?(self.id) && Push::Server.notify(self.id, notification)
+      store_notification(notification)
+      #end
     else
       raise "Incoming notification is invalid!"
     end
