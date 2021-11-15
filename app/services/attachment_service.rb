@@ -65,6 +65,7 @@ class AttachmentService < ApplicationService
         end
       end
     end
+    # TODO: Notify if filelist is empty
     @source.files = filelist
   rescue StandardError => e # TODO: Make more specific
     Rails.logger.debug "+++ #{e.class} #{e.message}"
