@@ -34,7 +34,7 @@ end
 
 class Rack::Attack
   def self.block_ip(ip)
-    Api::Redis.new.pool.with { |redis| redis.set("Blocked_IP.#{ip}") }
+    Api::Redis.pool.with { |redis| redis.set("Blocked_IP.#{ip}") }
   end
 end
 
@@ -48,7 +48,7 @@ Rack::Attack.throttle("API requests by IP", limit: 5, period: 1) do |request|
 end
 
 Rack::Attack.blocklist("Block IP from cache") do |request|
-  Api::Redis.new.pool.with { |redis| redis.get("Blocked_IP.#{request.ip}") }
+  Api::Redis.pool.with { |redis| redis.get("Blocked_IP.#{request.ip}") }
 end
 
 Rack::Attack.blocklist("Malicious scanners") do |request|
