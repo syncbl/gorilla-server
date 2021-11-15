@@ -3,3 +3,5 @@ json = {
   name: endpoint.name,
   locale: endpoint.locale,
 }
+
+#TODO: S3 url

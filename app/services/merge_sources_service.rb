@@ -17,6 +17,8 @@ class MergeSourcesService < ApplicationService
             dstzipfile.select { |d| !d.directory? && diff.include?(d.name) }.each do |dstz|
               dstzipfile.remove(dstz)
               dstzipfile.commit
+              dst.files.delete(dstz.name)
+              dst.save
             end
             if dstzipfile.size == 0
               dst.package.user.notify :remove_source, dst.package
