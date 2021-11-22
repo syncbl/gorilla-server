@@ -7,15 +7,15 @@ MAX_DESCRIPTION_LENGTH = 2048
 MAX_VERSION_LENGTH = 16
 MIN_NAME_LENGTH = 2
 MAX_NAME_LENGTH = 100
-MODEL_CACHE_TIMEOUT = 3.hours # TODO: Increase
 JOB_TIMEOUT = 5.minutes
 USER_SESSION_TIME = 1.week
 ENDPOINT_SESSION_TIME = 1.month
-USER_AGENT = "Syncbl Server/Net::HTTP/1.0 https://syncbl.com"
+# USER_AGENT = "Syncbl Server/Net::HTTP/1.0 https://syncbl.com"
 SUBSCRIPTION_PLAN_PERSONAL = 1.gigabyte
 SUBSCRIPTION_PLAN_PRO = 10.gigabytes
 SUBSCRIPTION_PLAN_BUSINESS = 100.gigabytes
 NOTIFICATION_EXPIRES_IN = 3.days
+TOKEN_RESET_PERIOD = 1.day
 
 ENDPOINT_NOTIFICATIONS = %w[add_package add_component remove_package]
 USER_NOTIFICATIONS = %w[remove_source flash_alert flash_notice]

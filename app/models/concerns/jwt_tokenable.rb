@@ -41,12 +41,6 @@ module JwtTokenable
   private
 
   def token_needs_reset?
-    token_reset_period = case self
-      when User
-        USER_SESSION_TIME / 2
-      when Endpoint
-        ENDPOINT_SESSION_TIME / 2
-      end
-    reseted_at.nil? || (Time.current - reseted_at > token_reset_period)
+    reseted_at.nil? || (Time.current - reseted_at > TOKEN_RESET_PERIOD)
   end
 end
