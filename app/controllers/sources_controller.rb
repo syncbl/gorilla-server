@@ -29,7 +29,7 @@ class SourcesController < ApplicationController
   def create
     # Params removed from create() because user must fill fields only after creation
     @package = policy_scope(Package).find(file_params[:package_id])
-    authorize @package, policy_class: PackagePolicy
+    authorize @package, :show?, policy_class: PackagePolicy
     if source = source_exists?(current_user, file_params[:file].size, params[:checksum])
       # TODO: Link to source
       current_user.notify :flash_alert, @package,

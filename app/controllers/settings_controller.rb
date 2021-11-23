@@ -17,6 +17,7 @@ class SettingsController < ApplicationController
 
   # POST /endpoints/1/settings
   def create
+    authorize @endpoint, :show?, policy_class: EndpointPolicy
     package = find_package_by_params
     respond_to do |format|
       if @setting = @endpoint.install(package)

@@ -18,9 +18,9 @@ class DependencyExtractQuery < ApplicationQuery
             SELECT
               dependencies.id
             FROM dependencies, packages, settings
-            WHERE settings.endpoint_id = '#{@endpoint.id}'
-            AND settings.package_id::text IN ('#{@packages.join(", ")}')
+            WHERE dependencies.package_id::text IN (#{@packages.map { |p| "'#{p}'" }.join(", ")})
             AND settings.package_id = dependencies.package_id
+            AND settings.endpoint_id = '#{@endpoint.id}'
             AND packages.id = dependencies.package_id
             AND packages.blocked_at IS NULL
           )
@@ -34,6 +34,7 @@ class DependencyExtractQuery < ApplicationQuery
           AND packages.id = dependencies.dependent_package_id
           AND dependencies.is_optional = FALSE
           AND packages.blocked_at IS NULL
+          AND dependencies.package_id::text NOT IN (#{@packages.map { |p| "'#{p}'" }.join(", ")})
         )
         SELECT * FROM dependency_tree
       SQL

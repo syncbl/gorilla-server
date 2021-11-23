@@ -1,7 +1,7 @@
 class ActualizedSettingsQuery < ApplicationQuery
   def initialize(endpoint, packages, timestamp)
     @endpoint = endpoint
-    @settings = endpoint.settings
+    @settings = @endpoint.settings
     @packages = packages
     @timestamp = timestamp ? Time.at(timestamp.to_i) : Time.at(0)
   end
@@ -11,7 +11,7 @@ class ActualizedSettingsQuery < ApplicationQuery
     DependencyExtractQuery.call(@endpoint, @packages).map do |c|
       next if components.include?(c.dependent_package.id)
       components << c.dependent_package.id
-      unless @settings.exists?(package: c.dependent_package)
+      unless @packages.include?(c.dependent_package.id)
         @endpoint.notify :add_component, "#{c.dependent_package.id}:#{c.package.id}"
       end
     end
@@ -23,6 +23,6 @@ class ActualizedSettingsQuery < ApplicationQuery
     end
 
     # Only updated packages
-    @settings.includes(:sources).where(Source.arel_table[:created_at].gt(@timestamp)).uniq
+    @settings.includes(:sources).where(package_id: @packages, sources: { created_at: @timestamp.. })
   end
 end
