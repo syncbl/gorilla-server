@@ -23,6 +23,7 @@ class ActualizedSettingsQuery < ApplicationQuery
     end
 
     # Only updated packages
-    @settings.includes(:sources).where(package_id: @packages, sources: { created_at: @timestamp.. })
+    @settings.includes(:sources)
+      .where(package_id: @packages, sources: { published_at: @timestamp.. })
   end
 end
