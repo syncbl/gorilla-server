@@ -44,10 +44,10 @@ class Package < ApplicationRecord
               with: NAME_FORMAT,
             }
   validates :short_description, length: {
-                                  maximum: 200,
+                                  maximum: MAX_SHORT_DESCRIPTION_LENGTH,
                                 }
   validates :description, length: {
-                            maximum: 4000,
+                            maximum: MAX_DESCRIPTION_LENGTH,
                           }
   validates :package_type, presence: true
   validates :icon, size: { less_than: MAX_ICON_SIZE }

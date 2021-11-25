@@ -9,9 +9,7 @@ json = {
   version: package.sources.last&.version,
   short_description: package.short_description,
   size: package.size,
-  h_size: package.size > 0 ? number_to_human_size(package.size) : nil
+  h_size: package.size > 0 ? number_to_human_size(package.size) : nil,
 }
-
-# json[:user] = render "users/short", user: package.user
 
 # json

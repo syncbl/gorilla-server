@@ -1,1 +1,5 @@
 json = render "users/short", user: user
+
+json[:locale] = user.locale
+
+json

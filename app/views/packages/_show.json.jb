@@ -12,6 +12,7 @@ json.merge!({
 # TODO: May be, move icons into db?
 # TODO: Add dimensions
 json[:icon] = render "layouts/file", file: package.icon, prefix: "i"
+json[:user] = render "users/short", user: package.user
 
 # TODO: into edit -> if current_user
 #  json[:params] = package.params
