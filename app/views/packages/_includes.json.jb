@@ -2,7 +2,10 @@ json = {}
 
 json[:params] = package.filtered_params
 unless package.package_type.external?
-  json[:sources] = render "layouts/attachments", package: package
+  json[:sources] = package.sources.published.map do |source|
+    # TODO: Only unmerged can be unpublished and unpublished must be all of them
+    render "sources/show", source: source
+  end
 end
 
 # TODO: Limit by time > last update
