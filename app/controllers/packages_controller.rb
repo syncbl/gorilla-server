@@ -114,7 +114,7 @@ class PackagesController < ApplicationController
   # <input type="text" name="client[name]" value="Acme" />
   def package_params
     params.require(:package).permit(:user_id, :name, :external_url,
-                                    :replacement, :version, :package_type,
+                                    :version, :package_type,
                                     :caption, :short_description, :description)
   end
 end

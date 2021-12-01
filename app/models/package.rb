@@ -26,7 +26,6 @@ class Package < ApplicationRecord
   has_many :sources, dependent: :destroy
   has_many :dependencies
   has_many :dependent_packages, through: :dependencies
-  belongs_to :replacement, class_name: "Package", optional: true
   has_one_attached :icon, service: :internal, dependent: :purge_later
 
   validates :name,
@@ -51,7 +50,6 @@ class Package < ApplicationRecord
                           }
   validates :package_type, presence: true
   validates :icon, size: { less_than: MAX_ICON_SIZE }
-  validates :replacement, package_replacement: true
   validates :caption,
             presence: true,
             length: {
@@ -63,10 +61,6 @@ class Package < ApplicationRecord
   default_scope {
     joins(:user).includes(:icon_attachment)
   }
-
-  def replaced_by
-    _replaced_by unless replacement_id.nil?
-  end
 
   def recalculate_size!
     old_size = size
@@ -93,12 +87,5 @@ class Package < ApplicationRecord
       available_files -= s.delete_files
     end
     available_files
-  end
-
-  private
-
-  def _replaced_by
-    # TODO: Check payment i.e.
-    replacement_id.nil? ? self : replacement.replaced_by
   end
 end

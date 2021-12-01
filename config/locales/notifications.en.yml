@@ -8,10 +8,6 @@ en:
           forbidden: This component can't be accessed by package owner
           itself: Package can't be dependent on itself
           used: Can't delete component used in another package
-        replacement:
-          itself: Package can't be replaced by itself
-          not_published: Replacement must be published
-          old: Replacement must be newer than original package
       source:
         limit_reached: You have exceeded the space available for your subscription
         packed_file_too_big: 'File is too big: %{name}:%{size}'

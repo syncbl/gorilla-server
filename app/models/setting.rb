@@ -13,8 +13,4 @@ class Setting < ApplicationRecord
   default_scope {
     includes(:package, :endpoint)
   }
-
-  def replaced?
-    package.replacement_id.present?
-  end
 end
