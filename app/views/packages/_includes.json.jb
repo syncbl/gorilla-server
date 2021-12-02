@@ -1,6 +1,7 @@
-json = {}
+json = {
+  params: package.params,
+}
 
-json[:params] = package.params
 unless package.package_type.external?
   json[:sources] = package.sources.published.map do |source|
     # TODO: Only unmerged can be unpublished and unpublished must be all of them
@@ -25,8 +26,7 @@ package.dependencies.categorized.map do |d|
       :optional_packages
     end
   d.dependent_package.category = d.category
-  json[component_type] ||= []
-  json[component_type] << (render "packages/show", package: d.dependent_package)
+  (json[component_type] ||= []) << (render "packages/show", package: d.dependent_package)
 end
 
 json

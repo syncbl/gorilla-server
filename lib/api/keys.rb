@@ -1,6 +1,6 @@
 # TODO: Full rewrite
-# Cache all keys where allow_api_access is true
-# Clear cache if new source added to package with allow_api_access
+# Cache all keys where package_type: :trusted is true
+# Clear cache if new source added to package with package_type: :trusted
 
 class Api::Keys
   def initialize

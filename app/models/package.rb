@@ -16,7 +16,7 @@ class Package < ApplicationRecord
                     short_description_translations
                   ]
   translates :caption, :short_description, :description, :release_note
-  enumerize :package_type, in: %i[bundle external component], scope: true
+  enumerize :package_type, in: %i[bundle external component trusted], scope: true
   attribute :category
 
   belongs_to :user

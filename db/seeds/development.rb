@@ -126,7 +126,18 @@ p1.dependent_packages << p2
 p.dependent_packages << p2
 p.publish!
 
-p3 = Package.find_by(name: "Openssl-2_0")
+puts Package::Trusted.create(
+  [
+    {
+      name: "syncbl-service",
+      caption: "Test10",
+      short_description: "Test",
+      description: "Test packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest package",
+      user: u1,
+      path: 'D:\TEST1',
+    },
+  ],
+)
 
 Endpoint.create name: "Test2",
                 user: u1,
