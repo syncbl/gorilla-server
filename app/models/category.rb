@@ -4,6 +4,7 @@ class Category < ApplicationRecord
   has_many :packages
 
   validates :caption,
+            presence: true,
             length: {
               maximum: MAX_NAME_LENGTH,
             },

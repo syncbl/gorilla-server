@@ -50,7 +50,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
     # ----------
     create_table :categories do |t|
-      t.jsonb :caption_translations, null: false, default: { "en": "" }
+      t.jsonb :caption_translations, null: false
 
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
@@ -61,7 +61,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.citext :name, null: false
       t.string :package_type, index: true, null: false
 
-      t.jsonb :caption_translations, null: false, default: { "en": "" }
+      t.jsonb :caption_translations, null: false
       t.jsonb :short_description_translations, null: false, default: { "en": "" }
       t.jsonb :description_translations, null: false, default: { "en": "" }
 

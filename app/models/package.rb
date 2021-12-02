@@ -72,10 +72,6 @@ class Package < ApplicationRecord
     save!
   end
 
-  def filtered_params
-    params.except(:allow_api_access)
-  end
-
   def check_publishable
     raise Exception::NotImplementedError
   end
