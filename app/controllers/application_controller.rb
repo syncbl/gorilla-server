@@ -86,6 +86,7 @@ class ApplicationController < ActionController::Base
 
   def set_locale
     session[:locale] ||=
+      # TODO: Request locale (but errors must be in user's locale)
       current_endpoint&.locale || current_user&.locale ||
         http_accept_language.compatible_language_from(I18n.available_locales) ||
         I18n.default_locale.to_s
