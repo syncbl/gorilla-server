@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   end
 
   create_table "categories", force: :cascade do |t|
-    t.jsonb "caption_translations", default: {"en"=>""}, null: false
+    t.jsonb "caption_translations", null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_categories_on_created_at"
@@ -86,14 +86,13 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   create_table "packages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.citext "name", null: false
     t.string "package_type", null: false
-    t.jsonb "caption_translations", default: {"en"=>""}, null: false
+    t.jsonb "caption_translations", null: false
     t.jsonb "short_description_translations", default: {"en"=>""}, null: false
     t.jsonb "description_translations", default: {"en"=>""}, null: false
     t.jsonb "params", default: {}, null: false
     t.bigint "size", default: 0, null: false
     t.bigint "settings_count", default: 0, null: false
     t.uuid "user_id", null: false
-    t.uuid "replacement_id"
     t.datetime "published_at"
     t.datetime "blocked_at"
     t.string "block_reason"
@@ -101,7 +100,6 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_packages_on_created_at"
     t.index ["package_type"], name: "index_packages_on_package_type"
-    t.index ["replacement_id"], name: "index_packages_on_replacement_id"
     t.index ["updated_at"], name: "index_packages_on_updated_at"
     t.index ["user_id", "name"], name: "index_packages_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_packages_on_user_id"
@@ -189,7 +187,6 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   add_foreign_key "dependencies", "packages"
   add_foreign_key "dependencies", "packages", column: "dependent_package_id"
   add_foreign_key "endpoints", "users"
-  add_foreign_key "packages", "packages", column: "replacement_id"
   add_foreign_key "packages", "users"
   add_foreign_key "products", "packages"
   add_foreign_key "settings", "endpoints"
