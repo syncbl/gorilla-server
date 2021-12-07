@@ -26,7 +26,7 @@ package.dependencies.categorized.map do |d|
       :optional_packages
     end
   d.dependent_package.category = d.category
-  (json[component_type] ||= []) << (render "packages/show", package: d.dependent_package)
+  (json[component_type] ||= []) << (render "packages/short", package: d.dependent_package)
 end
 
 json
