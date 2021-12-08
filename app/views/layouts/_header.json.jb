@@ -8,15 +8,15 @@ if new_token.present?
   }
 end
 
-unless @pagy.nil?
+if @pagy
   json[:page] = @pagy.page
   json[:pages] = @pagy.pages
   json[:from] = @pagy.from
   json[:to] = @pagy.to
 end
 
-if @object && @object.errors.any?
-  json[:errors] = @object
+if defined?(object) && object&.errors.any?
+  json[:errors] = object.errors.full_messages
 end
 
 json
