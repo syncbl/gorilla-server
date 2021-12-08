@@ -8,12 +8,11 @@
     "@rails/ujs": "^6.1.3",
     "@rails/webpacker": "5.4.3",
     "bootstrap": "^5.1.3",
-    "bootstrap.native": "^4.0.6",
     "jquery": "^3.6.0",
     "sass": "^1.43.4",
     "turbolinks": "^5.2.0"
   },
-  "version": "0.1.0",
+  "version": "0.2.0",
   "main": "index.js",
   "repository": "https://gitlab.com/syncable/gp-server.git",
   "author": "Eldar Avatov <eldar.avatov@gmail.com>",
