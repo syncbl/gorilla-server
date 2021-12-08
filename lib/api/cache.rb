@@ -11,7 +11,8 @@ module Api::Cache
 
   def cache_fetch(model, id, token)
     cached_model = model.fetch(id)
-    if cached_model&.authentication_token == token && !cached_model&.blocked?
+    if ActiveSupport::SecurityUtils.secure_compare(cached_model&.authentication_token, token) &&
+       !cached_model&.blocked?
       cached_model
     end
   end
