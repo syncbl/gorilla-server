@@ -84,4 +84,8 @@ class Package < ApplicationRecord
     end
     available_files
   end
+
+  def filtered_params
+    params.except(:searcheable)
+  end
 end

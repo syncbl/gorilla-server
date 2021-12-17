@@ -1,6 +1,4 @@
-json = {
-  params: package.params,
-}
+json = {}
 
 unless package.package_type.external?
   json[:sources] = package.sources.published.map do |source|

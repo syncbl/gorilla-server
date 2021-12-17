@@ -2,7 +2,7 @@
 
 json = {
   is_available: current_anyone.can_view?(setting.package),
-  params: setting.package.params,
+  params: setting.package.filtered_params,
 }
 
 json[:package] = render "packages/short", package: setting.package

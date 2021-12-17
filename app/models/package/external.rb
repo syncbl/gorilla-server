@@ -4,7 +4,8 @@ class Package::External < Package
                  checksum: [:string],
                  switches: [:string],
                  uninstall: [:string],
-                 version: [:string]
+                 version: [:string],
+                 searcheable: [:boolean]
 
   # TODO: More validation messages
   validates :name,
@@ -31,6 +32,10 @@ class Package::External < Package
   before_validation :set_type, on: :create
 
   default_scope { with_package_type(:external) }
+
+  scope :searcheable, -> {
+    params_where(searcheable: true)
+  }
 
   def publishable?
     external_url.present?
