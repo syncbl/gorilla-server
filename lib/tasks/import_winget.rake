@@ -16,12 +16,12 @@ namespace :import do
       sh "git clone git@github.com:microsoft/winget-pkgs.git ~/winget-pkgs"
     end
     c = 0
-    # TODO: Empty password for nologin
     unless user = User.find_by(name: "WinGet")
       puts user = User.create(
         name: "WinGet",
         fullname: "Microsoft WinGet (unofficial)",
         email: "admin@syncbl.com",
+        # TODO: Mark this account nologin
         password: "testtest",
         plan: :unlimited,
       )

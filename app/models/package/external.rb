@@ -34,7 +34,7 @@ class Package::External < Package
   default_scope { with_package_type(:external) }
 
   scope :searcheable, -> {
-    params_where(searcheable: true)
+    not_blocked.published.params_where(searcheable: true)
   }
 
   def publishable?

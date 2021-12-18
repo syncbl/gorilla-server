@@ -93,7 +93,7 @@ class PackagesController < ApplicationController
     if params[:q].present? && params[:q].size >= MIN_NAME_LENGTH
       @pagy, @packages =
         pagy(
-          Package::External.not_blocked.published.searcheable.search_by_text(params[:q]),
+          Package::External.searcheable.search_by_text(params[:q]),
           items: params[:items],
         )
     else
