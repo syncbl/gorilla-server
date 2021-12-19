@@ -15,9 +15,9 @@ require "rails_helper"
 RSpec.describe "Users", type: :request do
 
   # TODO: For a new user
-  #let(:new_user_attributes) {
-  #  FactoryBot.attributes_for(:user1, name: "user3", email: "user3@example.com")
-  #}
+  # let(:new_user_attributes) {
+  #   FactoryBot.attributes_for(:user1, name: "user3", email: "user3@example.com")
+  # }
 
   describe "GET /user" do
     context "signed in" do

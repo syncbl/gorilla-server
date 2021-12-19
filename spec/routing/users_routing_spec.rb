@@ -10,7 +10,6 @@ RSpec.describe UsersController, type: :routing do
       expect(get: "/user/edit").to route_to("users#edit")
     end
 
-
     it "routes to #update via PUT" do
       expect(put: "/user").to route_to("users#update")
     end

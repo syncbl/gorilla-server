@@ -85,6 +85,8 @@ group :development do
   gem "memory_profiler"
   gem "rails_best_practices"
   gem "brakeman"
+  gem "rubocop"
+  gem "rubocop-rails"
 end
 
 group :production do

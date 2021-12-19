@@ -1,0 +1,30 @@
+require: rubocop-rails
+
+AllCops:
+  Exclude:
+    - db/**/*
+    - config/**/*
+    - node_modules/**/*
+    - bin/**/*
+    - Gemfile
+
+Rails:
+  Enabled: true
+
+Style/StringLiterals:
+  Enabled: false
+
+Style/StringLiteralsInInterpolation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/TrailingCommaInHashLiteral:
+  Enabled: false
+
+Style/TrailingCommaInArguments:
+  Enabled: false
+
+Style/BlockDelimiters:
+  Enabled: false

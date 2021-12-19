@@ -10,7 +10,7 @@ namespace :import do
 
   desc "Import latest files"
   task winget: [:environment] do
-    if Dir.exists?(File.expand_path("~/winget-pkgs"))
+    if Dir.exist?(File.expand_path("~/winget-pkgs"))
       sh "git -C ~/winget-pkgs pull"
     else
       sh "git clone git@github.com:microsoft/winget-pkgs.git ~/winget-pkgs"
@@ -42,7 +42,7 @@ namespace :import do
         z = YAML.load_file(files[i + 1])
         next if y["PackageName"] == z["PackageName"]
       end
-      name = y["PackageName"].gsub(/[ ]/, "").gsub(/[.:#&]/, "_").gsub("__", "_")
+      name = y["PackageName"].gsub(/ ./, "").gsub(/[.:#&]/, "_").gsub("__", "_")
       p = Package::External.find_by(user: user, name: "#{name}") ||
           Package::External.new(
             name: "#{name}",
