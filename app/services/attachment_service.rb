@@ -18,11 +18,11 @@ class AttachmentService < ApplicationService
       content_type: "application/zip",
       identify: false,
     )
-    File.delete(@filename) unless File.basename(@filename).start_with?("test")
     @source.is_merged = true if @source == @source.package.sources.first
     @source.save!
     @source.package.recalculate_size!
-    #end
+  ensure
+    File.delete(@filename) unless File.basename(@filename).start_with?("test")
   end
 
   private
@@ -31,7 +31,6 @@ class AttachmentService < ApplicationService
     @source.unpacked_size = 0
     filelist = {}
     existing_files = {}
-    delete_files = []
     @source.package.sources.where(is_merged: true).each do |s|
       existing_files.merge! s.files
     end
@@ -45,9 +44,9 @@ class AttachmentService < ApplicationService
           raise I18n.t("errors.attributes.source.packed_file_too_big", name: z.name, size: z.size)
         end
         crc = Digest::MD5.base64digest(z.get_input_stream.read)
-        #byebug if @source.package.sources.size == 2
         if existing_files[z.name] == crc
-          delete_files << z.name
+          zipfile.remove(z.name)
+          zipfile.commit # DEBUG: unless File.basename(@filename).start_with?("test")
         else
           filelist[z.name] = crc # z.crc
           # Replace with HashFileList.add if needed
@@ -55,13 +54,6 @@ class AttachmentService < ApplicationService
           if @source.unpacked_size > MAX_FILE_SIZE
             raise I18n.t("errors.attributes.source.packed_files_too_many")
           end
-        end
-      end
-      zipfile.each do |z|
-        next if z.directory?
-        if delete_files.include? z.name
-          zipfile.remove(z.name)
-          zipfile.commit unless File.basename(@filename).start_with?("test")
         end
       end
     end
