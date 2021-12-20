@@ -13,8 +13,8 @@ class Subscription < ApplicationRecord
 
   scope :current,
         -> {
-          where(self.arel_table[:start_time].lt(Time.current)).where(
-            self.arel_table[:end_time].gt(Time.current),
+          where(arel_table[:start_time].lt(Time.current)).where(
+            arel_table[:end_time].gt(Time.current),
           )
         }
 
@@ -44,7 +44,7 @@ class Subscription < ApplicationRecord
       Subscription.current.where(user: user).order(end_time: :desc).first
     start_time = current.present? ? current.end_time : Time.current
     self.start_time = start_time
-    if self.end_time.nil?
+    if end_time.nil?
       if user.plan == "unlimited"
         self.end_time = start_time + 100.years
       else

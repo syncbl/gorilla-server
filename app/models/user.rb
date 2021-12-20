@@ -57,7 +57,7 @@ class User < ApplicationRecord
   before_validation :generate_name
 
   def active_for_authentication?
-    super && !self.blocked?
+    super && !blocked?
   end
 
   def authenticatable_salt
@@ -65,7 +65,7 @@ class User < ApplicationRecord
   end
 
   def inactive_message
-    !self.blocked? ? super : :blocked
+    !blocked? ? super : :blocked
   end
 
   def used_space
@@ -76,7 +76,7 @@ class User < ApplicationRecord
 
   def generate_name
     if name.blank?
-      name = "#{self.email[/^[^@]+/]}"
+      name = "#{email[/^[^@]+/]}"
       self.name =
         User.find_by(name: name).nil? ? name : "#{name}#{rand(10_000)}"
     end

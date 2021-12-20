@@ -23,7 +23,7 @@ module Publishable
   private
 
   def try_check_publishable
-    if published_at.present? && self.respond_to?(:publishable?) && !self.send(:publishable?)
+    if published_at.present? && respond_to?(:publishable?) && !send(:publishable?)
       errors.add :published_at, I18n.t("errors.messages.cannot_publish")
     end
   end

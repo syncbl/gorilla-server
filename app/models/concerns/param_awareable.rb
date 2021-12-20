@@ -16,8 +16,8 @@ module ParamAwareable
   private
 
   def add_params_value(key, subkey, value)
-    self.params[key] = {} if self.params[key].nil?
-    self.params[key][subkey] = value
+    params[key] = {} if params[key].nil?
+    params[key][subkey] = value
   end
 
   def self.included(base)

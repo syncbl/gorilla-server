@@ -18,7 +18,7 @@ module Notifiable
   def notifications(only:)
     messages = Set[]
     Api::Redis.pool.with do |redis|
-      redis.scan_each(match: "N_#{self.id}.*") do |key|
+      redis.scan_each(match: "N_#{id}.*") do |key|
         notification = redis.hgetall(key)
         if validate_notification(notification)
           if !only.is_a?(Array) || notification.keys[0].in?(only)
@@ -37,7 +37,7 @@ module Notifiable
 
   def store_notification(value)
     method, object_id = value.first
-    key = "N_#{self.id}.#{method}.#{object_id}"
+    key = "N_#{id}.#{method}.#{object_id}"
     Api::Redis.pool.with do |redis|
       redis.mapped_hmset key, value
       redis.expire key, NOTIFICATION_EXPIRES_IN
@@ -48,7 +48,7 @@ module Notifiable
   def validate_notification(payload)
     payload.size > 0 &&
       (payload[:message].nil? || payload[:message].is_a?(String)) &&
-      ((self.is_a?(Endpoint) && payload.keys[0].in?(ENDPOINT_NOTIFICATIONS)) ||
-       (self.is_a?(User) && payload.keys[0].in?(USER_NOTIFICATIONS)))
+      ((is_a?(Endpoint) && payload.keys[0].in?(ENDPOINT_NOTIFICATIONS)) ||
+       (is_a?(User) && payload.keys[0].in?(USER_NOTIFICATIONS)))
   end
 end

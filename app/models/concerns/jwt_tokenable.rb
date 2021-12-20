@@ -11,8 +11,8 @@ module JwtTokenable
       JWT.encode(
         {
           scope: self.class.name,
-          uuid: self.id,
-          token: self.authentication_token,
+          uuid: id,
+          token: authentication_token,
           exp: Time.current.to_i +
                case self
                when User
