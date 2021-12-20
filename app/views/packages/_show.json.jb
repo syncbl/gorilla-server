@@ -1,13 +1,15 @@
 json = render "packages/short", package: package
 
-json.merge!({
-  description: package.description,
-  install_count: package.settings_count,
-  h_install_count: number_to_human(package.settings_count, precision: 1),
-  # replaced_by: package.replaced_by&.id,
-  created_at: json_time(package.created_at),
-  updated_at: json_time(package.updated_at),
-})
+json.merge!(
+  {
+    description: package.description,
+    install_count: package.settings_count,
+    h_install_count: number_to_human(package.settings_count, precision: 1),
+    # replaced_by: package.replaced_by&.id,
+    created_at: json_time(package.created_at),
+    updated_at: json_time(package.updated_at),
+  }
+)
 
 # TODO: May be, move icons into db?
 # TODO: Add dimensions

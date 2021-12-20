@@ -29,7 +29,7 @@ module Publishable
   end
 
   def lock_published
-    if published_at.present? && (changed & LOCKED_FIELDS).size > 0
+    if published_at.present? && (changed & LOCKED_FIELDS).size.positive?
       errors.add :published_at, I18n.t("errors.messages.locked_published")
     end
   end

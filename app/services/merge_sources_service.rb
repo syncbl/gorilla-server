@@ -23,7 +23,7 @@ class MergeSourcesService < ApplicationService
               dst.files.delete(dstz.name)
               dst.save
             end
-            if dstzipfile.size == 0
+            if dstzipfile.size.zero?
               dst.package.user.notify :remove_source, dst.package
               dst.destroy
             end

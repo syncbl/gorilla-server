@@ -13,7 +13,7 @@ class AttachmentService < ApplicationService
     # ActiveRecord::Base.transaction do
     return unless build
 
-    if @source.files.size == 0
+    if @source.files.size.zero?
       # TODO: Inform user. He can merge or delete this source, but can't publish.
     end
     @source.file.attach(
@@ -22,7 +22,8 @@ class AttachmentService < ApplicationService
       content_type: "application/zip",
       identify: false,
     )
-    @source.is_merged = true if @source.package.sources.size == 1
+    # It's a magic trick: before we save this source count of sources is 0
+    @source.is_merged = true if @source.package.sources.size.zero?
     @source.save!
     @source.package.recalculate_size!
   ensure

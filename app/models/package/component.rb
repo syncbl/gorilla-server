@@ -10,7 +10,7 @@ class Package::Component < Package
 
   # TODO: Mark orphaned
   def orphaned?
-    packages.size == 0
+    packages.size.zero?
   end
 
   def publishable?

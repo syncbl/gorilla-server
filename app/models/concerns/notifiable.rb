@@ -46,7 +46,7 @@ module Notifiable
 
   # TODO: Noticed gem and make redis just a transport component
   def validate_notification(payload)
-    payload.size > 0 &&
+    payload.size.positive? &&
       (payload[:message].nil? || payload[:message].is_a?(String)) &&
       ((is_a?(Endpoint) && payload.keys[0].in?(ENDPOINT_NOTIFICATIONS)) ||
        (is_a?(User) && payload.keys[0].in?(USER_NOTIFICATIONS)))
