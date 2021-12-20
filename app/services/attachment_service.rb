@@ -41,6 +41,7 @@ class AttachmentService < ApplicationService
       if zipfile.size > MAX_FILE_COUNT
         raise I18n.t("errors.attributes.source.packed_files_too_many")
       end
+
       zipfile.each do |z|
         next if z.directory?
         if z.size > MAX_FILE_SIZE

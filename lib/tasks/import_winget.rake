@@ -31,7 +31,7 @@ namespace :import do
         end_time: Time.current + 100.years,
       )
     end
-    user.packages.update_all(updated_at: Time.at(0))
+    user.packages.update_all(updated_at: Time.zone.at(0))
     files = Dir.glob("../winget-pkgs/manifests/**/*.yaml").sort
     progressbar = ProgressBar.create(total: files.size, title: "WinGet")
     files.each_with_index do |f, i|
@@ -63,7 +63,7 @@ namespace :import do
       p.blocked_at = nil
       c += 1 if p.save
     end
-    user.packages.where(updated_at: Time.at(0)).update_all(published_at: nil)
+    user.packages.where(updated_at: Time.zone.at(0)).update_all(published_at: nil)
     puts "#{c} from #{files.size} packages imported"
   end
 end

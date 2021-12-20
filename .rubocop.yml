@@ -28,3 +28,12 @@ Style/TrailingCommaInArguments:
 
 Style/BlockDelimiters:
   Enabled: false
+
+Layout/ElseAlignment:
+  Enabled: false
+
+Lint/UselessAssignment:
+  Enabled: false
+
+Layout/EndAlignment:
+  Enabled: false

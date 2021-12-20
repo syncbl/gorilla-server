@@ -3,7 +3,7 @@ class ActualizedSettingsQuery < ApplicationQuery
     @endpoint = endpoint
     @settings = @endpoint.settings
     @packages = packages
-    @timestamp = timestamp ? Time.at(timestamp.to_i) : Time.at(0)
+    @timestamp = timestamp ? Time.zone.at(timestamp.to_i) : Time.zone.at(0)
   end
 
   def call
