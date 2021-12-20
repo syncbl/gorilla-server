@@ -42,12 +42,14 @@ class Package < ApplicationRecord
             format: {
               with: NAME_FORMAT,
             }
-  validates :short_description, length: {
-                        maximum: MAX_SHORT_DESCRIPTION_LENGTH,
-                      }
-  validates :description, length: {
-                  maximum: MAX_DESCRIPTION_LENGTH,
-                }
+  validates :short_description,
+            length: {
+              maximum: MAX_SHORT_DESCRIPTION_LENGTH,
+            }
+  validates :description,
+            length: {
+              maximum: MAX_DESCRIPTION_LENGTH,
+            }
   validates :package_type, presence: true
   validates :icon, size: { less_than: MAX_ICON_SIZE }
   validates :caption,

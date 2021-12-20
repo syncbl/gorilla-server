@@ -9,7 +9,7 @@ class DependencyExtractQuery < ApplicationQuery
 
     columns = Dependency.column_names
     sql =
-      <<-SQL
+      <<-SQL.squish
         WITH RECURSIVE dependency_tree (#{columns.join(", ")}, level)
         AS (
           SELECT
@@ -43,9 +43,9 @@ class DependencyExtractQuery < ApplicationQuery
     dependencies = Dependency.find_by_sql(sql.chomp)
     ActiveRecord::Associations::Preloader.new.preload dependencies, [
       { package: :user },
-                                                        { dependent_package: :user },
-                                                        { package: :sources },
-                                                        { dependent_package: :sources },
+      { dependent_package: :user },
+      { package: :sources },
+      { dependent_package: :sources },
     ]
     dependencies || []
   end

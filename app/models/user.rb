@@ -65,7 +65,7 @@ class User < ApplicationRecord
   end
 
   def inactive_message
-    !blocked? ? super : :blocked
+    blocked? ? :blocked : super
   end
 
   def used_space
