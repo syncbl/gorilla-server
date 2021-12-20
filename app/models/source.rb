@@ -31,6 +31,6 @@ class Source < ApplicationRecord
   private
 
   def check_publishable
-    file.attached?
+    file.attached? && files&.size > 0
   end
 end
