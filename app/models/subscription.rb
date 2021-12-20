@@ -46,10 +46,10 @@ class Subscription < ApplicationRecord
     self.start_time = start_time
     if end_time.nil?
       self.end_time = if user.plan == "unlimited"
-        start_time + 100.years
-      else
-        start_time + 1.month
-                      end
+          start_time + 100.years
+        else
+          start_time + 1.month
+        end
     end
   end
 end

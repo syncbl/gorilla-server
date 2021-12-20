@@ -52,7 +52,8 @@ class ApplicationController < ActionController::Base
     end
 
     if Api::Keys.new.find(service)
-      if scope == "Endpoint"
+      case scope
+      when "Endpoint"
         unless sign_in_endpoint cached_endpoint(uuid, token)
           render_json_error I18n.t("devise.failure.unauthenticated"),
                             status: :unauthorized
@@ -62,7 +63,7 @@ class ApplicationController < ActionController::Base
           current_endpoint.update(remote_ip: request.remote_ip,
                                   reseted_at: nil)
         end
-      elsif scope == "User"
+      when "User"
         unless sign_in cached_user(uuid, token)
           render_json_error I18n.t("devise.failure.unauthenticated"),
                             status: :unauthorized
@@ -88,8 +89,8 @@ class ApplicationController < ActionController::Base
     session[:locale] ||=
       # TODO: Request locale (but errors must be in user's locale)
       current_endpoint&.locale || current_user&.locale ||
-        http_accept_language.compatible_language_from(I18n.available_locales) ||
-        I18n.default_locale.to_s
+      http_accept_language.compatible_language_from(I18n.available_locales) ||
+      I18n.default_locale.to_s
     I18n.locale = session[:locale]
   end
 

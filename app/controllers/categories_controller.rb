@@ -1,5 +1,5 @@
 class CategoriesController < ApplicationController
-  before_action :set_category, only: [:show, :edit, :update, :destroy]
+  before_action :set_category, only: %i[show edit update destroy]
 
   # GET /categories
   def index
@@ -46,12 +46,12 @@ class CategoriesController < ApplicationController
   private
 
     # Use callbacks to share common setup or constraints between actions.
-    def set_category
-      @category = Category.find(params[:id])
-    end
+  def set_category
+    @category = Category.find(params[:id])
+  end
 
     # Only allow a list of trusted parameters through.
-    def category_params
-      params.fetch(:category, {})
-    end
+  def category_params
+    params.fetch(:category, {})
+  end
 end

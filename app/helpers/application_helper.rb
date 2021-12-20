@@ -16,10 +16,10 @@ module ApplicationHelper
     case object
     when Package
       if current_user.is_owner?(object)
-  object.name
-else
-  "#{object.user.name}/#{object.name}"
-end
+        object.name
+      else
+        "#{object.user.name}/#{object.name}"
+      end
     when User
       "#{object.user.fullname}"
     end
@@ -36,7 +36,7 @@ end
   def log_json(json)
     if Rails.env.development?
       @logger ||= Logger.new("#{Rails.root}/log/json.log")
-      @logger.debug "#{caller[0].split(/[\/:]/)[-4..-3].join("/")}:\n#{JSON.pretty_generate(json)}"
+      @logger.debug "#{caller[0].split(%r{[/:]})[-4..-3].join("/")}:\n#{JSON.pretty_generate(json)}"
     end
     json
   end

@@ -3,8 +3,8 @@ class Package::Component < Package
 
   has_many :packages, through: :dependencies
 
-  before_destroy :check_dependency, prepend: true
   before_validation :set_type, on: :create
+  before_destroy :check_dependency, prepend: true
 
   default_scope { with_package_type(:component) }
 

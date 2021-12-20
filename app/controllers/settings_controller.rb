@@ -39,7 +39,7 @@ class SettingsController < ApplicationController
 
   # PATCH/PUT /endpoints/1/settings/1
   def update
-    respond_to do |format|
+    respond_to do |_format|
       if @setting.update(setting_params)
         redirect_to [@endpoint, @setting],
                     notice: "Setting was successfully updated."
@@ -80,7 +80,7 @@ class SettingsController < ApplicationController
   def set_endpoint
     @endpoint =
       current_endpoint ||
-        Endpoint.find_by!(id: params[:endpoint_id], user: current_user)
+      Endpoint.find_by!(id: params[:endpoint_id], user: current_user)
   end
 
   # Only allow a trusted parameter "white list" through.

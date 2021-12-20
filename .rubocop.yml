@@ -53,3 +53,21 @@ Style/Lambda:
 
 Style/HashAsLastArrayItem:
   Enabled: false
+
+Lint/RedundantDirGlobSort:
+  Enabled: false
+
+Style/RedundantInterpolation:
+  Enabled: false
+
+Layout/CommentIndentation:
+  Enabled: false
+
+Style/SoleNestedConditional:
+  Enabled: false
+
+Lint/UnusedMethodArgument:
+  Enabled: false
+
+Rails/EagerEvaluationLogMessage:
+  Enabled: false

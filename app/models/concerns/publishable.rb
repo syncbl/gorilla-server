@@ -1,7 +1,7 @@
 module Publishable
   extend ActiveSupport::Concern
 
-  LOCKED_FIELDS = %w[file]
+  LOCKED_FIELDS = %w[file].freeze
 
   def self.included(base)
     base.class_eval {
