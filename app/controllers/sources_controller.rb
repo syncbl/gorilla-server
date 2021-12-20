@@ -115,9 +115,9 @@ class SourcesController < ApplicationController
   def set_source
     @source =
       policy_scope(Package)
-        .find_by(package_id: params[:package_id])
+      .find_by(package_id: params[:package_id])
         &.sources
-        .find(params[:id])
+      .find(params[:id])
   end
 
   def check_file_params

@@ -81,8 +81,11 @@ class EndpointsController < ApplicationController
   # POST /endpoint/clone
   # POST /endpoint/clone.json
   def clone
-    from_endpoint = params[:from_endpoint_id] ? Endpoint.find(params[:from_endpoint_id]) :
-      Endpoint.where.not(id: @endpoint.id).order(updated_at: :desc).first
+    from_endpoint = if params[:from_endpoint_id]
+  Endpoint.find(params[:from_endpoint_id])
+else
+  Endpoint.where.not(id: @endpoint.id).order(updated_at: :desc).first
+end
     CloneEndpointService.call(from_endpoint, @endpoint)
     respond_to do |format|
       format.html do

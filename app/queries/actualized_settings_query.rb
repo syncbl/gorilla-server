@@ -19,12 +19,12 @@ class ActualizedSettingsQuery < ApplicationQuery
 
     # Auto cleaning unused components
     @settings.where(package: { package_type: :component })
-      .where.not(package: components).map do |s|
+             .where.not(package: components).map do |s|
       @endpoint.notify :remove_package, s.package
     end
 
     # Only updated packages
     @settings.includes(:sources)
-      .where(package_id: @packages, sources: { published_at: @timestamp.. })
+             .where(package_id: @packages, sources: { published_at: @timestamp.. })
   end
 end

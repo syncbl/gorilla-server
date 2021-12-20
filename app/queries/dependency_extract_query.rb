@@ -29,7 +29,7 @@ class DependencyExtractQuery < ApplicationQuery
           UNION ALL
 
           SELECT
-            #{columns.map { |col| "dependencies." + col }.join(", ")}, level + 1
+            #{columns.map { |col| "dependencies.#{col}" }.join(", ")}, level + 1
           FROM dependencies, dependency_tree, packages
           WHERE dependencies.package_id = dependency_tree.dependent_package_id
           AND packages.id = dependencies.dependent_package_id
@@ -42,11 +42,11 @@ class DependencyExtractQuery < ApplicationQuery
 
     dependencies = Dependency.find_by_sql(sql.chomp)
     ActiveRecord::Associations::Preloader.new.preload dependencies, [
-                                                        { package: :user },
+      { package: :user },
                                                         { dependent_package: :user },
                                                         { package: :sources },
                                                         { dependent_package: :sources },
-                                                      ]
+    ]
     dependencies || []
   end
 end

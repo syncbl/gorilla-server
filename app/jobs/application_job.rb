@@ -8,7 +8,7 @@ class ApplicationJob < ActiveJob::Base
   require "timeout"
 
   def perform(...)
-    Timeout::timeout(JOB_TIMEOUT) { safe_perform(...) }
+    Timeout.timeout(JOB_TIMEOUT) { safe_perform(...) }
   rescue Timeout::Error
     # TODO: Notify & source.block! "+++ TIMEOUT +++"
   end

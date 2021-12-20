@@ -15,8 +15,11 @@ module ApplicationHelper
   def title(object)
     case object
     when Package
-      current_user.is_owner?(object) ? object.name :
-        "#{object.user.name}/#{object.name}"
+      if current_user.is_owner?(object)
+  object.name
+else
+  "#{object.user.name}/#{object.name}"
+end
     when User
       "#{object.user.fullname}"
     end
