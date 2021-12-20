@@ -10,8 +10,9 @@ class AttachmentService < ApplicationService
       @source.block! I18n.t("errors.block_reasons.suspicious_attachment")
       return false
     end
-    #ActiveRecord::Base.transaction do
+    # ActiveRecord::Base.transaction do
     return unless build
+
     if @source.files.size == 0
       # TODO: Inform user. He can merge or delete this source, but can't publish.
     end
@@ -47,6 +48,7 @@ class AttachmentService < ApplicationService
         if z.size > MAX_FILE_SIZE
           raise I18n.t("errors.attributes.source.packed_file_too_big", name: z.name, size: z.size)
         end
+
         crc = Digest::MD5.base64digest(z.get_input_stream.read)
         if existing_files[z.name] == crc
           zipfile.remove(z.name)

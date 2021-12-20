@@ -4,4 +4,4 @@ json = {
   locale: endpoint.locale,
 }
 
-#TODO: S3 url
+# TODO: S3 url

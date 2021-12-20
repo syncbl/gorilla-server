@@ -17,6 +17,6 @@ json[:user] = render "users/short", user: package.user
 # TODO: into edit -> if current_user
 #  json[:params] = package.params
 #  json[:sources] = render "layouts/attachments", package: package
-#end
+# end
 
 json

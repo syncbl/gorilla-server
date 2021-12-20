@@ -9,6 +9,7 @@ class SourceValidator < ActiveModel::Validator
     else
       # This hack allows to validate source size with user subscription on create
       return unless record.file.attached?
+
       if record.package.user.used_space + record.file.byte_size.to_i > record.package.user.subscriptions.size_limit
         record.errors.add I18n.t("errors.attributes.source.limit_reached")
       end

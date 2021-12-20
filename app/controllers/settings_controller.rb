@@ -84,7 +84,7 @@ class SettingsController < ApplicationController
   end
 
   # Only allow a trusted parameter "white list" through.
-  #def setting_params
+  # def setting_params
   #  params.permit(:id, :updates)
-  #end
+  # end
 end

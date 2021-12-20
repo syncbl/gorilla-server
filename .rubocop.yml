@@ -37,3 +37,9 @@ Lint/UselessAssignment:
 
 Layout/EndAlignment:
   Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/RedundantReturn:
+  Enabled: false

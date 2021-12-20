@@ -6,6 +6,7 @@ class DependencyExtractQuery < ApplicationQuery
 
   def call
     return [] if @packages.size == 0
+
     columns = Dependency.column_names
     sql =
       <<-SQL

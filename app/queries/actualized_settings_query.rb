@@ -10,6 +10,7 @@ class ActualizedSettingsQuery < ApplicationQuery
     components = Set[]
     DependencyExtractQuery.call(@endpoint, @packages).map do |c|
       next if components.include?(c.dependent_package.id)
+
       components << c.dependent_package.id
       unless @packages.include?(c.dependent_package.id)
         @endpoint.notify :add_component, "#{c.dependent_package.id}:#{c.package.id}"

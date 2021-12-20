@@ -13,7 +13,6 @@ require "rails_helper"
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
 RSpec.describe "Users", type: :request do
-
   # TODO: For a new user
   # let(:new_user_attributes) {
   #   FactoryBot.attributes_for(:user1, name: "user3", email: "user3@example.com")

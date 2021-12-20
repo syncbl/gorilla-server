@@ -38,6 +38,7 @@ namespace :import do
       progressbar.increment
       y = YAML.load_file(f)
       next if y["Installers"].nil? || y["PackageName"].nil?
+
       if i < files.size - 1
         z = YAML.load_file(files[i + 1])
         next if y["PackageName"] == z["PackageName"]
