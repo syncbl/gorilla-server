@@ -53,7 +53,7 @@ class AttachmentService < ApplicationService
         crc = Digest::MD5.base64digest(z.get_input_stream.read)
         if existing_files[z.name] == crc
           zipfile.remove(z.name)
-          zipfile.commit # DEBUG: unless File.basename(@filename).start_with?("test")
+          zipfile.commit unless File.basename(@filename).start_with?("test")
         else
           filelist[z.name] = crc # z.crc
           # Replace with HashFileList.add if needed
