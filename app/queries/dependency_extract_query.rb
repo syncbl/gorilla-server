@@ -33,7 +33,7 @@ class DependencyExtractQuery < ApplicationQuery
           FROM dependencies, dependency_tree, packages
           WHERE dependencies.package_id = dependency_tree.dependent_package_id
           AND packages.id = dependencies.dependent_package_id
-          AND dependencies.is_optional = FALSE
+          AND dependencies.optional = FALSE
           AND packages.blocked_at IS NULL
           AND dependencies.package_id::text NOT IN (#{@packages.map { |p| "'#{p}'" }.join(", ")})
         )

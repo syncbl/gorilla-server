@@ -19,7 +19,7 @@ class PackagePolicy
   end
 
   def destroy?
-    @user.is_owner? @record
+    @user.owner? @record
   end
 
   def search?

@@ -105,8 +105,8 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.jsonb :files, null: false, default: {}
       t.jsonb :delete_files, null: false, default: []
       t.bigint :unpacked_size, null: false, default: 0
-      t.boolean :is_merged, null: false, default: false
-      t.boolean :is_partial, null: false, default: false
+      t.boolean :merged, null: false, default: false
+      t.boolean :partial, null: false, default: false
       t.bigint :settings_count, null: false, default: 0
 
       t.references :package, type: :uuid, index: true, null: false, foreign_key: true

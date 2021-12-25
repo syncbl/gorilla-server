@@ -71,3 +71,28 @@ Lint/UnusedMethodArgument:
 
 Rails/EagerEvaluationLogMessage:
   Enabled: false
+
+Style/Documentation:
+  # TODO: Enable
+  Enabled: false
+
+Naming/VariableNumber:
+  Enabled: false
+
+Metrics:
+  Enabled: false
+
+Layout/EndOfLine:
+  Enabled: false
+
+Lint/MissingSuper:
+  Enabled: false
+
+Style/GuardClause:
+  Enabled: false
+
+Lint/AssignmentInCondition:
+  Enabled: false
+
+Lint/EmptyBlock:
+  Enabled: false

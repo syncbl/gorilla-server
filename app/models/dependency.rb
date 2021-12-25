@@ -13,22 +13,22 @@ class Dependency < ApplicationRecord
   }
 
   scope :categorized, -> {
-          order(:category_id)
-        }
+                        order(:category_id)
+                      }
 
   def required_component?
-    package_type.component? && !is_optional
+    package_type.component? && !optional?
   end
 
   def optional_component?
-    package_type.component? && is_optional
+    package_type.component? && optional?
   end
 
   def required_package?
-    !package_type.component? && !is_optional
+    !package_type.component? && !optional?
   end
 
   def optional_package?
-    !package_type.component? && is_optional
+    !package_type.component? && optional?
   end
 end

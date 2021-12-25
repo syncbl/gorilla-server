@@ -15,7 +15,7 @@ if @pagy
   json[:to] = @pagy.to
 end
 
-if defined?(object) && object&.errors.any?
+if defined?(object) && object.errors.any?
   json[:errors] = object.errors.full_messages
 end
 

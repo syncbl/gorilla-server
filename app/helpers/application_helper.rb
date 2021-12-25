@@ -15,7 +15,7 @@ module ApplicationHelper
   def title(object)
     case object
     when Package
-      if current_user.is_owner?(object)
+      if current_user.owner?(object)
         object.name
       else
         "#{object.user.name}/#{object.name}"
@@ -26,17 +26,17 @@ module ApplicationHelper
   end
 
   def current_endpoint
-    @_cached_endpoint
+    @current_endpoint
   end
 
   def sign_in_endpoint(endpoint)
-    @_cached_endpoint ||= endpoint
+    @current_endpoint ||= endpoint
   end
 
   def log_json(json)
     if Rails.env.development?
-      @logger ||= Logger.new("#{Rails.root}/log/json.log")
-      @logger.debug "#{caller[0].split(%r{[/:]})[-4..-3].join("/")}:\n#{JSON.pretty_generate(json)}"
+      Logger.new(Rails.root.join("log/json.log"))
+            .debug "#{caller[0].split(%r{[/:]})[-4..-3].join("/")}:\n#{JSON.pretty_generate(json)}"
     end
     json
   end

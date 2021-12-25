@@ -93,7 +93,7 @@ Package::Bundle.first.icon.attach(
 
 p = Package::Bundle.find_by(name: "openssl-dev")
 s =
-  p.sources.create(version: "1.0.1", description: "Test update 1", is_partial: true)
+  p.sources.create(version: "1.0.1", description: "Test update 1", partial: true)
 AttachmentService.call s, "files/test1.zip"
 
 p.add_params_link(

@@ -12,7 +12,7 @@ end
 package.dependencies.categorized.map do |d|
   component_type = if d.required_component?
       # Required components
-      :required_components
+                     :required_components
     elsif d.optional_component?
       # Selectable options, install after main package
       :optional_components

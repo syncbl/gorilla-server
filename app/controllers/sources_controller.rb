@@ -100,8 +100,8 @@ class SourcesController < ApplicationController
           head :unprocessable_entity
         else
           MergeSourcesJob.perform_later policy_scope(Package).find(
-                                          params[:package_id],
-                                        )
+            params[:package_id],
+          )
           head :accepted
         end
       end
@@ -113,11 +113,10 @@ class SourcesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_source
-    @source =
-      policy_scope(Package)
-      .find_by(package_id: params[:package_id])
-        &.sources
-      .find(params[:id])
+    if @package = policy_scope(Package)
+       .find_by(package_id: params[:package_id])
+      @source = @package.sources.find(params[:id])
+    end
   end
 
   def check_file_params

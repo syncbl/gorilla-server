@@ -1,6 +1,12 @@
 module Blockable
   extend ActiveSupport::Concern
 
+  def self.included(base)
+    base.class_eval {
+      has_event :block
+    }
+  end
+
   def block!(reason = nil)
     update!(
       {
@@ -15,11 +21,5 @@ module Blockable
               blocked_at: nil,
               block_reason: nil,
             })
-  end
-
-  def self.included(base)
-    base.class_eval {
-      has_event :block
-    }
   end
 end

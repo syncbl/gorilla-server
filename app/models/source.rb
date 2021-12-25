@@ -25,12 +25,12 @@ class Source < ApplicationRecord
   } # GoldiLoader: includes(file_attachment: :blob)
 
   def self.merged?
-    last&.is_merged == true
+    last.present && last.merged?
   end
 
   private
 
   def check_publishable
-    file.attached? && files&.size.positive?
+    file.attached? && files.present? && files.size.positive?
   end
 end

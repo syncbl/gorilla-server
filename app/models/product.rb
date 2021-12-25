@@ -3,7 +3,7 @@ class Product < ApplicationRecord
 
   belongs_to :package
 
-  validates :package, presence: true, uniqueness: true
+  validates :package, uniqueness: true
 
   scope :published,
         -> {

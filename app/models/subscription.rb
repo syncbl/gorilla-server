@@ -28,9 +28,7 @@ class Subscription < ApplicationRecord
       SUBSCRIPTION_PLAN_PERSONAL
     when "pro"
       SUBSCRIPTION_PLAN_PRO
-    when "business"
-      SUBSCRIPTION_PLAN_BUSINESS
-    when "unlimited"
+    when "business", "unlimited"
       SUBSCRIPTION_PLAN_BUSINESS
     else
       0
@@ -44,12 +42,12 @@ class Subscription < ApplicationRecord
       Subscription.current.where(user: user).order(end_time: :desc).first
     start_time = current.present? ? current.end_time : Time.current
     self.start_time = start_time
-    if end_time.nil?
-      self.end_time = if user.plan == "unlimited"
-          start_time + 100.years
-        else
-          start_time + 1.month
-        end
-    end
+    return unless end_time.nil?
+
+    self.end_time = if user.plan == "unlimited"
+                      start_time + 100.years
+      else
+        start_time + 1.month
+      end
   end
 end

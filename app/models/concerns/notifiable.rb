@@ -4,7 +4,7 @@ module Notifiable
   def notify(method, object, message = nil)
     # Notifications can be one per object or one per activity in order to avoid spam
     object_id = object.is_a?(ApplicationRecord) ? object.id : object
-    notification = Hash[method.to_s, object_id]
+    notification = { method.to_s => object_id }
     notification[:message] = message if message
     if validate_notification(notification)
       # unless Push::Server.online?(self.id) && Push::Server.notify(self.id, notification)

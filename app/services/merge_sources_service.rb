@@ -7,7 +7,7 @@ class MergeSourcesService < ApplicationService
     return unless @package.sources.size > 1
 
     @package.sources.each_with_index.reverse_each.map do |src, i|
-      break if src.is_merged
+      break if src.merged?
 
       # TODO: Only published!
       @package.sources.each_with_index.reverse_each.drop(@package.sources.size - i).map do |dst, _j|
@@ -32,9 +32,9 @@ class MergeSourcesService < ApplicationService
           AttachmentService.call dst, dstfile
         end
       end
+      src.update(merged: true)
     end
 
-    @package.sources.update_all(is_merged: true)
     @package.recalculate_size!
   end
 end

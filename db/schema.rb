@@ -133,8 +133,8 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.jsonb "files", default: {}, null: false
     t.jsonb "delete_files", default: [], null: false
     t.bigint "unpacked_size", default: 0, null: false
-    t.boolean "is_merged", default: false, null: false
-    t.boolean "is_partial", default: false, null: false
+    t.boolean "merged", default: false, null: false
+    t.boolean "partial", default: false, null: false
     t.bigint "settings_count", default: 0, null: false
     t.uuid "package_id", null: false
     t.datetime "published_at"

@@ -23,7 +23,7 @@ class AttachmentService < ApplicationService
       identify: false,
     )
     # It's a magic trick: before we save this source count of sources is 0
-    @source.is_merged = true if @source.package.sources.size.zero?
+    @source.merged = true if @source.package.sources.size.zero?
     @source.save!
     @source.package.recalculate_size!
   ensure
@@ -36,7 +36,7 @@ class AttachmentService < ApplicationService
     @source.unpacked_size = 0
     filelist = {}
     existing_files = {}
-    @source.package.sources.where(is_merged: true).each do |s|
+    @source.package.sources.where(merged: true).each do |s|
       existing_files.merge! s.files
     end
     Zip::File.open(@filename) do |zipfile|

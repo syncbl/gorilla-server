@@ -8,7 +8,7 @@ class SettingsController < ApplicationController
   # GET /endpoints/1/settings
   def index
     packages = params[:packages]&.split(",")
-                                .select { |p| UUID_FORMAT.match?(p) } || []
+                                .grep(UUID_FORMAT) || []
     @settings = @endpoint.actualized_settings(packages, params[:t])
   end
 
