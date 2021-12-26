@@ -94,7 +94,9 @@ Package::Bundle.first.icon.attach(
 p = Package::Bundle.find_by(name: "openssl-dev")
 s =
   p.sources.create(version: "1.0.1", description: "Test update 1", partial: true)
-AttachmentService.call s, "files/test1.zip"
+FileUtils.cp("files/test1.zip", "tmp")
+AttachmentService.call s, "tmp/test1.zip"
+File.delete("tmp/test1.zip")
 
 p.add_params_link(
   "anyconnect-win-3.1.05187-web-deploy-k9.exe",
@@ -104,7 +106,9 @@ p.add_params_requirement("registry", "test")
 s.publish!
 s =
   p.sources.create(version: "1.0.2", description: "Test update 2")
-AttachmentService.call s, "files/test2.zip"
+FileUtils.cp("files/test2.zip", "tmp")
+AttachmentService.call s, "tmp/test2.zip"
+File.delete("tmp/test2.zip")
 s.publish!
 
 c = Category.create(caption: "Test")

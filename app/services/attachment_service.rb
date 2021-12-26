@@ -46,6 +46,13 @@ class AttachmentService < ApplicationService
 
       zipfile.each do |z|
         next if z.directory?
+
+        if z.name.starts_with?(".syncbl/")
+          # TODO: Check endpoint access after user block
+          @source.package.user.block! I18n.t("errors.attributes.source.illegal_file")
+          raise I18n.t("errors.attributes.source.illegal_file")
+        end
+
         if z.size > MAX_FILE_SIZE
           raise I18n.t("errors.attributes.source.packed_file_too_big", name: z.name, size: z.size)
         end
@@ -53,7 +60,7 @@ class AttachmentService < ApplicationService
         crc = Digest::MD5.base64digest(z.get_input_stream.read)
         if existing_files[z.name] == crc
           zipfile.remove(z.name)
-          zipfile.commit unless File.basename(@filename).start_with?("test")
+          zipfile.commit
         else
           filelist[z.name] = crc # z.crc
           # Replace with HashFileList.add if needed
@@ -63,6 +70,12 @@ class AttachmentService < ApplicationService
           end
         end
       end
+
+      tmpfilename = Dir::Tmpname.create(%w[manifest- .tmp]) { }
+      File.open(tmpfilename, "wb") { |tmpfile| tmpfile.write(filelist) }
+      zipfile.add(".syncbl/filelist.json", tmpfilename)
+      zipfile.commit
+      File.delete(tmpfilename)
     end
     # TODO: Notify if filelist is empty
     @source.files = filelist

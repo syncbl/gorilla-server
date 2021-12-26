@@ -12,6 +12,7 @@ en:
         limit_reached: You have exceeded the space available for your subscription
         packed_file_too_big: 'File is too big: %{name}:%{size}'
         packed_files_too_many: Too many files
+        illegal_file: Hacking is illegal, don't you know that?
     block_reasons:
       suspicious_attachment: Suspicious files found!
     messages:
