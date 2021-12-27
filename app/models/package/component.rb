@@ -1,7 +1,8 @@
-class Package::Component < Package
-  include ParamAwareable
-
+class Package::Component < Package::Internal
   has_many :packages, through: :dependencies
+
+  jsonb_accessor :params,
+                 path: [:string, default: ""]
 
   before_validation :set_type, on: :create
   before_destroy :check_dependency, prepend: true
@@ -13,10 +14,6 @@ class Package::Component < Package
     packages.size.zero?
   end
 
-  def publishable?
-    true
-  end
-
   private
 
   def set_type
@@ -26,7 +23,7 @@ class Package::Component < Package
   def check_dependency
     unless orphaned?
       # TODO: Relative path to error
-      errors.add :size, I18n.t("errors.attributes.package.dependency.used")
+      errors.add :size, I18n.t("errors.attributes.dependency.used")
       throw :abort
     end
   end

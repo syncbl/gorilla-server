@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.uuid "package_id", null: false
     t.uuid "dependent_package_id", null: false
     t.bigint "category_id"
-    t.boolean "is_optional", default: false, null: false
+    t.boolean "optional", default: false, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["category_id"], name: "index_dependencies_on_category_id"
     t.index ["dependent_package_id"], name: "index_dependencies_on_dependent_package_id"

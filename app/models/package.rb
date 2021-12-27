@@ -60,6 +60,8 @@ class Package < ApplicationRecord
             }
   validates_with PackageValidator
 
+  before_validation :nullify_empty_params, on: :save
+
   default_scope {
     joins(:user).includes(:icon_attachment)
   }
@@ -78,16 +80,13 @@ class Package < ApplicationRecord
     raise Exception::NotImplementedError
   end
 
-  def available_files
-    available_files = Set[]
-    sources.map do |s|
-      available_files += s.files.keys
-      available_files -= s.delete_files
-    end
-    available_files
+  def filtered_params
+    params.except(:searcheable).compact
   end
 
-  def filtered_params
-    params.except(:searcheable)
+  private
+
+  def nullify_empty_params
+    params.each { |k, v| params[k] = nil if v.empty? }
   end
 end

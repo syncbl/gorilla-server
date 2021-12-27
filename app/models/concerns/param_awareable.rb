@@ -1,16 +1,6 @@
 module ParamAwareable
   extend ActiveSupport::Concern
 
-  def self.included(base)
-    base.class_eval {
-      jsonb_accessor :params,
-                     path: [:string, default: ""],
-                     path_persistent: [:boolean, default: false],
-                     require_administrator: [:boolean, default: false],
-                     require_restart: [:boolean, default: false]
-    }
-  end
-
   def add_params_link(source, destination)
     if available_files.include?(source)
       add_params_value(:links, source, destination)

@@ -44,7 +44,7 @@ puts Package::Component.create(
       short_description: "Test",
       description: "Test packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest package",
       user: u1,
-      path: 'D:\TEST',
+      path: 'TEST',
     },
     {
       name: "Openssl-1_2",
@@ -52,7 +52,7 @@ puts Package::Component.create(
       short_description: "Test",
       description: "Test packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest package",
       user: u1,
-      path: 'D:\TEST',
+      path: 'TEST',
     },
     {
       name: "openssl-2_1",
@@ -60,7 +60,7 @@ puts Package::Component.create(
       short_description: "Test",
       description: "Test packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest package",
       user: u1,
-      path: 'D:\TEST',
+      path: 'TEST',
     },
   ],
 )
@@ -73,7 +73,8 @@ puts Package::Bundle.create(
       short_description: "Test",
       description: "Test packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest package",
       user: u1,
-      path: 'D:\TEST',
+      root: :system_root,
+      path: 'TEST1',
     },
     {
       name: "openssl-dev-2",
@@ -81,7 +82,9 @@ puts Package::Bundle.create(
       short_description: "Test",
       description: "Test packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest package",
       user: u1,
-      path: 'D:\TEST',
+      root: :system_root,
+      path: 'TEST1',
+
     },
   ],
 )
@@ -115,9 +118,9 @@ c = Category.create(caption: "Test")
 
 # p.dependent_packages << Package.find_by(name: "openssl-1_0")
 p.dependent_packages << Package.find_by(name: "openssl-1_1")
-p.dependencies.last.update(is_optional: true, category: c)
+p.dependencies.last.update(optional: true, category: c)
 p.dependent_packages << Package.find_by(name: "openssl-1_2")
-p.dependencies.last.update(is_optional: true, category: c)
+p.dependencies.last.update(optional: true, category: c)
 Product.create(package: p)
 
 p1 = Package.last
@@ -138,7 +141,9 @@ puts Package::Trusted.create(
       short_description: "Test",
       description: "Test packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest package",
       user: u1,
-      path: 'D:\TEST1',
+      root: :system_root,
+      path: 'TEST2',
+
     },
   ],
 )

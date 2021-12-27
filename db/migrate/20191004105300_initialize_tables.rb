@@ -92,7 +92,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.references :dependent_package, type: :uuid, index: true, null: false,
                                        foreign_key: { to_table: :packages }
       t.references :category, index: true, foreign_key: true
-      t.boolean :is_optional, null: false, default: false
+      t.boolean :optional, null: false, default: false
       t.datetime :created_at, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.index %i[package_id dependent_package_id], unique: true
     end
