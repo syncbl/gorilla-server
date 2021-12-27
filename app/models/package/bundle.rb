@@ -1,7 +1,7 @@
 class Package::Bundle < Package::Internal
   jsonb_accessor :params,
                  uninstall: [:string],
-                 root: [:string],
+                 root: [:string], # TODO: Default value?
                  path: [:string],
                  path_persistent: [:boolean, default: false],
                  # TODO: Main applications dictionary?
