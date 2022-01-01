@@ -44,7 +44,7 @@ puts Package::Component.create(
       short_description: "Test",
       description: "Test packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest package",
       user: u1,
-      path: 'TEST',
+      path: "TEST",
     },
     {
       name: "Openssl-1_2",
@@ -52,7 +52,7 @@ puts Package::Component.create(
       short_description: "Test",
       description: "Test packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest package",
       user: u1,
-      path: 'TEST',
+      path: "TEST",
     },
     {
       name: "openssl-2_1",
@@ -60,7 +60,7 @@ puts Package::Component.create(
       short_description: "Test",
       description: "Test packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest package",
       user: u1,
-      path: 'TEST',
+      path: "TEST",
     },
   ],
 )
@@ -74,7 +74,7 @@ puts Package::Bundle.create(
       description: "Test packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest package",
       user: u1,
       root: :system_root,
-      path: 'TEST1',
+      path: "TEST1",
     },
     {
       name: "openssl-dev-2",
@@ -83,7 +83,7 @@ puts Package::Bundle.create(
       description: "Test packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest package",
       user: u1,
       root: :system_root,
-      path: 'TEST1',
+      path: "TEST1",
 
     },
   ],
@@ -96,7 +96,10 @@ Package::Bundle.first.icon.attach(
 
 p = Package::Bundle.find_by(name: "openssl-dev")
 s =
-  p.sources.create(version: "1.0.1", description: "Test update 1", partial: true)
+  p.sources.create(version: "1.0.1",
+                   caption: "Test",
+                   description: "Test update 1",
+                   partial: true)
 FileUtils.cp("files/test1.zip", "tmp")
 AttachmentService.call s, "tmp/test1.zip"
 File.delete("tmp/test1.zip")
@@ -108,7 +111,9 @@ p.add_params_link(
 p.add_params_requirement("registry", "test")
 s.publish!
 s =
-  p.sources.create(version: "1.0.2", description: "Test update 2")
+  p.sources.create(version: "1.0.2",
+                   caption: "Test",
+                   description: "Test update 2")
 FileUtils.cp("files/test2.zip", "tmp")
 AttachmentService.call s, "tmp/test2.zip"
 File.delete("tmp/test2.zip")
@@ -142,7 +147,7 @@ puts Package::Trusted.create(
       description: "Test packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest package",
       user: u1,
       root: :system_root,
-      path: 'TEST2',
+      path: "TEST2",
 
     },
   ],

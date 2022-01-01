@@ -100,6 +100,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     # ----------
     create_table :sources, id: :uuid do |t|
       # TODO: What to do with file: run, unpack, exec
+      t.jsonb :caption_translations, null: false, default: { "en": "" }
       t.jsonb :description_translations, null: false, default: { "en": "" }
       t.string :version
       t.jsonb :files, null: false, default: {}

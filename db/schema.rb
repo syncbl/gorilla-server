@@ -128,6 +128,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
   end
 
   create_table "sources", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.jsonb "caption_translations", default: {"en"=>""}, null: false
     t.jsonb "description_translations", default: {"en"=>""}, null: false
     t.string "version"
     t.jsonb "files", default: {}, null: false

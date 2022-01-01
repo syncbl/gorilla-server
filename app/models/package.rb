@@ -43,6 +43,7 @@ class Package < ApplicationRecord
               with: NAME_FORMAT,
             }
   validates :short_description,
+            presence: true,
             length: {
               maximum: MAX_SHORT_DESCRIPTION_LENGTH,
             }

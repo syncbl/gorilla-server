@@ -3,7 +3,7 @@ class Source < ApplicationRecord
   include Publishable
   include IdentityCache
 
-  translates :description
+  translates :description, :caption
 
   belongs_to :package, touch: true
   has_one_attached :file,
@@ -16,7 +16,14 @@ class Source < ApplicationRecord
             size: {
               less_than: MAX_FILE_SIZE,
             }
-  validates :description, length: { maximum: MAX_DESCRIPTION_LENGTH }
+  validates :caption,
+            presence: true,
+            length: {
+              minimum: MIN_NAME_LENGTH,
+              maximum: MAX_NAME_LENGTH,
+            }
+  validates :description,
+            length: { maximum: MAX_DESCRIPTION_LENGTH }
   validates :version, length: { maximum: MAX_VERSION_LENGTH }
   validates_with SourceValidator
 
