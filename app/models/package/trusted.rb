@@ -2,8 +2,6 @@ class Package::Trusted < Package::Bundle
   # This class is used for bundles with API access, like own applications and services
   # TODO: package owner must be trusted too.
 
-  before_validation :set_type, on: :create
-
   default_scope { with_package_type(:trusted) }
 
   private

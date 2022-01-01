@@ -60,6 +60,7 @@ class Package < ApplicationRecord
             }
   validates_with PackageValidator
 
+  before_validation :set_type, on: :create
   before_validation :nullify_empty_params, on: :save
 
   default_scope {
@@ -88,5 +89,11 @@ class Package < ApplicationRecord
 
   def nullify_empty_params
     params.each { |k, v| params[k] = nil if v.empty? }
+  end
+
+  protected
+
+  def set_type
+    raise Exception::NotImplementedError
   end
 end

@@ -29,8 +29,6 @@ class Package::External < Package
             length: { maximum: 2048 },
             presence: true
 
-  before_validation :set_type, on: :create
-
   default_scope { with_package_type(:external) }
 
   scope :searcheable, -> {

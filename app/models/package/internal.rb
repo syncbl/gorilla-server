@@ -1,10 +1,10 @@
 class Package::Internal < Package
   include ParamAwareable
 
-  before_validation :set_type, on: :create
   validates_with InternalPackageValidator
 
   def publishable?
+    # TODO: Check files or at least params
     true
   end
 
@@ -15,11 +15,5 @@ class Package::Internal < Package
       available_files -= s.delete_files
     end
     available_files
-  end
-
-  private
-
-  def set_type
-    raise Exception::NotImplementedError
   end
 end

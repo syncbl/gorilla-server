@@ -12,24 +12,26 @@ require "rails_helper"
 # of tools you can use to make these specs even more expressive, but we're
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
-RSpec.describe "Users", type: :request do
+RSpec.describe "User", type: :request do
   # TODO: For a new user
   # let(:new_user_attributes) {
   #   FactoryBot.attributes_for(:user1, name: "user3", email: "user3@example.com")
   # }
 
+  let(:user) { FactoryBot.create(:user1) }
+
   describe "GET /user" do
     context "signed in" do
-      it "renders a successful response" do
-        user = FactoryBot.create(:user1)
+      before :each do
         sign_in user
+      end
+
+      it "renders a successful response" do
         get user_url
         expect(response).to be_successful
       end
 
       it "renders a successful response for user1" do
-        user = FactoryBot.create(:user1)
-        sign_in user
         get "/user1"
         expect(response).to be_successful
       end
@@ -37,7 +39,6 @@ RSpec.describe "Users", type: :request do
 
     context "not signed in" do
       it "render an unsuccessful response" do
-        user = FactoryBot.create(:user1)
         get edit_user_url(user)
         expect(response).to have_http_status :unauthorized
       end
@@ -56,18 +57,18 @@ RSpec.describe "Users", type: :request do
       }
     }
 
+    before :each do
+      sign_in user
+    end
+
     context "with valid parameters" do
       it "updates the requested user" do
-        user = FactoryBot.create(:user1)
-        sign_in user
         patch user_url, params: { user: valid_attributes }
         user.reload
         expect(user.fullname).to eq "Test Test"
       end
 
       it "redirects to the user" do
-        user = FactoryBot.create(:user1)
-        sign_in user
         patch user_url, params: { user: valid_attributes }
         user.reload
         expect(response).to redirect_to(user_url)
@@ -76,8 +77,6 @@ RSpec.describe "Users", type: :request do
 
     context "with invalid parameters" do
       it "renders a successful response (i.e. to display the 'edit' template)" do
-        user = FactoryBot.create(:user1)
-        sign_in user
         patch user_url, params: { user: invalid_attributes }
         expect(response).not_to be_successful
       end

@@ -17,9 +17,11 @@ module Blockable
   end
 
   def unblock!
-    update!({
-              blocked_at: nil,
-              block_reason: nil,
-            })
+    update!(
+      {
+        blocked_at: nil,
+        block_reason: nil,
+      }
+    )
   end
 end

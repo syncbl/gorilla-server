@@ -4,7 +4,6 @@ class Package::Component < Package::Internal
   jsonb_accessor :params,
                  path: [:string, default: ""]
 
-  before_validation :set_type, on: :create
   before_destroy :check_dependency, prepend: true
 
   default_scope { with_package_type(:component) }
