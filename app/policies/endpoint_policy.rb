@@ -9,7 +9,7 @@ class EndpointPolicy
   end
 
   def show?
-    @endpoint == current_endpoint || @endpoint.user&.owner?(@record)
+    @endpoint.user&.owner?(@record)
   end
 
   def update?

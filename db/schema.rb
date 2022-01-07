@@ -77,7 +77,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.datetime "reseted_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["authentication_token"], name: "index_endpoints_on_authentication_token"
+    t.index ["authentication_token"], name: "index_endpoints_on_authentication_token", unique: true
     t.index ["created_at"], name: "index_endpoints_on_created_at"
     t.index ["updated_at"], name: "index_endpoints_on_updated_at"
     t.index ["user_id"], name: "index_endpoints_on_user_id"
@@ -110,7 +110,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_products_on_created_at"
-    t.index ["package_id"], name: "index_products_on_package_id"
+    t.index ["package_id"], name: "index_products_on_package_id", unique: true
     t.index ["updated_at"], name: "index_products_on_updated_at"
   end
 
@@ -173,10 +173,10 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
-    t.index ["authentication_token"], name: "index_users_on_authentication_token"
+    t.index ["authentication_token"], name: "index_users_on_authentication_token", unique: true
     t.index ["created_at"], name: "index_users_on_created_at"
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["name"], name: "index_users_on_name"
+    t.index ["name"], name: "index_users_on_name", unique: true
     t.index ["plan"], name: "index_users_on_plan"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["updated_at"], name: "index_users_on_updated_at"

@@ -24,7 +24,7 @@ class User < ApplicationRecord
   has_many :packages, dependent: :destroy
   has_many :endpoints, dependent: :destroy
   has_many :subscriptions, dependent: :nullify
-  has_many :notifications, as: :recipient
+  has_many :notifications, as: :recipient, dependent: :destroy
 
   validates :email,
             format: {

@@ -2,7 +2,6 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
   include Pagy::Backend
   include Pundit
-  include Api::Cache
   include Api::Token
 
   protect_from_forgery with: :exception, unless: -> { request.format.json? }
@@ -59,7 +58,8 @@ class ApplicationController < ActionController::Base
                             status: :unauthorized
         end
         if current_endpoint.remote_ip != request.remote_ip
-          Rails.logger.warn "Endpoint #{current_endpoint.id} IP changed from #{current_endpoint.remote_ip} to #{request.remote_ip}"
+          Rails.logger.warn "Endpoint #{current_endpoint.id} IP changed " \
+                            "from #{current_endpoint.remote_ip} to #{request.remote_ip}"
           current_endpoint.update(remote_ip: request.remote_ip,
                                   reseted_at: nil)
         end

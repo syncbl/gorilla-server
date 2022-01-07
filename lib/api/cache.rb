@@ -8,6 +8,15 @@ module Api
       cache_fetch(User, id, token)
     end
 
+    # TODO: Avoid using local variable here, consider using session!
+    def current_endpoint
+      @sign_in_endpoint
+    end
+
+    def sign_in_endpoint(endpoint)
+      @sign_in_endpoint ||= endpoint
+    end
+
     private
 
     def cache_fetch(model, id, token)

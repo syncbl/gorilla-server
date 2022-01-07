@@ -1,5 +1,6 @@
 module ApplicationHelper
   include Pagy::Frontend
+  include Api::Cache
 
   def alert_for(flash_type)
     {
@@ -23,14 +24,6 @@ module ApplicationHelper
     when User
       "#{object.user.fullname}"
     end
-  end
-
-  def current_endpoint
-    @current_endpoint
-  end
-
-  def sign_in_endpoint(endpoint)
-    @current_endpoint ||= endpoint
   end
 
   def log_json(json)

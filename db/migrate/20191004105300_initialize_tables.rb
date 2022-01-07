@@ -8,7 +8,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.string :fullname
       t.jsonb :disclaimer_translations, null: false, default: { "en": "" }
 
-      t.citext :name, null: false, index: true, unique: true
+      t.citext :name, null: false, index: {unique: true}
       t.string :locale
       t.string :plan, index: true
 
@@ -20,7 +20,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       # foreign_key: { to_table: :user }
       # TODO: Is company? Show other info.
 
-      t.string :authentication_token, index: true, unique: true
+      t.string :authentication_token, index: {unique: true}
 
       t.datetime :blocked_at
       t.string :block_reason
@@ -37,7 +37,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       # TODO: Store PC parameters here
 
-      t.string :authentication_token, index: true, unique: true
+      t.string :authentication_token, index: {unique: true}
 
       t.references :user, type: :uuid, index: true, foreign_key: true
 
@@ -94,6 +94,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.references :category, index: true, foreign_key: true
       t.boolean :optional, null: false, default: false
       t.datetime :created_at, null: false, default: -> { "CURRENT_TIMESTAMP" }
+
       t.index %i[package_id dependent_package_id], unique: true
     end
 
@@ -137,7 +138,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
     # ----------
     create_table :products do |t|
-      t.references :package, type: :uuid, index: true, unique: true, null: false, foreign_key: true
+      t.references :package, type: :uuid, null: false, foreign_key: true, index: {unique: true}
 
       # Price, license, etc.
       # TODO: validation mark like t.datetime :validated_at

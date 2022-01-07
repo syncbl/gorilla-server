@@ -20,11 +20,11 @@ class Package < ApplicationRecord
   attribute :category
 
   belongs_to :user
-  has_one :product
+  has_one :product, dependent: :destroy
   has_many :settings, dependent: :nullify
   has_many :endpoints, through: :settings
   has_many :sources, dependent: :destroy
-  has_many :dependencies
+  has_many :dependencies, dependent: :destroy
   has_many :dependent_packages, through: :dependencies
   has_one_attached :icon, service: :internal, dependent: :purge_later
 

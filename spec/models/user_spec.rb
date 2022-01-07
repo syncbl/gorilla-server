@@ -5,6 +5,5 @@ RSpec.describe User, type: :model do
 
   let(:user) { FactoryBot.create(:user1) }
 
-  #context ''
-
+  # context ''
 end

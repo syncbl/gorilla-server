@@ -71,8 +71,8 @@ class AttachmentService < ApplicationService
         end
       end
 
-      tmpfilename = Dir::Tmpname.create(%w[manifest- .tmp]) { }
-      File.open(tmpfilename, "wb") { |tmpfile| tmpfile.write(filelist) }
+      tmpfilename = Dir::Tmpname.create(%w[manifest- .tmp]) {}
+      File.binwrite(tmpfilename, filelist)
       zipfile.add(".syncbl/filelist.json", tmpfilename)
       zipfile.commit
       File.delete(tmpfilename)

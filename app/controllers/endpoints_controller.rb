@@ -12,8 +12,9 @@ class EndpointsController < ApplicationController
   # GET /endpoints/1
   # GET /endpoints/1.json
   def show
-    authorize @endpoint
-    @endpoint.touch
+    # TODO: Not the best way to do that.
+    authorize @endpoint unless @endpoint == current_endpoint
+    # TODO: @endpoint.touch
   end
 
   # POST /endpoints.json

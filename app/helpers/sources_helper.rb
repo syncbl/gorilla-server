@@ -1,6 +1,6 @@
 module SourcesHelper
   def write_tmp(file)
-    tmpfilename = Dir::Tmpname.create(%w[source- .tmp]) { }
+    tmpfilename = Dir::Tmpname.create(%w[source- .tmp]) {}
     File.open(tmpfilename, "wb") { |tmpfile| tmpfile.binwrite(file.read) }
     tmpfilename
   end

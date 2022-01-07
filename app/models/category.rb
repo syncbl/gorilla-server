@@ -1,7 +1,7 @@
 class Category < ApplicationRecord
   translates :caption
 
-  has_many :packages
+  has_many :packages, dependent: :nullify
 
   validates :caption,
             presence: true,

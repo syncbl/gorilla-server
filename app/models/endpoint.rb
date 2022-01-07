@@ -12,7 +12,7 @@ class Endpoint < ApplicationRecord
   belongs_to :user, optional: true
   has_many :settings, dependent: :destroy
   has_many :packages, through: :settings
-  has_many :notifications, as: :recipient
+  has_many :notifications, as: :recipient, dependent: :destroy
 
   validates :name, length: { maximum: MAX_NAME_LENGTH }
   validates :locale, length: { maximum: 10 }
