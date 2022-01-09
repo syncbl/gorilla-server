@@ -96,3 +96,6 @@ Lint/AssignmentInCondition:
 
 Lint/EmptyBlock:
   Enabled: false
+
+Layout/IndentationWidth:
+  Enabled: false

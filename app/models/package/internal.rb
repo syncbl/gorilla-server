@@ -8,6 +8,11 @@ class Package::Internal < Package
     true
   end
 
+  # TODO: Mark orphaned
+  def orphaned?
+    packages.size.zero?
+  end
+
   def available_files
     available_files = Set[]
     sources.map do |s|

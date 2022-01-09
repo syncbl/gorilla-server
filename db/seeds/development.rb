@@ -55,6 +55,14 @@ puts Package::Component.create(
       path: "TEST",
     },
     {
+      name: "Openssl-1_3",
+      caption: "Test4",
+      short_description: "Test",
+      description: "Test packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest package",
+      user: u1,
+      path: "TEST",
+    },
+    {
       name: "openssl-2_1",
       caption: "Test5",
       short_description: "Test",
@@ -89,12 +97,24 @@ puts Package::Bundle.create(
   ],
 )
 
+c = Category.create(caption: "Test")
+
+p = Package::Bundle.find_by(name: "openssl-dev")
+# p.dependent_packages << Package.find_by(name: "openssl-1_0")
+p.dependent_packages << Package.find_by(name: "openssl-1_1")
+p.dependencies.last.update(optional: true, category: c)
+p.dependent_packages << Package.find_by(name: "openssl-1_2")
+p.dependencies.last.update(optional: false, category: c)
+p.dependent_packages << Package.find_by(name: "openssl-1_3")
+p.dependencies.last.update(optional: true, category: c)
+Product.create(package: p)
+
 Package::Bundle.first.icon.attach(
   io: File.open("files/hqdefault.jpg"),
   filename: "hqdefault.jpg",
 )
 
-p = Package::Bundle.find_by(name: "openssl-dev")
+p = Package::Component.find_by(name: "openssl-1_2")
 s =
   p.sources.create(version: "1.0.1",
                    caption: "Test",
@@ -118,15 +138,6 @@ FileUtils.cp("files/test2.zip", "tmp")
 AttachmentService.call s, "tmp/test2.zip"
 File.delete("tmp/test2.zip")
 s.publish!
-
-c = Category.create(caption: "Test")
-
-# p.dependent_packages << Package.find_by(name: "openssl-1_0")
-p.dependent_packages << Package.find_by(name: "openssl-1_1")
-p.dependencies.last.update(optional: true, category: c)
-p.dependent_packages << Package.find_by(name: "openssl-1_2")
-p.dependencies.last.update(optional: true, category: c)
-Product.create(package: p)
 
 p1 = Package.last
 

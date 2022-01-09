@@ -11,5 +11,11 @@ begin
   puts "OK"
 rescue StandardError => e
   puts e.to_s.strip
+  puts e.backtrace.map { |x|
+         x.match(/^(.+?):(\d+)(|:in `(.+)')$/)
+         [$1, $2]
+       }.reject { |x|
+         x[0].include? ".rvm"
+       }
   exit 1
 end

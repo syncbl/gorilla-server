@@ -8,11 +8,6 @@ class Package::Component < Package::Internal
 
   default_scope { with_package_type(:component) }
 
-  # TODO: Mark orphaned
-  def orphaned?
-    packages.size.zero?
-  end
-
   private
 
   def set_type
