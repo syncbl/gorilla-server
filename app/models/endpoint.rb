@@ -20,7 +20,7 @@ class Endpoint < ApplicationRecord
             allow_nil: true, length: { is: 24 }
 
   default_scope {
-    joins(:user)
+    includes(:user)
   }
 
   def installed?(package)

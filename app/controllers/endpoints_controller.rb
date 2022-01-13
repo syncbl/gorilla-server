@@ -23,15 +23,12 @@ class EndpointsController < ApplicationController
     respond_to do |format|
       format.html { head :method_not_allowed }
       format.json do
-        @endpoint = Endpoint.new
-        @endpoint.update(
-          {
-            name: endpoint_params[:name],
-            user: current_user,
-            remote_ip: request.remote_ip,
-            locale: I18n.default_locale.to_s,
-          },
-        )
+        @endpoint = Endpoint.create({
+          name: endpoint_params[:name],
+          user: current_user,
+          remote_ip: request.remote_ip,
+          locale: I18n.default_locale.to_s,
+        })
         sign_in_endpoint @endpoint
         render :show, status: :created, location: @endpoint
       end
@@ -83,10 +80,10 @@ class EndpointsController < ApplicationController
   # POST /endpoint/clone.json
   def clone
     from_endpoint = if params[:from_endpoint_id]
-                      Endpoint.find(params[:from_endpoint_id])
-                    else
-                      Endpoint.where.not(id: @endpoint.id).order(updated_at: :desc).first
-                    end
+        Endpoint.find(params[:from_endpoint_id])
+      else
+        Endpoint.where.not(id: @endpoint.id).order(updated_at: :desc).first
+      end
     CloneEndpointService.call(from_endpoint, @endpoint)
     respond_to do |format|
       format.html do

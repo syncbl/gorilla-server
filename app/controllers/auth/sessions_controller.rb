@@ -13,7 +13,7 @@ class Auth::SessionsController < Devise::SessionsController
         else
           id = params.dig("endpoint", "id")
           @endpoint = if id.present?
-                        Endpoint.find(params.dig("endpoint", "id"))
+                        Endpoint.find(id)
                       else
                         Endpoint.new
                       end
