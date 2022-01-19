@@ -1,9 +1,18 @@
 class SourceValidator < ActiveModel::Validator
   def validate(record)
-    if record.package.package_type.external?
-      record.errors.add I18n.t("errors.attributes.package.external")
-    end
+    check_package_not_external
+    check_subscription
+  end
 
+  private
+
+  def check_package_not_external
+    return unless record.package.package_type.external?
+
+    record.errors.add I18n.t("errors.attributes.package.external")
+  end
+
+  def check_subscription
     if record.package.user.subscriptions.active?
       # This hack allows to validate source size with user subscription on create
       return unless record.file.attached?
@@ -14,5 +23,12 @@ class SourceValidator < ActiveModel::Validator
     else
       record.errors.add I18n.t("errors.messages.no_subscription")
     end
+  end
+
+  def check_last_source_not_partial
+    return unless record == record.package.sources.last
+    return unless record.partial?
+
+    record.errors.add I18n.t("errors.attributes.source.last_cannot_be_partial")
   end
 end
