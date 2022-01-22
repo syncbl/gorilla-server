@@ -9,6 +9,7 @@ class Setting < ApplicationRecord
   # TODO: !!! Validate install
 
   validates :package_id, uniqueness: { scope: :endpoint_id }
+  validates_with SettingValidator
 
   default_scope {
     includes(:package, :endpoint)

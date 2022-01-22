@@ -11,10 +11,12 @@ en:
         used: Can't delete component used in another package
       source:
         limit_reached: You have exceeded the space available for your subscription
-        packed_file_too_big: 'File is too big: %{name}:%{size}'
+        packed_file_too_big: "File is too big: %{name}:%{size}"
         packed_files_too_many: Too many files
         illegal_file: Hacking is illegal, don't you know that?
         last_cannot_be_partial: Can't make last source partial
+      setting:
+        component_without_bundle: Can't install component without corresponding bundle
     block_reasons:
       suspicious_attachment: Suspicious files found!
     messages:

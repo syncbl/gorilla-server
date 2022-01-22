@@ -1,7 +1,7 @@
 class DependencyExtractQuery < ApplicationQuery
-  def initialize(endpoint, packages)
+  def initialize(endpoint, packages = nil)
     @endpoint = endpoint
-    @packages = packages
+    @packages = packages || endpoint.packages.pluck(:id)
   end
 
   def call
