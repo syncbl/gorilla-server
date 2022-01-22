@@ -3,7 +3,7 @@ module JwtTokenable
   require "jwt"
 
   def reset_token
-    return "" unless token_needs_reset?
+    return unless token_needs_reset?
 
     # TODO: Check if record exists in database
     regenerate_authentication_token
