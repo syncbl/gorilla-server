@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Package, type: :model do
-  #it_behaves_like :blockable
+  # it_behaves_like :blockable
 
   let(:bundle1) { FactoryBot.create(:bundle1) }
   let(:bundle2) { FactoryBot.create(:bundle2) }

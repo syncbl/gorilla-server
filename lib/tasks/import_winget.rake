@@ -28,7 +28,7 @@ namespace :import do
       Subscription.create(
         user: user,
         start_time: Time.current,
-        end_time: Time.current + 100.years,
+        end_time: 100.years.from_now,
       )
     end
     files = Dir.glob("../winget-pkgs/manifests/**/*.yaml").sort

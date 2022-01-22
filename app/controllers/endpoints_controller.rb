@@ -24,11 +24,11 @@ class EndpointsController < ApplicationController
       format.html { head :method_not_allowed }
       format.json do
         @endpoint = Endpoint.create({
-          name: endpoint_params[:name],
-          user: current_user,
-          remote_ip: request.remote_ip,
-          locale: I18n.default_locale.to_s,
-        })
+                                      name: endpoint_params[:name],
+                                      user: current_user,
+                                      remote_ip: request.remote_ip,
+                                      locale: I18n.default_locale.to_s,
+                                    })
         sign_in_endpoint @endpoint
         render :show, status: :created, location: @endpoint
       end
