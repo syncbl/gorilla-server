@@ -3,6 +3,7 @@ class Package < ApplicationRecord
   include Blockable
   include Publishable
   include IdentityCache
+  include SimpleTypeable
   extend Enumerize
 
   # TODO: Markers to detect package is already installed:
@@ -82,17 +83,6 @@ class Package < ApplicationRecord
 
   def filtered_params
     params.except(:searcheable).compact
-  end
-
-  def package_type
-    case type
-    when "Package::Bundle"
-      :bundle
-    when "Package::Component"
-      :component
-    when "Package::External"
-      :external
-    end
   end
 
   private

@@ -10,7 +10,7 @@ class CloneEndpointService < ApplicationService
               (@from_endpoint.user != @to_endpoint.user)
 
     @from_endpoint.packages.each do |p|
-      unless p.package_type.component? || @to_endpoint.installed?(p)
+      unless p.component? || @to_endpoint.installed?(p)
         @to_endpoint.notify :add_package, p
       end
     end

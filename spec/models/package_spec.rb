@@ -18,9 +18,9 @@ RSpec.describe Package, type: :model do
 
   context "Model" do
     it "Should be correct" do
-      expect(component.package_type).to eq :component
-      expect(bundle.package_type).to eq :bundle
-      expect(external.package_type).to eq :external
+      expect(component.component?).to be_truthy
+      expect(bundle.bundle?).to be_truthy
+      expect(external.external?).to be_truthy
     end
   end
 end

@@ -3,7 +3,7 @@ class Dependency < ApplicationRecord
   belongs_to :dependent_package, class_name: "Package"
   belongs_to :category, optional: true
 
-  delegate :package_type, to: :dependent_package
+  delegate :type, to: :dependent_package
 
   validates :dependent_package, package_dependency: true
   validates_with DependencyValidator
@@ -17,18 +17,18 @@ class Dependency < ApplicationRecord
                       }
 
   def required_component?
-    !optional? && package_type == :component
+    !optional? && component?
   end
 
   def optional_component?
-    optional? && package_type == :component
+    optional? && component?
   end
 
   def required_package?
-    !optional? && package_type == :bundle
+    !optional? && bundle?
   end
 
   def optional_package?
-    optional? && package_type == :bundle
+    optional? && bundle?
   end
 end

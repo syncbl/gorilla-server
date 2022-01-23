@@ -1,6 +1,6 @@
 json = {}
 
-unless package.package_type == :external
+unless package.external?
   json[:sources] = package.sources.published.map do |source|
     # TODO: Only unmerged can be unpublished and unpublished must be all of them
     render "sources/show", source: source
