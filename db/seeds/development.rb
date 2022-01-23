@@ -118,8 +118,7 @@ p = Package::Component.find_by(name: "openssl-1_2")
 s =
   p.sources.create(version: "1.0.1",
                    caption: "Test",
-                   description: "Test update 1",
-                   partial: true)
+                   description: "Test update 1")
 FileUtils.cp("files/test1.zip", "tmp")
 AttachmentService.call s, "tmp/test1.zip"
 File.delete("tmp/test1.zip")
@@ -138,6 +137,7 @@ FileUtils.cp("files/test2.zip", "tmp")
 AttachmentService.call s, "tmp/test2.zip"
 File.delete("tmp/test2.zip")
 s.publish!
+p.sources.first.update(partial: true)
 
 p1 = Package.last
 
@@ -168,4 +168,5 @@ Endpoint.create name: "Test2",
                 user: u1,
                 id: "253307f5-0e4f-4a76-9b04-da35ba6345d5"
 e = Endpoint.create name: "Test5", user: User.last
-e.packages << p
+# TODO: To tests
+e.packages << Package::Bundle.find_by(name: "openssl-dev")

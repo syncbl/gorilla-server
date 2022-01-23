@@ -79,7 +79,7 @@ class Package < ApplicationRecord
   end
 
   def check_publishable
-    raise Exception::NotImplementedError
+    raise NotImplementedError
   end
 
   def filtered_params
@@ -95,6 +95,6 @@ class Package < ApplicationRecord
   protected
 
   def set_type
-    raise Exception::NotImplementedError
+    raise NotImplementedError
   end
 end

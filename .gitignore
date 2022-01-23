@@ -40,3 +40,4 @@ coverage
 /config/credentials.yml.enc
 /config/database.yml
 /config/nginx/*
+/spec/examples.txt

@@ -22,6 +22,7 @@ module Publishable
 
   private
 
+  # TODO: After load from db class will be Package and error will raise
   def try_check_publishable
     if published_at.present? && respond_to?(:publishable?) && !send(:publishable?)
       errors.add :published_at, I18n.t("errors.messages.cannot_publish")

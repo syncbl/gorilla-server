@@ -70,13 +70,8 @@ RSpec.configure do |config|
   config.include Devise::Test::IntegrationHelpers, type: :request
 
   config.before(:suite) do
+    DatabaseCleaner[:active_record].strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
-  end
-  config.before(:each) do
-    DatabaseCleaner.strategy = :transaction
-  end
-  config.before(:each, js: true) do
-    DatabaseCleaner.strategy = :truncation
   end
   config.before(:each) do
     DatabaseCleaner.start
