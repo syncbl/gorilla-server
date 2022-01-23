@@ -29,7 +29,7 @@ class Package::External < Package
             length: { maximum: 2048 },
             presence: true
 
-  default_scope { with_package_type(:external) }
+  before_validation :auto_publish, on: :create
 
   scope :searcheable, -> {
     not_blocked.published.params_where(searcheable: true)
@@ -41,9 +41,7 @@ class Package::External < Package
 
   private
 
-  def set_type
-    self.package_type = :external
-    # TODO: ?
+  def auto_publish
     self.published_at = Time.current
   end
 end

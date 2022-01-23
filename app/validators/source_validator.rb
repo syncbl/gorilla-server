@@ -9,7 +9,7 @@ class SourceValidator < ActiveModel::Validator
   private
 
   def check_package_not_external
-    return unless @record.package.package_type.external?
+    return unless @record.package.package_type == :external
 
     @record.errors.add I18n.t("errors.attributes.package.external")
   end

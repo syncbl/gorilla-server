@@ -59,7 +59,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     # ----------
     create_table :packages, id: :uuid do |t|
       t.citext :name, null: false
-      t.string :package_type, index: true, null: false
+      t.string :type, index: true, null: false
 
       t.jsonb :caption_translations, null: false
       t.jsonb :short_description_translations, null: false, default: { "en": "" }

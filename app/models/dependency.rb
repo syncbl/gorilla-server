@@ -17,18 +17,18 @@ class Dependency < ApplicationRecord
                       }
 
   def required_component?
-    package_type.component? && !optional?
+    !optional? && package_type == :component
   end
 
   def optional_component?
-    package_type.component? && optional?
+    optional? && package_type == :component
   end
 
   def required_package?
-    !package_type.component? && !optional?
+    !optional? && package_type == :bundle
   end
 
   def optional_package?
-    !package_type.component? && optional?
+    optional? && package_type == :bundle
   end
 end

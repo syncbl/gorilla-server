@@ -3,6 +3,8 @@ module JwtTokenable
   require "jwt"
 
   def reset_token
+    # TODO: Check for reseted database record
+    # Login will be successful, but none of the next queries
     return unless token_needs_reset?
 
     # TODO: Check if record exists in database

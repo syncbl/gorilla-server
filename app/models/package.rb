@@ -16,7 +16,6 @@ class Package < ApplicationRecord
                     short_description_translations
                   ]
   translates :caption, :short_description, :description, :release_note
-  enumerize :package_type, in: %i[bundle external component trusted], scope: true
   attribute :category
 
   belongs_to :user
@@ -51,7 +50,7 @@ class Package < ApplicationRecord
             length: {
               maximum: MAX_DESCRIPTION_LENGTH,
             }
-  validates :package_type, presence: true
+  validates :type, presence: true
   validates :icon, size: { less_than: MAX_ICON_SIZE }
   validates :caption,
             presence: true,
@@ -61,7 +60,6 @@ class Package < ApplicationRecord
             }
   validates_with PackageValidator
 
-  before_validation :set_type, on: :create
   before_validation :nullify_empty_params, on: :save
 
   default_scope {
@@ -86,15 +84,20 @@ class Package < ApplicationRecord
     params.except(:searcheable).compact
   end
 
+  def package_type
+    case type
+    when "Package::Bundle"
+      :bundle
+    when "Package::Component"
+      :component
+    when "Package::External"
+      :external
+    end
+  end
+
   private
 
   def nullify_empty_params
     params.each { |k, v| params[k] = nil if v.empty? }
-  end
-
-  protected
-
-  def set_type
-    raise NotImplementedError
   end
 end

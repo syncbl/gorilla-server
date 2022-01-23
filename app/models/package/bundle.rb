@@ -10,12 +10,4 @@ class Package::Bundle < Package::Internal
                  require_restart: [:boolean, default: false]
 
   enumerize :root, in: ROOT_ENUMERATOR
-
-  default_scope { with_package_type(:bundle) }
-
-  private
-
-  def set_type
-    self.package_type = :bundle
-  end
 end

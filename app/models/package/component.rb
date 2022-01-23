@@ -6,13 +6,7 @@ class Package::Component < Package::Internal
 
   before_destroy :check_dependency, prepend: true
 
-  default_scope { with_package_type(:component) }
-
   private
-
-  def set_type
-    self.package_type = :component
-  end
 
   def check_dependency
     unless orphaned?

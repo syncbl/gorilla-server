@@ -18,7 +18,7 @@ class ActualizedSettingsQuery < ApplicationQuery
     end
 
     # Auto cleaning unused components
-    @settings.where(package: { package_type: :component })
+    @settings.where(package: { type: "Package::Component" })
              .where.not(package: components).map do |s|
       @endpoint.notify :remove_package, s.package
     end

@@ -85,7 +85,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
 
   create_table "packages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.citext "name", null: false
-    t.string "package_type", null: false
+    t.string "type", null: false
     t.jsonb "caption_translations", null: false
     t.jsonb "short_description_translations", default: {"en"=>""}, null: false
     t.jsonb "description_translations", default: {"en"=>""}, null: false
@@ -99,7 +99,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_054622) do
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_packages_on_created_at"
-    t.index ["package_type"], name: "index_packages_on_package_type"
+    t.index ["type"], name: "index_packages_on_type"
     t.index ["updated_at"], name: "index_packages_on_updated_at"
     t.index ["user_id", "name"], name: "index_packages_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_packages_on_user_id"

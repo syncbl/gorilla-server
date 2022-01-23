@@ -149,21 +149,6 @@ p1.dependent_packages << p2
 p.dependent_packages << p2
 p.publish!
 
-puts Package::Trusted.create(
-  [
-    {
-      name: "syncbl-service",
-      caption: "Test10",
-      short_description: "Test",
-      description: "Test packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest package",
-      user: u1,
-      root: :system_root,
-      path: "TEST2",
-
-    },
-  ],
-)
-
 Endpoint.create name: "Test2",
                 user: u1,
                 id: "253307f5-0e4f-4a76-9b04-da35ba6345d5"

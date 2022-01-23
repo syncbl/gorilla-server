@@ -69,7 +69,7 @@ class User < ApplicationRecord
   end
 
   def used_space
-    packages.without_package_type(:external).map(&:size).sum
+    packages.map(&:size).sum
   end
 
   private
