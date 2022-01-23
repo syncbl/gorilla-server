@@ -20,7 +20,7 @@ RSpec.describe Package::Bundle, type: :model do
   }
 
   context "With components" do
-    #describe "With components" do
+    # describe "With components" do
     it "Should contain components" do
       bundle1.dependent_packages << bundle2
       bundle1.dependent_packages << component1
@@ -35,6 +35,6 @@ RSpec.describe Package::Bundle, type: :model do
 
       expect(bundle1.dependencies.size).to eq 2
     end
-    #end
+    # end
   end
 end
