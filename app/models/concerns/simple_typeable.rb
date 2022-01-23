@@ -8,7 +8,7 @@ module SimpleTypeable
   end
 
   def package_type
-    type.split('::')[1].downcase
+    type.split('::')[1].downcase.to_sym
   end
 
   def bundle?
