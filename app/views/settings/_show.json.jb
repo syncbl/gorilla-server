@@ -7,8 +7,6 @@ json = {
 
 json[:package] = render "packages/short", package: setting.package
 
-if json[:available]
-  json.merge!(render("packages/includes", package: setting.package))
-end
+json.merge!(render("packages/includes", package: setting.package)) if json[:available]
 
 json

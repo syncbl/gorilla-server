@@ -4,12 +4,12 @@ module Publishable
   LOCKED_FIELDS = %w[file].freeze
 
   def self.included(base)
-    base.class_eval {
+    base.class_eval do
       has_event :publish
 
       validate :try_check_publishable, if: :published_at_changed?
       validate :lock_published, unless: :published_at_changed?
-    }
+    end
   end
 
   def publish!(time = Time.current)

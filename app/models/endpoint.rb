@@ -19,9 +19,9 @@ class Endpoint < ApplicationRecord
   validates :authentication_token,
             allow_nil: true, length: { is: 24 }
 
-  default_scope {
+  default_scope do
     includes(:user)
-  }
+  end
 
   def installed?(package)
     settings.exists?(package: package)

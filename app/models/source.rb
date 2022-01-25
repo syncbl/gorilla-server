@@ -27,10 +27,10 @@ class Source < ApplicationRecord
   validates :version, length: { maximum: MAX_VERSION_LENGTH }
   validates_with SourceValidator
 
-  default_scope {
-    joins(package: :user, file_attachment: :blob)
-  } # GoldiLoader: includes(file_attachment: :blob)
-
+  # GoldiLoader: includes(file_attachment: :blob)
+  default_scope do
+      joins(package: :user, file_attachment: :blob)
+  end
   def self.merged?
     last.present && last.merged?
   end

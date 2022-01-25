@@ -63,9 +63,9 @@ class Package < ApplicationRecord
 
   before_validation :nullify_empty_params, on: :save
 
-  default_scope {
+  default_scope do
     joins(:user).includes(:icon_attachment)
-  }
+  end
 
   def recalculate_size!
     old_size = size

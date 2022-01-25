@@ -13,11 +13,11 @@ require "rails_helper"
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
 RSpec.describe "API Users", type: :request do
-  let(:valid_response) {
+  let(:valid_response) do
     { user: {
       name: "user1",
     } }
-  }
+  end
 
   describe "GET /show.json" do
     it "renders a successful response" do

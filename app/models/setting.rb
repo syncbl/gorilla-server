@@ -11,7 +11,7 @@ class Setting < ApplicationRecord
   validates :package_id, uniqueness: { scope: :endpoint_id }
   validates_with SettingValidator
 
-  default_scope {
+  default_scope do
     includes(:package, :endpoint)
-  }
+  end
 end

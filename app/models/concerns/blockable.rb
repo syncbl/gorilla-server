@@ -2,9 +2,9 @@ module Blockable
   extend ActiveSupport::Concern
 
   def self.included(base)
-    base.class_eval {
+    base.class_eval do
       has_event :block
-    }
+    end
   end
 
   def block!(reason = nil)

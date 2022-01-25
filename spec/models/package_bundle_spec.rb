@@ -3,21 +3,21 @@ require "rails_helper"
 RSpec.describe Package::Bundle, type: :model do
   # it_behaves_like :blockable
 
-  let(:user) {
+  let(:user) do
     FactoryBot.create(:user1)
-  }
-  let(:component1) {
+  end
+  let(:component1) do
     FactoryBot.create(:component1, user: user)
-  }
-  let(:component2) {
+  end
+  let(:component2) do
     FactoryBot.create(:component2, user: user)
-  }
-  let(:bundle1) {
+  end
+  let(:bundle1) do
     FactoryBot.create(:bundle1, user: user)
-  }
-  let(:bundle2) {
+  end
+  let(:bundle2) do
     FactoryBot.create(:bundle2, user: user)
-  }
+  end
 
   context "With components" do
     # describe "With components" do

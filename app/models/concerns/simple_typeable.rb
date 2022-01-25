@@ -2,9 +2,9 @@ module SimpleTypeable
   extend ActiveSupport::Concern
 
   def self.included(base)
-    base.class_eval {
+    base.class_eval do
       validate :check_type
-    }
+    end
   end
 
   def package_type

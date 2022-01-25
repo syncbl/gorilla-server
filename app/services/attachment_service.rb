@@ -40,9 +40,7 @@ class AttachmentService < ApplicationService
       existing_files.merge! s.files
     end
     Zip::File.open(@filename) do |zipfile|
-      if zipfile.size > MAX_FILE_COUNT
-        raise I18n.t("errors.attributes.source.packed_files_too_many")
-      end
+      raise I18n.t("errors.attributes.source.packed_files_too_many") if zipfile.size > MAX_FILE_COUNT
 
       zipfile.each do |z|
         next if z.directory?
@@ -65,9 +63,7 @@ class AttachmentService < ApplicationService
           filelist[z.name] = crc # z.crc
           # Replace with HashFileList.add if needed
           @source.unpacked_size += z.size
-          if @source.unpacked_size > MAX_FILE_SIZE
-            raise I18n.t("errors.attributes.source.packed_files_too_many")
-          end
+          raise I18n.t("errors.attributes.source.packed_files_too_many") if @source.unpacked_size > MAX_FILE_SIZE
         end
       end
 

@@ -57,9 +57,7 @@ namespace :import do
       if y["InstallerSwitches"]
         p.switches = y["InstallerSwitches"]["Silent"] || y["InstallerSwitches"]["SilentWithProgress"]
       end
-      if y["Installers"][0]["InstallerSha256"]
-        p.checksum = "sha256:#{y["Installers"][0]["InstallerSha256"]}"
-      end
+      p.checksum = "sha256:#{y["Installers"][0]["InstallerSha256"]}" if y["Installers"][0]["InstallerSha256"]
       p.blocked_at = nil
       p.published_at ||= Time.current
       c += 1 if p.save

@@ -46,16 +46,16 @@ RSpec.describe "User", type: :request do
   end
 
   describe "PATCH /update" do
-    let(:valid_attributes) {
+    let(:valid_attributes) do
       {
         fullname: "Test Test",
       }
-    }
-    let(:invalid_attributes) {
+    end
+    let(:invalid_attributes) do
       {
         email: "123",
       }
-    }
+    end
 
     before :each do
       sign_in user

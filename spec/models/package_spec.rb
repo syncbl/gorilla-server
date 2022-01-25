@@ -3,18 +3,18 @@ require "rails_helper"
 RSpec.describe Package, type: :model do
   # it_behaves_like :blockable
 
-  let(:user) {
+  let(:user) do
     FactoryBot.create(:user1)
-  }
-  let(:component) {
+  end
+  let(:component) do
     FactoryBot.create(:component, user: user)
-  }
-  let(:bundle) {
+  end
+  let(:bundle) do
     FactoryBot.create(:bundle, user: user)
-  }
-  let(:external) {
+  end
+  let(:external) do
     FactoryBot.create(:external, user: user)
-  }
+  end
 
   context "Model" do
     it "Should be correct" do

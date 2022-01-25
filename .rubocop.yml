@@ -24,9 +24,6 @@ Style/TrailingCommaInHashLiteral:
 Style/TrailingCommaInArguments:
   Enabled: false
 
-Style/BlockDelimiters:
-  Enabled: false
-
 Layout/ElseAlignment:
   Enabled: false
 
@@ -34,6 +31,9 @@ Lint/UselessAssignment:
   Enabled: false
 
 Layout/EndAlignment:
+  Enabled: false
+
+Layout/AccessModifierIndentation:
   Enabled: false
 
 Style/ClassAndModuleChildren:

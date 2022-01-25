@@ -45,7 +45,7 @@ class DependencyExtractQuery < ApplicationQuery
       { package: :user },
       { dependent_package: :user },
       { package: :sources },
-      { dependent_package: :sources },
+      { dependent_package: :sources }
     ]
     dependencies || []
   end

@@ -3,32 +3,30 @@ class Dependency < ApplicationRecord
   belongs_to :dependent_package, class_name: "Package"
   belongs_to :category, optional: true
 
-  delegate :type, to: :dependent_package
-
   validates :dependent_package, package_dependency: true
   validates_with DependencyValidator
 
-  default_scope {
+  default_scope do
     includes(:dependent_package, :category)
-  }
+  end
 
   scope :categorized, -> {
                         order(:category_id)
                       }
 
   def required_component?
-    !optional? && component?
+    !optional? && dependent_package.component?
   end
 
   def optional_component?
-    optional? && component?
+    optional? && dependent_package.component?
   end
 
   def required_package?
-    !optional? && bundle?
+    !optional? && dependent_package.bundle?
   end
 
   def optional_package?
-    optional? && bundle?
+    optional? && dependent_package.bundle?
   end
 end
