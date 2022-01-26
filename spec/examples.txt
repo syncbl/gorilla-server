@@ -1,15 +1,16 @@
 example_id                                  | status | run_time        |
 ------------------------------------------- | ------ | --------------- |
-./spec/models/package_spec.rb[1:1:1]        | failed | 0.14083 seconds |
+./spec/models/package_bundle_spec.rb[1:1:1] | passed | 0.118 seconds   |
+./spec/models/package_spec.rb[1:1:1]        | passed | 0.18653 seconds |
 ./spec/models/user_spec.rb[1:1:1:1]         | passed | 0.05233 seconds |
-./spec/requests/api/users_spec.rb[1:1:1]    | passed | 0.03412 seconds |
-./spec/requests/user_spec.rb[1:1:1:1]       | passed | 0.05317 seconds |
-./spec/requests/user_spec.rb[1:1:1:2]       | passed | 0.03116 seconds |
-./spec/requests/user_spec.rb[1:1:2:1]       | passed | 0.02088 seconds |
-./spec/requests/user_spec.rb[1:2:1:1]       | passed | 0.03118 seconds |
-./spec/requests/user_spec.rb[1:2:1:2]       | passed | 0.02398 seconds |
-./spec/requests/user_spec.rb[1:2:2:1]       | passed | 0.0244 seconds  |
-./spec/routing/users_routing_spec.rb[1:1:1] | passed | 0.00389 seconds |
-./spec/routing/users_routing_spec.rb[1:1:2] | passed | 0.00138 seconds |
-./spec/routing/users_routing_spec.rb[1:1:3] | passed | 0.00116 seconds |
-./spec/routing/users_routing_spec.rb[1:1:4] | passed | 0.00123 seconds |
+./spec/requests/api/users_spec.rb[1:1:1]    | passed | 0.04734 seconds |
+./spec/requests/user_spec.rb[1:1:1:1]       | passed | 0.0574 seconds  |
+./spec/requests/user_spec.rb[1:1:1:2]       | passed | 0.41338 seconds |
+./spec/requests/user_spec.rb[1:1:2:1]       | passed | 0.03388 seconds |
+./spec/requests/user_spec.rb[1:2:1:1]       | passed | 0.04288 seconds |
+./spec/requests/user_spec.rb[1:2:1:2]       | passed | 0.04056 seconds |
+./spec/requests/user_spec.rb[1:2:2:1]       | passed | 0.04907 seconds |
+./spec/routing/users_routing_spec.rb[1:1:1] | passed | 0.00167 seconds |
+./spec/routing/users_routing_spec.rb[1:1:2] | passed | 0.00185 seconds |
+./spec/routing/users_routing_spec.rb[1:1:3] | passed | 0.00182 seconds |
+./spec/routing/users_routing_spec.rb[1:1:4] | passed | 0.00187 seconds |

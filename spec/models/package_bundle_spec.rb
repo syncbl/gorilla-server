@@ -21,19 +21,15 @@ RSpec.describe Package::Bundle, type: :model do
 
   context "With components" do
     # describe "With components" do
-    it "Should contain components" do
+
+    before(:each) do
       bundle1.dependent_packages << bundle2
       bundle1.dependent_packages << component1
       bundle1.dependent_packages << component2
-
-      expect(bundle1.dependencies.size).to eq 3
     end
 
     it "Should contain components" do
-      bundle1.dependent_packages << component1
-      bundle1.dependent_packages << component2
-
-      expect(bundle1.dependencies.size).to eq 2
+      expect(bundle1.dependencies.size).to eq 3
     end
     # end
   end

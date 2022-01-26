@@ -7,7 +7,6 @@ module JwtTokenable
     # Login will be successful, but none of the next queries
     return unless token_needs_reset?
 
-    # TODO: Check if record exists in database
     regenerate_authentication_token
     self.token =
       JWT.encode(

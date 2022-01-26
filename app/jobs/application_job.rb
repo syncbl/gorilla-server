@@ -14,6 +14,6 @@ class ApplicationJob < ActiveJob::Base
   end
 
   def safe_perform(...)
-    # Abstract
+    raise NotImplementedError
   end
 end

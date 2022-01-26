@@ -1,8 +1,6 @@
 json = {}
 
-new_token = current_anyone&.reset_token
-
-if new_token.present?
+if new_token = current_anyone&.reset_token
   json[:session] = {
     token: new_token,
   }

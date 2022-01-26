@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "3.0.2"
+ruby "3.1.0"
 
 # Core
 gem "rails", "~> 6.1" # Ruby on Rails is a full-stack web framework.
@@ -13,6 +13,7 @@ gem "turbolinks", "~> 5.0" # Turbolinks makes following links in your web applic
 gem "uglifier" # Ruby wrapper for UglifyJS JavaScript compressor.
 gem "sassc" # Sass C implementation, with the ease of use of the original Ruby Sass library.
 gem "webpacker" # Webpacker makes it easy to use the JavaScript pre-processor and bundler Webpack v5
+gem 'net-smtp', require: false
 
 # Database
 gem "pg", "~> 1" # Pg is the Ruby interface to the PostgreSQL RDBMS.

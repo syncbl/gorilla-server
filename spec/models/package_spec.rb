@@ -7,13 +7,13 @@ RSpec.describe Package, type: :model do
     FactoryBot.create(:user1)
   end
   let(:component) do
-    FactoryBot.create(:component, user: user)
+    FactoryBot.create(:component1, user: user)
   end
   let(:bundle) do
-    FactoryBot.create(:bundle, user: user)
+    FactoryBot.create(:bundle1, user: user)
   end
   let(:external) do
-    FactoryBot.create(:external, user: user)
+    FactoryBot.create(:external1, user: user)
   end
 
   context "Model" do

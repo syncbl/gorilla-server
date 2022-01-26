@@ -95,7 +95,7 @@ class SourcesController < ApplicationController
     @package = policy_scope(Package).find(params[:package_id])
     respond_to do |format|
       format.html do
-        # TODO: Normal response
+        # TODO: Normal response with render_json_error
         if @package.sources.merged?
           head :unprocessable_entity
         else
