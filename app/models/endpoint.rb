@@ -24,11 +24,11 @@ class Endpoint < ApplicationRecord
   end
 
   def installed?(package)
-    settings.exists?(package: package)
+    settings.exists?(package:)
   end
 
   def install(package)
-    settings.create(package: package)
+    settings.create(package:)
   end
 
   def actualized_settings(packages, timestamp)

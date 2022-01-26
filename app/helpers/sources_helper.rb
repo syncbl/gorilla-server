@@ -10,10 +10,10 @@ module SourcesHelper
       record_type: "Source",
       blob: ActiveStorage::Blob.where(
         byte_size: size,
-        checksum: checksum,
+        checksum:,
       ),
     )
-      Source.find_by(id: ids.record_id, package: { user: user })
+      Source.find_by(id: ids.record_id, package: { user: })
     end
   end
 end

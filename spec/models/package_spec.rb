@@ -4,23 +4,29 @@ RSpec.describe Package, type: :model do
   # it_behaves_like :blockable
 
   let(:user) do
-    FactoryBot.create(:user1)
+    create(:user1)
   end
   let(:component) do
-    FactoryBot.create(:component1, user: user)
+    create(:component1, user:)
   end
   let(:bundle) do
-    FactoryBot.create(:bundle1, user: user)
+    create(:bundle1, user:)
   end
   let(:external) do
-    FactoryBot.create(:external1, user: user)
+    create(:external1, user:)
   end
 
-  context "Model" do
-    it "Should be correct" do
-      expect(component.component?).to be_truthy
-      expect(bundle.bundle?).to be_truthy
-      expect(external.external?).to be_truthy
+  context "with package params" do
+    it "is correct component" do
+      expect(component).to be_component
+    end
+
+    it "is correct bundle" do
+      expect(bundle).to be_bundle
+    end
+
+    it "is correct external" do
+        expect(external).to be_external
     end
   end
 end

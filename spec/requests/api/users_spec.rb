@@ -21,7 +21,7 @@ RSpec.describe "API Users", type: :request do
 
   describe "GET /show.json" do
     it "renders a successful response" do
-      user = FactoryBot.create(:user1)
+      user = create(:user1)
       sign_in user
       get user_url(format: :json)
       expect(response).to be_successful

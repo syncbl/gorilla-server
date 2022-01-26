@@ -68,15 +68,16 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :view
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :request
+  config.include FactoryBot::Syntax::Methods
 
   config.before(:suite) do
     DatabaseCleaner[:active_record].strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
   end
-  config.before(:each) do
+  config.before do
     DatabaseCleaner.start
   end
-  config.after(:each) do
+  config.after do
     DatabaseCleaner.clean
   end
   config.before(:all) do

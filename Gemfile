@@ -86,7 +86,8 @@ group :development do
   gem "rails_best_practices"
   gem "brakeman"
   gem "rubocop"
-  gem "rubocop-rails"
+  gem "rubocop-rails", require: false
+  gem "rubocop-rspec", require: false
   gem "solargraph"
 end
 

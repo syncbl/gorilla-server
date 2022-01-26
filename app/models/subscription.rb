@@ -39,7 +39,7 @@ class Subscription < ApplicationRecord
 
   def validate_time
     current =
-      Subscription.current.where(user: user).order(end_time: :desc).first
+      Subscription.current.where(user:).order(end_time: :desc).first
     start_time = current.present? ? current.end_time : Time.current
     self.start_time = start_time
     return unless end_time.nil?

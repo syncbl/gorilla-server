@@ -1,4 +1,6 @@
-require: rubocop-rails
+require:
+  - rubocop-rails
+  - rubocop-rspec
 
 AllCops:
   NewCops: enable
@@ -8,6 +10,9 @@ AllCops:
     - node_modules/**/*
     - bin/**/*
     - Gemfile
+
+RSpec/MultipleExpectations:
+  Enabled: false
 
 Style/StringLiterals:
   Enabled: false

@@ -26,7 +26,7 @@ namespace :import do
         plan: :unlimited,
       )
       Subscription.create(
-        user: user,
+        user:,
         start_time: Time.current,
         end_time: 100.years.from_now,
       )
@@ -43,10 +43,10 @@ namespace :import do
         next if y["PackageName"] == z["PackageName"]
       end
       name = y["PackageName"].gsub(/ ./, "").gsub(/[.:#&]/, "_").gsub("__", "_")
-      p = Package::External.find_by(user: user, name: "#{name}") ||
+      p = Package::External.find_by(user:, name: "#{name}") ||
           Package::External.new(
             name: "#{name}",
-            user: user,
+            user:,
             version: y["PackageVersion"],
           )
       # TODO: Architecture check for x64

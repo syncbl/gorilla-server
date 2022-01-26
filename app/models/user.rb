@@ -78,7 +78,7 @@ class User < ApplicationRecord
     if name.blank?
       name = "#{email[/^[^@]+/]}"
       self.name =
-        User.find_by(name: name).nil? ? name : "#{name}#{rand(10_000)}"
+        User.find_by(name:).nil? ? name : "#{name}#{rand(10_000)}"
     end
     self.name.downcase!
   end
