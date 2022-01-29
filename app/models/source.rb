@@ -29,10 +29,11 @@ class Source < ApplicationRecord
 
   # GoldiLoader: includes(file_attachment: :blob)
   default_scope do
-      joins(package: :user, file_attachment: :blob)
+    joins(package: :user, file_attachment: :blob)
   end
+
   def self.merged?
-    last.present && last.merged?
+    last&.merged?
   end
 
   private

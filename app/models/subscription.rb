@@ -45,7 +45,7 @@ class Subscription < ApplicationRecord
     return unless end_time.nil?
 
     self.end_time = if user.plan == "unlimited"
-                      start_time + 100.years
+        start_time + 100.years
       else
         start_time + 1.month
       end
