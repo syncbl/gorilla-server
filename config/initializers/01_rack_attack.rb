@@ -38,7 +38,7 @@ class Rack::Attack
   end
 end
 
-Rack::Attack.blocklisted_response = lambda do |request|
+Rack::Attack.blocklisted_responder = lambda do |request|
   # Redirect to nginx 444
   [302, { "Location": "/x" }, []]
 end

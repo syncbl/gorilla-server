@@ -1,6 +1,5 @@
 require_relative "boot"
 
-# Pick the frameworks you want:
 require "rails/all"
 
 # Require the gems listed in Gemfile, including any gems
@@ -10,7 +9,7 @@ Bundler.require(*Rails.groups)
 module SyncblServer
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.1
+    config.load_defaults 7.0
     config.enable_dependency_loading = true
     config.autoload_paths += %W[#{config.root}/lib]
     config.i18n.available_locales = %i[en]
@@ -24,8 +23,6 @@ module SyncblServer
       expires_in: 6.hours.to_i, # in case of network errors when sending a cache invalidation
       failover: false, # avoids more cache consistency issues
     }
-    # TODO: Rails 7
-    # config.active_record.async_query_executor = :multi_thread_pool
 
     # Configuration for the application, engines, and railties goes here.
     #

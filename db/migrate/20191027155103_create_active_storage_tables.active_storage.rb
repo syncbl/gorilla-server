@@ -21,7 +21,7 @@ class CreateActiveStorageTables < ActiveRecord::Migration[6.0]
                    null: false,
                    polymorphic: true,
                    index: false
-      t.references :blob, null: false
+      t.references :blob
 
       t.datetime :created_at, null: false
 
