@@ -207,6 +207,9 @@ GEM
     identity_cache (1.1.0)
       activerecord (>= 5.2)
       ar_transaction_changes (~> 1.1)
+    importmap-rails (1.0.2)
+      actionpack (>= 6.0.0)
+      railties (>= 6.0.0)
     io-wait (0.2.1)
     jaro_winkler (1.5.4)
     jb (0.8.0)
@@ -280,8 +283,6 @@ GEM
       rack (>= 1.0, < 3)
     rack-mini-profiler (2.3.3)
       rack (>= 1.2.0)
-    rack-proxy (0.7.2)
-      rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (7.0.2)
@@ -374,12 +375,19 @@ GEM
     ruby-progressbar (1.11.0)
     ruby-statistics (3.0.0)
     rubyzip (2.3.2)
+    sass-rails (6.0.0)
+      sassc-rails (~> 2.1, >= 2.1.1)
     sassc (2.4.0)
       ffi (~> 1.9)
+    sassc-rails (2.1.2)
+      railties (>= 4.0.0)
+      sassc (>= 2.0)
+      sprockets (> 3.0)
+      sprockets-rails
+      tilt
     scenic (1.5.5)
       activerecord (>= 4.0.0)
       railties (>= 4.0.0)
-    semantic_range (3.0.0)
     sexp_processor (4.16.0)
     shoulda-matchers (5.1.0)
       activesupport (>= 5.2.0)
@@ -428,6 +436,9 @@ GEM
     timeout (0.2.0)
     traceroute (0.8.1)
       rails (>= 3.0.0)
+    turbo-rails (1.0.1)
+      actionpack (>= 6.0.0)
+      railties (>= 6.0.0)
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
@@ -442,11 +453,6 @@ GEM
       i18n
     warden (1.2.9)
       rack (>= 2.0.9)
-    webpacker (5.4.3)
-      activesupport (>= 5.2)
-      rack-proxy (>= 0.6.1)
-      railties (>= 5.2)
-      semantic_range (>= 2.3.0)
     webrick (1.7.0)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
@@ -493,6 +499,7 @@ DEPENDENCIES
   http_accept_language
   i18n-tasks
   identity_cache
+  importmap-rails
   jb
   json_translate
   jsonb_accessor (~> 1)
@@ -520,7 +527,7 @@ DEPENDENCIES
   rubocop-rspec
   ruby-progressbar
   rubyzip
-  sassc
+  sass-rails
   scenic
   shoulda-matchers
   simple_form
@@ -531,13 +538,13 @@ DEPENDENCIES
   sprockets-rails
   strip_attributes
   traceroute
+  turbo-rails
   turbolinks (~> 5.0)
   uglifier
-  webpacker
   whenever
 
 RUBY VERSION
    ruby 3.1.0p0
 
 BUNDLED WITH
-   2.3.5
+   2.3.6

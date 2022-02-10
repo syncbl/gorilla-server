@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[6.1].define(version: 2020_12_10_054622) do
-
+ActiveRecord::Schema[7.0].define(version: 2020_12_10_054622) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pgcrypto"
@@ -22,7 +21,7 @@ ActiveRecord::Schema[6.1].define(version: 2020_12_10_054622) do
     t.string "record_type", null: false
     t.uuid "record_id", null: false
     t.integer "blob_id"
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -34,7 +33,7 @@ ActiveRecord::Schema[6.1].define(version: 2020_12_10_054622) do
     t.text "metadata"
     t.bigint "byte_size", null: false
     t.string "checksum", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.string "service_name", null: false
     t.index ["checksum"], name: "index_active_storage_blobs_on_checksum"
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
@@ -48,8 +47,8 @@ ActiveRecord::Schema[6.1].define(version: 2020_12_10_054622) do
 
   create_table "categories", force: :cascade do |t|
     t.jsonb "caption_translations", null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_categories_on_created_at"
     t.index ["updated_at"], name: "index_categories_on_updated_at"
   end
@@ -59,7 +58,7 @@ ActiveRecord::Schema[6.1].define(version: 2020_12_10_054622) do
     t.uuid "dependent_package_id", null: false
     t.integer "category_id"
     t.boolean "optional", default: false, null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["category_id"], name: "index_dependencies_on_category_id"
     t.index ["dependent_package_id"], name: "index_dependencies_on_dependent_package_id"
     t.index ["package_id", "dependent_package_id"], name: "index_dependencies_on_package_id_and_dependent_package_id", unique: true
@@ -72,11 +71,11 @@ ActiveRecord::Schema[6.1].define(version: 2020_12_10_054622) do
     t.string "locale"
     t.string "authentication_token"
     t.uuid "user_id"
-    t.datetime "blocked_at"
+    t.datetime "blocked_at", precision: nil
     t.string "block_reason"
-    t.datetime "reseted_at"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "reseted_at", precision: nil
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["authentication_token"], name: "index_endpoints_on_authentication_token", unique: true
     t.index ["created_at"], name: "index_endpoints_on_created_at"
     t.index ["updated_at"], name: "index_endpoints_on_updated_at"
@@ -93,11 +92,11 @@ ActiveRecord::Schema[6.1].define(version: 2020_12_10_054622) do
     t.bigint "size", default: 0, null: false
     t.bigint "settings_count", default: 0, null: false
     t.uuid "user_id", null: false
-    t.datetime "published_at"
-    t.datetime "blocked_at"
+    t.datetime "published_at", precision: nil
+    t.datetime "blocked_at", precision: nil
     t.string "block_reason"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_packages_on_created_at"
     t.index ["type"], name: "index_packages_on_type"
     t.index ["updated_at"], name: "index_packages_on_updated_at"
@@ -107,8 +106,8 @@ ActiveRecord::Schema[6.1].define(version: 2020_12_10_054622) do
 
   create_table "products", force: :cascade do |t|
     t.uuid "package_id", null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_products_on_created_at"
     t.index ["package_id"], name: "index_products_on_package_id", unique: true
     t.index ["updated_at"], name: "index_products_on_updated_at"
@@ -118,8 +117,8 @@ ActiveRecord::Schema[6.1].define(version: 2020_12_10_054622) do
     t.uuid "endpoint_id", null: false
     t.uuid "package_id", null: false
     t.jsonb "data"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_settings_on_created_at"
     t.index ["endpoint_id", "package_id"], name: "index_settings_on_endpoint_id_and_package_id", unique: true
     t.index ["endpoint_id"], name: "index_settings_on_endpoint_id"
@@ -138,11 +137,11 @@ ActiveRecord::Schema[6.1].define(version: 2020_12_10_054622) do
     t.boolean "partial", default: false, null: false
     t.bigint "settings_count", default: 0, null: false
     t.uuid "package_id", null: false
-    t.datetime "published_at"
-    t.datetime "blocked_at"
+    t.datetime "published_at", precision: nil
+    t.datetime "blocked_at", precision: nil
     t.string "block_reason"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_sources_on_created_at"
     t.index ["package_id"], name: "index_sources_on_package_id"
     t.index ["updated_at"], name: "index_sources_on_updated_at"
@@ -150,9 +149,9 @@ ActiveRecord::Schema[6.1].define(version: 2020_12_10_054622) do
 
   create_table "subscriptions", force: :cascade do |t|
     t.uuid "user_id", null: false
-    t.datetime "start_time"
-    t.datetime "end_time"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "start_time", precision: nil
+    t.datetime "end_time", precision: nil
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_subscriptions_on_created_at"
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
@@ -164,15 +163,15 @@ ActiveRecord::Schema[6.1].define(version: 2020_12_10_054622) do
     t.string "locale"
     t.string "plan"
     t.string "authentication_token"
-    t.datetime "blocked_at"
+    t.datetime "blocked_at", precision: nil
     t.string "block_reason"
-    t.datetime "reseted_at"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "reseted_at", precision: nil
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
+    t.datetime "reset_password_sent_at", precision: nil
     t.index ["authentication_token"], name: "index_users_on_authentication_token", unique: true
     t.index ["created_at"], name: "index_users_on_created_at"
     t.index ["email"], name: "index_users_on_email", unique: true

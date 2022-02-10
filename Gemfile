@@ -11,10 +11,11 @@ gem "bootsnap", ">= 1.4.2", require: false # Boot large ruby/rails apps faster.
 gem "rack-attack" # Rack middleware for blocking & throttling abusive requests.
 gem "turbolinks", "~> 5.0" # Turbolinks makes following links in your web application faster (use with Rails Asset Pipeline).
 gem "uglifier" # Ruby wrapper for UglifyJS JavaScript compressor.
-gem "sassc" # Sass C implementation, with the ease of use of the original Ruby Sass library.
-gem "webpacker" # DEPRECATED Webpacker makes it easy to use the JavaScript pre-processor and bundler Webpack v5
 gem "net-smtp", require: false
 gem "sprockets-rails"
+gem "importmap-rails"
+gem "sass-rails"
+gem "turbo-rails"
 
 # Database
 gem "pg", "~> 1" # Pg is the Ruby interface to the PostgreSQL RDBMS.
