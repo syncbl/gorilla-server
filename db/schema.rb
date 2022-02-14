@@ -158,7 +158,6 @@ ActiveRecord::Schema[7.0].define(version: 2020_12_10_054622) do
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "fullname"
-    t.jsonb "disclaimer_translations", default: {"en"=>""}, null: false
     t.citext "name", null: false
     t.string "locale"
     t.string "plan"

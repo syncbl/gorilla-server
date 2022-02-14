@@ -6,7 +6,6 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     # ----------
     create_table :users, id: :uuid do |t|
       t.string :fullname
-      t.jsonb :disclaimer_translations, null: false, default: { "en": "" }
 
       t.citext :name, null: false, index: {unique: true}
       t.string :locale

@@ -5,14 +5,12 @@ u1 =
               name: "deadalice",
               email: "eldar.avatov@gmail.com",
               password: "111111",
-              disclaimer: "This user is for test purposes only! (c) 2021 by Eldar Avatov",
               plan: :pro
 u2 =
   User.create fullname: "Test Test",
               name: "tester",
               email: "tester@example.com",
               password: "123456",
-              disclaimer: "This user is for test purposes only! (c) 2021 by Eldar Avatov",
               plan: :personal
 u1.subscriptions.create
 u2.subscriptions.create

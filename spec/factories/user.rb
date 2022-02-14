@@ -4,7 +4,6 @@ FactoryBot.define do
     name { "user1" }
     email { "user1@example.com" }
     password { "123456" }
-    disclaimer { "Test1" }
     plan { :pro }
 
     after :create do |user|
@@ -17,7 +16,6 @@ FactoryBot.define do
     name { "user2" }
     email { "user2@example.com" }
     password { "123456" }
-    disclaimer { "Test2" }
     plan { :personal }
 
     after :create do |user|
