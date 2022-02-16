@@ -10,11 +10,11 @@ module Api
 
     # TODO: Avoid using local variable here, consider using session!
     def current_endpoint
-      @sign_in_endpoint
+      @current_endpoint
     end
 
     def sign_in_endpoint(endpoint)
-      @sign_in_endpoint ||= endpoint
+      @current_endpoint ||= endpoint
     end
 
     private
