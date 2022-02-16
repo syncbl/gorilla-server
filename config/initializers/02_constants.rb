@@ -19,7 +19,7 @@ SUBSCRIPTION_PLAN_PERSONAL = 1.gigabyte
 SUBSCRIPTION_PLAN_PRO = 10.gigabytes
 SUBSCRIPTION_PLAN_BUSINESS = 100.gigabytes
 NOTIFICATION_EXPIRES_IN = 3.days
-TOKEN_RESET_PERIOD = 1.day
+TOKEN_RESET_THRESHOLD = 1.day.ago
 
 ENDPOINT_NOTIFICATIONS = %w[add_package add_component remove_package]
 USER_NOTIFICATIONS = %w[remove_source flash_alert flash_notice]

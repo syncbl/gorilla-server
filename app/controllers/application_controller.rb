@@ -1,9 +1,10 @@
 class ApplicationController < ActionController::Base
   include ApplicationHelper
   include Pagy::Backend
-  include Pundit
+  include Pundit::Authorization
   include Api::Token
 
+  before_action :skip_session, if: -> { request.format.json? }
   protect_from_forgery with: :exception, unless: -> { request.format.json? }
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :api_check_headers, if: -> { request.format.json? }
@@ -96,5 +97,9 @@ class ApplicationController < ActionController::Base
 
   def pundit_user
     current_anyone
+  end
+
+  def skip_session
+    request.session_options[:drop] = true
   end
 end
