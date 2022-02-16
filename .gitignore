@@ -84,4 +84,4 @@ yarn-debug.log*
 capybara-*.html
 .rspec
 /public/system
-spec/examples.txt
+./spec/examples.txt
