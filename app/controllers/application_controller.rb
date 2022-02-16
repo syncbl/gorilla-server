@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
     if messages.is_a? Array
       render json: { errors: messages }, status: status
     else
-      render json: { error: messages }, status: status
+      render json: { error: messages }, status:
     end
   end
 
