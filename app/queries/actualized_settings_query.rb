@@ -13,14 +13,15 @@ class ActualizedSettingsQuery < ApplicationQuery
 
       components << c.dependent_package.id
       unless @packages.include?(c.dependent_package.id)
-        @endpoint.notify :add_component, "#{c.dependent_package.id}:#{c.package.id}"
+        @endpoint.notify_add_package(c.package.id, c.dependent_package.id)
       end
     end
 
     # Auto cleaning unused components
+    # TODO: bundle must be set for component
     @settings.where(package: { type: "Package::Component" })
              .where.not(package: components).map do |s|
-      @endpoint.notify :remove_package, s.package
+      @endpoint.notify_remove_package(s.package)
     end
 
     # Only updated packages

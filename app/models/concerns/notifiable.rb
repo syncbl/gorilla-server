@@ -7,7 +7,7 @@ module Notifiable
     notification = { method.to_s => object_id }
     notification[:message] = message if message
     if validate_notification(notification)
-      # unless Push::Server.online?(self.id) && Push::Server.notify(self.id, notification)
+      # unless Push::Server.online?(self.id) && Push::Server.enqueue(self.id, notification)
       store_notification(notification)
       # end
     else
@@ -31,6 +31,18 @@ module Notifiable
       end
     end
     messages.to_a
+  end
+
+  def notify_add_package(package, dependent_package = nil)
+    if dependent_package.nil?
+      notify :add_package, "#{package}"
+    else
+      notify :add_package, "#{package}/#{dependent_package}"
+    end
+  end
+
+  def notify_remove_package(package)
+    notify :remove_package, package
   end
 
   private

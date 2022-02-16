@@ -44,6 +44,6 @@ module JwtTokenable
   private
 
   def token_needs_reset?
-    reseted_at.nil? || (reseted_at < TOKEN_RESET_THRESHOLD)
+    reseted_at.nil? || reseted_at < Time.current - TOKEN_RESET_THRESHOLD
   end
 end
