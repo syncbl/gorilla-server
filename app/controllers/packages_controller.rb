@@ -14,7 +14,7 @@ class PackagesController < ApplicationController
   # GET /packages/1
   # GET /packages/1.json
   def show
-    authorize @package
+    authorize @package, policy_class: PackagePolicy
   end
 
   # GET /packages/new
@@ -46,7 +46,7 @@ class PackagesController < ApplicationController
   # PATCH/PUT /packages/1
   # PATCH/PUT /packages/1.json
   def update
-    authorize @package
+    authorize @package, policy_class: PackagePolicy
     respond_to do |format|
       if @package.update(package_params)
         format.html do
@@ -66,7 +66,7 @@ class PackagesController < ApplicationController
   # DELETE /packages/1
   # DELETE /packages/1.json
   def destroy
-    authorize @package
+    authorize @package, policy_class: PackagePolicy
     respond_to do |format|
       if @package.destroy
         format.html do

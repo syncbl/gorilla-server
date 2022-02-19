@@ -4,6 +4,7 @@ class SettingsController < ApplicationController
   # Settings can be used by user only within packages/endpoints
   before_action :set_endpoint
   before_action :set_setting, except: %i[index create]
+  before_action :set_package, only: :create
 
   # GET /endpoints/1/settings
   def index
@@ -22,9 +23,10 @@ class SettingsController < ApplicationController
   # POST /endpoints/1/settings
   def create
     authorize @endpoint, :show?, policy_class: EndpointPolicy
-    package = find_package_by_params
+    authorize @package, :show?, policy_class: PackagePolicy
+
     respond_to do |format|
-      if @setting = @endpoint.install(package)
+      if @setting = @endpoint.install(@package)
         format.html do
           redirect_to [@endpoint, @setting],
                       notice: "Package soon will be installed."
@@ -91,4 +93,14 @@ class SettingsController < ApplicationController
   # def setting_params
   #  params.permit(:id, :updates)
   # end
+
+  def set_package
+    if params[:user_id].present? && params[:package_id].present?
+      Package
+        .where(user: { name: params[:user_id] })
+        .find_by!(name: params[:package_id])
+    else
+      Package.find(params[:id])
+    end
+  end
 end
