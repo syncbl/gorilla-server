@@ -27,10 +27,6 @@ class Endpoint < ApplicationRecord
     settings.exists?(package:)
   end
 
-  def install(package)
-    settings.create(package:)
-  end
-
   def actualized_settings(packages, timestamp)
     ActualizedSettingsQuery.call(self, packages, timestamp)
   end

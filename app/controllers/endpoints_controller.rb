@@ -1,6 +1,6 @@
 class EndpointsController < ApplicationController
   before_action :authenticate_user!, only: %i[index destroy]
-  before_action :set_endpoint, only: %i[show update clone]
+  before_action :authenticate_endpoint!, only: %i[show update clone]
 
   # GET /endpoints
   # GET /endpoints.json
@@ -94,11 +94,6 @@ class EndpointsController < ApplicationController
   end
 
   private
-
-  # Use callbacks to share common setup or constraints between actions.
-  def set_endpoint
-    @endpoint = current_endpoint || Endpoint.find(params[:id])
-  end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def endpoint_params

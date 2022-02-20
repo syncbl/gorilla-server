@@ -67,6 +67,7 @@ group :development, :test do
   gem "database_cleaner"
   gem "shoulda-matchers"
   gem "rspec-json_expectations"
+  gem "debug", ">= 1.0.0"
 end
 
 group :development do

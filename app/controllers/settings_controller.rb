@@ -1,8 +1,6 @@
 class SettingsController < ApplicationController
-  include PackagesHelper
-
   # Settings can be used by user only within packages/endpoints
-  before_action :set_endpoint
+  before_action :authenticate_endpoint!
   before_action :set_setting, except: %i[index create]
   before_action :set_package, only: :create
 
@@ -18,15 +16,16 @@ class SettingsController < ApplicationController
   end
 
   # GET /endpoints/1/settings/1
-  def show; end
+  def show
+    authorize @setting
+  end
 
   # POST /endpoints/1/settings
   def create
-    authorize @endpoint, :show?, policy_class: EndpointPolicy
     authorize @package, :show?, policy_class: PackagePolicy
 
     respond_to do |format|
-      if @setting = @endpoint.install(@package)
+      if @setting = @endpoint.settings.create(package: @package)
         format.html do
           redirect_to [@endpoint, @setting],
                       notice: "Package soon will be installed."
@@ -83,24 +82,18 @@ class SettingsController < ApplicationController
     @setting = @endpoint.settings.find_by!(package_id: params[:id])
   end
 
-  def set_endpoint
-    @endpoint =
-      current_endpoint ||
-      Endpoint.find_by!(id: params[:endpoint_id], user: current_user)
-  end
-
   # Only allow a trusted parameter "white list" through.
   # def setting_params
   #  params.permit(:id, :updates)
   # end
 
   def set_package
-    if params[:user_id].present? && params[:package_id].present?
-      Package
-        .where(user: { name: params[:user_id] })
-        .find_by!(name: params[:package_id])
-    else
-      Package.find(params[:id])
-    end
+    @package = if params[:user_id].present? && params[:package_id].present?
+        Package
+          .where(user: { name: params[:user_id] })
+          .find_by!(name: params[:package_id])
+      else
+        Package.find(params[:id])
+      end
   end
 end

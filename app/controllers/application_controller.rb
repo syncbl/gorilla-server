@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   include Pagy::Backend
   include Pundit::Authorization
   include Api::Token
+  include Authenticatable
 
   before_action :skip_session, if: -> { request.format.json? }
   protect_from_forgery with: :exception, unless: -> { request.format.json? }
@@ -95,11 +96,11 @@ class ApplicationController < ActionController::Base
     I18n.locale = session[:locale]
   end
 
-  def pundit_user
-    current_anyone
-  end
-
   def skip_session
     request.session_options[:drop] = true
+  end
+
+  def pundit_user
+    current_endpoint&.user || current_user
   end
 end
