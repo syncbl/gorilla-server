@@ -1,9 +1,11 @@
 json = {}
 
-if new_token = current_anyone&.reset_token
-  json[:session] = {
-    token: new_token,
-  }
+if someone_logged_in?
+  if new_token = current_anyone.reset_token
+    json[:session] = {
+      token: new_token,
+    }
+  end
 end
 
 if @pagy

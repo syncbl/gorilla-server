@@ -14,30 +14,6 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
   rescue_from Pundit::NotAuthorizedError, with: :render_403
 
-  protected
-
-  def render_403
-    respond_to do |format|
-      format.html { render "errors/403", layout: "errors", status: :forbidden }
-      format.json { render_json_error I18n.t("errors.messages.forbidden"), status: :forbidden }
-    end
-  end
-
-  def render_404
-    respond_to do |format|
-      format.html { render "errors/404", layout: "errors", status: :not_found }
-      format.json { render_json_error I18n.t("errors.messages.not_found"), status: :not_found }
-    end
-  end
-
-  def render_json_error(messages, status:)
-    if messages.is_a? Array
-      render json: { errors: messages }, status: status
-    else
-      render json: { error: messages }, status:
-    end
-  end
-
   private
 
   def api_check_headers

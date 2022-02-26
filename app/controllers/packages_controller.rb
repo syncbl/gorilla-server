@@ -1,6 +1,4 @@
 class PackagesController < ApplicationController
-  include PackagesHelper
-
   before_action :authenticate_user!, except: %i[show search]
   before_action :set_package, except: %i[index new create search]
 
