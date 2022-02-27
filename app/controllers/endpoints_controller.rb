@@ -23,7 +23,7 @@ class EndpointsController < ApplicationController
     respond_to do |format|
       format.html { head :method_not_allowed }
       format.json do
-        @endpoint = Endpoint.create({
+        @endpoint = Endpoint.create!({
                                       name: endpoint_params[:name],
                                       user: current_user,
                                       remote_ip: request.remote_ip,

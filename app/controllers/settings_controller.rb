@@ -1,4 +1,6 @@
 class SettingsController < ApplicationController
+  include PackagesHelper
+
   # Settings can be used by user only within packages/endpoints
   before_action :authenticate_endpoint!
   before_action :set_setting, except: %i[index create]
@@ -23,9 +25,9 @@ class SettingsController < ApplicationController
   # POST /endpoints/1/settings
   def create
     authorize @package, :show?, policy_class: PackagePolicy
-
+    @setting = @endpoint.settings.new(package: @package)
     respond_to do |format|
-      if @setting = @endpoint.settings.create(package: @package)
+      if @setting.save
         format.html do
           redirect_to [@endpoint, @setting],
                       notice: "Package soon will be installed."
@@ -88,12 +90,6 @@ class SettingsController < ApplicationController
   # end
 
   def set_package
-    @package = if params[:user_id].present? && params[:package_id].present?
-        Package
-          .where(user: { name: params[:user_id] })
-          .find_by!(name: params[:package_id])
-      else
-        Package.find(params[:id])
-      end
+    @package = package_find_by_params
   end
 end

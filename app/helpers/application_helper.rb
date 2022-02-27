@@ -36,14 +36,11 @@ module ApplicationHelper
     json
   end
 
-  def json_time(time)
-    time.nil? ? nil : time.to_i
-  end
-
-  def render_403
+  def render_403(reason: nil)
+    reason ||= I18n.t("errors.messages.forbidden")
     respond_to do |format|
       format.html { render "errors/403", layout: "errors", status: :forbidden }
-      format.json { render_json_error I18n.t("errors.messages.forbidden"), status: :forbidden }
+      format.json { render_json_error reason, status: :forbidden }
     end
   end
 
@@ -63,9 +60,7 @@ module ApplicationHelper
   end
 
   def current_anyone
-    current_anyone = current_endpoint || current_user
-
-    render_403 unless current_anyone
+    current_endpoint || current_user || render_403
   end
 
   def someone_logged_in?

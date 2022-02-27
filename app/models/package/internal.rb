@@ -3,6 +3,10 @@ class Package::Internal < Package
 
   validates_with InternalPackageValidator
 
+  def self.model_name
+    Package.model_name
+  end
+
   def publishable?
     # TODO: Check files or at least params
     true

@@ -6,6 +6,10 @@ class Package::Component < Package::Internal
 
   before_destroy :check_dependency, prepend: true
 
+  def self.model_name
+    Package.model_name
+  end
+
   private
 
   def check_dependency

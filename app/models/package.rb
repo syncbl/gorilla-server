@@ -28,6 +28,8 @@ class Package < ApplicationRecord
   has_many :dependent_packages, through: :dependencies
   has_one_attached :icon, service: :local, dependent: :purge_later
 
+  validates :user,
+            presence: true
   validates :name,
             name_restrict: true,
             presence: true,
@@ -61,8 +63,6 @@ class Package < ApplicationRecord
             }
   validates_with PackageValidator
 
-  before_validation :nullify_empty_params, on: :save
-
   default_scope do
     joins(:user) # .includes(:icon_attachment)
   end
@@ -85,9 +85,11 @@ class Package < ApplicationRecord
     params.except(:searcheable).compact
   end
 
-  private
-
-  def nullify_empty_params
-    params.each { |k, v| params[k] = nil if v.empty? }
+  def self.subtypes
+    [
+      "Package::Bundle",
+      "Package::Component",
+      "Package::External",
+    ]
   end
 end

@@ -1,4 +1,6 @@
 class PackagesController < ApplicationController
+  include PackagesHelper
+
   before_action :authenticate_user!, except: %i[show search]
   before_action :set_package, except: %i[index new create search]
 
@@ -26,10 +28,11 @@ class PackagesController < ApplicationController
   # POST /packages
   # POST /packages.json
   def create
+    @package = current_user.packages.new(package_params_require)
     respond_to do |format|
-      if @package = policy_scope(Package).create(package_params)
+      if @package.save
         format.html do
-          redirect_to @package, notice: "Package was successfully created."
+          redirect_to package_url(@package), notice: "Package was successfully created."
         end
         format.json { render :show, status: :created, location: @package }
       else
@@ -48,7 +51,7 @@ class PackagesController < ApplicationController
     respond_to do |format|
       if @package.update(package_params)
         format.html do
-          redirect_to @package, notice: "Package was successfully updated."
+          redirect_to package_url(@package), notice: "Package was successfully updated."
         end
         format.json { render :show, status: :ok, location: @package }
       else
@@ -114,5 +117,10 @@ class PackagesController < ApplicationController
     params.require(:package).permit(:user_id, :name, :external_url,
                                     :version, :type,
                                     :caption, :short_description, :description)
+  end
+
+  def package_params_require
+    params.require(:package).require(:type)
+    package_params
   end
 end

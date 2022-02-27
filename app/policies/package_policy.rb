@@ -35,7 +35,7 @@ class PackagePolicy
     end
 
     def resolve
-      @user.packages
+      @scope.where(user: @user)
     end
   end
 end

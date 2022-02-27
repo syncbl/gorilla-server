@@ -35,6 +35,10 @@ class Package::External < Package
     not_blocked.published.params_where(searcheable: true)
   }
 
+  def self.model_name
+    Package.model_name
+  end
+
   def publishable?
     external_url.present?
   end
