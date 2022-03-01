@@ -81,9 +81,6 @@ puts Package::Bundle.create(
       user: u1,
       root: :system_root,
       path: "TEST1",
-      links_desktop: [
-        "test:x360ce.zip"
-      ]
     },
     {
       name: "openssl-dev-2",
@@ -93,7 +90,6 @@ puts Package::Bundle.create(
       user: u1,
       root: :system_root,
       path: "TEST1",
-
     },
   ],
 )
@@ -125,8 +121,9 @@ AttachmentService.call s, "tmp/test1.zip"
 File.delete("tmp/test1.zip")
 
 p.add_params_link(
-  "anyconnect-win-3.1.05187-web-deploy-k9.exe",
-  '{DESKTOP}\Test.lnk',
+  :links_desktop,
+  'Test',
+  "anyconnect-win-3.1.05187-web-deploy-k9.exe"
 )
 p.add_params_requirement("registry", "test")
 s.publish!

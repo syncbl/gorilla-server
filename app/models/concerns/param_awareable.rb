@@ -1,9 +1,9 @@
 module ParamAwareable
   extend ActiveSupport::Concern
 
-  def add_params_link(source, destination)
-    if available_files.include?(source)
-      add_params_value(:links, source, destination)
+  def add_params_link(type, source, destination)
+    if Pathname.new(source).relative? && available_files.include?(destination)
+      add_params_value(type, source, destination)
     else
       raise I18n.t("errors.messages.link_not_exists")
     end
