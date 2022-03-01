@@ -1,5 +1,7 @@
 json = {}
 
+json[:params] = package.params.compact
+
 unless package.external?
   json[:sources] = package.sources.published.map do |source|
     # TODO: Only unmerged can be unpublished and unpublished must be all of them
