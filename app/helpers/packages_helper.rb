@@ -8,17 +8,4 @@ module PackagesHelper
       Package.find(params[:id])
     end
   end
-
-  def get_package_class
-    case params[:package][:type]
-    when "Package::Bundle"
-      Package::Bundle
-    when "Package::Component"
-      Package::Component
-    when "Package::External"
-      Package::External
-    #else
-    #  Package
-    end
-  end
 end

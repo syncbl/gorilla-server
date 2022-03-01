@@ -81,6 +81,9 @@ puts Package::Bundle.create(
       user: u1,
       root: :system_root,
       path: "TEST1",
+      links_desktop: [
+        "test:x360ce.zip"
+      ]
     },
     {
       name: "openssl-dev-2",

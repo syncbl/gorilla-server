@@ -4,6 +4,7 @@ en:
     attributes:
       package:
         path_not_relative: Component path must be relative to bundle's path
+        link_not_valid: Link is not valid
       dependency:
         external: Cannot add components for external package
         forbidden: This component can't be accessed by package owner

@@ -28,8 +28,6 @@ class Package < ApplicationRecord
   has_many :dependent_packages, through: :dependencies
   has_one_attached :icon, service: :local, dependent: :purge_later
 
-  validates :user,
-            presence: true
   validates :name,
             name_restrict: true,
             presence: true,

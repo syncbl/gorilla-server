@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "/packages", type: :request do
   let(:user) { create(:user1) }
 
-  let(:valid_bundle) {
+  let(:valid_bundle) do
     {
       name: "test-bundle",
       type: "Package::Bundle",
@@ -14,7 +14,7 @@ RSpec.describe "/packages", type: :request do
       root: :system_root,
       path: "Test",
     }
-  }
+  end
 
   describe "GET /index" do
     context "when signed in" do
@@ -42,6 +42,7 @@ RSpec.describe "/packages", type: :request do
       before do
         sign_in user
       end
+
       it "renders a successful response" do
         package = Package::Bundle.create! valid_bundle
         get package_url(package)
@@ -62,6 +63,7 @@ RSpec.describe "/packages", type: :request do
       before do
         sign_in user
       end
+
       it "renders a successful response" do
         get new_package_url
         expect(response).to be_successful
@@ -81,6 +83,7 @@ RSpec.describe "/packages", type: :request do
       before do
         sign_in user
       end
+
       it "renders a successful response" do
         package = Package::Bundle.create! valid_bundle
         get edit_package_url(package)
@@ -101,17 +104,16 @@ RSpec.describe "/packages", type: :request do
       before do
         sign_in user
       end
-      context "with valid parameters" do
-        it "creates a new Package" do
-          expect {
-            post packages_url, params: { package: valid_bundle }
-          }.to change(Package, :count).by(1)
-        end
 
-        it "redirects to the created package" do
+      it "creates a new Package" do
+        expect do
           post packages_url, params: { package: valid_bundle }
-          expect(response).to redirect_to(package_url(Package.last))
-        end
+        end.to change(Package, :count).by(1)
+      end
+
+      it "redirects to the created package" do
+        post packages_url, params: { package: valid_bundle }
+        expect(response).to redirect_to(package_url(Package.last))
       end
     end
 
@@ -128,27 +130,26 @@ RSpec.describe "/packages", type: :request do
       before do
         sign_in user
       end
-      context "with valid parameters" do
-        let(:new_attributes) {
-          {
-            caption: "Test1",
-          }
+
+      let(:new_attributes) do
+        {
+          caption: "Test1",
         }
+      end
 
-        it "updates the requested package" do
-          package = Package::Bundle.create! valid_bundle
-          expect {
-            patch package_url(package), params: { package: new_attributes }
-            package.reload
-          }.to change { package.caption }.from("Test6").to("Test1")
-        end
-
-        it "redirects to the package" do
-          package = Package::Bundle.create! valid_bundle
+      it "updates the requested package" do
+        package = Package::Bundle.create! valid_bundle
+        expect do
           patch package_url(package), params: { package: new_attributes }
           package.reload
-          expect(response).to redirect_to(package_url(package))
-        end
+        end.to change { package.caption }.from("Test6").to("Test1")
+      end
+
+      it "redirects to the package" do
+        package = Package::Bundle.create! valid_bundle
+        patch package_url(package), params: { package: new_attributes }
+        package.reload
+        expect(response).to redirect_to(package_url(package))
       end
     end
 
@@ -165,11 +166,12 @@ RSpec.describe "/packages", type: :request do
       before do
         sign_in user
       end
+
       it "destroys the requested package" do
         package = Package::Bundle.create! valid_bundle
-        expect {
+        expect do
           delete package_url(package)
-        }.to change(Package, :count).by(-1)
+        end.to change(Package, :count).by(-1)
       end
 
       it "redirects to the packages list" do

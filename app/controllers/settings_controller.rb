@@ -25,7 +25,7 @@ class SettingsController < ApplicationController
   # POST /endpoints/1/settings
   def create
     authorize @package, :show?, policy_class: PackagePolicy
-    @setting = @endpoint.settings.new(package: @package)
+    @setting = @endpoint.settings.first_or_initialize(package: @package)
     respond_to do |format|
       if @setting.save
         format.html do
@@ -90,6 +90,6 @@ class SettingsController < ApplicationController
   # end
 
   def set_package
-    @package = package_find_by_params
+    @package = find_package_by_params
   end
 end
