@@ -1,5 +1,5 @@
 class Plan < ApplicationRecord
-  # plan types:
+  # Plan types:
   # - Personal (only own packages)
   # - Pro (can publish 10gb)
   # - Business (can publish 100gb and can control endpoints)
