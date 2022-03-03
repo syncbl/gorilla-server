@@ -54,7 +54,7 @@ Rails.logger.debug Package::Component.create(
     },
     {
       name: "Openssl-1_3",
-      caption: "Test4",
+      caption: "Test5",
       short_description: "Test",
       description: "Test packageTest packageTest package",
       user: u1,
@@ -62,7 +62,7 @@ Rails.logger.debug Package::Component.create(
     },
     {
       name: "openssl-2_1",
-      caption: "Test5",
+      caption: "Test6",
       short_description: "Test",
       description: "Test packageTest packageTest package",
       user: u1,
@@ -75,7 +75,7 @@ Rails.logger.debug Package::Bundle.create(
   [
     {
       name: "openssl-dev",
-      caption: "Test6",
+      caption: "Test7",
       short_description: "Test",
       description: "Test packageTest packageTest package",
       user: u1,
@@ -84,7 +84,7 @@ Rails.logger.debug Package::Bundle.create(
     },
     {
       name: "openssl-dev-2",
-      caption: "Test7",
+      caption: "Test8",
       short_description: "Test",
       description: "Test packageTest packageTest package",
       user: u1,

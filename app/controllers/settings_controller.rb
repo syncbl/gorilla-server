@@ -25,9 +25,9 @@ class SettingsController < ApplicationController
   # POST /endpoints/1/settings
   def create
     authorize @package, :show?, policy_class: PackagePolicy
-    @setting = @endpoint.settings.first_or_initialize(package: @package)
+    @setting = PackageInstallService.call(@package, @endpoint)
     respond_to do |format|
-      if @setting.save
+      if @setting.persisted?
         format.html do
           redirect_to [@endpoint, @setting],
                       notice: "Package soon will be installed."

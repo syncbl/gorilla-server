@@ -1,4 +1,4 @@
-class DependencyExtractQuery < ApplicationQuery
+class DependencyExtractService < ApplicationService
   def initialize(endpoint, packages = nil)
     @endpoint = endpoint
     @packages = packages || endpoint.packages.pluck(:id)

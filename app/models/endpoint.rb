@@ -28,7 +28,7 @@ class Endpoint < ApplicationRecord
   end
 
   def actualized_settings(packages, timestamp)
-    ActualizedSettingsQuery.call(self, packages, timestamp)
+    ActualizedSettingsService.call(self, packages, timestamp)
   end
 
   def can_view?(object)
