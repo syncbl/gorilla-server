@@ -22,7 +22,7 @@ bin/bundle exec rubocop -v >/dev/null 2>&1 || {
 }
 
 # Get only the staged files
-FILES="$(git diff --cached --name-only --diff-filter=AMC | grep "\.rb$" | tr '\n' ' ')"
+FILES="$(git diff --cached --name-only --diff-filter=AMC | grep "\.rb$" | grep -v "db/schema.rb" | tr '\n' ' ')"
 
 echo "${green}[rubocop]: Checking Ruby Style${NC}"
 
