@@ -12,10 +12,10 @@ u2 =
               email: "tester@example.com",
               password: "123456",
               plan: :personal
-u1.subscriptions.create
-u2.subscriptions.create
+u1.plans.create
+u2.plans.create
 
-puts Package::External.create(
+Rails.logger.debug Package::External.create(
   [
     {
       name: "openssl-1_0",
@@ -34,13 +34,13 @@ puts Package::External.create(
   ],
 )
 
-puts Package::Component.create(
+Rails.logger.debug Package::Component.create(
   [
     {
       name: "Openssl-1_1",
       caption: "Test3",
       short_description: "Test",
-      description: "Test packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest package",
+      description: "Test packageTest packageTest package",
       user: u1,
       path: "TEST",
     },
@@ -48,7 +48,7 @@ puts Package::Component.create(
       name: "Openssl-1_2",
       caption: "Test4",
       short_description: "Test",
-      description: "Test packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest package",
+      description: "Test packageTest packageTest package",
       user: u1,
       path: "TEST",
     },
@@ -56,7 +56,7 @@ puts Package::Component.create(
       name: "Openssl-1_3",
       caption: "Test4",
       short_description: "Test",
-      description: "Test packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest package",
+      description: "Test packageTest packageTest package",
       user: u1,
       path: "TEST",
     },
@@ -64,20 +64,20 @@ puts Package::Component.create(
       name: "openssl-2_1",
       caption: "Test5",
       short_description: "Test",
-      description: "Test packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest package",
+      description: "Test packageTest packageTest package",
       user: u1,
       path: "TEST",
     },
   ],
 )
 
-puts Package::Bundle.create(
+Rails.logger.debug Package::Bundle.create(
   [
     {
       name: "openssl-dev",
       caption: "Test6",
       short_description: "Test",
-      description: "Test packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest package",
+      description: "Test packageTest packageTest package",
       user: u1,
       root: :system_root,
       path: "TEST1",
@@ -86,7 +86,7 @@ puts Package::Bundle.create(
       name: "openssl-dev-2",
       caption: "Test7",
       short_description: "Test",
-      description: "Test packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest packageTest package",
+      description: "Test packageTest packageTest package",
       user: u1,
       root: :system_root,
       path: "TEST1",

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_02_16_150508) do
+ActiveRecord::Schema[7.0].define(version: 20_220_216_150_508) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pgcrypto"
@@ -23,7 +23,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_16_150508) do
     t.integer "blob_id"
     t.datetime "created_at", precision: nil, null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
-    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+    t.index %w[record_type record_id name blob_id], name: "index_active_storage_attachments_uniqueness",
+                                                    unique: true
   end
 
   create_table "active_storage_blobs", force: :cascade do |t|
@@ -42,7 +43,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_16_150508) do
   create_table "active_storage_variant_records", force: :cascade do |t|
     t.integer "blob_id", null: false
     t.string "variation_digest", null: false
-    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+    t.index %w[blob_id variation_digest], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
   create_table "categories", force: :cascade do |t|
@@ -61,7 +62,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_16_150508) do
     t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["category_id"], name: "index_dependencies_on_category_id"
     t.index ["dependent_package_id"], name: "index_dependencies_on_dependent_package_id"
-    t.index ["package_id", "dependent_package_id"], name: "index_dependencies_on_package_id_and_dependent_package_id", unique: true
+    t.index %w[package_id dependent_package_id], name: "index_dependencies_on_package_id_and_dependent_package_id",
+                                                 unique: true
     t.index ["package_id"], name: "index_dependencies_on_package_id"
   end
 
@@ -86,8 +88,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_16_150508) do
     t.citext "name", null: false
     t.string "type", null: false
     t.jsonb "caption_translations", null: false
-    t.jsonb "short_description_translations", default: {"en"=>""}, null: false
-    t.jsonb "description_translations", default: {"en"=>""}, null: false
+    t.jsonb "short_description_translations", default: { "en" => "" }, null: false
+    t.jsonb "description_translations", default: { "en" => "" }, null: false
     t.jsonb "params", default: {}, null: false
     t.bigint "size", default: 0, null: false
     t.bigint "settings_count", default: 0, null: false
@@ -100,8 +102,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_16_150508) do
     t.index ["created_at"], name: "index_packages_on_created_at"
     t.index ["type"], name: "index_packages_on_type"
     t.index ["updated_at"], name: "index_packages_on_updated_at"
-    t.index ["user_id", "name"], name: "index_packages_on_user_id_and_name", unique: true
+    t.index %w[user_id name], name: "index_packages_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_packages_on_user_id"
+  end
+
+  create_table "plans", force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.datetime "start_time", precision: nil
+    t.datetime "end_time", precision: nil
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["created_at"], name: "index_plans_on_created_at"
+    t.index ["user_id"], name: "index_plans_on_user_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -130,15 +141,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_16_150508) do
     t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_settings_on_created_at"
-    t.index ["endpoint_id", "package_id"], name: "index_settings_on_endpoint_id_and_package_id", unique: true
+    t.index %w[endpoint_id package_id], name: "index_settings_on_endpoint_id_and_package_id", unique: true
     t.index ["endpoint_id"], name: "index_settings_on_endpoint_id"
     t.index ["package_id"], name: "index_settings_on_package_id"
     t.index ["updated_at"], name: "index_settings_on_updated_at"
   end
 
   create_table "sources", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.jsonb "caption_translations", default: {"en"=>""}, null: false
-    t.jsonb "description_translations", default: {"en"=>""}, null: false
+    t.jsonb "caption_translations", default: { "en" => "" }, null: false
+    t.jsonb "description_translations", default: { "en" => "" }, null: false
     t.string "version"
     t.jsonb "files", default: {}, null: false
     t.jsonb "delete_files", default: [], null: false
@@ -155,15 +166,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_16_150508) do
     t.index ["created_at"], name: "index_sources_on_created_at"
     t.index ["package_id"], name: "index_sources_on_package_id"
     t.index ["updated_at"], name: "index_sources_on_updated_at"
-  end
-
-  create_table "subscriptions", force: :cascade do |t|
-    t.uuid "user_id", null: false
-    t.datetime "start_time", precision: nil
-    t.datetime "end_time", precision: nil
-    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["created_at"], name: "index_subscriptions_on_created_at"
-    t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -197,9 +199,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_16_150508) do
   add_foreign_key "dependencies", "packages", column: "dependent_package_id"
   add_foreign_key "endpoints", "users"
   add_foreign_key "packages", "users"
+  add_foreign_key "plans", "users"
   add_foreign_key "products", "packages"
   add_foreign_key "settings", "endpoints"
   add_foreign_key "settings", "packages"
   add_foreign_key "sources", "packages"
-  add_foreign_key "subscriptions", "users"
 end

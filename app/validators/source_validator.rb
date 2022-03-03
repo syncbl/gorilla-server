@@ -2,7 +2,7 @@ class SourceValidator < ActiveModel::Validator
   def validate(record)
     @record = record
     check_package_not_external
-    check_subscription
+    check_plan
     check_last_source_not_partial
   end
 
@@ -14,16 +14,16 @@ class SourceValidator < ActiveModel::Validator
     @record.errors.add I18n.t("errors.attributes.package.external")
   end
 
-  def check_subscription
-    if @record.package.user.subscriptions.active?
-      # This hack allows to validate source size with user subscription on create
+  def check_plan
+    if @record.package.user.plans.active?
+      # This hack allows to validate source size with user plan on create
       return unless @record.file.attached?
 
-      if @record.package.user.used_space + @record.file.byte_size.to_i > @record.package.user.subscriptions.size_limit
+      if @record.package.user.used_space + @record.file.byte_size.to_i > @record.package.user.plans.size_limit
         @record.errors.add I18n.t("errors.attributes.source.limit_reached")
       end
     else
-      @record.errors.add I18n.t("errors.messages.no_subscription")
+      @record.errors.add I18n.t("errors.messages.no_plan")
     end
   end
 

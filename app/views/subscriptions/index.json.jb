@@ -1,6 +1,0 @@
-@subscriptions.map do |subscription|
-  {
-    id: subscription.id,
-    url: subscription_url(subscription, format: :json)
-  }
-end

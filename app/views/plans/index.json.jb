@@ -1,0 +1,6 @@
+@plans.map do |plan|
+  {
+    id: plan.id,
+    url: plan_url(plan, format: :json)
+  }
+end

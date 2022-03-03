@@ -7,19 +7,19 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     create_table :users, id: :uuid do |t|
       t.string :fullname
 
-      t.citext :name, null: false, index: {unique: true}
+      t.citext :name, null: false, index: { unique: true }
       t.string :locale
       t.string :plan, index: true
 
-      #t.boolean :trusted, default: false
-      #t.boolean :admin, default: false
-      #t.boolean :developer, default: false
+      # t.boolean :trusted, default: false
+      # t.boolean :admin, default: false
+      # t.boolean :developer, default: false
       # TODO: Purchases table for user or company
       # TODO: Referrals: t.references :invited_by, type: :uuid, index: true,
       # foreign_key: { to_table: :user }
       # TODO: Is company? Show other info.
 
-      t.string :authentication_token, index: {unique: true}
+      t.string :authentication_token, index: { unique: true }
 
       t.datetime :blocked_at
       t.string :block_reason
@@ -36,7 +36,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       # TODO: Store PC parameters here
 
-      t.string :authentication_token, index: {unique: true}
+      t.string :authentication_token, index: { unique: true }
 
       t.references :user, type: :uuid, index: true, foreign_key: true
 
@@ -61,8 +61,8 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.string :type, index: true, null: false
 
       t.jsonb :caption_translations, null: false
-      t.jsonb :short_description_translations, null: false, default: { "en": "" }
-      t.jsonb :description_translations, null: false, default: { "en": "" }
+      t.jsonb :short_description_translations, null: false, default: { en: "" }
+      t.jsonb :description_translations, null: false, default: { en: "" }
 
       t.jsonb :params, null: false, default: {}
 
@@ -72,7 +72,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       # TODO: Copyrignt and else in t.jsonb :data
       t.references :user, type: :uuid, index: true, null: false,
                           foreign_key: true
-      #t.references :replacement, type: :uuid, index: true,
+      # t.references :replacement, type: :uuid, index: true,
       #                           foreign_key: { to_table: :packages }
 
       t.datetime :published_at
@@ -100,8 +100,8 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     # ----------
     create_table :sources, id: :uuid do |t|
       # TODO: What to do with file: run, unpack, exec
-      t.jsonb :caption_translations, null: false, default: { "en": "" }
-      t.jsonb :description_translations, null: false, default: { "en": "" }
+      t.jsonb :caption_translations, null: false, default: { en: "" }
+      t.jsonb :description_translations, null: false, default: { en: "" }
       t.string :version
       t.jsonb :files, null: false, default: {}
       t.jsonb :delete_files, null: false, default: []
@@ -125,7 +125,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       t.references :endpoint, type: :uuid, index: true, null: false, foreign_key: true
       t.references :package, type: :uuid, index: true, null: false, foreign_key: true
-      #t.references :source, type: :uuid, index: true, foreign_key: true
+      # t.references :source, type: :uuid, index: true, foreign_key: true
 
       t.jsonb :data
 
@@ -137,7 +137,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
     # ----------
     create_table :products do |t|
-      t.references :package, type: :uuid, null: false, foreign_key: true, index: {unique: true}
+      t.references :package, type: :uuid, null: false, foreign_key: true, index: { unique: true }
 
       # Price, license, etc.
       # TODO: validation mark like t.datetime :validated_at
@@ -146,7 +146,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     end
 
     # ----------
-    create_table :subscriptions do |t|
+    create_table :plans do |t|
       t.references :user, type: :uuid, index: true, null: false, foreign_key: true
 
       # Payment info

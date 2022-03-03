@@ -7,7 +7,7 @@ FactoryBot.define do
     plan { :pro }
 
     after :create do |user|
-      user.subscriptions.create
+      user.plans.create
     end
   end
 
@@ -19,7 +19,7 @@ FactoryBot.define do
     plan { :personal }
 
     after :create do |user|
-      user.subscriptions.create
+      user.plans.create
     end
   end
 end

@@ -1,11 +1,11 @@
-class Subscription < ApplicationRecord
-  # Subscription types:
+class Plan < ApplicationRecord
+  # plan types:
   # - Personal (only own packages)
   # - Pro (can publish 10gb)
   # - Business (can publish 100gb and can control endpoints)
 
   # TODO: Must be rewrited!
-  # Bugs: subscription used only last, personal is a bullshit.
+  # Bugs: plan used only last, personal is a bullshit.
 
   belongs_to :user
 
@@ -25,11 +25,11 @@ class Subscription < ApplicationRecord
   def self.size_limit
     case current.last.user.plan
     when "personal"
-      SUBSCRIPTION_PLAN_PERSONAL
+      PLAN_PERSONAL
     when "pro"
-      SUBSCRIPTION_PLAN_PRO
+      PLAN_PRO
     when "business", "unlimited"
-      SUBSCRIPTION_PLAN_BUSINESS
+      PLAN_BUSINESS
     else
       0
     end
@@ -39,7 +39,7 @@ class Subscription < ApplicationRecord
 
   def validate_time
     current =
-      Subscription.current.where(user:).order(end_time: :desc).first
+      Plan.current.where(user:).order(end_time: :desc).first
     start_time = current.present? ? current.end_time : Time.current
     self.start_time = start_time
     return unless end_time.nil?

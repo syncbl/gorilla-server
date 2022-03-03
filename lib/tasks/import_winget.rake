@@ -25,7 +25,7 @@ namespace :import do
         password: "testtest",
         plan: :unlimited,
       )
-      Subscription.create(
+      Plan.create(
         user:,
         start_time: Time.current,
         end_time: 100.years.from_now,

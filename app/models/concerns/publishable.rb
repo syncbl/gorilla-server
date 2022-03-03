@@ -17,7 +17,7 @@ module Publishable
   end
 
   def published?
-    super && user.subscriptions.active?
+    super && user.plans.active?
   end
 
   private
