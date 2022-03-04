@@ -6,8 +6,8 @@ class CloneEndpointService < ApplicationService
 
   def call
     return if @from_endpoint.nil? ||
-              (@from_endpoint == @to_endpoint) ||
-              (@from_endpoint.user != @to_endpoint.user)
+              @from_endpoint == @to_endpoint ||
+              @from_endpoint.user != @to_endpoint.user
 
     @from_endpoint.packages
                   .reject { |p| p.component? || @to_endpoint.installed?(p) }
