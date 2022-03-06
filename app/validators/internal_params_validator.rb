@@ -4,7 +4,7 @@ class InternalParamsValidator < ActiveModel::EachValidator
       if value["path"].blank?
         record.errors.add :path, I18n.t("errors.attributes.package.path_is_empty")
       end
-      if value["root"].nil?
+      if value["root"].blank?
         record.errors.add :path, I18n.t("errors.attributes.package.root_is_empty")
       end
       # elsif record.component?
