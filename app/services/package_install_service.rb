@@ -6,6 +6,8 @@ class PackageInstallService < ApplicationService
 
   # TODO: If query is not from API then notify endpoint
   def call
-    @endpoint.settings.find_or_initialize_by(package: @package)
+    @setting = @endpoint.settings.find_or_initialize_by(package: @package)
+    @setting.save
+    @setting
   end
 end

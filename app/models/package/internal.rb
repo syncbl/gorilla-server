@@ -1,7 +1,10 @@
 class Package::Internal < Package
   include ParamAwareable
 
-  validates_with InternalPackageValidator
+  jsonb_accessor :params,
+                 path: [:string]
+
+  validates :params, internal_params: true
 
   def self.model_name
     Package.model_name

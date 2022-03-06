@@ -109,10 +109,6 @@ RSpec.describe "/packages", type: :request do
         expect do
           post packages_url, params: { package: valid_bundle }
         end.to change(Package, :count).by(1)
-      end
-
-      it "redirects to the created package" do
-        post packages_url, params: { package: valid_bundle }
         expect(response).to redirect_to(package_url(Package.last))
       end
     end

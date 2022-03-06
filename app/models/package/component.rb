@@ -1,9 +1,6 @@
 class Package::Component < Package::Internal
   has_many :packages, through: :dependencies
 
-  jsonb_accessor :params,
-                 path: [:string]
-
   before_destroy :check_dependency, prepend: true
 
   def self.model_name
