@@ -43,9 +43,9 @@ namespace :import do
         next if y["PackageName"] == z["PackageName"]
       end
       name = y["PackageName"].gsub(/ ./, "").gsub(/[.:#&]/, "_").gsub("__", "_")
-      p = Package::External.find_by(user:, name: "#{name}") ||
+      p = Package::External.find_by(user:, name: name.to_s) ||
           Package::External.new(
-            name: "#{name}",
+            name: name.to_s,
             user:,
             version: y["PackageVersion"],
           )

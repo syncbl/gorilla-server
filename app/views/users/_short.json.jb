@@ -2,5 +2,5 @@ json = {
   id: user.id,
   name: user.name,
   fullname: user.fullname,
-# TODO: Icon, company etc.
+  # TODO: Icon, company etc.
 }

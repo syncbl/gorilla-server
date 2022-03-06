@@ -75,7 +75,7 @@ class User < ApplicationRecord
 
   def generate_name
     if name.blank?
-      name = "#{email[/^[^@]+/]}"
+      name = email[/^[^@]+/].to_s
       self.name =
         User.find_by(name:).nil? ? name : "#{name}#{rand(10_000)}"
     end

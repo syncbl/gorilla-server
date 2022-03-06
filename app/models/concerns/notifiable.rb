@@ -35,7 +35,7 @@ module Notifiable
 
   def notify_add_package(package, dependent_package = nil)
     if dependent_package.nil?
-      notify :add_package, "#{package}"
+      notify :add_package, package.to_s
     else
       notify :add_package, "#{package}/#{dependent_package}"
     end

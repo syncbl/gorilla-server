@@ -50,9 +50,6 @@ Style/RedundantReturn:
 Style/TrailingCommaInArrayLiteral:
   Enabled: false
 
-Style/IfUnlessModifier:
-  Enabled: false
-
 Style/Lambda:
   Enabled: false
 
@@ -61,17 +58,7 @@ Style/HashAsLastArrayItem:
 
 Lint/RedundantDirGlobSort:
   Enabled: false
-
-Style/RedundantInterpolation:
-  Enabled: false
-
-Layout/CommentIndentation:
-  Enabled: false
-
 Style/SoleNestedConditional:
-  Enabled: false
-
-Lint/UnusedMethodArgument:
   Enabled: false
 
 Rails/EagerEvaluationLogMessage:

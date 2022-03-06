@@ -1,5 +1,5 @@
 class PackageDependencyValidator < ActiveModel::EachValidator
-  def validate_each(record, attribute, value)
+  def validate_each(record, _attribute, value)
     if record.package == value
       record.errors.add :dependent_package,
                         I18n.t("errors.attributes.dependency.itself")
