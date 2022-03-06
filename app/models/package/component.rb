@@ -10,10 +10,10 @@ class Package::Component < Package::Internal
   private
 
   def check_dependency
-    unless orphaned?
-      # TODO: Relative path to error
-      errors.add :size, I18n.t("errors.attributes.dependency.used")
-      throw :abort
-    end
+    return if orphaned?
+
+    # TODO: Relative path to error
+    errors.add :size, I18n.t("errors.attributes.dependency.used")
+    throw :abort
   end
 end

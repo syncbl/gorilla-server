@@ -6,13 +6,11 @@ module Notifiable
     object_id = object.is_a?(ApplicationRecord) ? object.id : object
     notification = { method.to_s => object_id }
     notification[:message] = message if message
-    if validate_notification(notification)
-      # unless Push::Server.online?(self.id) && Push::Server.enqueue(self.id, notification)
-      store_notification(notification)
-      # end
-    else
-      raise "Incoming notification is invalid!"
-    end
+    raise "Incoming notification is invalid!" unless validate_notification(notification)
+
+    # unless Push::Server.online?(self.id) && Push::Server.enqueue(self.id, notification)
+    store_notification(notification)
+    # end
   end
 
   def notifications(only:)
@@ -20,13 +18,11 @@ module Notifiable
     Api::Redis.pool.with do |redis|
       redis.scan_each(match: "N_#{id}.*") do |key|
         notification = redis.hgetall(key)
-        if validate_notification(notification)
-          if !only.is_a?(Array) || notification.keys[0].in?(only)
-            messages << notification
-            redis.del(key)
-          end
-        else
-          raise "Outgoing notification is invalid!"
+        raise "Outgoing notification is invalid!" unless validate_notification(notification)
+
+        if !only.is_a?(Array) || notification.keys[0].in?(only)
+          messages << notification
+          redis.del(key)
         end
       end
     end

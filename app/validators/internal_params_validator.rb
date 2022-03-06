@@ -6,11 +6,11 @@ class InternalParamsValidator < ActiveModel::EachValidator
       # elsif record.component?
     end
 
-    unless value["path"].nil?
-      if value["path"].match?(Regexp.union(RESTRICTED_PATH_CHARACTERS)) ||
-         Pathname.new(value["path"]).absolute?
-        record.errors.add :path, I18n.t("errors.attributes.package.path_not_relative")
-      end
+    return if value["path"].nil?
+
+    if value["path"].match?(Regexp.union(RESTRICTED_PATH_CHARACTERS)) ||
+       Pathname.new(value["path"]).absolute?
+      record.errors.add :path, I18n.t("errors.attributes.package.path_not_relative")
     end
   end
 end

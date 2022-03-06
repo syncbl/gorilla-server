@@ -24,14 +24,17 @@ module Publishable
 
   # TODO: After load from db class will be Package and error will raise
   def try_check_publishable
-    if published_at.present? && respond_to?(:publishable?) && !send(:publishable?)
-      errors.add :published_at, I18n.t("errors.messages.cannot_publish")
-    end
+    return unless published_at.present? &&
+                  respond_to?(:publishable?) &&
+                  !send(:publishable?)
+
+    errors.add :published_at, I18n.t("errors.messages.cannot_publish")
   end
 
   def lock_published
-    if published_at.present? && (changed & LOCKED_FIELDS).size.positive?
-      errors.add :published_at, I18n.t("errors.messages.locked_published")
-    end
+    return unless published_at.present? &&
+                  (changed & LOCKED_FIELDS).size.positive?
+
+    errors.add :published_at, I18n.t("errors.messages.locked_published")
   end
 end
