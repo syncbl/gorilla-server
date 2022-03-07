@@ -1,17 +1,18 @@
 class PackagePolicy
-  attr_reader :user, :record
+  attr_reader :user, :package
 
-  def initialize(user, record)
+  def initialize(user, package)
     @user = user
-    @record = record
+    @package = package
   end
 
+  # TODO: Too dirty logic
   def show?
-    @user.can_view? @record
+    @user&.can_view?(@package) || @package.published?
   end
 
   def update?
-    @user.can_edit? @record
+    @user.can_edit? @package
   end
 
   def edit?
@@ -19,11 +20,11 @@ class PackagePolicy
   end
 
   def destroy?
-    @user.owner? @record
+    @user.owner? @package
   end
 
   def search?
-    user&.can_view?(@record) || @record.product.nil?
+    @package.published?
   end
 
   class Scope

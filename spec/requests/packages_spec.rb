@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "/packages", type: :request do
   let(:user) { create(:user1) }
-
+  let(:package) { create(:bundle1, user:) }
   let(:valid_bundle) do
     {
       name: "test-bundle",
@@ -23,7 +23,6 @@ RSpec.describe "/packages", type: :request do
       end
 
       it "renders a successful response" do
-        Package::Bundle.create! valid_bundle
         get packages_url
         expect(response).to be_successful
       end
@@ -43,16 +42,25 @@ RSpec.describe "/packages", type: :request do
         sign_in user
       end
 
-      it "renders a successful response" do
-        package = Package::Bundle.create! valid_bundle
+      it "valid package renders a successful response" do
         get package_url(package)
         expect(response).to be_successful
+      end
+
+      it "invalid package shows 404 error" do
+        get package_url("error")
+        expect(response).to have_http_status(:not_found)
       end
     end
 
     context "when not signed in" do
-      it "redirects to login page" do
-        get packages_url
+      it "valid package redirects to login page" do
+        get package_url(package)
+        expect(response).to redirect_to(new_user_session_path)
+      end
+
+      it "invalid package redirects to login page" do
+        get package_url("error")
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -85,7 +93,6 @@ RSpec.describe "/packages", type: :request do
       end
 
       it "renders a successful response" do
-        package = Package::Bundle.create! valid_bundle
         get edit_package_url(package)
         expect(response).to be_successful
       end
@@ -129,7 +136,7 @@ RSpec.describe "/packages", type: :request do
 
       let(:new_attributes) do
         {
-          caption: "Test1",
+          short_description: "Test1",
         }
       end
 
@@ -138,7 +145,7 @@ RSpec.describe "/packages", type: :request do
         expect do
           patch package_url(package), params: { package: new_attributes }
           package.reload
-        end.to change { package.caption }.from("Test6").to("Test1")
+        end.to change { package.short_description }.from("Test").to("Test1")
       end
 
       it "redirects to the package" do
