@@ -40,7 +40,7 @@ if [ -n "$FILES" ]; then
     exit 1
   fi
 
-  if [ $SKIP_TEST != "1" ]; then
+  if [ -z "${SKIP_TEST}" ]; then
     if [ -d test ]; then
       bin/bundle exec rails test
 
