@@ -40,21 +40,23 @@ if [ -n "$FILES" ]; then
     exit 1
   fi
 
-  if [ -d test ]; then
-    bin/bundle exec rails test
+  if [ ! -v SKIP_TEST ]; then
+    if [ -d test ]; then
+      bin/bundle exec rails test
 
-    if [ $? -ne 0 ]; then
-      echo "${red}[minitest]: Fix the issues and commit again${NC}"
-      exit 1
+      if [ $? -ne 0 ]; then
+        echo "${red}[minitest]: Fix the issues and commit again${NC}"
+        exit 1
+      fi
     fi
-  fi
 
-  if [ -d spec ]; then
-    bin/bundle exec rspec
+    if [ -d spec ]; then
+      bin/bundle exec rspec
 
-    if [ $? -ne 0 ]; then
-      echo "${red}[rspec]: Fix the issues and commit again${NC}"
-      exit 1
+      if [ $? -ne 0 ]; then
+        echo "${red}[rspec]: Fix the issues and commit again${NC}"
+        exit 1
+      fi
     fi
   fi
 else
