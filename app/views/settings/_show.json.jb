@@ -2,6 +2,7 @@
 
 json = {
   available: current_anyone.can_view?(setting.package),
+  consistent: setting.consistent,
   params: setting.package.filtered_params,
 }
 

@@ -1,21 +1,21 @@
 return unless Rails.env.development?
 
 u1 =
-  User.create fullname: "Eldar Avatov",
-              name: "deadalice",
-              email: "eldar.avatov@gmail.com",
-              password: "111111",
-              plan: :pro
+  User.create! fullname: "Eldar Avatov",
+               name: "deadalice",
+               email: "eldar.avatov@gmail.com",
+               password: "111111",
+               plan: :pro
 u2 =
-  User.create fullname: "Test Test",
-              name: "tester",
-              email: "tester@example.com",
-              password: "123456",
-              plan: :personal
-u1.plans.create
-u2.plans.create
+  User.create! fullname: "Test Test",
+               name: "tester",
+               email: "tester@example.com",
+               password: "123456",
+               plan: :personal
+u1.plans.create!
+u2.plans.create!
 
-Rails.logger.debug Package::External.create(
+Package::External.create!(
   [
     {
       name: "openssl-1_0",
@@ -34,7 +34,7 @@ Rails.logger.debug Package::External.create(
   ],
 )
 
-Rails.logger.debug Package::Component.create(
+Package::Component.create!(
   [
     {
       name: "Openssl-1_1",
@@ -71,7 +71,7 @@ Rails.logger.debug Package::Component.create(
   ],
 )
 
-Rails.logger.debug Package::Bundle.create(
+Package::Bundle.create!(
   [
     {
       name: "openssl-dev",
@@ -94,7 +94,7 @@ Rails.logger.debug Package::Bundle.create(
   ],
 )
 
-c = Category.create(caption: "Test")
+c = Category.create!(caption: "Test")
 
 p = Package::Bundle.find_by(name: "openssl-dev")
 # p.dependent_packages << Package.find_by(name: "openssl-1_0")
@@ -104,7 +104,7 @@ p.dependent_packages << Package.find_by(name: "openssl-1_2")
 p.dependencies.last.update(optional: false, category: c)
 p.dependent_packages << Package.find_by(name: "openssl-1_3")
 p.dependencies.last.update(optional: true, category: c)
-Product.create(package: p)
+Product.create!(package: p)
 
 Package::Bundle.first.icon.attach(
   io: File.open("files/hqdefault.jpg"),
@@ -113,9 +113,9 @@ Package::Bundle.first.icon.attach(
 
 p = Package::Component.find_by(name: "openssl-1_2")
 s =
-  p.sources.create(version: "1.0.1",
-                   caption: "Test",
-                   description: "Test update 1")
+  p.sources.create!(version: "1.0.1",
+                    caption: "Test",
+                    description: "Test update 1")
 FileUtils.cp("files/test1.zip", "tmp")
 AttachmentService.call s, "tmp/test1.zip"
 File.delete("tmp/test1.zip")
@@ -128,9 +128,9 @@ p.add_params_link(
 p.add_params_requirement("registry", "test")
 s.publish!
 s =
-  p.sources.create(version: "1.0.2",
-                   caption: "Test",
-                   description: "Test update 2")
+  p.sources.create!(version: "1.0.2",
+                    caption: "Test",
+                    description: "Test update 2")
 FileUtils.cp("files/test2.zip", "tmp")
 AttachmentService.call s, "tmp/test2.zip"
 File.delete("tmp/test2.zip")
@@ -147,9 +147,9 @@ p1.dependent_packages << p2
 p.dependent_packages << p2
 p.publish!
 
-Endpoint.create name: "Test2",
-                user: u1,
-                id: "253307f5-0e4f-4a76-9b04-da35ba6345d5"
-e = Endpoint.create name: "Test5", user: User.last
+Endpoint.create! name: "Test2",
+                 user: u1,
+                 id: "253307f5-0e4f-4a76-9b04-da35ba6345d5"
+e = Endpoint.create! name: "Test5", user: User.last
 # TODO: To tests
 e.packages << Package::Bundle.find_by(name: "openssl-dev")

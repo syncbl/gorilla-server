@@ -20,6 +20,7 @@ en:
         last_cannot_be_partial: Can't make last source partial
       setting:
         component_without_bundle: Can't install component without corresponding bundle
+        no_active_plan: Package maintainer have no active plan
     block_reasons:
       suspicious_attachment: Suspicious files found!
     messages:

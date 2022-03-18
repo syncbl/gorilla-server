@@ -136,6 +136,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_16_150508) do
     t.uuid "endpoint_id", null: false
     t.uuid "package_id", null: false
     t.jsonb "data"
+    t.boolean "consistent", default: true, null: false
+    t.boolean "active", default: true, null: false
     t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_settings_on_created_at"

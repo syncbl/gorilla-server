@@ -24,8 +24,31 @@ class ActualizedSettingsService < ApplicationService
       @endpoint.notify_remove_package(s.package)
     end
 
+    # Mark settings with users without subscription as inconsistent
+    @settings.includes(package: [user: :plans])
+             .map do |s|
+      s.update(consistent: false, active: false) if s.active? && !s.package.user.plan.active?
+      s.update(active: true) if !s.active? && s.package.user.plan.active?
+    end
+
     # Only updated packages
     @settings.includes(:sources)
-             .where(package_id: @packages, sources: { published_at: @timestamp.. })
+             .where(active: true)
+             .where(
+               consistent: true,
+               package_id: @packages,
+               sources: { published_at: @timestamp.. },
+             ).or(
+               where(
+                 consistent: false,
+                 package_id: @packages,
+               )
+             )
+
+    # TODO: We can exclude packages from users without plan, but then
+    # timestamp will increase and this updates will be lost. What we can do?
+    # Perhaps, we should add flag for this settings and update if request was made
+    # but plan was absent. Also we can do that is source request was in broken
+    # order even if everything is ok.
   end
 end

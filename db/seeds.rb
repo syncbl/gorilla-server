@@ -6,16 +6,17 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+# rubocop:disable all
 begin
   load(Rails.root.join("db", "seeds", "#{Rails.env.downcase}.rb"))
-  puts "OK"
 rescue StandardError => e
-  puts e.to_s.strip
-  puts e.backtrace.map { |x|
+  Rails.logger.debug e.to_s.strip
+  Rails.logger.debug e.backtrace.map { |x|
          x.match(/^(.+?):(\d+)(|:in `(.+)')$/)
-         [$1, $2]
+         [Regexp.last_match(1), Regexp.last_match(2)]
        }.reject { |x|
          x[0].include? ".rvm"
        }
   exit 1
 end
+# rubocop:enable all

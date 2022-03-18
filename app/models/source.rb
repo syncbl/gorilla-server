@@ -28,9 +28,9 @@ class Source < ApplicationRecord
   validates_with SourceValidator
 
   # GoldiLoader: includes(file_attachment: :blob)
-  default_scope do
+  scope :preloaded, -> {
     joins(package: :user, file_attachment: :blob)
-  end
+  }
 
   def self.merged?
     last&.merged?

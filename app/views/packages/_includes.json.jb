@@ -3,14 +3,12 @@ json = {}
 json[:params] = package.params.compact
 
 unless package.external?
-  json[:sources] = package.sources.published.map do |source|
+  json[:sources] = package.sources.preloaded.published.map do |source|
     # TODO: Only unmerged can be unpublished and unpublished must be all of them
     render "sources/show", source:
   end
 end
 
-# TODO: Limit by time > last update
-# TODO: Do we need packages? May be only components?
 package.dependencies.categorized.map do |d|
   component_type = if d.required_component?
       # Required components

@@ -128,6 +128,8 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       # t.references :source, type: :uuid, index: true, foreign_key: true
 
       t.jsonb :data
+      t.boolean :consistent, null: false, default: true
+      t.boolean :active, null: false, default: true
 
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }

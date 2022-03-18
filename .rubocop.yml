@@ -11,6 +11,10 @@ AllCops:
     - bin/**/*
     - Gemfile
 
+# TODO: Enable!
+Rails/I18nLocaleTexts:
+  Enabled: false
+
 RSpec/MultipleExpectations:
   Enabled: false
 
@@ -58,6 +62,7 @@ Style/HashAsLastArrayItem:
 
 Lint/RedundantDirGlobSort:
   Enabled: false
+
 Style/SoleNestedConditional:
   Enabled: false
 

@@ -19,16 +19,14 @@ class Endpoint < ApplicationRecord
   validates :authentication_token,
             allow_nil: true, length: { is: 24 }
 
-  default_scope do
-    includes(:user)
-  end
-
   def installed?(package)
     settings.exists?(package:)
   end
 
   def actualized_settings(packages, timestamp)
-    ActualizedSettingsService.call(self, packages, timestamp)
+    actual_settings = ActualizedSettingsService.call(self, packages, timestamp)
+    settings.where(consistent: false).update(consistent: true)
+    actual_settings
   end
 
   def can_view?(object)

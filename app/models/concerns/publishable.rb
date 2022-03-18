@@ -16,10 +16,6 @@ module Publishable
     update!(published_at: time)
   end
 
-  def published?
-    super && user.plans.active?
-  end
-
   private
 
   # TODO: After load from db class will be Package and error will raise

@@ -61,10 +61,6 @@ class Package < ApplicationRecord
             }
   validates_with PackageValidator
 
-  default_scope do
-    joins(:user) # .includes(:icon_attachment)
-  end
-
   def recalculate_size!
     old_size = size
     self.size = 0
