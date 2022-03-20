@@ -14,6 +14,7 @@ gem "sprockets-rails" # Provides Sprockets implementation for Rails 4.x (and bey
 gem "importmap-rails" # Import maps let you import JavaScript modules using logical names that map to versioned/digested files.
 gem "sass-rails" # This gem provides official integration for Ruby on Rails projects with the Sass stylesheet language.
 gem "turbo-rails" # Turbo gives you the speed of a single-page web application without having to write any JavaScript.
+gem "view_component" # A framework for creating reusable, testable & encapsulated view components
 
 # Database
 gem "pg", "~> 1" # Pg is the Ruby interface to the PostgreSQL RDBMS.

@@ -13,9 +13,6 @@ class AttachmentService < ApplicationService
     # ActiveRecord::Base.transaction do
     return unless build
 
-    if @source.files.size.zero?
-      # TODO: Inform user. He can merge or delete this source, but can't publish.
-    end
     @source.file.attach(
       io: File.open(@filename),
       filename: "#{@source.created_at.strftime("%y%m%d%H%M%S%2L")}.zip",
@@ -73,7 +70,11 @@ class AttachmentService < ApplicationService
       zipfile.commit
       File.delete(tmpfilename)
     end
-    # TODO: Notify if filelist is empty
+
+    if filelist.size.zero?
+      # TODO: Inform user. He can merge or delete this source, but can't publish.
+    end
+
     @source.files = filelist
   rescue StandardError => e # TODO: Make more specific
     Rails.logger.debug "+++ #{e.class} #{e.message}"

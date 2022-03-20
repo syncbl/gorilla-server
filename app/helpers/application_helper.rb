@@ -55,7 +55,7 @@ module ApplicationHelper
     if current_user
       render_403
     else
-      redirect_to(new_user_session_path)
+      redirect_to new_user_session_path
     end
   end
 
@@ -63,7 +63,7 @@ module ApplicationHelper
     if current_user
       render_404
     else
-      redirect_to(new_user_session_path)
+      redirect_to new_user_session_path
     end
   end
 
@@ -76,7 +76,7 @@ module ApplicationHelper
   end
 
   def current_anyone
-    current_endpoint || current_user || render_403
+    current_endpoint || current_user
   end
 
   def someone_logged_in?

@@ -87,7 +87,7 @@ GEM
     ast (2.4.2)
     awesome_print (1.9.2)
     aws-eventstream (1.2.0)
-    aws-partitions (1.567.0)
+    aws-partitions (1.568.0)
     aws-sdk-core (3.130.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.525.0)
@@ -178,7 +178,7 @@ GEM
     erubis (2.7.0)
     eventmachine (1.2.7)
     execjs (2.8.1)
-    factory_bot (6.2.0)
+    factory_bot (6.2.1)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.2.0)
       factory_bot (~> 6.2.0)
@@ -230,7 +230,7 @@ GEM
       activesupport (>= 5.0)
       pg (>= 0.18.1)
     jwt (2.3.0)
-    kramdown (2.3.1)
+    kramdown (2.3.2)
       rexml
     kramdown-parser-gfm (1.1.0)
       kramdown (~> 2.0)
@@ -377,7 +377,7 @@ GEM
       unicode-display_width (>= 1.4.0, < 3.0)
     rubocop-ast (1.16.0)
       parser (>= 3.1.1.0)
-    rubocop-rails (2.14.0)
+    rubocop-rails (2.14.2)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.7.0, < 2.0)
@@ -463,6 +463,9 @@ GEM
     verbs (2.3.1)
       activesupport (>= 2.3.4)
       i18n
+    view_component (2.51.0)
+      activesupport (>= 5.0.0, < 8.0)
+      method_source (~> 1.0)
     warden (1.2.9)
       rack (>= 2.0.9)
     webrick (1.7.0)
@@ -554,6 +557,7 @@ DEPENDENCIES
   turbo-rails
   turbolinks (~> 5.0)
   uglifier
+  view_component
   whenever
 
 RUBY VERSION

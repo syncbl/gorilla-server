@@ -32,8 +32,7 @@ class SourcesController < ApplicationController
     authorize @package, :show?, policy_class: PackagePolicy
     if source = source_exists?(current_user, file_params[:file].size, params[:checksum])
       # TODO: Link to source
-      current_user.notify :flash_alert, @package,
-                          I18n.t("warnings.attributes.source.file_already_exists")
+      flash[:warning] = I18n.t("warnings.attributes.source.file_already_exists")
     end
     @source = @package.sources.create
     respond_to do |format|
@@ -96,7 +95,6 @@ class SourcesController < ApplicationController
     @package = policy_scope(Package).find(params[:package_id])
     respond_to do |format|
       format.html do
-        # TODO: Normal response with render_json_error
         if @package.sources.merged?
           head :unprocessable_entity
         else

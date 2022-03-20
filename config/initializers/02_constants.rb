@@ -22,7 +22,7 @@ NOTIFICATION_EXPIRES_IN = 3.days
 TOKEN_RESET_THRESHOLD = 1.day
 
 ENDPOINT_NOTIFICATIONS = %w[add_package add_component remove_package].freeze
-USER_NOTIFICATIONS = %w[remove_source flash_alert flash_notice].freeze
+USER_NOTIFICATIONS = %w[remove_source].freeze
 
 RESTRICTED_NAMES = %w[
   setting sign_in api

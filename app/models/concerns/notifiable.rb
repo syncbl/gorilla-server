@@ -8,9 +8,16 @@ module Notifiable
     notification[:message] = message if message
     raise "Incoming notification is invalid!" unless validate_notification(notification)
 
-    # unless Push::Server.online?(self.id) && Push::Server.enqueue(self.id, notification)
-    store_notification(notification)
-    # end
+    if online?
+      # Send notification
+    else
+      store_notification(notification)
+    end
+  end
+
+  def online?
+    # TODO: Push::Server.online?(self.id) && Push::Server.enqueue(self.id, notification)
+    false
   end
 
   def notifications(only:)

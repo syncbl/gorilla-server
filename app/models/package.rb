@@ -65,9 +65,9 @@ class Package < ApplicationRecord
     old_size = size
     self.size = 0
     sources.each { |s| self.size += s.unpacked_size }
-    user.notify :flash_notice,
-                self, I18n.t("notices.attributes.source.shrinked",
-                             size: old_size - self.size)
+    # TODO: user.notify :flash_notice,
+    #            self, I18n.t("notices.attributes.source.shrinked",
+    #                         size: old_size - self.size)
     save!
   end
 
