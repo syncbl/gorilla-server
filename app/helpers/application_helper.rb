@@ -39,31 +39,27 @@ module ApplicationHelper
   def render_403(reason = nil)
     reason ||= I18n.t("errors.messages.forbidden")
     respond_to do |format|
-      format.html { render "errors/403", layout: "errors", status: :forbidden }
+      format.html do
+        if user_signed_in?
+          render "errors/403", layout: "errors", status: :forbidden
+        else
+          redirect_to new_user_session_path, status: :forbidden
+        end
+      end
       format.json { render_json_error reason, status: :forbidden }
     end
   end
 
   def render_404
     respond_to do |format|
-      format.html { render "errors/404", layout: "errors", status: :not_found }
+      format.html do
+        if user_signed_in?
+          render "errors/404", layout: "errors", status: :not_found
+        else
+          redirect_to new_user_session_path, status: :forbidden
+        end
+      end
       format.json { render_json_error I18n.t("errors.messages.not_found"), status: :not_found }
-    end
-  end
-
-  def redirect_403
-    if current_user
-      render_403
-    else
-      redirect_to new_user_session_path
-    end
-  end
-
-  def redirect_404
-    if current_user
-      render_404
-    else
-      redirect_to new_user_session_path
     end
   end
 
@@ -79,7 +75,7 @@ module ApplicationHelper
     current_endpoint || current_user
   end
 
-  def someone_logged_in?
+  def someone_signed_in?
     current_endpoint.present? || current_user.present?
   end
 end

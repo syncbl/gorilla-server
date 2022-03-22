@@ -56,12 +56,12 @@ RSpec.describe "/packages", type: :request do
     context "when not signed in" do
       it "valid package redirects to login page" do
         get package_url(package)
-        expect(response).to redirect_to(new_user_session_path)
+        expect(response).to have_http_status(:forbidden)
       end
 
       it "invalid package redirects to login page" do
         get package_url("error")
-        expect(response).to redirect_to(new_user_session_path)
+        expect(response).to have_http_status(:forbidden)
       end
     end
   end

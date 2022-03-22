@@ -11,8 +11,8 @@ class ApplicationController < ActionController::Base
   before_action :api_check_headers, if: -> { request.format.json? }
   before_action :set_locale
 
-  rescue_from ActiveRecord::RecordNotFound, with: :redirect_404
-  rescue_from Pundit::NotAuthorizedError, with: :redirect_403
+  rescue_from ActiveRecord::RecordNotFound, with: :render_404
+  rescue_from Pundit::NotAuthorizedError, with: :render_403
 
   private
 
