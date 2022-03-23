@@ -15,7 +15,7 @@ u2 =
 u1.plans.create!
 u2.plans.create!
 
-Package::External.create!(
+Rails.logger.debug Package::External.create!(
   [
     {
       name: "openssl-1_0",
@@ -34,7 +34,7 @@ Package::External.create!(
   ],
 )
 
-Package::Component.create!(
+Rails.logger.debug Package::Component.create!(
   [
     {
       name: "Openssl-1_1",
@@ -71,7 +71,7 @@ Package::Component.create!(
   ],
 )
 
-Package::Bundle.create!(
+Rails.logger.debug Package::Bundle.create!(
   [
     {
       name: "openssl-dev",
