@@ -5,6 +5,8 @@ module Authenticatable
     @endpoint =
       current_endpoint ||
       Endpoint.find_by(id: params[:endpoint_id] || params[:id], user: current_user)
+    raise Pundit::NotAuthorizedError if @endpoint.blank?
+
     authorize @endpoint, :show?, policy_class: EndpointPolicy
   end
 end

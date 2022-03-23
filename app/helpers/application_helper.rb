@@ -72,10 +72,12 @@ module ApplicationHelper
   end
 
   def current_anyone
+    # On session creation both values can be present, so it's important
+    # to start check with current_endpoint.
     current_endpoint || current_user
   end
 
-  def someone_signed_in?
-    current_endpoint.present? || current_user.present?
+  def authenticate_with_token!
+    response.set_header('Access-Token', current_anyone.reset_token!)
   end
 end

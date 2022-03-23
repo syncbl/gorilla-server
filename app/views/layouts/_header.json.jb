@@ -1,13 +1,5 @@
 json = {}
 
-if someone_signed_in?
-  if new_token = current_anyone.reset_token
-    json[:session] = {
-      token: new_token,
-    }
-  end
-end
-
 if @pagy
   json[:page] = @pagy.page
   json[:pages] = @pagy.pages

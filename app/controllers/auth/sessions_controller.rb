@@ -1,4 +1,6 @@
 class Auth::SessionsController < Devise::SessionsController
+  after_action :authenticate_with_token!, only: :create
+
   def create
     respond_to do |format|
       format.any(*navigational_formats) { super }

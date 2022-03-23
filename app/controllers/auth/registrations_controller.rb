@@ -1,4 +1,6 @@
 class Auth::RegistrationsController < Devise::RegistrationsController
+  after_action :authenticate_with_token!, only: :create
+
   def create
     respond_to do |format|
       format.any(*navigational_formats) { super }
