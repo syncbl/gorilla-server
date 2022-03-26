@@ -1,11 +1,17 @@
 module Api
   module Cache
     def cached_endpoint(id, token)
-      cache_fetch(Endpoint, id, token)
+      endpoint = cache_fetch(Endpoint, id, token)
+      raise Pundit::NotAuthorizedError unless endpoint
+
+      endpoint
     end
 
     def cached_user(id, token)
-      cache_fetch(User, id, token)
+      user = cache_fetch(User, id, token)
+      raise Pundit::NotAuthorizedError unless user
+
+      user
     end
 
     # TODO: Avoid using local variable here, consider using session!
