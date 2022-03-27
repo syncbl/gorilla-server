@@ -51,10 +51,10 @@ gem "jwt" # A ruby implementation of the RFC 7519 OAuth JSON Web Token (JWT) sta
 gem "pagy", "~> 3.8" # Pagination gem that outperforms the others in each and every benchmark and comparison.
 gem "pundit" # Set of helpers to build an authorization system.
 gem "rack-attack" # Rack middleware for blocking & throttling abusive requests.
-gem "render_async" # Pages become faster seamlessly by rendering partials to your views.
+#gem "render_async" # Pages become faster seamlessly by rendering partials to your views.
 gem "rubyzip", require: "zip" # Ruby library for reading and writing zip files.
 gem "ruby-progressbar" # The ultimate text progress bar library for Ruby!
-gem "scenic" # Scenic adds methods to ActiveRecord::Migration to create and manage database views in Rails.
+#gem "scenic" # Scenic adds methods to ActiveRecord::Migration to create and manage database views in Rails.
 gem "simple_form" # Simple Form aims to be as flexible as possible while helping you with powerful components to create your forms.
 gem "strip_attributes" # Automatically strips all attributes of leading and trailing whitespace before validation.
 gem "uglifier" # Ruby wrapper for UglifyJS JavaScript compressor.
