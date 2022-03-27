@@ -1,5 +1,0 @@
-json = render "layouts/header"
-
-json[:packages] = render "packages/index", packages: @packages
-
-log_json json

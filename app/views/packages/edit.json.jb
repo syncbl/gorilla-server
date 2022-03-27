@@ -1,6 +1,0 @@
-json = render "layouts/header", object: @package
-
-# TODO: "Edit" partial
-json[:package] = render "show", package: @package
-
-log_json json

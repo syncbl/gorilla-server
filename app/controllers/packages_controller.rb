@@ -97,6 +97,7 @@ class PackagesController < ApplicationController
           Package::External.searcheable.search_by_text(params[:q]),
           items: params[:items],
         )
+      render :index
     else
       render_json_error I18n.t("errors.messages.search_query_error"),
                         status: :not_found

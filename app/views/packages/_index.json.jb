@@ -1,3 +1,0 @@
-json = packages.map do |package|
-  render "show", package:
-end

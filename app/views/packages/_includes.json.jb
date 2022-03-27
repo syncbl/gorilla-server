@@ -9,6 +9,7 @@ unless package.external?
   end
 end
 
+# TODO: Count all sizes of all dependencies
 package.dependencies.categorized.map do |d|
   component_type = if d.required_component?
       # Required components
