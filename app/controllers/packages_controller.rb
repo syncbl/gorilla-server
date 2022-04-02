@@ -7,6 +7,7 @@ class PackagesController < ApplicationController
   # GET /packages
   # GET /packages.json
   def index
+    @edit = params[:edit] == 1
     @pagy, @packages =
       pagy_countless(policy_scope(Package), items: params[:items])
   end
