@@ -3,21 +3,11 @@ require "rails_helper"
 RSpec.describe Package::Bundle, type: :model do
   # it_behaves_like :blockable
 
-  let(:user) do
-    create(:user1)
-  end
-  let(:component1) do
-    create(:component1, user:)
-  end
-  let(:component2) do
-    create(:component2, user:)
-  end
-  let(:bundle1) do
-    create(:bundle1, user:)
-  end
-  let(:bundle2) do
-    create(:bundle2, user:)
-  end
+  let(:user) { create(:user1) }
+  let(:component1) { create(:component1, user:) }
+  let(:component2) { create(:component2, user:) }
+  let(:bundle1) { create(:bundle1, user:) }
+  let(:bundle2) { create(:bundle2, user:) }
 
   context "with components" do
     # describe "With components" do
