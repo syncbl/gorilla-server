@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :user1, class: 'User' do
+  factory :user1, class: "User" do
     fullname { "Test1 Test1" }
     name { "user1" }
     email { "user1@example.com" }
@@ -11,7 +11,7 @@ FactoryBot.define do
     end
   end
 
-  factory :user2, class: 'User' do
+  factory :user2, class: "User" do
     fullname { "Test2 Test2" }
     name { "user2" }
     email { "user2@example.com" }

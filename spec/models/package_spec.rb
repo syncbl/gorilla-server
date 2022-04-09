@@ -7,13 +7,13 @@ RSpec.describe Package, type: :model do
     create(:user1)
   end
   let(:component) do
-    create(:component1, user:)
+    create(:component1)
   end
   let(:bundle) do
-    create(:bundle1, user:)
+    create(:bundle1)
   end
   let(:external) do
-    create(:external1, user:)
+    create(:external1)
   end
 
   context "with package params" do
