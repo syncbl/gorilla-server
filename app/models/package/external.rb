@@ -4,8 +4,7 @@ class Package::External < Package
                  checksum: [:string],
                  switches: [:string],
                  uninstall: [:string],
-                 version: [:string],
-                 searcheable: [:boolean]
+                 version: [:string]
 
   # TODO: More validation messages
   validates :name,
@@ -31,10 +30,6 @@ class Package::External < Package
   validates :params, external_params: true
 
   before_validation :auto_publish, on: :create
-
-  scope :searcheable, -> {
-          not_blocked.published.params_where(searcheable: true)
-                      }
 
   def self.model_name
     Package.model_name

@@ -28,8 +28,4 @@ class Endpoint < ApplicationRecord
     settings.where(consistent: false).update(consistent: true)
     actual_settings
   end
-
-  def can_view?(object)
-    object.published? || user&.can_view?(object)
-  end
 end

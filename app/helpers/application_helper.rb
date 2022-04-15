@@ -71,13 +71,19 @@ module ApplicationHelper
     end
   end
 
-  def current_anyone
+  def current_resource
     # On session creation both values can be present, so it's important
     # to start check with current_endpoint.
     current_endpoint || current_user
   end
 
+  def current_anyone
+    # On session creation both values can be present, so it's important
+    # to start check with current_endpoint.
+    current_endpoint&.user || current_user
+  end
+
   def authenticate_with_token!
-    response.set_header('Access-Token', current_anyone.reset_token!)
+    response.set_header('Access-Token', current_resource.reset_token!)
   end
 end

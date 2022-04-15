@@ -93,3 +93,9 @@ Lint/EmptyBlock:
 
 Layout/IndentationWidth:
   Enabled: false
+
+Layout/BlockAlignment:
+  Enabled: false
+
+Rails/Output:
+  Enabled: false

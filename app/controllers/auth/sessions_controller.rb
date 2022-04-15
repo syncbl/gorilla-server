@@ -1,5 +1,6 @@
 class Auth::SessionsController < Devise::SessionsController
-  after_action :authenticate_with_token!, only: :create
+  after_action :authenticate_with_token!, only: :create,
+                                          if: -> { request.format.json? }
 
   def create
     respond_to do |format|
@@ -15,10 +16,10 @@ class Auth::SessionsController < Devise::SessionsController
         else
           id = params.dig("endpoint", "id")
           @endpoint = if id.present?
-                        Endpoint.find(id)
-                      else
-                        Endpoint.new
-                      end
+              Endpoint.find(id)
+            else
+              Endpoint.new
+            end
           @endpoint.update(
             {
               user: current_user,

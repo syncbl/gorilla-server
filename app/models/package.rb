@@ -61,6 +61,16 @@ class Package < ApplicationRecord
             }
   validates_with PackageValidator
 
+  scope :searcheable_for, ->(user) {
+          not_blocked
+            .published
+            .where(type: [Package::Bundle.name, Package::External.name])
+            .where(private: false).or(
+              where(user:)
+            )
+            .order(:private)
+        }
+
   def recalculate_size!
     old_size = size
     self.size = 0
@@ -76,7 +86,8 @@ class Package < ApplicationRecord
   end
 
   def filtered_params
-    params.except(:searcheable).compact
+    # TODO: Fill this method
+    params.except(:test).compact
   end
 
   def self.subtypes

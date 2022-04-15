@@ -75,6 +75,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       # t.references :replacement, type: :uuid, index: true,
       #                           foreign_key: { to_table: :packages }
 
+      t.boolean :private, default: true
       t.datetime :published_at
       t.datetime :blocked_at
       t.string :block_reason

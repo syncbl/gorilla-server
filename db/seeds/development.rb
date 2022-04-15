@@ -15,7 +15,7 @@ u2 =
 u1.plans.create!
 u2.plans.create!
 
-Rails.logger.debug Package::External.create!(
+puts Package::External.create!(
   [
     {
       name: "openssl-1_0",
@@ -23,6 +23,7 @@ Rails.logger.debug Package::External.create!(
       short_description: "Test package",
       user: u1,
       external_url: "https://www.heidisql.com/installers/HeidiSQL_11.0.0.5919_Setup.exe",
+      private: false
     },
     {
       name: "Openssl-2_0",
@@ -30,11 +31,12 @@ Rails.logger.debug Package::External.create!(
       short_description: "Test package",
       user: u1,
       external_url: "https://www.7-zip.org/a/7z1900-x64.exe",
+      private: false
     },
   ],
 )
 
-Rails.logger.debug Package::Component.create!(
+puts Package::Component.create!(
   [
     {
       name: "Openssl-1_1",
@@ -71,7 +73,7 @@ Rails.logger.debug Package::Component.create!(
   ],
 )
 
-Rails.logger.debug Package::Bundle.create!(
+puts Package::Bundle.create!(
   [
     {
       name: "openssl-dev",
@@ -81,6 +83,7 @@ Rails.logger.debug Package::Bundle.create!(
       user: u1,
       root: :system_root,
       path: "TEST1",
+      private: false
     },
     {
       name: "openssl-dev-2",
@@ -90,6 +93,7 @@ Rails.logger.debug Package::Bundle.create!(
       user: u1,
       root: :system_root,
       path: "TEST1",
+      private: false
     },
   ],
 )

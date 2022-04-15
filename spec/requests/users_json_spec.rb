@@ -13,16 +13,20 @@ require "rails_helper"
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
 RSpec.describe User, type: :request do
-  let(:valid_response) do
-    { user: {
-      name: "user1",
-    } }
+  let!(:user) { create(:user1) }
+
+  before do
+    sign_in user
   end
 
   describe "GET /show.json" do
+    let(:valid_response) do
+      { user: {
+        name: "user1",
+      } }
+    end
+
     it "renders a successful response" do
-      user = create(:user1)
-      sign_in user
       get user_url(format: :json)
       expect(response).to be_successful
       expect(JSON.parse(response.body)).to include_json(valid_response)
