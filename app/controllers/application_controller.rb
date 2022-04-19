@@ -55,12 +55,16 @@ class ApplicationController < ActionController::Base
       head :upgrade_required
     else
       Rails.logger.warn "Forbidden request from #{request.remote_ip}"
+      # TODO: render_403 or show warning that account can or will be blocked
       head :forbidden
     end
   end
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: %i[fullname name locale])
+    devise_parameter_sanitizer.permit(
+      :sign_up,
+      keys: %i[fullname name locale],
+    )
     devise_parameter_sanitizer.permit(
       :account_update,
       keys: %i[fullname name locale],

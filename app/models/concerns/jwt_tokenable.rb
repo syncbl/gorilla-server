@@ -32,7 +32,7 @@ module JwtTokenable
     base.class_eval do
       has_event :reset, skip_scopes: true
 
-      validate :update_reseted_at, if: :authentication_token_changed?
+      before_save :update_reseted_at, if: :authentication_token_changed?
 
       private
 

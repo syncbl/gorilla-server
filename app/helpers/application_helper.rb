@@ -78,8 +78,6 @@ module ApplicationHelper
   end
 
   def current_anyone
-    # On session creation both values can be present, so it's important
-    # to start check with current_endpoint.
     current_endpoint&.user || current_user
   end
 
