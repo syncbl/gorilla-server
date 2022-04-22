@@ -91,8 +91,10 @@ group :development do
   gem "rubocop"
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
+  gem 'rubocop-performance', require: false
   gem "solargraph"
   gem "rufo"
+  gem "reek"
 end
 
 group :production do

@@ -10,7 +10,7 @@ class ApplicationRecord < ActiveRecord::Base
 
   def action_log(message = "")
     @action_logger ||= Logger.new(Rails.root.join("log/actions.log"))
-    @action_logger.info "#{self.class.name}, #{caller[0][/`.*'/][1..-2]} #{id} #{message}"
+    @action_logger.info "#{self.class.name}, #{caller(1..1).first[/`.*'/][1..-2]} #{id} #{message}"
       .strip
   end
 

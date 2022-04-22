@@ -68,7 +68,7 @@ class User < ApplicationRecord
   end
 
   def used_space
-    packages.map(&:size).sum
+    packages.sum(&:size)
   end
 
   private
