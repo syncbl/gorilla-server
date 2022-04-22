@@ -1,6 +1,5 @@
 module ApplicationHelper
   include Pagy::Frontend
-  include Api::Cache
 
   def alert_for(flash_type)
     {
@@ -69,19 +68,5 @@ module ApplicationHelper
     else
       render json: { error: messages }, status:
     end
-  end
-
-  def current_resource
-    # On session creation both values can be present, so it's important
-    # to start check with current_endpoint.
-    current_endpoint || current_user
-  end
-
-  def current_anyone
-    current_endpoint&.user || current_user
-  end
-
-  def authenticate_with_token!
-    response.set_header('Access-Token', current_resource.reset_token!)
   end
 end

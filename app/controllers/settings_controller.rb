@@ -2,6 +2,7 @@ class SettingsController < ApplicationController
   include PackagesHelper
 
   # Settings can be used by user only within packages/endpoints
+  before_action :authenticate_user!
   before_action :authenticate_endpoint!
   before_action :set_setting, except: %i[index create]
   before_action :set_package, only: :create

@@ -2,6 +2,7 @@ class PackagesController < ApplicationController
   include PackagesHelper
 
   before_action :authenticate_user!, except: %i[show search]
+  before_action :forbid_for_endpoint!, only: %i[create update destroy]
   before_action :set_package, except: %i[index new create search]
 
   # GET /packages
@@ -95,7 +96,7 @@ class PackagesController < ApplicationController
     if params[:q].present? && params[:q].size >= MIN_NAME_LENGTH
       @pagy, @packages =
         pagy(
-          Package.searcheable_for(current_anyone).search_by_text(params[:q]),
+          Package.searcheable_for(current_user).search_by_text(params[:q]),
           items: params[:items],
         )
       render :index

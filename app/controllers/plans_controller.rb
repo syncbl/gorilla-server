@@ -1,5 +1,6 @@
 class PlansController < ApplicationController
   before_action :authenticate_user!
+  before_action :forbid_for_endpoint!
   before_action :set_plan, only: %i[show]
 
   # GET /plans/1

@@ -1,7 +1,7 @@
 # TODO: Username to User
 
 json = {
-  available: current_anyone.can_view?(setting.package),
+  available: current_user.can_view?(setting.package),
   consistent: setting.consistent,
   params: setting.package.filtered_params,
 }

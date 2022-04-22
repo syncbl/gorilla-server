@@ -2,7 +2,6 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
   include Pagy::Backend
   include Pundit::Authorization
-  include Api::Token
   include Authenticatable
 
   before_action :skip_session, if: -> { request.format.json? }
@@ -74,7 +73,7 @@ class ApplicationController < ActionController::Base
   def set_locale
     session[:locale] ||=
       # TODO: Request locale (but errors must be in user's locale)
-      current_endpoint&.locale || current_user&.locale ||
+      current_resource&.locale ||
       http_accept_language.compatible_language_from(I18n.available_locales) ||
       I18n.default_locale.to_s
     I18n.locale = session[:locale]
@@ -82,9 +81,5 @@ class ApplicationController < ActionController::Base
 
   def skip_session
     request.session_options[:drop] = true
-  end
-
-  def pundit_user
-    current_endpoint&.user || current_user
   end
 end

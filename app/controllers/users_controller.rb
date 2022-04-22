@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
+  before_action :forbid_for_endpoint!, only: %i[update]
   before_action :set_user
 
   # GET /users/1

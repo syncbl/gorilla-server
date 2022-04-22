@@ -20,6 +20,8 @@ RSpec/MultipleExpectations:
 
 Style/StringLiterals:
   Enabled: false
+  EnforcedStyle: double_quotes
+  ConsistentQuotesInMultiline: true
 
 Style/StringLiteralsInInterpolation:
   Enabled: false
