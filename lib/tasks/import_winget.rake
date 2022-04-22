@@ -53,7 +53,6 @@ namespace :import do
       p.caption = name
       p.short_description = y["ShortDescription"].truncate(MAX_SHORT_DESCRIPTION_LENGTH)
       p.external_url = y["Installers"][0]["InstallerUrl"]
-      p.private = false
       if y["InstallerSwitches"]
         p.switches = y["InstallerSwitches"]["Silent"] || y["InstallerSwitches"]["SilentWithProgress"]
       end

@@ -1,8 +1,8 @@
 module SourcesHelper
   def write_tmp(file)
-    tmpfilename = Dir::Tmpname.create(%w[source- .tmp]) {}
-    File.open(tmpfilename, "wb") { |tmpfile| tmpfile.binwrite(file.read) }
-    tmpfilename
+    Dir::Tmpname.create(%w[source- .tmp]) do |path|
+      File.open(path, "wb") { |tmpfile| tmpfile.binwrite(file.read) }
+    end
   end
 
   def source_exists?(user, size, checksum)
@@ -15,5 +15,12 @@ module SourcesHelper
     )
       Source.find_by(id: ids.record_id, package: { user: })
     end
+  end
+
+  def check_source_exists
+    return unless source_exists?(current_user, file_params[:file].size, params[:checksum])
+
+    # TODO: Link to source
+    flash[:warning] = I18n.t("warnings.attributes.source.file_already_exists")
   end
 end

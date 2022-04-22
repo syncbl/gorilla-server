@@ -6,6 +6,7 @@ FactoryBot.define do
     short_description { "Test" }
     description { "Test package" }
     path { "TEST1" }
+    published_at { Time.current }
   end
 
   factory :component2, class: 'Package::Component' do
@@ -25,6 +26,7 @@ FactoryBot.define do
     description { "Test package" }
     root { :system_root }
     path { "TEST1" }
+    published_at { Time.current }
   end
 
   factory :bundle2, class: 'Package::Bundle' do

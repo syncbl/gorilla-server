@@ -23,7 +23,6 @@ puts Package::External.create!(
       short_description: "Test package",
       user: u1,
       external_url: "https://www.heidisql.com/installers/HeidiSQL_11.0.0.5919_Setup.exe",
-      private: false
     },
     {
       name: "Openssl-2_0",
@@ -31,7 +30,6 @@ puts Package::External.create!(
       short_description: "Test package",
       user: u1,
       external_url: "https://www.7-zip.org/a/7z1900-x64.exe",
-      private: false
     },
   ],
 )
@@ -83,7 +81,6 @@ puts Package::Bundle.create!(
       user: u1,
       root: :system_root,
       path: "TEST1",
-      private: false
     },
     {
       name: "openssl-dev-2",
@@ -93,7 +90,6 @@ puts Package::Bundle.create!(
       user: u1,
       root: :system_root,
       path: "TEST1",
-      private: false
     },
   ],
 )

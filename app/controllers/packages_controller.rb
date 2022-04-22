@@ -16,7 +16,8 @@ class PackagesController < ApplicationController
   # GET /packages/1
   # GET /packages/1.json
   def show
-    authorize @package, policy_class: PackagePolicy
+    # TODO: Allow show for not logged in users
+    authorize @package
   end
 
   # GET /packages/new

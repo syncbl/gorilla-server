@@ -15,22 +15,31 @@ require "rails_helper"
 RSpec.describe Package, type: :request do
   let!(:user) { create(:user1) }
   let!(:package) { create(:bundle1, user:) }
-
-  before do
-    sign_in user
+  let!(:valid_response) do
+    {
+      name: "#{package.user.name}/#{package.name}",
+    }
   end
 
   describe "GET /search.json" do
-    let!(:valid_response) do
-      {
-        name: "#{package.user.name}/#{package.name}",
-      }
+    context "when signed in" do
+      before do
+        sign_in user
+      end
+
+      it "renders a successful response" do
+        get search_packages_url(q: "Bundle", format: :json)
+        expect(response).to be_successful
+        expect(JSON.parse(response.body)["packages"][0]).to include_json(valid_response)
+      end
     end
 
-    it "renders a successful response" do
-      get search_packages_url(q: "Bundle", format: :json)
-      expect(response).to be_successful
-      expect(JSON.parse(response.body)["packages"][0]).to include_json(valid_response)
+    context "when not signed in" do
+      it "renders a successful response" do
+        get search_packages_url(q: "Bundle", format: :json)
+        expect(response).to be_successful
+        expect(JSON.parse(response.body)["packages"][0]).to include_json(valid_response)
+      end
     end
   end
 end

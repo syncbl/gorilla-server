@@ -78,7 +78,19 @@ Style/Documentation:
 Naming/VariableNumber:
   Enabled: false
 
-Metrics:
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
   Enabled: false
 
 Layout/EndOfLine:
@@ -88,9 +100,6 @@ Lint/MissingSuper:
   Enabled: false
 
 Lint/AssignmentInCondition:
-  Enabled: false
-
-Lint/EmptyBlock:
   Enabled: false
 
 Layout/IndentationWidth:

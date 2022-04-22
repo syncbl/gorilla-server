@@ -92,7 +92,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_16_150508) do
     t.bigint "size", default: 0, null: false
     t.bigint "settings_count", default: 0, null: false
     t.uuid "user_id", null: false
-    t.boolean "private", default: true
     t.datetime "published_at", precision: nil
     t.datetime "blocked_at", precision: nil
     t.string "block_reason"

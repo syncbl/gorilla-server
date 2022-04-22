@@ -63,12 +63,11 @@ class Package < ApplicationRecord
 
   scope :searcheable_for, ->(user) {
           not_blocked
-            .published
             .where(type: [Package::Bundle.name, Package::External.name])
-            .where(private: false).or(
+            .published.or(
               where(user:)
             )
-            .order(:private)
+            .order(published_at: :desc)
         }
 
   def recalculate_size!

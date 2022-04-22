@@ -2,7 +2,6 @@ class SourcesController < ApplicationController
   include SourcesHelper
   before_action :authenticate_user!
   before_action :set_source, except: %i[index new create merge]
-  before_action :check_file_params, only: %i[create]
 
   # GET /sources
   def index
@@ -30,20 +29,17 @@ class SourcesController < ApplicationController
     # Params removed from create() because user must fill fields only after creation
     @package = policy_scope(Package).find(file_params[:package_id])
     authorize @package, :show?, policy_class: PackagePolicy
-    if source = source_exists?(current_user, file_params[:file].size, params[:checksum])
-      # TODO: Link to source
-      flash[:warning] = I18n.t("warnings.attributes.source.file_already_exists")
-    end
-    @source = @package.sources.create
+    check_source_exists
+    @source = @package.sources.new
     respond_to do |format|
       if @source.save
         ProcessSourceJob.perform_later @source, write_tmp(file_params[:file])
         format.html do
-          redirect_to [@source.package, @source],
-                      notice: "Source was successfully created."
+          redirect_to [@package, @source],
+                      notice: "You will receive notification when source is ready."
         end
         format.json do
-          render :show, status: :created, location: [@source.package, @source]
+          render :show, status: :created, location: [@package, @source]
         end
       else
         format.html { render :new }
@@ -118,16 +114,12 @@ class SourcesController < ApplicationController
     end
   end
 
-  def check_file_params
-    %i[package_id file checksum].all? { |s| params[s].present? }
-  end
-
   # Only allow a trusted parameter "white list" through.
   def source_params
     params.require(:source).permit(:description)
   end
 
   def file_params
-    params.require(:file, :package_id)
+    params.require(:file, :package_id, :checksum)
   end
 end
