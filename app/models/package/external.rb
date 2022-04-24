@@ -6,20 +6,6 @@ class Package::External < Package
                  uninstall: [:string],
                  version: [:string]
 
-  # TODO: More validation messages
-  validates :name,
-            name_restrict: true,
-            presence: true,
-            length: {
-              minimum: MIN_NAME_LENGTH,
-              maximum: MAX_NAME_LENGTH,
-            },
-            uniqueness: {
-              case_sensitive: false,
-            },
-            format: {
-              with: NAME_FORMAT,
-            }
   validates :external_url,
             format: {
               with: URI::DEFAULT_PARSER.make_regexp(%w[https http]),

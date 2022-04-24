@@ -56,7 +56,6 @@ class Package < ApplicationRecord
   validates :caption,
             presence: true,
             length: {
-              minimum: MIN_NAME_LENGTH,
               maximum: MAX_NAME_LENGTH,
             }
   validates_with PackageValidator

@@ -14,7 +14,7 @@ class Endpoint < ApplicationRecord
   has_many :packages, through: :settings
   has_many :notifications, as: :recipient, dependent: :destroy
 
-  validates :name, length: { maximum: MAX_NAME_LENGTH }
+  validates :caption, length: { maximum: MAX_NAME_LENGTH }
   validates :locale, length: { maximum: 10 }
   validates :authentication_token,
             allow_nil: true, length: { is: 24 }

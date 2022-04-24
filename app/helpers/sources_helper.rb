@@ -1,7 +1,7 @@
 module SourcesHelper
   def write_tmp(file)
     Dir::Tmpname.create(%w[source- .tmp]) do |path|
-      File.open(path, "wb") { |tmpfile| tmpfile.binwrite(file.read) }
+      File.binwrite(path, file.read)
     end
   end
 
@@ -13,7 +13,8 @@ module SourcesHelper
         checksum:,
       ),
     )
-      Source.find_by(id: ids.record_id, package: { user: })
+      Source.includes(:package)
+            .find_by(id: ids.last&.record_id, package: { user: })
     end
   end
 

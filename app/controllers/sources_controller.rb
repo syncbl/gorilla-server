@@ -120,6 +120,9 @@ class SourcesController < ApplicationController
   end
 
   def file_params
-    params.require(:file, :package_id, :checksum)
+    %i[file package_id checksum]
+      .each_with_object(params) do |key, obj|
+      obj.require(key)
+    end
   end
 end

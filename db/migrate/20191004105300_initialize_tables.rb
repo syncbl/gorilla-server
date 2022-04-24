@@ -30,7 +30,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
     # ----------
     create_table :endpoints, id: :uuid do |t|
-      t.string :name
+      t.string :caption
       t.inet :remote_ip
       t.string :locale
 

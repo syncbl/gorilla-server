@@ -66,7 +66,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_16_150508) do
   end
 
   create_table "endpoints", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "name"
+    t.string "caption"
     t.inet "remote_ip"
     t.string "locale"
     t.string "authentication_token"

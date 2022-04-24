@@ -17,9 +17,7 @@ class Source < ApplicationRecord
               less_than: MAX_FILE_SIZE,
             }
   validates :caption,
-            presence: true,
             length: {
-              minimum: MIN_NAME_LENGTH,
               maximum: MAX_NAME_LENGTH,
             }
   validates :description,

@@ -111,3 +111,6 @@ Layout/BlockAlignment:
 
 Rails/Output:
   Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
