@@ -12,7 +12,7 @@ module ApplicationHelper
     ] || flash_type.to_s
   end
 
-  def title(object)
+  def page_title(object)
     case object
     when Package
       if current_user&.owner?(object)
@@ -21,9 +21,11 @@ module ApplicationHelper
         "#{object.user.name}/#{object.name}"
       end
     when Endpoint
-      object.name
+      object.caption
     when User
       object.fullname
+    else
+      "Syncbl"
     end
   end
 

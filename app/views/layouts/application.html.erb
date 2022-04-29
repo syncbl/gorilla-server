@@ -28,7 +28,7 @@
       <% end %>
       <% if user_signed_in? %>
         # TODO: notifications expand
-        <% current_user&.notifications(only: USER_NOTIFICATIONS).each do |msg| %>
+        <% current_user.notifications(only: USER_NOTIFICATIONS).each do |msg| %>
           <%= content_tag :div, msg[:message], class: ["alert", "alert-info"] %>
         <% end %>
       <% end %>

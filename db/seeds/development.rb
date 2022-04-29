@@ -147,9 +147,9 @@ p1.dependent_packages << p2
 p.dependent_packages << p2
 p.publish!
 
-Endpoint.create! name: "Test2",
+Endpoint.create! caption: "Test2",
                  user: u1,
                  id: "253307f5-0e4f-4a76-9b04-da35ba6345d5"
-e = Endpoint.create! name: "Test5", user: User.last
+e = Endpoint.create! caption: "Test5", user: User.last
 # TODO: To tests
 e.packages << Package::Bundle.find_by(name: "openssl-dev")
