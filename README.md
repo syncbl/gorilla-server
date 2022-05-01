@@ -1,7 +1,7 @@
 <div id="top"></div>
 
 ![Status][status-shield]
-[![License)][license-shield]][license-url]
+[![License][license-shield]][license-url]
 
 <br />
 <div align="center">
@@ -14,51 +14,59 @@
 <!-- ABOUT THE PROJECT -->
 # Syncbl Server
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
+There are thousands of installers (no, really, look at the [TUF project](https://theupdateframework.io/), they say so), but this one is special. Its backend is designed to quickly calculate package dependencies, push updates, and process everything in between. I am trying to add security to it, but so far it is not at the highest level and together we will fix that.
+
+My own applications which uses this API are still proprietary, though, because I have to make money on something, but some of them will also be published in the future.
+
+I hope this project will be useful for someone, and I also hope that for someone my best practices there can become useful and motivating. Let's write the best installer in the world together!
+
+Its idea was born when my wife once again demanded map for good old Heroes 3 sfe loves and I decided to find a way to quickly deliver them to her. First of all, it is designed to install add-ons for any games very easily and cool. But that's not all!
+
+Philosophy is not only to quickly install, update or share software with one message, but also quickly remove it without leaving any parts behind. Of course, this depends on the implementation of the clients, but the backend provides everything for this.
+
+Anyway, to be honest, I just love the good old filling progress bars and just wanted to try my hand at something big.
 
 <p align="right">
 (<a href="#top">back to top</a>)</p>
 
-<!-- GETTING STARTED -->
-## Getting Started
-
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
-### Prerequisites
+### Installation
 
 This is an example of how to list things you need to use the software and how to install them.
-* npm
+* In before
   ```sh
-  npm install npm@latest -g
+  sudo apt install git curl libssl-dev libreadline-dev zlib1g-dev autoconf bison build-essential libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm-dev libpq-dev
   ```
+* NodeJS for assets
+  ```
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+  nvm install --lts
+  nvm use --lts
+  npm install --global yarn # Because gentlemen uses Yarn
+  ```
+* Rbenv to install Ruby
+  ```
+  curl -fsSL https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-installer | bash
+  echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+  echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+  source ~/.bashrc
+  git clone https://github.com/rbenv/ruby-build.git
+  PREFIX=/usr/local sudo ./ruby-build/install.sh
+  rbenv global 3.1.2
+  ```
+* Final preparations, after you will clone the project
+  ```
+  bundle install
+  rake db:create db:migrate db:seed
+  ```
+
+You will also need Redis and Memcached installed, one for streaming push messages and a second for caching. And Nginx, because some magic tricks is dependent from it. What I did forgot? Hmm...
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/github_username/repo_name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-<p align="right">(<a href="#top">back to top</a>)</p>
+Well, I definitely will fill this section, but so far just copy and edit all `config/*.sample.yml`, create corresponding users in your PostgreSQL database, set up your S3 environment (or just change destination to `disk` in `config/storage.yml`) and run `rails s` to check is everything ok.
 
 <!-- ROADMAP -->
 ## Roadmap
@@ -67,6 +75,8 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 - [ ] Feature 2
 - [ ] Feature 3
     - [ ] Nested Feature
+
+...Because, I have no idea so far. I mean, in my own Jira its like 100+ tickets right now, but I will move them to issues and features when I will be ready.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -88,7 +98,7 @@ If you have a suggestion that would make this better, please fork the repo and c
 <!-- LICENSE -->
 ## License
 
-Distributed under the Microsoft Public License, see `LICENSE` for more information.
+Distributed under the Microsoft Public License, see `LICENSE` for more information. I'm not really sure right now, may be this will be changed in a future.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -98,6 +108,15 @@ Distributed under the Microsoft Public License, see `LICENSE` for more informati
 Eldar Avatov - [@e1.avat](https://facebook.com/e1.avat) - eldar@syncbl.com
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+## My own gratitude
+
+I really need to thank all of the family, friends and collegues, who encouraged me during my work on that project. And my awesome team, which are, so far:
+
+- Dmitry Ivanov (awesomest frontend magician)
+- Maksim Sysoev (master of applications)
+
+And of course [Provectus Inc.](https://provectus.com/), because they inspires me in so many levels, thank you so much and I love you, guys!
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
