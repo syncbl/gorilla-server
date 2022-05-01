@@ -17,13 +17,13 @@ class User < ApplicationRecord
   enumerize :plan, in: %i[personal pro business unlimited], scope: true
   has_secure_token :authentication_token
   attribute :token
-  translates :disclaimer
 
   # TODO: encrypts :email, deterministic: true, downcase: true
 
   has_many :packages, dependent: :destroy
   has_many :endpoints, dependent: :destroy
-  has_many :subscriptions, dependent: :nullify
+  has_many :plans, dependent: :nullify
+  has_many :notifications, as: :recipient, dependent: :destroy
 
   validates :email,
             format: {
@@ -56,7 +56,7 @@ class User < ApplicationRecord
   before_validation :generate_name
 
   def active_for_authentication?
-    super && !self.blocked?
+    super && !blocked?
   end
 
   def authenticatable_salt
@@ -64,20 +64,20 @@ class User < ApplicationRecord
   end
 
   def inactive_message
-    !self.blocked? ? super : :blocked
+    blocked? ? :blocked : super
   end
 
   def used_space
-    packages.without_package_type(:external).map(&:size).sum
+    packages.sum(&:size)
   end
 
   private
 
   def generate_name
     if name.blank?
-      name = "#{self.email[/^[^@]+/]}"
+      name = email[/^[^@]+/].to_s
       self.name =
-        User.find_by(name: name).nil? ? name : "#{name}#{rand(10_000)}"
+        User.find_by(name:).nil? ? name : "#{name}#{rand(10_000)}"
     end
     self.name.downcase!
   end

@@ -15,7 +15,7 @@ Rails.application.routes.draw do
       end
     end
     collection do
-      post :search
+      get :search
     end
   end
   # TODO: current_endpoint only for single term
@@ -34,14 +34,14 @@ Rails.application.routes.draw do
   end
   root to: "packages#index" # TODO: products#landing?
 
-  #namespace :api, defaults: { format: :json }, constraints: { subdomain: 'api' }, path: '/' do
+  # namespace :api, defaults: { format: :json }, constraints: { subdomain: 'api' }, path: '/' do
   #  list of resources
-  #end
+  # end
 
   # This routes is only for non-API GET requests and must be in the end of route list
 
-  get :user, to: "users#profile"
+  resource :user, only: %i[show edit update]
   get ":user_id/:package_id", to: "packages#show"
   get ":id", to: "users#show"
-  #match '*path', to: 'packages#show', via: [:get, :post]
+  # match '*path', to: 'packages#show', via: [:get, :post]
 end

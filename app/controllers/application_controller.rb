@@ -1,40 +1,21 @@
 class ApplicationController < ActionController::Base
   include ApplicationHelper
   include Pagy::Backend
-  include Pundit
-  include Api::Cache
+  include Pundit::Authorization
+  include Authenticatable
 
+  before_action :skip_session, if: -> { request.format.json? }
   protect_from_forgery with: :exception, unless: -> { request.format.json? }
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :api_check_headers, if: -> { request.format.json? }
   before_action :set_locale
+  after_action :authenticate_with_token!, if: -> {
+                                            request.format.json? &&
+                                              current_resource&.token_needs_reset?
+                                          }
 
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
   rescue_from Pundit::NotAuthorizedError, with: :render_403
-
-  protected
-
-  def render_403
-    respond_to do |format|
-      format.html { render "errors/403", layout: "errors", status: :forbidden }
-      format.json { render_json_error I18n.t("errors.messages.forbidden"), status: :forbidden }
-    end
-  end
-
-  def render_404
-    respond_to do |format|
-      format.html { render "errors/404", layout: "errors", status: :not_found }
-      format.json { render_json_error I18n.t("errors.messages.not_found"), status: :not_found }
-    end
-  end
-
-  def render_json_error(messages, status:)
-    if messages.is_a? Array
-      render json: { errors: messages }, status: status
-    else
-      render json: { error: messages }, status: status
-    end
-  end
 
   private
 
@@ -51,17 +32,19 @@ class ApplicationController < ActionController::Base
     end
 
     if Api::Keys.new.find(service)
-      if scope == "Endpoint"
+      case scope
+      when "Endpoint"
         unless sign_in_endpoint cached_endpoint(uuid, token)
           render_json_error I18n.t("devise.failure.unauthenticated"),
                             status: :unauthorized
         end
         if current_endpoint.remote_ip != request.remote_ip
-          Rails.logger.warn "Endpoint #{current_endpoint.id} IP changed from #{current_endpoint.remote_ip} to #{request.remote_ip}"
+          Rails.logger.warn "Endpoint #{current_endpoint.id} IP changed " \
+                            "from #{current_endpoint.remote_ip} to #{request.remote_ip}"
           current_endpoint.update(remote_ip: request.remote_ip,
                                   reseted_at: nil)
         end
-      elsif scope == "User"
+      when "User"
         unless sign_in cached_user(uuid, token)
           render_json_error I18n.t("devise.failure.unauthenticated"),
                             status: :unauthorized
@@ -71,28 +54,16 @@ class ApplicationController < ActionController::Base
       head :upgrade_required
     else
       Rails.logger.warn "Forbidden request from #{request.remote_ip}"
+      # TODO: render_403 or show warning that account can or will be blocked
       head :forbidden
     end
   end
 
-  def decode_token(token)
-    payload =
-      JWT
-        .decode(
-          token,
-          Rails.application.credentials.jwt_secret,
-          true,
-          { algorithm: "HS256" },
-        )
-        .first
-        .with_indifferent_access
-    return payload[:scope], payload[:uuid], payload[:token]
-  rescue JWT::ExpiredSignature, JWT::DecodeError
-    nil
-  end
-
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: %i[fullname name locale])
+    devise_parameter_sanitizer.permit(
+      :sign_up,
+      keys: %i[fullname name locale],
+    )
     devise_parameter_sanitizer.permit(
       :account_update,
       keys: %i[fullname name locale],
@@ -101,13 +72,14 @@ class ApplicationController < ActionController::Base
 
   def set_locale
     session[:locale] ||=
-      current_endpoint&.locale || current_user&.locale ||
-        http_accept_language.compatible_language_from(I18n.available_locales) ||
-        I18n.default_locale.to_s
+      # TODO: Request locale (but errors must be in user's locale)
+      current_resource&.locale ||
+      http_accept_language.compatible_language_from(I18n.available_locales) ||
+      I18n.default_locale.to_s
     I18n.locale = session[:locale]
   end
 
-  def pundit_user
-    current_anyone
+  def skip_session
+    request.session_options[:drop] = true
   end
 end

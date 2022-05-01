@@ -1,15 +1,10 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_user, except: %i[profile]
+  before_action :forbid_for_endpoint!, only: %i[update]
+  before_action :set_user
 
   # GET /users/1
   def show; end
-
-  # GET /user
-  def profile
-    @user = current_user
-    render :show
-  end
 
   # GET /users/1/edit
   def edit; end
@@ -20,7 +15,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.update(user_params)
         format.html do
-          redirect_to @user, notice: 'User was successfully updated.'
+          redirect_to user_url, notice: 'User was successfully updated.'
         end
         format.json { render :show, status: :ok, location: @user }
       else
@@ -42,6 +37,6 @@ class UsersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params.fetch(:user, {})
+    params.require(:user).permit(:fullname)
   end
 end

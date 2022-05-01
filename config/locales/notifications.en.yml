@@ -3,26 +3,31 @@ en:
   errors:
     attributes:
       package:
-        dependency:
-          external: Cannot add components for external package
-          forbidden: This component can't be accessed by package owner
-          itself: Package can't be dependent on itself
-          used: Can't delete component used in another package
-        replacement:
-          itself: Package can't be replaced by itself
-          not_published: Replacement must be published
-          old: Replacement must be newer than original package
+        path_not_relative: Component path must be relative to bundle's path
+        path_is_empty: Path can't be empty for this type of package
+        root_is_empty: Root folder must be set for this type of package
+        external_url_is_empty: You need to set URL for the external package
+      dependency:
+        external: Cannot add components for external package
+        forbidden: This component can't be accessed by package owner
+        itself: Package can't be dependent on itself
+        used: Can't delete component used in another package
       source:
-        limit_reached: You have exceeded the space available for your subscription
-        packed_file_too_big: 'File is too big: %{name}:%{size}'
+        limit_reached: You have exceeded the space available for your plan
+        packed_file_too_big: "File is too big: %{name}:%{size}"
         packed_files_too_many: Too many files
+        illegal_file: Hacking is illegal, don't you know that?
+        last_cannot_be_partial: Can't make last source partial
+      setting:
+        component_without_bundle: Can't install component without corresponding bundle
+        no_active_plan: Package maintainer have no active plan
     block_reasons:
       suspicious_attachment: Suspicious files found!
     messages:
       cannot_publish: Cannot validate for publication
       locked_published: Cannot change published items
       name_restrict: is restricted
-      no_subscription: There are no active subscription for this action
+      no_plan: There are no active plan for this action
       search_query_error: Search query is wrong
       url_is_not_allowed: This URL protocol is not supported
       link_not_exists: Cannot find this file in repository

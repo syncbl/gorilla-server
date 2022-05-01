@@ -10,7 +10,7 @@ RESTRICTED_PATHS = %w[
   /wordpress/wp-login.php
   /srs6/serv/urn:verificationservices
   /ecp/Current/exporttool/microsoft.exchange.ediscovery.exporttool.application
-]
+].freeze
 
 RESTRICTED_PATHS_STARTS = %w[
   /Autodiscover/
@@ -24,7 +24,7 @@ RESTRICTED_PATHS_STARTS = %w[
   /mifs/
   /admin/
   /wordpress/
-]
+].freeze
 
 class Rack::Attack::Request < ::Rack::Request
   def localhost?
@@ -32,28 +32,36 @@ class Rack::Attack::Request < ::Rack::Request
   end
 end
 
-class Rack::Attack
-  def self.block_ip(ip)
-    Api::Redis.new.pool.with { |redis| redis.set("Blocked_IP.#{ip}") }
-  end
-end
-
-Rack::Attack.blocklisted_response = lambda do |request|
+Rack::Attack.blocklisted_responder = lambda do |_env|
   # Redirect to nginx 444
-  [302, { "Location": "/x" }, []]
+  [302, { Location: "/x" }, []]
 end
 
-Rack::Attack.throttle("API requests by IP", limit: 5, period: 1) do |request|
+Rack::Attack.throttled_responder = lambda do |env|
+  # Name and other data about the matched throttle
+  body = [
+    env['rack.attack.matched'],
+    env['rack.attack.match_type'],
+    env['rack.attack.match_data']
+  ].inspect
+
+  # Using 503 because it may make attacker think that they have successfully
+  # DOSed the site. Rack::Attack returns 429 for throttling by default
+  # [ 503, {}, [body]]
+end
+
+Rack::Attack.throttle("API requests by IP", limit: 100, period: 1.minute) do |request|
   request.ip if request.path.downcase.ends_with?(".json")
-end
-
-Rack::Attack.blocklist("Block IP from cache") do |request|
-  Api::Redis.new.pool.with { |redis| redis.get("Blocked_IP.#{request.ip}") }
 end
 
 Rack::Attack.blocklist("Malicious scanners") do |request|
   # Requests are blocked if the return value is truthy
-  request.path == "/x" || # Because this path is reserved for Nginx blocking
-    RESTRICTED_PATHS.include?(request.path.downcase) ||
-    RESTRICTED_PATHS_STARTS.any? { |s| request.fullpath.starts_with?(s) }
+  Rack::Attack::Fail2Ban.filter("scanners-#{request.ip}",
+                                maxretry: 2,
+                                findtime: 10.minutes,
+                                bantime: 1440.minutes) do
+    request.path == "/x" || # Because this path is reserved for Nginx blocking
+      RESTRICTED_PATHS.include?(request.path.downcase) ||
+      RESTRICTED_PATHS_STARTS.any? { |s| request.fullpath.starts_with?(s) }
+  end
 end

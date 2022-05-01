@@ -1,24 +1,24 @@
-<%= simple_form_for package,
-  wrapper: :horizontal_form,
-  wrapper_mappings: {
-    boolean:       :horizontal_boolean,
-    check_boxes:   :horizontal_collection,
-    date:          :horizontal_multi_select,
-    datetime:      :horizontal_multi_select,
-    file:          :horizontal_file,
-    radio_buttons: :horizontal_collection,
-    range:         :horizontal_range,
-    time:          :horizontal_multi_select
-  } do |f| %>
+<%= simple_form_for @package,
+                   wrapper: :horizontal_form,
+                   wrapper_mappings: {
+                     boolean: :horizontal_boolean,
+                     check_boxes: :horizontal_collection,
+                     date: :horizontal_multi_select,
+                     datetime: :horizontal_multi_select,
+                     file: :horizontal_file,
+                     radio_buttons: :horizontal_collection,
+                     range: :horizontal_range,
+                     time: :horizontal_multi_select,
+                   } do |f| %>
 
-    <%#= f.error_notification %>
+    <% #= f.error_notification %>
     <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-
+    <%= f.input :type, collection: Package.subtypes %>
     <%= f.input :name %>
 
-    <%# TODO: = s3_uploader_form callback_url: nil, callback_param: "model[image_url]", id: "s3-uploader" do %>
-      <%#= file_field_tag :file, multiple: false %>
-    <%# end %>
+    <% # TODO: = s3_uploader_form callback_url: nil, callback_param: "model[image_url]", id: "s3-uploader" do %>
+      <% #= file_field_tag :file, multiple: false %>
+    <% # end %>
 
     <div class="actions form-group row mb-0">
       <div class="col-sm-9 offset-sm-3">

@@ -6,31 +6,20 @@ class Package::External < Package
                  uninstall: [:string],
                  version: [:string]
 
-  # TODO: More validation messages
-  validates :name,
-            name_restrict: true,
-            presence: true,
-            length: {
-              minimum: MIN_NAME_LENGTH,
-              maximum: MAX_NAME_LENGTH,
-            },
-            uniqueness: {
-              case_sensitive: false,
-            },
-            format: {
-              with: NAME_FORMAT,
-            }
   validates :external_url,
             format: {
-              with: URI.regexp(%w[https http]),
+              with: URI::DEFAULT_PARSER.make_regexp(%w[https http]),
               message: I18n.t("errors.messages.url_is_not_allowed"),
             },
             length: { maximum: 2048 },
             presence: true
+  validates :params, external_params: true
 
-  before_validation :set_type, on: :create
+  before_validation :auto_publish, on: :create
 
-  default_scope { with_package_type(:external) }
+  def self.model_name
+    Package.model_name
+  end
 
   def publishable?
     external_url.present?
@@ -38,9 +27,7 @@ class Package::External < Package
 
   private
 
-  def set_type
-    self.package_type = :external
-    # TODO: ?
+  def auto_publish
     self.published_at = Time.current
   end
 end

@@ -1,22 +1,12 @@
 json = {}
 
-new_token = current_anyone&.reset_token
-
-if new_token.present?
-  json[:session] = {
-    token: new_token,
-  }
-end
-
-unless @pagy.nil?
+if @pagy
   json[:page] = @pagy.page
   json[:pages] = @pagy.pages
   json[:from] = @pagy.from
   json[:to] = @pagy.to
 end
 
-if @object && @object.errors.any?
-  json[:errors] = @object
-end
+json[:errors] = object.errors.full_messages if defined?(object) && object.errors.any?
 
 json

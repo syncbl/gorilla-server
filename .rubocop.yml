@@ -1,0 +1,116 @@
+require:
+  - rubocop-rails
+  - rubocop-rspec
+  - rubocop-performance
+
+AllCops:
+  NewCops: enable
+  Exclude:
+    - db/**/*
+    - config/**/*
+    - node_modules/**/*
+    - bin/**/*
+    - Gemfile
+
+# TODO: Enable!
+Rails/I18nLocaleTexts:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+Style/StringLiterals:
+  Enabled: false
+  EnforcedStyle: double_quotes
+  ConsistentQuotesInMultiline: true
+
+Style/StringLiteralsInInterpolation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/TrailingCommaInHashLiteral:
+  Enabled: false
+
+Style/TrailingCommaInArguments:
+  Enabled: false
+
+Layout/ElseAlignment:
+  Enabled: false
+
+Lint/UselessAssignment:
+  Enabled: false
+
+Layout/EndAlignment:
+  Enabled: false
+
+Layout/AccessModifierIndentation:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/RedundantReturn:
+  Enabled: false
+
+Style/TrailingCommaInArrayLiteral:
+  Enabled: false
+
+Style/Lambda:
+  Enabled: false
+
+Style/HashAsLastArrayItem:
+  Enabled: false
+
+Lint/RedundantDirGlobSort:
+  Enabled: false
+
+Style/SoleNestedConditional:
+  Enabled: false
+
+Rails/EagerEvaluationLogMessage:
+  Enabled: false
+
+Style/Documentation:
+  # TODO: Enable
+  Enabled: false
+
+Naming/VariableNumber:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Layout/EndOfLine:
+  Enabled: false
+
+Lint/MissingSuper:
+  Enabled: false
+
+Lint/AssignmentInCondition:
+  Enabled: false
+
+Layout/IndentationWidth:
+  Enabled: false
+
+Layout/BlockAlignment:
+  Enabled: false
+
+Rails/Output:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false

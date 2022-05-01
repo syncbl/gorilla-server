@@ -13,5 +13,3 @@ en:
           external: Cannot add components for external package
         package:
           attributes:
-            replacement:
-              itself: Package can't be replaced by itself

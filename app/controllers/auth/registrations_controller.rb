@@ -1,4 +1,7 @@
 class Auth::RegistrationsController < Devise::RegistrationsController
+  after_action :authenticate_with_token!, only: :create,
+                                          if: -> { request.format.json? }
+
   def create
     respond_to do |format|
       format.any(*navigational_formats) { super }
@@ -11,8 +14,8 @@ class Auth::RegistrationsController < Devise::RegistrationsController
           sign_in @user
           render "users/show"
         else
-          #puts @user.errors.to_json
-          #render json: @user.errors, status: :unauthorized
+          # puts @user.errors.to_json
+          # render json: @user.errors, status: :unauthorized
           render_json_error @user.errors.full_messages, status: :unauthorized
         end
       end

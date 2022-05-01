@@ -10,11 +10,11 @@ default: &default
 
 development:
   <<: *default
-  database: gpapi_dev
+  database: syncbl_dev
 
 test:
   <<: *default
-  database: gpapi_test
+  database: syncbl_test
 
 production:
   <<: *default

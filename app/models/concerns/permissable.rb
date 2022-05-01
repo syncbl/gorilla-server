@@ -3,12 +3,12 @@ module Permissable
 
   # TODO: Add purchasing feature and rules
 
-  def is_owner?(object)
+  def owner?(object)
     object.user == self
   end
 
   def can_edit?(object)
-    is_owner?(object)
+    owner?(object)
   end
 
   def can_view?(object)

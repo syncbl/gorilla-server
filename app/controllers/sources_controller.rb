@@ -2,7 +2,6 @@ class SourcesController < ApplicationController
   include SourcesHelper
   before_action :authenticate_user!
   before_action :set_source, except: %i[index new create merge]
-  before_action :check_file_params, only: %i[create]
 
   # GET /sources
   def index
@@ -22,24 +21,25 @@ class SourcesController < ApplicationController
   # GET /sources/1/edit
   def edit; end
 
+  # TODO: DirectUpload must be used here, but we still need to process the file
+  # URL must be checked to be from S3 server.
+
   # POST /sources
   def create
     # Params removed from create() because user must fill fields only after creation
-    @package = policy_scope(Package).find(params[:package_id])
-    authorize @package, policy_class: PackagePolicy
-    if source = source_exists?(current_user, params[:file].size, params[:checksum])
-      # TODO: Link to source
-      current_user.notify :flash_alert, @package, I18n.t("warnings.attributes.source.file_already_exists")
-    end
+    @package = policy_scope(Package).find(file_params[:package_id])
+    authorize @package, :show?, policy_class: PackagePolicy
+    check_source_exists
+    @source = @package.sources.new
     respond_to do |format|
-      if @source = @package.sources.create(size: params[:file].size)
-        ProcessSourceJob.perform_later @source, write_tmp(params[:file])
+      if @source.save
+        ProcessSourceJob.perform_later @source, write_tmp(file_params[:file])
         format.html do
-          redirect_to [@source.package, @source],
-                      notice: "Source was successfully created."
+          redirect_to [@package, @source],
+                      notice: "You will receive notification when source is ready."
         end
         format.json do
-          render :show, status: :created, location: [@source.package, @source]
+          render :show, status: :created, location: [@package, @source]
         end
       else
         format.html { render :new }
@@ -91,13 +91,12 @@ class SourcesController < ApplicationController
     @package = policy_scope(Package).find(params[:package_id])
     respond_to do |format|
       format.html do
-        # TODO: Normal response
         if @package.sources.merged?
           head :unprocessable_entity
         else
           MergeSourcesJob.perform_later policy_scope(Package).find(
-                                          params[:package_id],
-                                        )
+            params[:package_id],
+          )
           head :accepted
         end
       end
@@ -109,19 +108,21 @@ class SourcesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_source
-    @source =
-      policy_scope(Package)
-        .find_by(package_id: params[:package_id])
-        &.sources
-        .find(params[:id])
-  end
-
-  def check_file_params
-    %i[package_id file checksum].all? { |s| params[s].present? }
+    if @package = policy_scope(Package)
+       .find_by(package_id: params[:package_id])
+      @source = @package.sources.find(params[:id])
+    end
   end
 
   # Only allow a trusted parameter "white list" through.
   def source_params
     params.require(:source).permit(:description)
+  end
+
+  def file_params
+    %i[file package_id checksum]
+      .each_with_object(params) do |key, obj|
+      obj.require(key)
+    end
   end
 end

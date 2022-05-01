@@ -12,29 +12,20 @@ class Endpoint < ApplicationRecord
   belongs_to :user, optional: true
   has_many :settings, dependent: :destroy
   has_many :packages, through: :settings
+  has_many :notifications, as: :recipient, dependent: :destroy
 
-  validates :name, length: { maximum: MAX_NAME_LENGTH }
+  validates :caption, length: { maximum: MAX_NAME_LENGTH }
   validates :locale, length: { maximum: 10 }
   validates :authentication_token,
             allow_nil: true, length: { is: 24 }
 
-  default_scope {
-    joins(:user)
-  }
-
   def installed?(package)
-    settings.exists?(package: package)
-  end
-
-  def install(package)
-    settings.create(package: package)
+    settings.exists?(package:)
   end
 
   def actualized_settings(packages, timestamp)
-    ActualizedSettingsQuery.call(self, packages, timestamp)
-  end
-
-  def can_view?(object)
-    object.published? || user&.can_view?(object)
+    actual_settings = ActualizedSettingsService.call(self, packages, timestamp)
+    settings.where(consistent: false).update(consistent: true)
+    actual_settings
   end
 end

@@ -6,21 +6,20 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     # ----------
     create_table :users, id: :uuid do |t|
       t.string :fullname
-      t.jsonb :disclaimer_translations, null: false, default: { "en": "" }
 
-      t.citext :name, null: false, index: true, unique: true
+      t.citext :name, null: false, index: { unique: true }
       t.string :locale
       t.string :plan, index: true
 
-      #t.boolean :trusted, default: false
-      #t.boolean :admin, default: false
-      #t.boolean :developer, default: false
+      # t.boolean :trusted, default: false
+      # t.boolean :admin, default: false
+      # t.boolean :developer, default: false
       # TODO: Purchases table for user or company
       # TODO: Referrals: t.references :invited_by, type: :uuid, index: true,
       # foreign_key: { to_table: :user }
       # TODO: Is company? Show other info.
 
-      t.string :authentication_token, index: true, unique: true
+      t.string :authentication_token, index: { unique: true }
 
       t.datetime :blocked_at
       t.string :block_reason
@@ -31,13 +30,13 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
     # ----------
     create_table :endpoints, id: :uuid do |t|
-      t.string :name
+      t.string :caption
       t.inet :remote_ip
       t.string :locale
 
       # TODO: Store PC parameters here
 
-      t.string :authentication_token, index: true, unique: true
+      t.string :authentication_token, index: { unique: true }
 
       t.references :user, type: :uuid, index: true, foreign_key: true
 
@@ -50,7 +49,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
     # ----------
     create_table :categories do |t|
-      t.jsonb :caption_translations, null: false, default: { "en": "" }
+      t.jsonb :caption_translations, null: false
 
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
@@ -59,11 +58,11 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     # ----------
     create_table :packages, id: :uuid do |t|
       t.citext :name, null: false
-      t.string :package_type, index: true, null: false
+      t.string :type, index: true, null: false
 
-      t.jsonb :caption_translations, null: false, default: { "en": "" }
-      t.jsonb :short_description_translations, null: false, default: { "en": "" }
-      t.jsonb :description_translations, null: false, default: { "en": "" }
+      t.jsonb :caption_translations, null: false
+      t.jsonb :short_description_translations, null: false, default: { en: "" }
+      t.jsonb :description_translations, null: false, default: { en: "" }
 
       t.jsonb :params, null: false, default: {}
 
@@ -73,8 +72,8 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       # TODO: Copyrignt and else in t.jsonb :data
       t.references :user, type: :uuid, index: true, null: false,
                           foreign_key: true
-      t.references :replacement, type: :uuid, index: true,
-                                 foreign_key: { to_table: :packages }
+      # t.references :replacement, type: :uuid, index: true,
+      #                           foreign_key: { to_table: :packages }
 
       t.datetime :published_at
       t.datetime :blocked_at
@@ -92,20 +91,22 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.references :dependent_package, type: :uuid, index: true, null: false,
                                        foreign_key: { to_table: :packages }
       t.references :category, index: true, foreign_key: true
-      t.boolean :is_optional, null: false, default: false
+      t.boolean :optional, null: false, default: false
       t.datetime :created_at, null: false, default: -> { "CURRENT_TIMESTAMP" }
+
       t.index %i[package_id dependent_package_id], unique: true
     end
 
     # ----------
     create_table :sources, id: :uuid do |t|
-      # TODO: What to do with file: run, unpack, exec
-      t.jsonb :description_translations, null: false, default: { "en": "" }
+      t.jsonb :caption_translations, null: false, default: { en: "" }
+      t.jsonb :description_translations, null: false, default: { en: "" }
       t.string :version
       t.jsonb :files, null: false, default: {}
       t.jsonb :delete_files, null: false, default: []
       t.bigint :unpacked_size, null: false, default: 0
-      t.boolean :is_merged, null: false, default: false
+      t.boolean :merged, null: false, default: false
+      t.boolean :partial, null: false, default: false
       t.bigint :settings_count, null: false, default: 0
 
       t.references :package, type: :uuid, index: true, null: false, foreign_key: true
@@ -123,9 +124,11 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       t.references :endpoint, type: :uuid, index: true, null: false, foreign_key: true
       t.references :package, type: :uuid, index: true, null: false, foreign_key: true
-      #t.references :source, type: :uuid, index: true, foreign_key: true
+      # t.references :source, type: :uuid, index: true, foreign_key: true
 
       t.jsonb :data
+      t.boolean :consistent, null: false, default: true
+      t.boolean :active, null: false, default: true
 
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
       t.datetime :updated_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
@@ -135,7 +138,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
     # ----------
     create_table :products do |t|
-      t.references :package, type: :uuid, index: true, unique: true, null: false, foreign_key: true
+      t.references :package, type: :uuid, null: false, foreign_key: true, index: { unique: true }
 
       # Price, license, etc.
       # TODO: validation mark like t.datetime :validated_at
@@ -144,7 +147,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     end
 
     # ----------
-    create_table :subscriptions do |t|
+    create_table :plans do |t|
       t.references :user, type: :uuid, index: true, null: false, foreign_key: true
 
       # Payment info

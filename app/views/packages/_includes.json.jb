@@ -1,12 +1,15 @@
 json = {}
 
-json[:params] = package.filtered_params
-unless package.package_type.external?
-  json[:sources] = render "layouts/attachments", package: package
+json[:params] = package.params.compact
+
+unless package.external?
+  json[:sources] = package.sources.preloaded.published.map do |source|
+    # TODO: Only unmerged can be unpublished and unpublished must be all of them
+    render "sources/show", source:
+  end
 end
 
-# TODO: Limit by time > last update
-# TODO: Do we need packages? May be only components?
+# TODO: Count all sizes of all dependencies
 package.dependencies.categorized.map do |d|
   component_type = if d.required_component?
       # Required components
@@ -22,8 +25,7 @@ package.dependencies.categorized.map do |d|
       :optional_packages
     end
   d.dependent_package.category = d.category
-  json[component_type] ||= []
-  json[component_type] << (render "packages/show", package: d.dependent_package)
+  (json[component_type] ||= []) << (render "packages/short", package: d.dependent_package)
 end
 
 json

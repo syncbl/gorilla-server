@@ -1,4 +1,5 @@
 class ProductsController < ApplicationController
+  before_action :forbid_for_endpoint!
   before_action :set_product, only: %i[show edit update destroy]
 
   # GET /products

@@ -11,7 +11,7 @@ minio: &minio
   bucket: <%= Rails.application.credentials.dig(:aws, :bucket) %>
   force_path_style: true
 
-internal:
+local:
   <<: *disk
 
 external:

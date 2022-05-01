@@ -1,6 +1,7 @@
 class EndpointsController < ApplicationController
-  before_action :authenticate_user!, only: %i[index destroy]
-  before_action :set_endpoint, only: %i[show update clone]
+  before_action :authenticate_user!
+  before_action :forbid_for_endpoint!, only: %i[index destroy]
+  before_action :authenticate_endpoint!, only: %i[show update clone]
 
   # GET /endpoints
   # GET /endpoints.json
@@ -12,8 +13,9 @@ class EndpointsController < ApplicationController
   # GET /endpoints/1
   # GET /endpoints/1.json
   def show
-    authorize @endpoint
-    @endpoint.touch
+    # TODO: Not the best way to do that.
+    authorize @endpoint unless @endpoint == current_endpoint
+    # TODO: @endpoint.touch
   end
 
   # POST /endpoints.json
@@ -22,15 +24,12 @@ class EndpointsController < ApplicationController
     respond_to do |format|
       format.html { head :method_not_allowed }
       format.json do
-        @endpoint = Endpoint.new
-        @endpoint.update(
-          {
-            name: endpoint_params[:name],
-            user: current_user,
-            remote_ip: request.remote_ip,
-            locale: I18n.default_locale.to_s,
-          },
-        )
+        @endpoint = Endpoint.create!({
+                                       name: endpoint_params[:name],
+                                       user: current_user,
+                                       remote_ip: request.remote_ip,
+                                       locale: I18n.default_locale,
+                                     })
         sign_in_endpoint @endpoint
         render :show, status: :created, location: @endpoint
       end
@@ -81,8 +80,11 @@ class EndpointsController < ApplicationController
   # POST /endpoint/clone
   # POST /endpoint/clone.json
   def clone
-    from_endpoint = params[:from_endpoint_id] ? Endpoint.find(params[:from_endpoint_id]) :
-      Endpoint.where.not(id: @endpoint.id).order(updated_at: :desc).first
+    from_endpoint = if params[:from_endpoint_id]
+        Endpoint.find(params[:from_endpoint_id])
+      else
+        Endpoint.where.not(id: @endpoint.id).order(updated_at: :desc).first
+      end
     CloneEndpointService.call(from_endpoint, @endpoint)
     respond_to do |format|
       format.html do
@@ -93,11 +95,6 @@ class EndpointsController < ApplicationController
   end
 
   private
-
-  # Use callbacks to share common setup or constraints between actions.
-  def set_endpoint
-    @endpoint = current_endpoint || Endpoint.find(params[:id])
-  end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def endpoint_params

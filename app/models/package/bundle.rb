@@ -1,20 +1,15 @@
-class Package::Bundle < Package
-  include ParamAwareable
-
+class Package::Bundle < Package::Internal
   jsonb_accessor :params,
-                 uninstall: [:string]
+                 uninstall: [:string],
+                 root: [:string], # TODO: Default value?
+                 # TODO: Main applications dictionary?
+                 main_application_reg_key: [:string],
+                 require_administrator: [:boolean],
+                 require_restart: [:boolean]
 
-  before_validation :set_type, on: :create
+  enumerize :root, in: ROOT_ENUMERATOR
 
-  default_scope { with_package_type(:bundle) }
-
-  def publishable?
-    true
-  end
-
-  private
-
-  def set_type
-    self.package_type = :bundle
+  def self.model_name
+    Package.model_name
   end
 end

@@ -1,15 +1,15 @@
 class EndpointPolicy
   include ApplicationHelper
 
-  attr_reader :endpoint, :record
+  attr_reader :user, :record
 
-  def initialize(endpoint, record)
-    @endpoint = endpoint
+  def initialize(user, record)
+    @user = user
     @record = record
   end
 
   def show?
-    @endpoint == current_endpoint || @endpoint.user&.is_owner?(@record)
+    @user.owner?(@record)
   end
 
   def update?

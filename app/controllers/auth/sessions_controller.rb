@@ -1,4 +1,7 @@
 class Auth::SessionsController < Devise::SessionsController
+  after_action :authenticate_with_token!, only: :create,
+                                          if: -> { request.format.json? }
+
   def create
     respond_to do |format|
       format.any(*navigational_formats) { super }
@@ -12,14 +15,19 @@ class Auth::SessionsController < Devise::SessionsController
           render "users/show"
         else
           id = params.dig("endpoint", "id")
-          @endpoint = id.present? ?
-            Endpoint.find(params.dig("endpoint", "id")) : Endpoint.new
-          @endpoint.update({
-            user: current_user,
-            name: params.dig("endpoint", "name"),
-            remote_ip: request.remote_ip,
-            locale: current_user.locale,
-          })
+          @endpoint = if id.present?
+              Endpoint.find(id)
+            else
+              Endpoint.new
+            end
+          @endpoint.update(
+            {
+              user: current_user,
+              name: params.dig("endpoint", "name"),
+              remote_ip: request.remote_ip,
+              locale: current_user.locale,
+            }
+          )
           sign_in_endpoint @endpoint
           render "endpoints/show"
         end

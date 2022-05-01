@@ -1,7 +1,11 @@
 json = {
   id: source.id,
-  description: source.description,
   version: source.version,
+  caption: source.caption,
+  description: source.description,
+  size: source.unpacked_size,
+  h_size: number_to_human_size(source.unpacked_size),
+  partial: source.partial?,
   files: source.files,
   delete_files: source.delete_files,
   created_at: source.created_at.to_i,

@@ -2,24 +2,33 @@ class SettingsController < ApplicationController
   include PackagesHelper
 
   # Settings can be used by user only within packages/endpoints
-  before_action :set_endpoint
+  before_action :authenticate_user!
+  before_action :authenticate_endpoint!
   before_action :set_setting, except: %i[index create]
+  before_action :set_package, only: :create
 
   # GET /endpoints/1/settings
   def index
-    packages = params[:packages]&.split(",")
-      .select { |p| UUID_FORMAT.match?(p) } || []
+    packages = if params[:packages]
+        params[:packages].split(",")
+                         .grep(UUID_FORMAT)
+      else
+        []
+      end
     @settings = @endpoint.actualized_settings(packages, params[:t])
   end
 
   # GET /endpoints/1/settings/1
-  def show; end
+  def show
+    authorize @setting
+  end
 
   # POST /endpoints/1/settings
   def create
-    package = find_package_by_params
+    authorize @package, :show?, policy_class: PackagePolicy
+    @setting = PackageInstallService.call(@package, @endpoint)
     respond_to do |format|
-      if @setting = @endpoint.install(package)
+      if @setting.persisted?
         format.html do
           redirect_to [@endpoint, @setting],
                       notice: "Package soon will be installed."
@@ -38,7 +47,7 @@ class SettingsController < ApplicationController
 
   # PATCH/PUT /endpoints/1/settings/1
   def update
-    respond_to do |format|
+    respond_to do |_format|
       if @setting.update(setting_params)
         redirect_to [@endpoint, @setting],
                     notice: "Setting was successfully updated."
@@ -76,14 +85,12 @@ class SettingsController < ApplicationController
     @setting = @endpoint.settings.find_by!(package_id: params[:id])
   end
 
-  def set_endpoint
-    @endpoint =
-      current_endpoint ||
-        Endpoint.find_by!(id: params[:endpoint_id], user: current_user)
+  # Only allow a trusted parameter "white list" through.
+  def setting_params
+    params.require(:setting).permit(:id, :consistent)
   end
 
-  # Only allow a trusted parameter "white list" through.
-  #def setting_params
-  #  params.permit(:id, :updates)
-  #end
+  def set_package
+    @package = find_package_by_params
+  end
 end
