@@ -283,6 +283,13 @@ GEM
       racc (~> 1.4)
     orm_adapter (0.5.0)
     pagy (3.11.0)
+    panolint (0.1.4)
+      brakeman (>= 4.8, < 6.0)
+      rubocop (>= 0.83, < 2.0)
+      rubocop-performance (~> 1.5)
+      rubocop-rails (~> 2.5)
+      rubocop-rake (~> 0.5)
+      rubocop-rspec (~> 2.0)
     parallel (1.22.1)
     parser (3.1.2.0)
       ast (~> 2.4.1)
@@ -399,6 +406,8 @@ GEM
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.7.0, < 2.0)
+    rubocop-rake (0.6.0)
+      rubocop (~> 1.0)
     rubocop-rspec (2.10.0)
       rubocop (~> 1.19)
     ruby-progressbar (1.11.0)
@@ -540,6 +549,7 @@ DEPENDENCIES
   memory_profiler
   net-smtp
   pagy (~> 3.8)
+  panolint
   pg (~> 1)
   pg_search
   puma (~> 5.5)

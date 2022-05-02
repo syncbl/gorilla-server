@@ -71,6 +71,7 @@ group :development, :test do
   gem "debug", ">= 1.0.0"
   gem "bundler-audit"
   gem "brakeman"
+  gem "panolint"
 end
 
 group :development do
