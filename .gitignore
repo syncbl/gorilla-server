@@ -70,7 +70,6 @@ yarn-debug.log*
 /public/uploads
 
 /coverage/
-.ruby-version
 .solargraph.yml
 /config/database.yml
 /config/nginx/*
