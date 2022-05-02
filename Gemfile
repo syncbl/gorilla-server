@@ -69,6 +69,8 @@ group :development, :test do
   gem "shoulda-matchers"
   gem "rspec-json_expectations"
   gem "debug", ">= 1.0.0"
+  gem "bundler-audit"
+  gem "brakeman"
 end
 
 group :development do
@@ -87,7 +89,6 @@ group :development do
   gem "rack-mini-profiler"
   gem "memory_profiler"
   gem "rails_best_practices"
-  gem "brakeman"
   gem "rubocop"
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
