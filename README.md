@@ -32,6 +32,15 @@ Anyway, to be honest, I just love the good old filling progress bars and just wa
 <!-- PREREQUISITES -->
 ### Prerequisites
 
+You will need:
+* NodeJS
+* Ruby 3.1.0
+* Redis
+* Memcached
+* PostgreSQL
+* (optional) Nginx for some RACK magic
+
+Detailed installation steps:
 * In before
   ```sh
   sudo apt install git curl libssl-dev libreadline-dev zlib1g-dev autoconf bison build-essential libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm-dev libpq-dev
@@ -54,15 +63,16 @@ Anyway, to be honest, I just love the good old filling progress bars and just wa
   source ~/.bashrc
   git clone https://github.com/rbenv/ruby-build.git
   PREFIX=/usr/local sudo ./ruby-build/install.sh
-  rbenv global 3.1.2
+  rbenv install 3.1.0
   ```
 * Final preparations, after you will clone the project
   ```
   bundle install
+  yarn install
   rake db:create db:migrate db:seed
   ```
 
-You will also need Redis and Memcached installed, one for streaming push messages and a second for caching. And Nginx, because some magic tricks is dependent from it. What I did forgot? Hmm...
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- INSTALLATION -->
 ### Installation
