@@ -6,9 +6,10 @@ class Auth::RegistrationsController < Devise::RegistrationsController
     respond_to do |format|
       format.any(*navigational_formats) { super }
       format.json do
-        @user = User.new(registration_params)
-        @user.locale = http_accept_language.compatible_language_from(I18n.available_locales)
-        @user.reseted_at = Time.current
+        @user = User.new(registration_params) do |user|
+          user.locale = http_accept_language.compatible_language_from(I18n.available_locales)
+          user.reseted_at = Time.current
+        end
         # TODO: Check registration error here, fullname?
         if @user.save
           sign_in @user

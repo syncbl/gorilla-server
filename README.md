@@ -20,18 +20,18 @@ My own applications which uses this API are still proprietary, though, because I
 
 I hope this project will be useful for someone, and I also hope that for someone my best practices there can become useful and motivating. Let's write the best installer in the world together!
 
-Its idea was born when my wife once again demanded map for good old Heroes 3 sfe loves and I decided to find a way to quickly deliver them to her. First of all, it is designed to install add-ons for any games very easily and cool. But that's not all!
+First of all, it is designed to install add-ons for any games very easily and cool. Its idea was born when my wife once again demanded map for good old Heroes 3 she loves and I decided to find a way to quickly deliver them to her. But that's not all!
 
-Philosophy is not only to quickly install, update or share software with one message, but also quickly remove it without leaving any parts behind. Of course, this depends on the implementation of the clients, but the backend provides everything for this.
+Syncbl is not only allows easy install, update and share software, but also helps quickly remove it without leaving any parts behind. Of course, this depends on the implementation of the clients, but the backend provides everything for this.
 
 Anyway, to be honest, I just love the good old filling progress bars and just wanted to try my hand at something big.
 
 <p align="right">
 (<a href="#top">back to top</a>)</p>
 
-### Installation
+<!-- PREREQUISITES -->
+### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
 * In before
   ```sh
   sudo apt install git curl libssl-dev libreadline-dev zlib1g-dev autoconf bison build-essential libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm-dev libpq-dev
@@ -64,6 +64,7 @@ This is an example of how to list things you need to use the software and how to
 
 You will also need Redis and Memcached installed, one for streaming push messages and a second for caching. And Nginx, because some magic tricks is dependent from it. What I did forgot? Hmm...
 
+<!-- INSTALLATION -->
 ### Installation
 
 Well, I definitely will fill this section, but so far just copy and edit all `config/*.sample.yml`, create corresponding users in your PostgreSQL database, set up your S3 environment (or just change destination to `disk` in `config/storage.yml`) and run `rails s` to check is everything ok.
@@ -116,7 +117,7 @@ I really need to thank all of the family, friends and collegues, who encouraged 
 - Dmitry Ivanov (awesomest frontend magician)
 - Maksim Sysoev (master of applications)
 
-And of course [Provectus Inc.](https://provectus.com/), because they inspires me in so many levels, thank you so much and I love you, guys!
+And of course [Provectus Inc.](https://provectus.com/), because they inspire me in so many levels! Thank you and I love you, guys!
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
