@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Sources", type: :request do
-  include Authenticatable
+  include AuthenticationHelper
 
   let!(:user) { create(:user1) }
   let!(:endpoint) { create(:endpoint1, user:) }
