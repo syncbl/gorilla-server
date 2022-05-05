@@ -32,37 +32,47 @@ Anyway, to be honest, I just love the good old filling progress bars and just wa
 <!-- PREREQUISITES -->
 ### Prerequisites
 
-* In before
-  ```sh
-  sudo apt install git curl libssl-dev libreadline-dev zlib1g-dev autoconf bison build-essential libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm-dev libpq-dev
-  ```
-* NodeJS for assets
-  ```
-  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
-  export NVM_DIR="$HOME/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-  nvm install --lts
-  nvm use --lts
-  npm install --global yarn # Because gentlemen uses Yarn
-  ```
-* Rbenv to install Ruby
-  ```
-  curl -fsSL https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-installer | bash
-  echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
-  echo 'eval "$(rbenv init -)"' >> ~/.bashrc
-  source ~/.bashrc
-  git clone https://github.com/rbenv/ruby-build.git
-  PREFIX=/usr/local sudo ./ruby-build/install.sh
-  rbenv global 3.1.2
-  ```
-* Final preparations, after you will clone the project
-  ```
-  bundle install
-  rake db:create db:migrate db:seed
-  ```
+You will need:
+* NodeJS
+* Ruby 3.1.0
+* Redis
+* Memcached
+* PostgreSQL
+* (optional) Nginx for some RACK magic
 
-You will also need Redis and Memcached installed, one for streaming push messages and a second for caching. And Nginx, because some magic tricks is dependent from it. What I did forgot? Hmm...
+<details>
+  <summary>Detailed installation steps</summary>
+  * In before
+    ```sh
+    sudo apt install git curl libssl-dev libreadline-dev zlib1g-dev autoconf bison build-essential libyaml-dev   libreadline-dev libncurses5-dev libffi-dev libgdbm-dev libpq-dev
+    ```
+  * NodeJS for assets
+    ```
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+    nvm install --lts
+    nvm use --lts
+    npm install --global yarn # Because gentlemen uses Yarn
+    ```
+  * Rbenv to install Ruby
+    ```
+    curl -fsSL https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-installer | bash
+    echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+    echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+    source ~/.bashrc
+    git clone https://github.com/rbenv/ruby-build.git
+    PREFIX=/usr/local sudo ./ruby-build/install.sh
+    rbenv install 3.1.0
+    ```
+  * Final preparations, after you will clone the project
+    ```
+    bundle install
+    yarn install
+    rake db:create db:migrate db:seed
+    ```
+</details>
 
 <!-- INSTALLATION -->
 ### Installation
