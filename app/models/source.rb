@@ -6,6 +6,7 @@ class Source < ApplicationRecord
   translates :description, :caption
 
   belongs_to :package, touch: true
+  belongs_to :ancestor, class_name: "Source", optional: true
   has_one_attached :file,
                    service: :external,
                    dependent: :purge_later

@@ -22,10 +22,4 @@ class Endpoint < ApplicationRecord
   def installed?(package)
     settings.exists?(package:)
   end
-
-  def actualized_settings(packages, timestamp)
-    actual_settings = ActualizedSettingsService.call(self, packages, timestamp)
-    settings.where(consistent: false).update(consistent: true)
-    actual_settings
-  end
 end

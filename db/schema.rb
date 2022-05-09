@@ -136,7 +136,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_16_150508) do
     t.uuid "endpoint_id", null: false
     t.uuid "package_id", null: false
     t.jsonb "data"
-    t.boolean "consistent", default: true, null: false
     t.boolean "active", default: true, null: false
     t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -158,11 +157,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_16_150508) do
     t.boolean "partial", default: false, null: false
     t.bigint "settings_count", default: 0, null: false
     t.uuid "package_id", null: false
+    t.uuid "ancestor_id"
     t.datetime "published_at", precision: nil
     t.datetime "blocked_at", precision: nil
     t.string "block_reason"
     t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["ancestor_id"], name: "index_sources_on_ancestor_id"
     t.index ["created_at"], name: "index_sources_on_created_at"
     t.index ["package_id"], name: "index_sources_on_package_id"
     t.index ["updated_at"], name: "index_sources_on_updated_at"
@@ -204,4 +205,5 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_16_150508) do
   add_foreign_key "settings", "endpoints"
   add_foreign_key "settings", "packages"
   add_foreign_key "sources", "packages"
+  add_foreign_key "sources", "sources", column: "ancestor_id"
 end

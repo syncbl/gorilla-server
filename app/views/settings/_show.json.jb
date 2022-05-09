@@ -1,13 +1,14 @@
 # TODO: Username to User
 
+setting_active = current_user.can_view?(setting.package) && setting.active?,
+
 json = {
-  available: current_user.can_view?(setting.package),
-  consistent: setting.consistent,
+  active: setting_active
   params: setting.package.filtered_params,
 }
 
 json[:package] = render "packages/short", package: setting.package
 
-json.merge!(render("packages/includes", package: setting.package)) if json[:available]
+json.merge!(render("packages/includes", package: setting.package)) if setting_active
 
 json

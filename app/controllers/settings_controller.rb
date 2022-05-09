@@ -15,7 +15,7 @@ class SettingsController < ApplicationController
       else
         []
       end
-    @settings = @endpoint.actualized_settings(packages, params[:t])
+    @settings = ActualizedSettingsService.call(@endpoint, packages, params[:t])
   end
 
   # GET /endpoints/1/settings/1
@@ -87,7 +87,7 @@ class SettingsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def setting_params
-    params.require(:setting).permit(:id, :consistent)
+    params.require(:setting).permit(:id)
   end
 
   def set_package

@@ -24,25 +24,27 @@ class ActualizedSettingsService < ApplicationService
       @endpoint.notify_remove_package(s.package)
     end
 
-    # Mark settings with users without subscription as inconsistent
+    # Mark settings with users without subscription as inactive
+    # TODO: !!! Transmit Source ID to skip installed sources !!!
+    # We will get setting_id from it and chain the sources.
+    # If first source's ancestor != source_id, then we will run full resync.
+    # Timestamp will be deleted.
+
+    # Best way is to find source by id and then add .where(created_at: > @source.created_at)
+    # to get all the other sources
     @settings.includes(package: [user: :plans])
              .map do |s|
-      s.update(consistent: false, active: false) if s.active? && !s.package.user.plan.active?
-      s.update(active: true) if !s.active? && s.package.user.plan.active?
+      if s.active? != s.package.user.plan.active?
+        s.update(active: s.package.user.plan.active?)
+        @timestamp = Time.zone.at(0) if s.active?
+      end
     end
 
     # Only updated packages
     @settings.includes(:sources)
-             .where(active: true)
              .where(
-               consistent: true,
                package_id: @packages,
                sources: { published_at: @timestamp.. },
-             ).or(
-               where(
-                 consistent: false,
-                 package_id: @packages,
-               )
              )
 
     # TODO: We can exclude packages from users without plan, but then

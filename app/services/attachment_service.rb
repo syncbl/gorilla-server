@@ -21,6 +21,7 @@ class AttachmentService < ApplicationService
     )
     # It's a magic trick: before we save this source count of sources is 0
     @source.merged = true if @source.package.sources.size.zero?
+    @source.ancestor = @source.package.sources.second_to_last
     @source.save!
     @source.package.recalculate_size!
   ensure

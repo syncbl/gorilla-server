@@ -110,6 +110,8 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       t.bigint :settings_count, null: false, default: 0
 
       t.references :package, type: :uuid, index: true, null: false, foreign_key: true
+      t.references :ancestor, type: :uuid, index: true,
+        foreign_key: { to_table: :sources }
 
       t.datetime :published_at
       t.datetime :blocked_at
@@ -127,7 +129,6 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       # t.references :source, type: :uuid, index: true, foreign_key: true
 
       t.jsonb :data
-      t.boolean :consistent, null: false, default: true
       t.boolean :active, null: false, default: true
 
       t.datetime :created_at, index: true, null: false, default: -> { "CURRENT_TIMESTAMP" }
