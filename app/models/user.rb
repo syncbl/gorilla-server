@@ -2,7 +2,7 @@ class User < ApplicationRecord
   include Blockable
   include Permissable
   include Notifiable
-  include JwtTokenable
+  include TokenResetable
   include IdentityCache
   extend Enumerize
 
@@ -15,8 +15,6 @@ class User < ApplicationRecord
          :validatable
 
   enumerize :plan, in: %i[personal pro business unlimited], scope: true
-  has_secure_token :authentication_token
-  attribute :token
 
   # TODO: encrypts :email, deterministic: true, downcase: true
 
@@ -46,11 +44,9 @@ class User < ApplicationRecord
             format: {
               with: NAME_FORMAT,
             }
-  validates :fullname, length: { maximum: MAX_NAME_LENGTH }
-  validates :authentication_token,
-            allow_nil: true, # To allow token auto generation
+  validates :fullname,
             length: {
-              is: 24,
+              maximum: MAX_NAME_LENGTH
             }
 
   before_validation :generate_name

@@ -1,4 +1,4 @@
-module JwtTokenable
+module TokenResetable
   extend ActiveSupport::Concern
   require "jwt"
 
@@ -30,6 +30,11 @@ module JwtTokenable
 
   def self.included(base)
     base.class_eval do
+      has_secure_token :authentication_token
+      attribute :token
+      validates :authentication_token,
+                allow_nil: true,
+                length: { is: 24 }
       has_event :reset, skip_scopes: true
 
       before_save :update_reseted_at, if: :authentication_token_changed?
