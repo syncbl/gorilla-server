@@ -24,8 +24,8 @@ class ApplicationController < ActionController::Base
 
     service = request.headers["X-API-Service"]
     if request.headers["Authorization"].present?
-      scope, uuid, token = decode_token(request.headers["Authorization"])
-      unless uuid
+      scope, id, token = decode_token(request.headers["Authorization"])
+      unless id
         render_json_error I18n.t("devise.failure.timeout"),
                           status: :unauthorized
       end
@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
     if Api::Keys.new.find(service)
       case scope
       when "Endpoint"
-        unless sign_in_endpoint cached_endpoint(uuid, token)
+        unless sign_in_endpoint cache_fetch(Endpoint, id, token)
           render_json_error I18n.t("devise.failure.unauthenticated"),
                             status: :unauthorized
         end
@@ -45,7 +45,7 @@ class ApplicationController < ActionController::Base
                                   reseted_at: nil)
         end
       when "User"
-        unless sign_in cached_user(uuid, token)
+        unless sign_in cache_fetch(User, id, token)
           render_json_error I18n.t("devise.failure.unauthenticated"),
                             status: :unauthorized
         end

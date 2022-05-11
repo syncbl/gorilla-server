@@ -1,16 +1,12 @@
 module Authentication
-  def cached_endpoint(id, token)
-    endpoint = cache_fetch(Endpoint, id, token)
-    raise Pundit::NotAuthorizedError unless endpoint
-
-    endpoint
-  end
-
-  def cached_user(id, token)
-    user = cache_fetch(User, id, token)
-    raise Pundit::NotAuthorizedError unless user
-
-    user
+  def cache_fetch(model, id, token)
+    cached_instance = model.fetch(id)
+    if ActiveSupport::SecurityUtils.secure_compare(cached_instance&.authentication_token, token) &&
+       !cached_instance&.blocked?
+       cached_instance
+    else
+      raise Pundit::NotAuthorizedError
+    end
   end
 
   def current_user
@@ -21,7 +17,6 @@ module Authentication
     current_endpoint || devise_current_user
   end
 
-  # TODO: Avoid using local variable here, consider using session!
   def current_endpoint
     @sign_in_endpoint
   end
@@ -68,13 +63,5 @@ module Authentication
 
   def devise_current_user
     @devise_current_user ||= warden.authenticate(scope: :user)
-  end
-
-  def cache_fetch(model, id, token)
-    cached_model = model.fetch(id)
-    if ActiveSupport::SecurityUtils.secure_compare(cached_model&.authentication_token, token) &&
-       !cached_model&.blocked?
-      cached_model
-    end
   end
 end
