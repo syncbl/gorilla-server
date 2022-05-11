@@ -1,4 +1,4 @@
-module AuthenticationHelper
+module Authentication
   def cached_endpoint(id, token)
     endpoint = cache_fetch(Endpoint, id, token)
     raise Pundit::NotAuthorizedError unless endpoint

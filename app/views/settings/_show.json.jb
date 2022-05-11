@@ -2,10 +2,10 @@
 
 setting_active = current_user.can_view?(setting.package) && setting.active?,
 
-json = {
-  active: setting_active
-  params: setting.package.filtered_params,
-}
+                 json = {
+                   active: setting_active,
+                   params: setting.package.filtered_params,
+                 }
 
 json[:package] = render "packages/short", package: setting.package
 
