@@ -109,7 +109,7 @@ If you have a suggestion that would make this better, please fork the repo and c
 <!-- LICENSE -->
 ## License
 
-Distributed under the GNU GPLv3, see `LICENSE` for more information. I'm planning to go the GitLab way by making the app server mostly open except for subscription-only enterprise features. After leaving the early development stage, the server will be renamed and its functionality will be divided into services with separate licensing, both free and enterprise under subscription terms of service.
+Distributed under the GNU GPLv3, see `LICENSE` for more information. I plan to go the GitLab way: after leaving the early development stage, the server will be renamed and split into different parts, with the main core free under GNU GPLv3 and enterprise services under commercial license with subscription terms.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
