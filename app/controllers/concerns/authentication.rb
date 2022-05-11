@@ -34,7 +34,7 @@ module Authentication
     current_endpoint.present?
   end
 
-  def authenticate_with_token!
+  def reset_token!
     response.set_header('Access-Token', current_resource.reset_token!)
   end
 

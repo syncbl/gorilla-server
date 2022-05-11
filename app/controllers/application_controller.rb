@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :api_check_headers, if: -> { request.format.json? }
   before_action :set_locale
-  after_action :authenticate_with_token!, if: -> {
+  after_action :reset_token!, if: -> {
                                             request.format.json? &&
                                               current_resource&.token_needs_reset?
                                           }
