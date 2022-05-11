@@ -109,7 +109,7 @@ If you have a suggestion that would make this better, please fork the repo and c
 <!-- LICENSE -->
 ## License
 
-Distributed under the Microsoft Public License, see `LICENSE` for more information. I'm not really sure right now, may be this will be changed in a future.
+Distributed under the GNU GPLv3, see `LICENSE` for more information. I'm planning to go the GitLab way by making the app server mostly open except for subscription-only enterprise features. After leaving the early development stage, the server will be renamed and its functionality will be divided into services with separate licensing, both free and enterprise under subscription terms of service.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -131,6 +131,6 @@ And of course [Provectus Inc.](https://provectus.com/), because they inspire me 
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[license-shield]: https://img.shields.io/static/v1?label=license&message=microsoft%20public%20license&color=blue&style=for-the-badge
+[license-shield]: https://img.shields.io/static/v1?label=license&message=gnu%20gplv3&color=blue&style=for-the-badge
 [license-url]: https://gitlab.com/syncbl/server/blob/master/LICENSE
 [status-shield]: https://img.shields.io/static/v1?label=status&message=early%20development&color=red&style=for-the-badge
