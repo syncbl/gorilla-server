@@ -13,8 +13,9 @@ class Plan < ApplicationRecord
 
   scope :current,
         -> {
-          where(arel_table[:start_time].lt(Time.current)).where(
-            arel_table[:end_time].gt(Time.current),
+          where(
+            start_time: ..Time.current,
+            end_time: Time.current..
           )
         }
 

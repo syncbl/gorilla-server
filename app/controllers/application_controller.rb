@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
   include Pagy::Backend
   include Pundit::Authorization
-  include AuthenticationHelper
+  include Authentication
 
   before_action :skip_session, if: -> { request.format.json? }
   protect_from_forgery with: :exception, unless: -> { request.format.json? }

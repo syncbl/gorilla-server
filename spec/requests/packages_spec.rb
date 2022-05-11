@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "/packages", type: :request do
-  include AuthenticationHelper
+  include Authentication
 
   let!(:user) { create(:user1) }
   let!(:endpoint) { create(:endpoint1, user:) }
