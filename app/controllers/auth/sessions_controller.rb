@@ -6,6 +6,7 @@ class Auth::SessionsController < Devise::SessionsController
     respond_to do |format|
       format.any(*navigational_formats) { super }
       format.json do
+        # TODO: Move to ApplicationController
         old_session = session.to_hash
         reset_session
         session.update old_session.except("session_id")
@@ -15,11 +16,7 @@ class Auth::SessionsController < Devise::SessionsController
           render "users/show"
         else
           id = params.dig("endpoint", "id")
-          @endpoint = if id.present?
-              Endpoint.find(id)
-            else
-              Endpoint.new
-            end
+          @endpoint = id.present? ? Endpoint.find(id) : Endpoint.new
           @endpoint.update(
             {
               user: current_user,
