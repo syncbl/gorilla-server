@@ -5,12 +5,12 @@ class SourcesController < ApplicationController
 
   # GET /sources
   def index
-    @sources = policy_scope(Package).find(params[:package_id]).sources
+    @sources = current_user.packages.find(params[:package_id]).sources
   end
 
   # GET /sources/1
   def show
-    authorize @source
+    authorize! :show, @source
   end
 
   # GET /sources/new
@@ -27,8 +27,8 @@ class SourcesController < ApplicationController
   # POST /sources
   def create
     # Params removed from create() because user must fill fields only after creation
-    @package = policy_scope(Package).find(file_params[:package_id])
-    authorize @package, :show?, policy_class: PackagePolicy
+    @package = current_user.packages.find(file_params[:package_id])
+    authorize! :show, @package
     check_source_exists
     @source = @package.sources.new
     respond_to do |format|
@@ -52,7 +52,7 @@ class SourcesController < ApplicationController
 
   # PATCH/PUT /sources/1
   def update
-    authorize @source
+    authorize! :update, @source
     respond_to do |format|
       if @source.update(source_params)
         redirect_to @source, notice: "Source was successfully updated."
@@ -68,7 +68,7 @@ class SourcesController < ApplicationController
 
   # DELETE /sources/1
   def destroy
-    authorize @source
+    authorize! @source
     respond_to do |format|
       if @source.destroy
         format.html do
@@ -87,14 +87,14 @@ class SourcesController < ApplicationController
 
   # POST /package/1/sources/merge
   def merge
-    authorize @source
-    @package = policy_scope(Package).find(params[:package_id])
+    @package = current_user.packages.find(params[:package_id])
+    authorize! :update, @package
     respond_to do |format|
       format.html do
         if @package.sources.merged?
           head :unprocessable_entity
         else
-          MergeSourcesJob.perform_later policy_scope(Package).find(
+          MergeSourcesJob.perform_later current_user.packages.find(
             params[:package_id],
           )
           head :accepted
@@ -108,8 +108,8 @@ class SourcesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_source
-    if @package = policy_scope(Package)
-       .find_by(package_id: params[:package_id])
+    if @package = current_user.packages
+                              .find_by(package_id: params[:package_id])
       @source = @package.sources.find(params[:id])
     end
   end

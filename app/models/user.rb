@@ -1,6 +1,5 @@
 class User < ApplicationRecord
   include Blockable
-  include Permissable
   include Notifiable
   include TokenResetable
   include IdentityCache

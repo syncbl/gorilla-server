@@ -4,25 +4,26 @@ class PackagesController < ApplicationController
   before_action :authenticate_user!, except: %i[show search]
   before_action :forbid_for_endpoint!, only: %i[create update destroy]
   before_action :set_package, except: %i[index new create search]
+  skip_authorization_check only: :search
+  load_and_authorize_resource except: :search
 
   # GET /packages
   # GET /packages.json
   def index
     @edit = params[:edit] == 1
     @pagy, @packages =
-      pagy_countless(policy_scope(Package), items: params[:items])
+      pagy_countless(current_user.packages, items: params[:items])
   end
 
   # GET /packages/1
   # GET /packages/1.json
   def show
     # TODO: Allow show for not logged in users
-    authorize @package
   end
 
   # GET /packages/new
   def new
-    @package = policy_scope(Package).new
+    @package = Package.new
   end
 
   # GET /packages/1/edit
@@ -50,7 +51,6 @@ class PackagesController < ApplicationController
   # PATCH/PUT /packages/1
   # PATCH/PUT /packages/1.json
   def update
-    authorize @package, policy_class: PackagePolicy
     respond_to do |format|
       if @package.update(package_params)
         format.html do
@@ -70,7 +70,6 @@ class PackagesController < ApplicationController
   # DELETE /packages/1
   # DELETE /packages/1.json
   def destroy
-    authorize @package, policy_class: PackagePolicy
     respond_to do |format|
       if @package.destroy
         format.html do

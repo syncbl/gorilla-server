@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::Base
   include ApplicationHelper
   include Pagy::Backend
-  include Pundit::Authorization
   include Authentication
 
   before_action :skip_session, if: -> { request.format.json? }
@@ -13,9 +12,9 @@ class ApplicationController < ActionController::Base
                                             request.format.json? &&
                                               current_resource&.token_needs_reset?
                                           }
-
+  check_authorization unless: :devise_controller?
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
-  rescue_from Pundit::NotAuthorizedError, with: :render_403
+  rescue_from CanCan::AccessDenied, with: :render_403
 
   private
 

@@ -5,7 +5,7 @@ module Authentication
        !cached_instance&.blocked?
        cached_instance
     else
-      raise Pundit::NotAuthorizedError
+      raise CanCan::AccessDenied
     end
   end
 
@@ -37,13 +37,13 @@ module Authentication
     @endpoint =
       current_endpoint ||
       Endpoint.find_by(id: params[:endpoint_id] || params[:id], user: current_user)
-    raise Pundit::NotAuthorizedError unless endpoint_signed_in?
+    raise CanCan::AccessDenied unless endpoint_signed_in?
 
-    authorize @endpoint, :show?, policy_class: EndpointPolicy
+    authorize! :show, @endpoint
   end
 
   def forbid_for_endpoint!
-    raise Pundit::NotAuthorizedError if endpoint_signed_in?
+    raise CanCan::AccessDenied if endpoint_signed_in?
   end
 
   def decode_token(token)

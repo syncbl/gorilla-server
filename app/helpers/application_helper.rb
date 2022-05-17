@@ -15,7 +15,7 @@ module ApplicationHelper
   def page_title(object)
     case object
     when Package
-      if current_user&.owner?(object)
+      if object.user == current_user
         object.name
       else
         "#{object.user.name}/#{object.name}"
@@ -44,6 +44,7 @@ module ApplicationHelper
         if user_signed_in?
           render "errors/403", layout: "errors", status: :forbidden
         else
+          session[:next] = request.fullpath
           redirect_to new_user_session_path, status: :forbidden
         end
       end
@@ -57,6 +58,7 @@ module ApplicationHelper
         if user_signed_in?
           render "errors/404", layout: "errors", status: :not_found
         else
+          session[:next] = request.fullpath
           redirect_to new_user_session_path, status: :forbidden
         end
       end

@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :forbid_for_endpoint!, only: %i[update]
   before_action :set_user
+  load_and_authorize_resource
 
   # GET /users/1
   def show; end
@@ -10,7 +11,7 @@ class UsersController < ApplicationController
   def edit; end
 
   # PATCH/PUT /users/1
-  # TODO: Pundit
+  # TODO: Authorize
   def update
     respond_to do |format|
       if @user.update(user_params)

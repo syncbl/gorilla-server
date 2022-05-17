@@ -7,14 +7,15 @@ class EndpointsController < ApplicationController
   # GET /endpoints.json
   def index
     @pagy, @endpoints =
-      pagy_countless(policy_scope(Endpoint), items: params[:items])
+      pagy_countless(current_user.endpoints, items: params[:items])
   end
 
   # GET /endpoints/1
   # GET /endpoints/1.json
   def show
-    # TODO: Not the best way to do that.
-    authorize @endpoint unless @endpoint == current_endpoint
+    # TODO: Not the best way to do that. Must move to helper and add raise CanCan::AccessDenied
+    # unless @endpoint == current_endpoint
+    authorize! :show, @endpoint
     # TODO: @endpoint.touch
   end
 
@@ -39,7 +40,7 @@ class EndpointsController < ApplicationController
   # PATCH/PUT /endpoint
   # PATCH/PUT /endpoint.json
   def update
-    authorize @endpoint
+    authorize! :update, @endpoint
     respond_to do |format|
       if @endpoint.update(endpoint_params)
         format.html do
@@ -59,7 +60,7 @@ class EndpointsController < ApplicationController
   # DELETE /endpoints/1
   # DELETE /endpoints/1.json
   def destroy
-    authorize @endpoint
+    authorize! :destroy, @endpoint
     respond_to do |format|
       if @endpoint.destroy
         format.html do

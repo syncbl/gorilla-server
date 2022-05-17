@@ -1,6 +1,6 @@
 # TODO: Username to User
-
-setting_active = current_user.can_view?(setting.package) && setting.active?,
+# TODO: CanCancan!
+setting_active = (setting.package.user == current_user) && setting.active?,
 
                  json = {
                    active: setting_active,

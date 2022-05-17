@@ -20,12 +20,12 @@ class SettingsController < ApplicationController
 
   # GET /endpoints/1/settings/1
   def show
-    authorize @setting
+    authorize! :show, @setting
   end
 
   # POST /endpoints/1/settings
   def create
-    authorize @package, :show?, policy_class: PackagePolicy
+    authorize! :show, @package
     @setting = PackageInstallService.call(@package, @endpoint)
     respond_to do |format|
       if @setting.persisted?
