@@ -10,9 +10,21 @@ class Ability
     return if user.blank? || user.blocked?
 
     can :read, User
-    can :update, User, user: user
-    can :manage, Package, user: user, blocked_at: nil
-    can :manage, Source, user: user
-    can :manage, Setting, user:
+    can :update, User, id: user.id
+    can :manage, Endpoint, user: user,
+                           blocked_at: nil
+    can :manage, Package, user: user,
+                          blocked_at: nil
+    can :manage, Source,
+        package: {
+          user:,
+          blocked_at: nil,
+        },
+        blocked_at: nil
+    can :manage, Setting,
+        package: {
+          user:,
+          blocked_at: nil,
+        }
   end
 end

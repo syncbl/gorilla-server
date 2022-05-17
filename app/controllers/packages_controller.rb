@@ -12,7 +12,7 @@ class PackagesController < ApplicationController
   def index
     @edit = params[:edit] == 1
     @pagy, @packages =
-      pagy_countless(current_user.packages, items: params[:items])
+      pagy_countless(Package.accessible_by(current_ability), items: params[:items])
   end
 
   # GET /packages/1
@@ -96,7 +96,7 @@ class PackagesController < ApplicationController
     if params[:q].present? && params[:q].size >= MIN_NAME_LENGTH
       @pagy, @packages =
         pagy(
-          Package.searcheable_for(current_user).search_by_text(params[:q]),
+          Package.searcheable_by(current_user).search_by_text(params[:q]),
           items: params[:items],
         )
       render :index

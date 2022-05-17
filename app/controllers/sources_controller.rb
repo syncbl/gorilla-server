@@ -5,7 +5,7 @@ class SourcesController < ApplicationController
 
   # GET /sources
   def index
-    @sources = current_user.packages.find(params[:package_id]).sources
+    @sources = Package.accessible_by(current_ability).find(params[:package_id]).sources
   end
 
   # GET /sources/1

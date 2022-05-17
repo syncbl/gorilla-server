@@ -60,7 +60,7 @@ class Package < ApplicationRecord
             }
   validates_with PackageValidator
 
-  scope :searcheable_for, ->(user) {
+  scope :searcheable_by, ->(user) {
           not_blocked
             .where(type: [Package::Bundle.name, Package::External.name])
             .published.or(
