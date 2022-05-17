@@ -11,9 +11,9 @@ class Ability
 
     can :read, User
     can :update, User, id: user.id
-    can :manage, Endpoint, user: user,
+    can :manage, Endpoint, user:,
                            blocked_at: nil
-    can :manage, Package, user: user,
+    can :manage, Package, user:,
                           blocked_at: nil
     can :manage, Source,
         package: {
