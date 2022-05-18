@@ -5,7 +5,6 @@
 ![Status][status-shield]
 [![License][license-shield]][license-url]
 
-<br />
 <div align="center">
 <h2 align="center">Syncbl</h2>
   <p align="center">
