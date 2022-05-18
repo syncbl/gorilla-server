@@ -1,6 +1,6 @@
 class Auth::RegistrationsController < Devise::RegistrationsController
-  after_action :authenticate_with_token!, only: :create,
-                                          if: -> { request.format.json? }
+  after_action :reset_token!, only: :create,
+                              if: -> { request.format.json? }
 
   def create
     respond_to do |format|

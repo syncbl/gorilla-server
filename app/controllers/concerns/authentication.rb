@@ -1,16 +1,12 @@
 module Authentication
-  def cached_endpoint(id, token)
-    endpoint = cache_fetch(Endpoint, id, token)
-    raise Pundit::NotAuthorizedError unless endpoint
-
-    endpoint
-  end
-
-  def cached_user(id, token)
-    user = cache_fetch(User, id, token)
-    raise Pundit::NotAuthorizedError unless user
-
-    user
+  def cache_fetch(model, id, token)
+    cached_instance = model.fetch(id)
+    if ActiveSupport::SecurityUtils.secure_compare(cached_instance&.authentication_token, token) &&
+       !cached_instance&.blocked?
+       cached_instance
+    else
+      raise CanCan::AccessDenied
+    end
   end
 
   def current_user
@@ -21,7 +17,6 @@ module Authentication
     current_endpoint || devise_current_user
   end
 
-  # TODO: Avoid using local variable here, consider using session!
   def current_endpoint
     @sign_in_endpoint
   end
@@ -34,21 +29,16 @@ module Authentication
     current_endpoint.present?
   end
 
-  def authenticate_with_token!
+  def reset_token!
     response.set_header('Access-Token', current_resource.reset_token!)
   end
 
   def authenticate_endpoint!
-    @endpoint =
-      current_endpoint ||
-      Endpoint.find_by(id: params[:endpoint_id] || params[:id], user: current_user)
-    raise Pundit::NotAuthorizedError unless endpoint_signed_in?
-
-    authorize @endpoint, :show?, policy_class: EndpointPolicy
+    raise CanCan::AccessDenied unless endpoint_signed_in?
   end
 
   def forbid_for_endpoint!
-    raise Pundit::NotAuthorizedError if endpoint_signed_in?
+    raise CanCan::AccessDenied if endpoint_signed_in?
   end
 
   def decode_token(token)
@@ -68,13 +58,5 @@ module Authentication
 
   def devise_current_user
     @devise_current_user ||= warden.authenticate(scope: :user)
-  end
-
-  def cache_fetch(model, id, token)
-    cached_model = model.fetch(id)
-    if ActiveSupport::SecurityUtils.secure_compare(cached_model&.authentication_token, token) &&
-       !cached_model&.blocked?
-      cached_model
-    end
   end
 end

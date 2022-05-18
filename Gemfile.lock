@@ -88,7 +88,7 @@ GEM
     awesome_print (1.9.2)
     aws-eventstream (1.2.0)
     aws-partitions (1.587.0)
-    aws-sdk-core (3.130.2)
+    aws-sdk-core (3.131.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.525.0)
       aws-sigv4 (~> 1.1)
@@ -103,7 +103,7 @@ GEM
     aws-sigv4 (1.5.0)
       aws-eventstream (~> 1, >= 1.0.2)
     backport (1.2.0)
-    bcrypt (3.1.17)
+    bcrypt (3.1.18)
     benchmark (0.2.0)
     benchmark-ips (2.10.0)
     better_errors (2.9.1)
@@ -130,6 +130,7 @@ GEM
     bundler-audit (0.9.0.1)
       bundler (>= 1.2.0, < 3)
       thor (~> 1.0)
+    cancancan (3.3.0)
     capybara (3.37.1)
       addressable
       matrix
@@ -234,7 +235,7 @@ GEM
     jaro_winkler (1.5.4)
     jb (0.8.0)
     jmespath (1.6.1)
-    json (2.6.1)
+    json (2.6.2)
     json_translate (4.0.1)
       activerecord (>= 4.2.0)
     jsonb_accessor (1.3.4)
@@ -250,7 +251,7 @@ GEM
     listen (3.7.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    loofah (2.17.0)
+    loofah (2.18.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
@@ -300,8 +301,6 @@ GEM
     public_suffix (4.0.7)
     puma (5.6.4)
       nio4r (~> 2.0)
-    pundit (2.2.0)
-      activesupport (>= 3.0.0)
     query_count (1.1.1)
       activerecord (>= 4.2)
       railties (>= 4.2)
@@ -388,7 +387,7 @@ GEM
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
     rspec-support (3.11.0)
-    rubocop (1.29.0)
+    rubocop (1.29.1)
       parallel (~> 1.10)
       parser (>= 3.1.0.0)
       rainbow (>= 2.2.2, < 4.0)
@@ -397,7 +396,7 @@ GEM
       rubocop-ast (>= 1.17.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 3.0)
-    rubocop-ast (1.17.0)
+    rubocop-ast (1.18.0)
       parser (>= 3.1.1.0)
     rubocop-performance (1.13.3)
       rubocop (>= 1.7.0, < 2.0)
@@ -463,7 +462,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    strip_attributes (1.12.0)
+    strip_attributes (1.13.0)
       activemodel (>= 3.0, < 8.0)
     strscan (3.0.3)
     terminal-table (3.0.2)
@@ -488,7 +487,7 @@ GEM
     verbs (2.3.1)
       activesupport (>= 2.3.4)
       i18n
-    view_component (2.54.0)
+    view_component (2.55.0)
       activesupport (>= 5.0.0, < 8.0)
       method_source (~> 1.0)
     warden (1.2.9)
@@ -521,6 +520,7 @@ DEPENDENCIES
   brakeman
   bullet
   bundler-audit
+  cancancan
   capybara
   cityhash
   clamby
@@ -553,7 +553,6 @@ DEPENDENCIES
   pg (~> 1)
   pg_search
   puma (~> 5.5)
-  pundit
   query_count
   rack-attack
   rack-mini-profiler

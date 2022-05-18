@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::Base
   include ApplicationHelper
   include Pagy::Backend
-  include Pundit::Authorization
   include Authentication
 
   before_action :skip_session, if: -> { request.format.json? }
@@ -9,13 +8,13 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :api_check_headers, if: -> { request.format.json? }
   before_action :set_locale
-  after_action :authenticate_with_token!, if: -> {
+  after_action :reset_token!, if: -> {
                                             request.format.json? &&
                                               current_resource&.token_needs_reset?
                                           }
-
+  check_authorization unless: :devise_controller?
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
-  rescue_from Pundit::NotAuthorizedError, with: :render_403
+  rescue_from CanCan::AccessDenied, with: :render_403
 
   private
 
@@ -24,8 +23,8 @@ class ApplicationController < ActionController::Base
 
     service = request.headers["X-API-Service"]
     if request.headers["Authorization"].present?
-      scope, uuid, token = decode_token(request.headers["Authorization"])
-      unless uuid
+      scope, id, token = decode_token(request.headers["Authorization"])
+      unless id
         render_json_error I18n.t("devise.failure.timeout"),
                           status: :unauthorized
       end
@@ -34,7 +33,7 @@ class ApplicationController < ActionController::Base
     if Api::Keys.new.find(service)
       case scope
       when "Endpoint"
-        unless sign_in_endpoint cached_endpoint(uuid, token)
+        unless sign_in_endpoint cache_fetch(Endpoint, id, token)
           render_json_error I18n.t("devise.failure.unauthenticated"),
                             status: :unauthorized
         end
@@ -45,7 +44,7 @@ class ApplicationController < ActionController::Base
                                   reseted_at: nil)
         end
       when "User"
-        unless sign_in cached_user(uuid, token)
+        unless sign_in cache_fetch(User, id, token)
           render_json_error I18n.t("devise.failure.unauthenticated"),
                             status: :unauthorized
         end

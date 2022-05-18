@@ -8,13 +8,13 @@ RSpec.describe "/users", type: :request do
 
   let(:user) { create(:user1) }
 
-  describe "GET /user" do
+  describe "GET /show" do
     context "when signed in" do
       before do
         sign_in user
       end
 
-      it "renders a successful response" do
+      it "renders a successful response for me" do
         get user_url
         expect(response).to be_successful
       end
@@ -26,7 +26,32 @@ RSpec.describe "/users", type: :request do
     end
 
     context "when not signed in" do
-      it "render an unsuccessful response" do
+      it "renders an unsuccessful response for me" do
+        get user_url
+        expect(response).to redirect_to(new_user_session_path)
+      end
+
+      it "renders a successful response for user1" do
+        get "/user1"
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+  end
+
+  describe "GET /edit" do
+    context "when signed in" do
+      before do
+        sign_in user
+      end
+
+      it "renders a successful response" do
+        get edit_user_url(user)
+        expect(response).to be_successful
+      end
+    end
+
+    context "when not signed in" do
+      it "renders an unsuccessful response" do
         get edit_user_url(user)
         expect(response).to have_http_status :unauthorized
       end
