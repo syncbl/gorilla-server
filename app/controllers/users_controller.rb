@@ -11,7 +11,6 @@ class UsersController < ApplicationController
   def edit; end
 
   # PATCH/PUT /users/1
-  # TODO: Authorize
   def update
     respond_to do |format|
       if @user.update(user_params)

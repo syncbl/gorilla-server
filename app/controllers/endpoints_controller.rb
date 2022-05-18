@@ -21,7 +21,6 @@ class EndpointsController < ApplicationController
   end
 
   # POST /endpoints.json
-  # TODO: Change everything! Updates for current_endpoint to PUT!
   def create
     respond_to do |format|
       format.html { head :method_not_allowed }

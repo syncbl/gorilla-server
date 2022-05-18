@@ -10,13 +10,10 @@ class Auth::RegistrationsController < Devise::RegistrationsController
           user.locale = http_accept_language.compatible_language_from(I18n.available_locales)
           user.reseted_at = Time.current
         end
-        # TODO: Check registration error here, fullname?
         if @user.save
           sign_in @user
           render "users/show"
         else
-          # puts @user.errors.to_json
-          # render json: @user.errors, status: :unauthorized
           render_json_error @user.errors.full_messages, status: :unauthorized
         end
       end

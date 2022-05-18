@@ -10,7 +10,7 @@ class ApplicationJob < ActiveJob::Base
   def perform(...)
     Timeout.timeout(JOB_TIMEOUT) { safe_perform(...) }
   rescue Timeout::Error
-    # TODO: Notify & source.block! "+++ TIMEOUT +++"
+    Rails.logger.error "Job timed out: #{self.class.name}"
   end
 
   def safe_perform(...)

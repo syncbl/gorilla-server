@@ -17,9 +17,7 @@ class PackagesController < ApplicationController
 
   # GET /packages/1
   # GET /packages/1.json
-  def show
-    # TODO: Allow show for not logged in users
-  end
+  def show; end
 
   # GET /packages/new
   def new
