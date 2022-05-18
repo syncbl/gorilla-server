@@ -5,7 +5,7 @@ class PackagesController < ApplicationController
   before_action :forbid_for_endpoint!, only: %i[create update destroy]
   before_action :set_package, except: %i[index new create search]
   skip_authorization_check only: :search
-  load_and_authorize_resource except: :search
+  authorize_resource except: :search
 
   # GET /packages
   # GET /packages.json

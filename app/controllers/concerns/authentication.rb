@@ -34,12 +34,7 @@ module Authentication
   end
 
   def authenticate_endpoint!
-    @endpoint =
-      current_endpoint ||
-      Endpoint.find_by(id: params[:endpoint_id] || params[:id], user: current_user)
     raise CanCan::AccessDenied unless endpoint_signed_in?
-
-    authorize! :show, @endpoint
   end
 
   def forbid_for_endpoint!

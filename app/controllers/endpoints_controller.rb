@@ -2,6 +2,8 @@ class EndpointsController < ApplicationController
   before_action :authenticate_user!
   before_action :forbid_for_endpoint!, only: %i[index destroy]
   before_action :authenticate_endpoint!, only: %i[show update clone]
+  before_action :set_endpoint, only: %i[update destroy clone]
+  authorize_resource except: %i[show clone]
 
   # GET /endpoints
   # GET /endpoints.json
@@ -13,8 +15,7 @@ class EndpointsController < ApplicationController
   # GET /endpoints/1
   # GET /endpoints/1.json
   def show
-    # TODO: Not the best way to do that. Must move to helper and add raise CanCan::AccessDenied
-    # unless @endpoint == current_endpoint
+    @endpoint = current_endpoint
     authorize! :show, @endpoint
     # TODO: @endpoint.touch
   end
@@ -40,7 +41,6 @@ class EndpointsController < ApplicationController
   # PATCH/PUT /endpoint
   # PATCH/PUT /endpoint.json
   def update
-    authorize! :update, @endpoint
     respond_to do |format|
       if @endpoint.update(endpoint_params)
         format.html do
@@ -60,7 +60,6 @@ class EndpointsController < ApplicationController
   # DELETE /endpoints/1
   # DELETE /endpoints/1.json
   def destroy
-    authorize! :destroy, @endpoint
     respond_to do |format|
       if @endpoint.destroy
         format.html do
@@ -86,6 +85,8 @@ class EndpointsController < ApplicationController
       else
         Endpoint.where.not(id: @endpoint.id).order(updated_at: :desc).first
       end
+    authorize! :show, from_endpoint
+    authorize! :update, @endpoint
     CloneEndpointService.call(from_endpoint, @endpoint)
     respond_to do |format|
       format.html do
@@ -96,6 +97,10 @@ class EndpointsController < ApplicationController
   end
 
   private
+
+  def set_endpoint
+    @endpoint = Endpoint.find(params[:endpoint_id] || params[:id])
+  end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def endpoint_params
