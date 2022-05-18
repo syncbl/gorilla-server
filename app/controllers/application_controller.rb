@@ -53,8 +53,7 @@ class ApplicationController < ActionController::Base
       head :upgrade_required
     else
       Rails.logger.warn "Forbidden request from #{request.remote_ip}"
-      # TODO: render_403 or show warning that account can or will be blocked
-      head :forbidden
+      render_403 I18n.t("devise.failure.unauthenticated")
     end
   end
 
@@ -71,7 +70,7 @@ class ApplicationController < ActionController::Base
 
   def set_locale
     session[:locale] ||=
-      # TODO: Request locale (but errors must be in user's locale)
+      request.headers["Accept-Language"] ||
       current_resource&.locale ||
       http_accept_language.compatible_language_from(I18n.available_locales) ||
       I18n.default_locale.to_s

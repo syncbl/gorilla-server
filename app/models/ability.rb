@@ -11,20 +11,33 @@ class Ability
 
     can :read, User
     can :update, User, id: user.id
-    can :manage, Endpoint, user:,
+    can :manage, Endpoint, user: user,
                            blocked_at: nil
-    can :manage, Package, user:,
+    can :destroy, Endpoint, user: user
+    can :manage, Package, user: user,
                           blocked_at: nil
+    can :destroy, Package, user: user
     can :manage, Source,
         package: {
           user:,
           blocked_at: nil,
         },
         blocked_at: nil
-    can :manage, Setting,
+    can :destroy, Source,
         package: {
+          user:
+        }
+    can :manage, Setting,
+        endpoint: {
           user:,
-          blocked_at: nil,
+          blocked_at: nil
+        },
+        package: {
+          blocked_at: nil
+        }
+    can :destroy, Setting,
+        endpoint: {
+          user:
         }
   end
 end
