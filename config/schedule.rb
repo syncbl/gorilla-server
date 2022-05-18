@@ -22,3 +22,9 @@
 every 1.day, at: "3:00 am" do
   rake "import:winget"
 end
+
+# Database cleanup
+every 1.day, at: "0:00 am" do
+  rake "db:sessions:trim"
+  rake "db:sources:trim"
+end
