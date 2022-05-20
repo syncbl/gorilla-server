@@ -20,7 +20,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_16_150508) do
     t.string "name", null: false
     t.string "record_type", null: false
     t.uuid "record_id", null: false
-    t.integer "blob_id"
+    t.bigint "blob_id"
     t.datetime "created_at", precision: nil, null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
@@ -40,7 +40,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_16_150508) do
   end
 
   create_table "active_storage_variant_records", force: :cascade do |t|
-    t.integer "blob_id", null: false
+    t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
@@ -56,7 +56,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_16_150508) do
   create_table "dependencies", force: :cascade do |t|
     t.uuid "package_id", null: false
     t.uuid "dependent_package_id", null: false
-    t.integer "category_id"
+    t.bigint "category_id"
     t.boolean "optional", default: false, null: false
     t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["category_id"], name: "index_dependencies_on_category_id"
