@@ -70,7 +70,6 @@ class ApplicationController < ActionController::Base
 
   def set_locale
     session[:locale] ||=
-      request.headers["Accept-Language"] ||
       current_resource&.locale ||
       http_accept_language.compatible_language_from(I18n.available_locales) ||
       I18n.default_locale.to_s

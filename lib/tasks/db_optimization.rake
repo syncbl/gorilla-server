@@ -14,4 +14,19 @@ namespace :db do
       ActiveRecord::Base.connection.execute("REINDEX TABLE #{table};")
     end
   end
+
+  namespace :sessions do
+    desc "Trim outdated session records"
+    task trim: :environment do
+      ActiveRecord::SessionStore::Session.delete_by(updated_at: ..(Time.current - ENDPOINT_SESSION_TIME))
+    end
+  end
+
+  namespace :sources do
+    desc "Trim empty sources"
+    task trim: :environment do
+      # TODO: Clear orphaned components, notify users
+      Source.where(active_storage_attachments: { record_id: nil }).destroy_all
+    end
+  end
 end

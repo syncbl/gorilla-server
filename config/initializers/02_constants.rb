@@ -1,7 +1,7 @@
 NAME_FORMAT = /\A[\p{L}\d\-_!()\[\]+']*\z/
 UUID_FORMAT = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 RESTRICTED_PATH_CHARACTERS = %w[: % | < > ? *].freeze
-ROOT_ENUMERATOR = %i[local_app_data local_app_data_low program_files_x64
+ROOT_ENUMERATOR = %i[default_storage local_app_data local_app_data_low program_files_x64
                      program_files_x86 roaming_app_data system_root main_app_dir].freeze
 MAX_FILE_COUNT = 100_000
 MAX_ICON_SIZE = 1.megabyte

@@ -15,10 +15,16 @@ require "rails_helper"
 RSpec.describe Package, type: :request do
   let!(:user) { create(:user1) }
   let!(:package) { create(:bundle1, user:) }
+  let!(:source) { create(:source1, package:) }
   let!(:valid_response) do
     {
       name: "#{package.user.name}/#{package.name}",
     }
+  end
+
+  before do
+    source.publish!
+    package.publish!
   end
 
   describe "GET /search.json" do

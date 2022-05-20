@@ -35,9 +35,7 @@ class Source < ApplicationRecord
     last&.merged?
   end
 
-  private
-
-  def check_publishable
-    file.attached? && files.present? && files.size.positive?
+  def publishable?
+    !blocked? && file.attached?
   end
 end

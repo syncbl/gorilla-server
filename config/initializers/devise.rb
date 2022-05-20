@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Layout/LineLength
+
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
@@ -177,7 +179,7 @@ Devise.setup do |config|
   # ==> Configuration for :timeoutable
   # The time you want to timeout the user session without activity. After this
   # time the user will be asked for credentials again. Default is 30 minutes.
-  config.timeout_in = 1.day
+  config.timeout_in = USER_SESSION_TIME
 
   # ==> Configuration for :lockable
   # Defines which strategy will be used to lock an account.
@@ -288,9 +290,9 @@ Devise.setup do |config|
   # ==> Turbolinks configuration
   # If your app is using Turbolinks, Turbolinks::Controller needs to be included to make redirection work correctly:
   #
-  #ActiveSupport.on_load(:devise_failure_app) do
+  # ActiveSupport.on_load(:devise_failure_app) do
   #  include Turbolinks::Controller
-  #end
+  # end
 
   # ==> Configuration for :registerable
 
@@ -298,3 +300,4 @@ Devise.setup do |config|
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true
 end
+# rubocop:enable Layout/LineLength

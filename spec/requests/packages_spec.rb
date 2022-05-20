@@ -6,6 +6,7 @@ RSpec.describe "/packages", type: :request do
   let!(:user) { create(:user1) }
   let!(:endpoint) { create(:endpoint1, user:) }
   let!(:package) { create(:bundle1, user:) }
+  let!(:source) { create(:source1, package:) }
   let!(:valid_bundle) do
     {
       name: "test-bundle",
@@ -17,6 +18,11 @@ RSpec.describe "/packages", type: :request do
       root: :system_root,
       path: "Test",
     }
+  end
+
+  before do
+    source.publish!
+    package.publish!
   end
 
   describe "GET /index" do

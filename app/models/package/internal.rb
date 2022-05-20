@@ -11,13 +11,7 @@ class Package::Internal < Package
   end
 
   def publishable?
-    # TODO: Check files or at least params
-    true
-  end
-
-  # TODO: Mark orphaned
-  def orphaned?
-    packages.size.zero?
+    super && sources.where.not(published_at: nil).any?
   end
 
   def available_files

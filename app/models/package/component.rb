@@ -7,6 +7,10 @@ class Package::Component < Package::Internal
     Package.model_name
   end
 
+  def orphaned?
+    Dependency.where(dependent_package: self).empty?
+  end
+
   private
 
   def check_dependency
