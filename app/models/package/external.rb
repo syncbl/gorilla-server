@@ -22,7 +22,7 @@ class Package::External < Package
   end
 
   def publishable?
-    external_url.present?
+    super && external_url.present?
   end
 
   private

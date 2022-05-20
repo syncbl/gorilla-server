@@ -114,3 +114,6 @@ Rails/Output:
 
 RSpec/ExampleLength:
   Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Max: 10

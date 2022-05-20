@@ -79,10 +79,6 @@ class Package < ApplicationRecord
     save!
   end
 
-  def check_publishable
-    raise NotImplementedError
-  end
-
   def filtered_params
     # TODO: Fill this method
     params.except(:test).compact
@@ -94,5 +90,9 @@ class Package < ApplicationRecord
       "Package::Component",
       "Package::External",
     ]
+  end
+
+  def publishable?
+    !blocked?
   end
 end
