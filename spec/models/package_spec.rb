@@ -18,7 +18,7 @@ RSpec.describe Package, type: :model do
     end
 
     it "is correct external" do
-        expect(external).to be_external
+      expect(external).to be_external
     end
   end
 end

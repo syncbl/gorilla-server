@@ -10,9 +10,9 @@ class ApplicationController < ActionController::Base
   before_action :test_helper, if: -> { Rails.env.test? }
   before_action :set_locale
   after_action :reset_token!, if: -> {
-                                            request.format.json? &&
-                                              current_resource&.token_needs_reset?
-                                          }
+                                       request.format.json? &&
+                                         current_resource&.token_needs_reset?
+                                     }
   check_authorization unless: :devise_controller?
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
   rescue_from CanCan::AccessDenied, with: :render_403
