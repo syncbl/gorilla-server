@@ -4,6 +4,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+    can :read, User
     can :read, Package, blocked_at: nil
     cannot :read, Package, published_at: nil
 
@@ -13,25 +14,24 @@ class Ability
       can :destroy, Endpoint, user: user
       can :destroy, Package, user: user
       can :destroy, Source,
-        package: {
-          user: user,
-        }
+          package: {
+            user:,
+          }
       can :destroy, Setting,
-        endpoint: {
-          user: user,
-        }
+          endpoint: {
+            user:,
+          }
     else
-      can :read, User
       can :update, User, id: user.id
       can :manage, Endpoint, user: user
       can :manage, Package, user: user
       can :manage, Source,
           package: {
-            user: user,
+            user:,
           }
       can :manage, Setting,
           endpoint: {
-            user: user,
+            user:,
           }
     end
   end
