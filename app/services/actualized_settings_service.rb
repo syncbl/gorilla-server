@@ -1,9 +1,9 @@
 class ActualizedSettingsService < ApplicationService
-  def initialize(endpoint, packages, timestamp)
+  def initialize(endpoint, sources)
     @endpoint = endpoint
     @settings = @endpoint.settings
-    @packages = packages
-    @timestamp = timestamp ? Time.zone.at(timestamp.to_i) : Time.zone.at(0)
+    @sources = sources
+    @packages = @sources.map(&:package_id)
   end
 
   def call
@@ -32,10 +32,8 @@ class ActualizedSettingsService < ApplicationService
 
     # Only updated packages
     @settings.includes(:sources, :package)
-             .where(
-               package_id: @packages,
-               sources: { published_at: @timestamp.. },
-             ).select do |s|
+             .where(package_id: @packages).select do |s|
+      s.package.sources.map(&:id).in?(@sources)
       s.package.user.plans.active?
     end
 

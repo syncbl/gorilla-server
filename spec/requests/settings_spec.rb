@@ -18,7 +18,7 @@ RSpec.describe "Settings", type: :request do
   describe "GET /endpoint/settings" do
     it "renders a successful response" do
       get endpoint_settings_path(current_endpoint: endpoint), params: {
-        packages: "#{bundle1.id},#{component1.id},#{component2.id}"
+        packages: source.id.to_s
       }
       expect(response).to have_http_status(:ok)
     end

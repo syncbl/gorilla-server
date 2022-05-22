@@ -3,8 +3,9 @@ json = {}
 json[:params] = package.params.compact
 
 unless package.external?
+
   json[:sources] = package.sources.preloaded.published.map do |source|
-    # TODO: Only unmerged can be unpublished and unpublished must be all of them
+    # TODO: Limit be last source id!!!
     render "sources/show", source:
   end
 end

@@ -27,7 +27,7 @@ RSpec.describe "Settings", type: :request do
     # TODO: fix this
     it "renders a successful response" do
       get endpoint_settings_path(current_endpoint: endpoint, format: :json), params: {
-        packages: "#{bundle1.id},#{component1.id},#{component2.id}"
+        packages: source.id.to_s
       }
       expect(response).to have_http_status(:ok)
       expect(JSON.parse(response.body, symbolize_names: true)).to match(valid_response)

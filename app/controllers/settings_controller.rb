@@ -9,13 +9,13 @@ class SettingsController < ApplicationController
 
   # GET /endpoints/1/settings
   def index
-    packages = if params[:packages]
-        params[:packages].split(",")
-                         .grep(UUID_FORMAT)
+    sources = if params[:sources]
+        params[:sources].split(",")
+                        .grep(UUID_FORMAT)
       else
         []
       end
-    @settings = ActualizedSettingsService.call(current_endpoint, packages, params[:t])
+    @settings = ActualizedSettingsService.call(current_endpoint, sources)
   end
 
   # GET /endpoints/1/settings/1
