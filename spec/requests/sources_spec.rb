@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe "Sources", type: :request do
-  include Authentication
-
   let!(:user) { create(:user1) }
   let!(:endpoint) { create(:endpoint1, user:) }
   let!(:package) { create(:bundle1, user:) }
@@ -47,16 +45,13 @@ RSpec.describe "Sources", type: :request do
     end
 
     context "when endpoint signed in" do
-      before do
-        sign_in_endpoint endpoint
-      end
-
       it "redirects to login page" do
         post package_sources_url(package), params: {
           file: Rack::Test::UploadedFile.new(
             File.open(Rails.root.join("files/test1.zip")),
           ),
-          checksum: "test"
+          checksum: "test",
+          current_endpoint: endpoint
         }
         expect(response).to redirect_to(new_user_session_path)
       end

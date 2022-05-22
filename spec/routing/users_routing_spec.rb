@@ -4,6 +4,7 @@ RSpec.describe UsersController, type: :routing do
   describe "routing" do
     it "routes to #show" do
       expect(get: "/user1").to route_to("users#show", id: "user1")
+      expect(get: "/user").to route_to("users#show")
     end
 
     it "routes to #edit" do

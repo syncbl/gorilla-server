@@ -18,13 +18,14 @@ Rails.application.routes.draw do
       get :search
     end
   end
-  # TODO: current_endpoint only for single term
+
   resource :endpoint, only: %i[show update] do
     resources :settings
     collection do
       post :clone
     end
   end
+
   resources :endpoints, only: %i[index create destroy] do
     resources :settings, only: %i[create]
   end

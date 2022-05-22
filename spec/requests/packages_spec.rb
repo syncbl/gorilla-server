@@ -1,8 +1,6 @@
 require "rails_helper"
 
 RSpec.describe "/packages", type: :request do
-  include Authentication
-
   let!(:user) { create(:user1) }
   let!(:endpoint) { create(:endpoint1, user:) }
   let!(:package) { create(:bundle1, user:) }
@@ -45,12 +43,8 @@ RSpec.describe "/packages", type: :request do
     end
 
     context "when endpoint signed in" do
-      before do
-        sign_in_endpoint endpoint
-      end
-
       it "redirects to login page" do
-        get packages_url
+        get packages_url(current_endpoint: endpoint)
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -67,6 +61,11 @@ RSpec.describe "/packages", type: :request do
         expect(response).to be_successful
       end
 
+      it "valid user/package renders a successful response" do
+        get "/user1/bundle1"
+        expect(response).to be_successful
+      end
+
       it "invalid package shows 404 error" do
         get package_url("error")
         expect(response).to have_http_status(:not_found)
@@ -79,6 +78,12 @@ RSpec.describe "/packages", type: :request do
         expect(response).to be_successful
       end
 
+      it "valid user/package renders a successful response" do
+        get "/user1/bundle1"
+        expect(response).to be_successful
+      end
+
+      # TODO: :not_found
       it "invalid package redirects to login page" do
         get package_url("error")
         expect(response).to have_http_status(:forbidden)
@@ -86,12 +91,8 @@ RSpec.describe "/packages", type: :request do
     end
 
     context "when endpoint signed in" do
-      before do
-        sign_in_endpoint endpoint
-      end
-
       it "valid package renders a successful response" do
-        get package_url(package)
+        get package_url(package, current_endpoint: endpoint)
         expect(response).to be_successful
       end
 
@@ -122,12 +123,8 @@ RSpec.describe "/packages", type: :request do
     end
 
     context "when endpoint signed in" do
-      before do
-        sign_in_endpoint endpoint
-      end
-
       it "redirects to login page" do
-        get new_package_url
+        get new_package_url(current_endpoint: endpoint)
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -153,12 +150,8 @@ RSpec.describe "/packages", type: :request do
     end
 
     context "when endpoint signed in" do
-      before do
-        sign_in_endpoint endpoint
-      end
-
       it "redirects to login page" do
-        get edit_package_url(package)
+        get edit_package_url(package, current_endpoint: endpoint)
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -186,12 +179,8 @@ RSpec.describe "/packages", type: :request do
     end
 
     context "when endpoint signed in" do
-      before do
-        sign_in_endpoint endpoint
-      end
-
       it "redirects to login page" do
-        get packages_url
+        get packages_url(current_endpoint: endpoint)
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -231,12 +220,8 @@ RSpec.describe "/packages", type: :request do
     end
 
     context "when endpoint signed in" do
-      before do
-        sign_in_endpoint endpoint
-      end
-
       it "redirects to login page" do
-        patch package_url(package), params: { package: new_attributes }
+        patch package_url(package, current_endpoint: endpoint), params: { package: new_attributes }
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -268,12 +253,8 @@ RSpec.describe "/packages", type: :request do
     end
 
     context "when endpoint signed in" do
-      before do
-        sign_in_endpoint endpoint
-      end
-
       it "redirects to login page" do
-        delete package_url(package)
+        delete package_url(package, current_endpoint: endpoint)
         expect(response).to redirect_to(new_user_session_path)
       end
     end

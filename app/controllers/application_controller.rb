@@ -15,11 +15,15 @@ class ApplicationController < ActionController::Base
   check_authorization unless: :devise_controller?
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
   rescue_from CanCan::AccessDenied, with: :render_403
+  helper_method :current_endpoint
 
   private
 
   def api_check_headers
-    return true if Rails.env.test?
+    if Rails.env.test?
+      sign_in_endpoint Endpoint.find(params[:current_endpoint]) if params[:current_endpoint].present?
+      return true
+    end
 
     service = request.headers["X-API-Service"]
     if request.headers["Authorization"].present?
