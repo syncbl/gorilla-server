@@ -20,7 +20,7 @@ FactoryBot.define do
         "PocoDataSQLite.dll" => "/jpU7lv70PL/p3zOsfT3XQ==",
         "PocoFoundation.dll" => "5NRx/aaGCXDN4At5p7IcFw==",
         "LicenseSigner/LicenseSigner.suo" => "5Gth/rlXuhLAtMt17jBeCA==" }
-end
+    end
     file do
       Rack::Test::UploadedFile.new(
         File.open(Rails.root.join("files/test1.zip")),
