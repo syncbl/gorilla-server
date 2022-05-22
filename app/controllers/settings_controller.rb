@@ -2,10 +2,10 @@ class SettingsController < ApplicationController
   include PackagesHelper
 
   # Settings can be used by user only within packages/endpoints
-  before_action :authenticate_user!
   before_action :authenticate_endpoint!
   before_action :set_setting, except: %i[index create]
   before_action :set_package, only: :create
+  skip_authorization_check only: :index
 
   # GET /endpoints/1/settings
   def index
@@ -15,7 +15,7 @@ class SettingsController < ApplicationController
       else
         []
       end
-    @settings = ActualizedSettingsService.call(@endpoint, packages, params[:t])
+    @settings = ActualizedSettingsService.call(current_endpoint, packages, params[:t])
   end
 
   # GET /endpoints/1/settings/1

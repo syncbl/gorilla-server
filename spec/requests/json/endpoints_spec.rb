@@ -29,7 +29,7 @@ RSpec.describe Endpoint, type: :request do
     end
 
     it "renders a successful response" do
-      get endpoint_url(format: :json, current_endpoint: endpoint)
+      get endpoint_path(format: :json, current_endpoint: endpoint)
       expect(response).to be_successful
       expect(JSON.parse(response.body, symbolize_names: true)).to match(valid_response)
     end

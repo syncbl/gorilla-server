@@ -33,7 +33,7 @@ RSpec.describe User, type: :request do
     end
 
     it "renders a successful response" do
-      get user_url(format: :json)
+      get user_path(format: :json)
       expect(response).to be_successful
       expect(JSON.parse(response.body, symbolize_names: true)).to match(valid_response)
     end
