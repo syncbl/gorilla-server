@@ -46,12 +46,11 @@ RSpec.describe "Sources", type: :request do
 
     context "when endpoint signed in" do
       it "redirects to login page" do
-        post package_sources_url(package), params: {
+        post package_sources_url(package, current_endpoint: endpoint), params: {
           file: Rack::Test::UploadedFile.new(
             File.open(Rails.root.join("files/test1.zip")),
           ),
-          checksum: "test",
-          current_endpoint: endpoint
+          checksum: "test"
         }
         expect(response).to redirect_to(new_user_session_path)
       end

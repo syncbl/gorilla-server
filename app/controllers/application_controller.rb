@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception, unless: -> { request.format.json? }
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :api_check_headers, if: -> { request.format.json? }
+  before_action :test_helper, if: -> { Rails.env.test? }
   before_action :set_locale
   after_action :reset_token!, if: -> {
                                             request.format.json? &&
@@ -20,10 +21,7 @@ class ApplicationController < ActionController::Base
   private
 
   def api_check_headers
-    if Rails.env.test?
-      sign_in_endpoint Endpoint.find(params[:current_endpoint]) if params[:current_endpoint].present?
-      return true
-    end
+    return true if Rails.env.test?
 
     service = request.headers["X-API-Service"]
     if request.headers["Authorization"].present?
@@ -59,6 +57,10 @@ class ApplicationController < ActionController::Base
       Rails.logger.warn "Forbidden request from #{request.remote_ip}"
       render_403 I18n.t("devise.failure.unauthenticated")
     end
+  end
+
+  def test_helper
+    sign_in_endpoint Endpoint.find(params[:current_endpoint]) if params[:current_endpoint].present?
   end
 
   def configure_permitted_parameters
