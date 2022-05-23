@@ -7,18 +7,18 @@ RSpec.describe "Settings", type: :request do
   let!(:component1) { create(:component1, user:) }
   let!(:component2) { create(:component2, user:) }
   # let!(:bundle2) { create(:bundle2, user:) }
-  let(:source) { create(:source1, package: bundle1) }
+  let(:source1) { create(:source1, package: bundle1) }
 
   before do
     bundle1.dependent_packages << component1
     component1.dependent_packages << component2
-    PackageInstallService.call(bundle1, endpoint)
+    PackageInstallService.call([bundle1], endpoint)
   end
 
   describe "GET /endpoint/settings" do
     it "renders a successful response" do
       get endpoint_settings_path(current_endpoint: endpoint), params: {
-        packages: source.id.to_s
+        packages: source1.id.to_s
       }
       expect(response).to have_http_status(:ok)
     end

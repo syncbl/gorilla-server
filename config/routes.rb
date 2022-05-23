@@ -20,7 +20,11 @@ Rails.application.routes.draw do
   end
 
   resource :endpoint, only: %i[show update] do
-    resources :settings
+    resources :settings do
+      collection do
+        post :bulk_create
+      end
+    end
     collection do
       post :clone
     end

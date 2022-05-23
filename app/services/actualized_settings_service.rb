@@ -1,6 +1,8 @@
 class ActualizedSettingsService < ApplicationService
   def initialize(endpoint, sources)
     @endpoint = endpoint
+    # TODO: Settings from Source.Package.Setting.Endpoint
+    # If empty - load everything
     @settings = @endpoint.settings
     @sources = sources
     @packages = @sources.map(&:package_id)

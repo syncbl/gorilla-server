@@ -1,13 +1,16 @@
 class PackageInstallService < ApplicationService
-  def initialize(package, endpoint)
-    @package = package
+  def initialize(packages, endpoint)
+    @packages = packages
     @endpoint = endpoint
   end
 
-  # TODO: If query is not from API then notify endpoint
   def call
-    @setting = @endpoint.settings.find_or_initialize_by(package: @package)
-    @setting.save
-    @setting
+    settings = Set[]
+    @packages.each do |package|
+      setting = Setting.find_or_initialize_by(endpoint: @endpoint, package:)
+      setting.save
+      settings << setting
+    end
+    settings
   end
 end
