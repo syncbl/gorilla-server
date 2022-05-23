@@ -5,6 +5,7 @@ class SettingsController < ApplicationController
   before_action :authenticate_endpoint!
   before_action :set_setting, except: %i[index create bulk_create]
   before_action :set_package, only: :create
+  before_action :set_endpoint
   skip_authorization_check only: :index
 
   # GET /endpoints/1/settings
@@ -15,7 +16,7 @@ class SettingsController < ApplicationController
       else
         []
       end
-    @settings = ActualizedSettingsService.call(current_endpoint, sources)
+    @settings = ActualizedSettingsService.call(@endpoint, sources)
   end
 
   # GET /endpoints/1/settings/1
@@ -26,7 +27,7 @@ class SettingsController < ApplicationController
   # POST /endpoints/1/settings
   def create
     authorize! :show, @package
-    @setting = PackageInstallService.call([@package], @endpoint)[0]
+    @setting = PackageInstallService.call([@package], @endpoint).first
     respond_to do |format|
       if @setting.persisted?
         format.html do
@@ -105,6 +106,11 @@ class SettingsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_setting
     @setting = @endpoint.settings.find_by!(package_id: params[:id])
+  end
+
+  # TODO: Allow to choose endpoint of current user
+  def set_endpoint
+    @endpoint = authorize! :show, current_endpoint
   end
 
   # Only allow a trusted parameter "white list" through.
