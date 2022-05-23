@@ -27,7 +27,7 @@ class SettingsController < ApplicationController
   # POST /endpoints/1/settings
   def create
     authorize! :show, @package
-    @setting = PackageInstallService.call([@package], @endpoint).first
+    @setting = PackageInstallService.call(@endpoint, [@package]).first
     respond_to do |format|
       if @setting.persisted?
         format.html do
@@ -56,7 +56,7 @@ class SettingsController < ApplicationController
       []
     end
 
-    @settings = PackageInstallService.call(packages, @endpoint)
+    @settings = PackageInstallService.call(@endpoint, packages)
     respond_to do |format|
       format.html do
         redirect_to [@endpoint],
