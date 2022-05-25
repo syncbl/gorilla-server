@@ -18,8 +18,8 @@ RSpec.describe User, type: :request do
   describe "GET /show.json" do
     let(:valid_response) do
       {
-        notifications: user.notifications(only: USER_NOTIFICATIONS),
-        user: {
+        response_type: "user",
+        response: {
           id: user.id,
           name: user.name,
           fullname: user.fullname,

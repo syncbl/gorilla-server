@@ -14,11 +14,11 @@ class Auth::SessionsController < Devise::SessionsController
           render "users/show"
         else
           id = params.dig("endpoint", "id")
-          @endpoint = id.present? ? Endpoint.find(id) : Endpoint.new
+          @endpoint = id.present? ? Endpoint.find_by(id:) : Endpoint.new
           @endpoint.update(
             {
               user: current_user,
-              name: params.dig("endpoint", "name"),
+              caption: params.dig("endpoint", "caption"),
               remote_ip: request.remote_ip,
               locale: current_user.locale,
             }
@@ -31,6 +31,7 @@ class Auth::SessionsController < Devise::SessionsController
   end
 
   def destroy
+    reset_session
     respond_to do |format|
       format.any(*navigational_formats) { super }
       format.json do

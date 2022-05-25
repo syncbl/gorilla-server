@@ -25,7 +25,8 @@ RSpec.describe Package, type: :request do
   describe "GET /show.json" do
     let!(:valid_response) do
       {
-        package: {
+        response_type: "package",
+        response: {
           caption: package.caption,
           category: package.category,
           created_at: package.created_at.to_i,
@@ -87,7 +88,7 @@ RSpec.describe Package, type: :request do
       it "renders a successful response" do
         get search_packages_path(q: "Bundle", format: :json)
         expect(response).to be_successful
-        expect(JSON.parse(response.body)["packages"][0]).to include_json(valid_response)
+        expect(JSON.parse(response.body)["response"][0]).to include_json(valid_response)
       end
     end
 
@@ -95,7 +96,7 @@ RSpec.describe Package, type: :request do
       it "renders a successful response" do
         get search_packages_path(q: "Bundle", format: :json)
         expect(response).to be_successful
-        expect(JSON.parse(response.body)["packages"][0]).to include_json(valid_response)
+        expect(JSON.parse(response.body)["response"][0]).to include_json(valid_response)
       end
     end
   end

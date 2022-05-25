@@ -16,10 +16,11 @@ class ApplicationController < ActionController::Base
   check_authorization unless: :devise_controller?
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
   rescue_from CanCan::AccessDenied, with: :render_403
-  helper_method :current_endpoint
+  helper_method :current_endpoint, :current_resource
 
   private
 
+  # TODO: Save session in database, store only session id in token
   def api_check_headers
     return true if Rails.env.test?
 

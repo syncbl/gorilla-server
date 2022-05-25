@@ -7,12 +7,14 @@ class PackagesController < ApplicationController
   skip_authorization_check only: :search
   authorize_resource except: :search
 
+  # TODO: Check every method for includes because there is a lot of N+1
+
   # GET /packages
   # GET /packages.json
   def index
     @edit = params[:edit] == 1
     @pagy, @packages =
-      pagy_countless(Package.accessible_by(current_ability), items: params[:items])
+      pagy_countless(Package.accessible_by(current_ability).includes(:sources), items: params[:items])
   end
 
   # GET /packages/1

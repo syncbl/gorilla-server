@@ -19,8 +19,8 @@ RSpec.describe Endpoint, type: :request do
   describe "GET /show.json" do
     let(:valid_response) do
       {
-        notifications: endpoint.notifications(only: ENDPOINT_NOTIFICATIONS),
-        endpoint: {
+        response_type: "endpoint",
+        response: {
           id: endpoint.id,
           caption: endpoint.caption,
           locale: endpoint.locale

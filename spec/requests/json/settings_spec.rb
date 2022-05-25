@@ -26,7 +26,8 @@ RSpec.describe "Settings", type: :request do
             remove_package: component1.id
           }
         ],
-        settings: []
+        response_type: "settings",
+        response: []
       }
     end
 
@@ -44,7 +45,8 @@ RSpec.describe "Settings", type: :request do
     context "when package id is provided" do
       let!(:valid_response) do
         {
-          setting: {
+          response_type: "setting",
+          response: {
             active: true,
             package: {
               caption: component2.caption,
@@ -78,7 +80,8 @@ RSpec.describe "Settings", type: :request do
     context "when user_id/package_id is provided" do
       let!(:valid_response) do
         {
-          setting: {
+          response_type: "setting",
+          response: {
             active: true,
             package: {
               caption: component2.caption,
