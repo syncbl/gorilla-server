@@ -2,12 +2,8 @@
 
 json = render "layouts/header", object: @user
 
-if @user == current_user
-  if notifications = @user.notifications(only: USER_NOTIFICATIONS)
-    json[:notifications] = notifications
-  end
-end
-
-json[:user] = render "users/show", user: @user
+# TODO: Consider to make an agregator for all the models
+json[:response_type] = :user
+json[:response] = render "users/show", user: @user
 
 log_json json

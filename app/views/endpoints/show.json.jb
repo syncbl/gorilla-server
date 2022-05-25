@@ -1,11 +1,6 @@
 json = render "layouts/header", object: @endpoint
 
-if @endpoint == current_endpoint
-  if notifications = @endpoint.notifications(only: ENDPOINT_NOTIFICATIONS)
-    json[:notifications] = notifications
-  end
-end
-
-json[:endpoint] = render "endpoints/show", endpoint: @endpoint
+json[:response_type] = :endpoint
+json[:response] = render "endpoints/show", endpoint: @endpoint
 
 log_json json

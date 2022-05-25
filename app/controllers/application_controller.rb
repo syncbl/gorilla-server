@@ -7,17 +7,20 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception, unless: -> { request.format.json? }
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :api_check_headers, if: -> { request.format.json? }
+  before_action :test_helper, if: -> { Rails.env.test? }
   before_action :set_locale
   after_action :reset_token!, if: -> {
-                                            request.format.json? &&
-                                              current_resource&.token_needs_reset?
-                                          }
+                                request.format.json? &&
+                                  current_resource&.token_needs_reset?
+                              }
   check_authorization unless: :devise_controller?
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
   rescue_from CanCan::AccessDenied, with: :render_403
+  helper_method :current_endpoint, :current_resource
 
   private
 
+  # TODO: Save session in database, store only session id in token
   def api_check_headers
     return true if Rails.env.test?
 
@@ -55,6 +58,10 @@ class ApplicationController < ActionController::Base
       Rails.logger.warn "Forbidden request from #{request.remote_ip}"
       render_403 I18n.t("devise.failure.unauthenticated")
     end
+  end
+
+  def test_helper
+    sign_in_endpoint Endpoint.find(params[:current_endpoint]) if params[:current_endpoint].present?
   end
 
   def configure_permitted_parameters

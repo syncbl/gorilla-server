@@ -1,5 +1,6 @@
 json = render "layouts/header", object: @setting
 
-json[:setting] = render "settings/show", setting: @setting
+json[:response_type] = :setting
+json[:response] = render "settings/show", setting: @setting
 
 log_json json

@@ -1,5 +1,5 @@
 class EndpointsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: %i[show update clone]
   before_action :forbid_for_endpoint!, only: %i[index destroy]
   before_action :authenticate_endpoint!, only: %i[show update clone]
   before_action :set_endpoint, only: %i[update destroy clone]

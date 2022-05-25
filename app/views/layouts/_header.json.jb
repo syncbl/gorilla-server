@@ -7,6 +7,17 @@ if @pagy
   json[:to] = @pagy.to
 end
 
-json[:errors] = object.errors.full_messages if defined?(object) && object.errors.any?
+# TODO: Rename notifications to messages
+# TODO: Test possible validation errors, I'm not sure this works
+if defined?(object) && object.errors.any?
+  json[:errors] = object.errors.full_messages
+else
+  json[:notifications] = case current_resource
+                         when User
+    current_resource.notifications(only: USER_NOTIFICATIONS)
+                         when Endpoint
+    current_resource.notifications(only: ENDPOINT_NOTIFICATIONS)
+  end
+end
 
-json
+json.compact_blank

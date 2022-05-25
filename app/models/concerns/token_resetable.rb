@@ -7,8 +7,6 @@ module TokenResetable
   end
 
   def reset_token!
-    # TODO: Check for reseted database record
-    # Login will be successful, but none of the next queries
     regenerate_authentication_token
     JWT.encode(
       {

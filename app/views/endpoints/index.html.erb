@@ -11,7 +11,6 @@
     <% @endpoints.each do |endpoint| %>
       <tr>
         <td><%= link_to 'Show', endpoint %></td>
-        <td><%= link_to 'Edit', edit_endpoint_path(endpoint) %></td>
         <td><%= link_to 'Destroy', endpoint, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
@@ -19,5 +18,3 @@
 </table>
 
 <br>
-
-<%= link_to 'New Endpoint', new_endpoint_path %>

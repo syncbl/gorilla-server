@@ -1,6 +1,7 @@
 json = render "layouts/header"
 
-json[:packages] = @packages.map do |package|
+json[:response_type] = :packages
+json[:response] = @packages.map do |package|
   if @edit
     render "show", package: package
   else

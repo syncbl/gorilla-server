@@ -4,9 +4,9 @@ RSpec.describe Package, type: :model do
   # it_behaves_like :blockable
 
   let(:user) { create(:user1) }
-  let(:component) { create(:component1) }
-  let(:bundle) { create(:bundle1) }
-  let(:external) { create(:external1) }
+  let(:component) { create(:component1, user:) }
+  let(:bundle) { create(:bundle1, user:) }
+  let(:external) { create(:external1, user:) }
 
   context "with package params" do
     it "is correct component" do
@@ -18,7 +18,7 @@ RSpec.describe Package, type: :model do
     end
 
     it "is correct external" do
-        expect(external).to be_external
+      expect(external).to be_external
     end
   end
 end

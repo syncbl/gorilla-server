@@ -1,9 +1,11 @@
 class ActualizedSettingsService < ApplicationService
-  def initialize(endpoint, packages, timestamp)
+  def initialize(endpoint, sources)
     @endpoint = endpoint
+    # TODO: Settings from Source.Package.Setting.Endpoint
+    # If empty - load everything
     @settings = @endpoint.settings
-    @packages = packages
-    @timestamp = timestamp ? Time.zone.at(timestamp.to_i) : Time.zone.at(0)
+    @sources = sources
+    @packages = @sources.map(&:package_id)
   end
 
   def call
@@ -19,7 +21,7 @@ class ActualizedSettingsService < ApplicationService
 
     # Auto cleaning unused components
     # TODO: bundle must be set for component
-    @settings.where(package: { type: "Package::Component" })
+    @settings.includes(:package).where(package: { type: "Package::Component" })
              .where.not(package: components).map do |s|
       @endpoint.notify_remove_package(s.package)
     end
@@ -30,22 +32,12 @@ class ActualizedSettingsService < ApplicationService
     # If first source's ancestor != source_id, then we will run full resync.
     # Timestamp will be deleted.
 
-    # Best way is to find source by id and then add .where(created_at: > @source.created_at)
-    # to get all the other sources
-    @settings.includes(package: [user: :plans])
-             .map do |s|
-      if s.active? != s.package.user.plan.active?
-        s.update(active: s.package.user.plan.active?)
-        @timestamp = Time.zone.at(0) if s.active?
-      end
-    end
-
     # Only updated packages
-    @settings.includes(:sources)
-             .where(
-               package_id: @packages,
-               sources: { published_at: @timestamp.. },
-             )
+    @settings.includes(:sources, :package)
+             .where(package_id: @packages).select do |s|
+      s.package.sources.map(&:id).in?(@sources)
+      s.package.user.plans.active?
+    end
 
     # TODO: We can exclude packages from users without plan, but then
     # timestamp will increase and this updates will be lost. What we can do?

@@ -1,6 +1,7 @@
 json = render "layouts/header"
 
-json[:endpoints] = @endpoints.map do |endpoint|
+json[:response_type] = :endpoints
+json[:response] = @endpoints.map do |endpoint|
   render "show", endpoint: endpoint
 end
 

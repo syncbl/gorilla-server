@@ -2,20 +2,21 @@ class SettingsController < ApplicationController
   include PackagesHelper
 
   # Settings can be used by user only within packages/endpoints
-  before_action :authenticate_user!
   before_action :authenticate_endpoint!
-  before_action :set_setting, except: %i[index create]
+  before_action :set_setting, except: %i[index create bulk_create]
   before_action :set_package, only: :create
+  before_action :set_endpoint
+  skip_authorization_check only: :index
 
   # GET /endpoints/1/settings
   def index
-    packages = if params[:packages]
-        params[:packages].split(",")
-                         .grep(UUID_FORMAT)
+    sources = if params[:sources]
+        params[:sources].split(",")
+                        .grep(UUID_FORMAT)
       else
         []
       end
-    @settings = ActualizedSettingsService.call(@endpoint, packages, params[:t])
+    @settings = ActualizedSettingsService.call(@endpoint, sources)
   end
 
   # GET /endpoints/1/settings/1
@@ -26,7 +27,7 @@ class SettingsController < ApplicationController
   # POST /endpoints/1/settings
   def create
     authorize! :show, @package
-    @setting = PackageInstallService.call(@package, @endpoint)
+    @setting = PackageInstallService.call(@endpoint, [@package]).first
     respond_to do |format|
       if @setting.persisted?
         format.html do
@@ -41,6 +42,28 @@ class SettingsController < ApplicationController
         format.json do
           render json: @setting.errors, status: :unprocessable_entity
         end
+      end
+    end
+  end
+
+  # POST /endpoints/1/settings/bulk
+  def bulk_create
+    packages = if params[:packages]
+      params[:packages].split(",").grep(UUID_FORMAT).map do |package|
+        authorize! :show, Package.find_by(id: package)
+      end
+    else
+      []
+    end
+
+    @settings = PackageInstallService.call(@endpoint, packages)
+    respond_to do |format|
+      format.html do
+        redirect_to [@endpoint],
+                    notice: "Packages soon will be installed."
+      end
+      format.json do
+        render :index, status: :accepted
       end
     end
   end
@@ -83,6 +106,11 @@ class SettingsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_setting
     @setting = @endpoint.settings.find_by!(package_id: params[:id])
+  end
+
+  # TODO: Allow to choose endpoint of current user
+  def set_endpoint
+    @endpoint = authorize! :show, current_endpoint
   end
 
   # Only allow a trusted parameter "white list" through.

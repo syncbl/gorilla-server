@@ -12,28 +12,24 @@ require "rails_helper"
 # of tools you can use to make these specs even more expressive, but we're
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
-RSpec.describe User, type: :request do
+RSpec.describe Endpoint, type: :request do
   let!(:user) { create(:user1) }
+  let!(:endpoint) { create(:endpoint1, user:) }
 
   describe "GET /show.json" do
     let(:valid_response) do
       {
-        response_type: "user",
+        response_type: "endpoint",
         response: {
-          id: user.id,
-          name: user.name,
-          fullname: user.fullname,
-          locale: user.locale,
+          id: endpoint.id,
+          caption: endpoint.caption,
+          locale: endpoint.locale
         },
       }
     end
 
-    before do
-      sign_in user
-    end
-
     it "renders a successful response" do
-      get user_path(format: :json)
+      get endpoint_path(format: :json, current_endpoint: endpoint)
       expect(response).to be_successful
       expect(JSON.parse(response.body, symbolize_names: true)).to match(valid_response)
     end

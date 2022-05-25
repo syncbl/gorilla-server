@@ -1,13 +1,18 @@
 class PackageInstallService < ApplicationService
-  def initialize(package, endpoint)
-    @package = package
+  def initialize(endpoint, packages)
     @endpoint = endpoint
+    @packages = packages
   end
 
-  # TODO: If query is not from API then notify endpoint
   def call
-    @setting = @endpoint.settings.find_or_initialize_by(package: @package)
-    @setting.save
-    @setting
+    # TODO: Add check of ancestors installed at least for components
+    settings = Set[]
+    @packages.each do |package|
+      Setting.find_or_create_by(endpoint: @endpoint, package:) do |s|
+        # TODO: Touch?
+        settings << s
+      end
+    end
+    settings
   end
 end

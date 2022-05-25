@@ -18,11 +18,11 @@ module Authentication
   end
 
   def current_endpoint
-    @sign_in_endpoint
+    session[:current_endpoint]
   end
 
   def sign_in_endpoint(endpoint)
-    @sign_in_endpoint ||= endpoint
+    session[:current_endpoint] ||= endpoint
   end
 
   def endpoint_signed_in?
@@ -57,6 +57,6 @@ module Authentication
   private
 
   def devise_current_user
-    @devise_current_user ||= warden.authenticate(scope: :user)
+    session[:devise_current_user] ||= warden.authenticate(scope: :user)
   end
 end
