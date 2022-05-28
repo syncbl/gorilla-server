@@ -1,10 +1,8 @@
-class Package::External < Package
+# TODO: Scrapper for package monitoring
+
+class Package::Monitor < Package::External
   jsonb_accessor :params,
-                 external_url: [:string],
-                 checksum: [:string],
-                 switches: [:string],
-                 uninstall: [:string],
-                 version: [:string]
+                 external_url: [:string]
 
   validates :external_url,
             format: {

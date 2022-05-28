@@ -23,9 +23,13 @@ module SimpleTypeable
     type == "Package::External"
   end
 
+  def monitor?
+    type == "Package::Monitor"
+  end
+
   private
 
   def check_type
-    bundle? || component? || external?
+    bundle? || component? || external? || monitor?
   end
 end

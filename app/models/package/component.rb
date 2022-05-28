@@ -3,10 +3,6 @@ class Package::Component < Package::Internal
 
   before_destroy :check_dependency, prepend: true
 
-  def self.model_name
-    Package.model_name
-  end
-
   def orphaned?
     Dependency.where(dependent_package: self).empty?
   end

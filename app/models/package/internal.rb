@@ -6,10 +6,6 @@ class Package::Internal < Package
 
   validates :params, internal_params: true
 
-  def self.model_name
-    Package.model_name
-  end
-
   def publishable?
     super && sources.where.not(published_at: nil).any?
   end

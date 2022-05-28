@@ -7,8 +7,4 @@ class Package::Bundle < Package::Internal
                  require_restart: [:boolean]
 
   enumerize :root, in: ROOT_ENUMERATOR
-
-  def self.model_name
-    Package.model_name
-  end
 end

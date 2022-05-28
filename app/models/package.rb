@@ -89,10 +89,18 @@ class Package < ApplicationRecord
       "Package::Bundle",
       "Package::Component",
       "Package::External",
+      "Package::Monitor"
     ]
   end
 
   def publishable?
     !blocked?
+  end
+
+  def self.inherited(subclass)
+    super
+    def subclass.model_name
+      superclass.model_name
+    end
   end
 end
