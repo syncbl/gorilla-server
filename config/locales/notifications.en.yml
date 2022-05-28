@@ -7,6 +7,7 @@ en:
         path_is_empty: Path can't be empty for this type of package
         root_is_empty: Root folder must be set for this type of package
         external_url_is_empty: You need to set URL for the external package
+        url_is_not_allowed: This URL protocol is not supported
       dependency:
         external: Cannot add components for external package
         forbidden: This component can't be accessed by package owner
@@ -29,15 +30,12 @@ en:
       name_restrict: is restricted
       no_plan: There are no active plan for this action
       search_query_error: Search query is wrong
-      url_is_not_allowed: This URL protocol is not supported
       link_not_exists: Cannot find this file in repository
       forbidden: Access forbidden
       not_found: Not found
-  warnings:
-    attributes:
-      source:
-        file_already_exists: File is already exists, you can use it in multiple packages.
   notices:
     attributes:
       package:
         shrinked: Package size reduced by %{size}
+      source:
+        file_already_exists: File is already exists, you can use it in multiple packages.

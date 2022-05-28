@@ -9,11 +9,13 @@ class Package::External < Package
   validates :external_url,
             format: {
               with: URI::DEFAULT_PARSER.make_regexp(%w[https http]),
-              message: I18n.t("errors.messages.url_is_not_allowed"),
+              message: I18n.t("errors.attributes.package.url_is_not_allowed"),
             },
             length: { maximum: 2048 },
-            presence: true
-  validates :params, external_params: true
+            presence: {
+              message: I18n.t("errors.attributes.package.external_url_is_empty")
+            }
+  # TODO: validates :params, external_params: true
 
   before_validation :auto_publish, on: :create
 

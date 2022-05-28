@@ -22,6 +22,6 @@ module SourcesHelper
     return unless source_exists?(current_user, file_params[:file].size, params[:checksum])
 
     # TODO: Link to source
-    flash[:warning] = I18n.t("warnings.attributes.source.file_already_exists")
+    flash[:warning] = I18n.t("notices.attributes.source.file_already_exists")
   end
 end
