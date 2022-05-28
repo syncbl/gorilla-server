@@ -1,4 +1,4 @@
-class Package::Bundle < Package::Internal
+class Package::Bundle < Package::InternalBase
   jsonb_accessor :params,
                  uninstall: [:string],
                  root: [:string, default: "default_storage"],

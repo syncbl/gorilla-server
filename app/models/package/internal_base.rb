@@ -1,4 +1,4 @@
-class Package::Internal < Package
+class Package::InternalBase < Package
   include ParamAwareable
 
   jsonb_accessor :params,

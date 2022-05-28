@@ -1,4 +1,4 @@
-class Package::Component < Package::Internal
+class Package::Component < Package::InternalBase
   has_many :packages, through: :dependencies
 
   before_destroy :check_dependency, prepend: true
