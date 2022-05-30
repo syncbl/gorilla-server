@@ -3,11 +3,12 @@ class SettingsController < ApplicationController
 
   # Settings can be used by user only within packages/endpoints
   before_action :authenticate_endpoint!
-  before_action :set_setting, except: %i[index create bulk_create]
+  before_action :set_setting, except: %i[index create create_all]
   before_action :set_package, only: :create
   before_action :set_endpoint
   skip_authorization_check only: :index
 
+  # TODO: To Post
   # GET /endpoints/1/settings
   def index
     sources = if params[:sources]
@@ -47,7 +48,7 @@ class SettingsController < ApplicationController
   end
 
   # POST /endpoints/1/settings/bulk
-  def bulk_create
+  def create_all
     packages = if params[:packages]
       params[:packages].split(",").grep(UUID_FORMAT).map do |package|
         authorize! :show, Package.find_by(id: package)
