@@ -1,6 +1,13 @@
 class SettingsController < ApplicationController
   include PackagesHelper
 
+  # TODO: Implement this changes in client
+  # GET index - list of installed to sync
+  # POST create - install package
+  # PUT with body - sync all installed, delete uninstalled
+  # Save all the .sync files in the same folder
+  # Every method works ONLY with collection arrays
+
   # Settings can be used by user only within packages/endpoints
   before_action :authenticate_endpoint!
   before_action :set_setting, except: %i[index create create_all]
@@ -47,7 +54,7 @@ class SettingsController < ApplicationController
     end
   end
 
-  # POST /endpoints/1/settings/bulk
+  # POST /endpoints/1/settings/create_all
   def create_all
     packages = if params[:packages]
       params[:packages].split(",").grep(UUID_FORMAT).map do |package|
@@ -115,6 +122,7 @@ class SettingsController < ApplicationController
   end
 
   # Only allow a trusted parameter "white list" through.
+  # TODO: { settings: { <package_id>: { source: <source_id> } } }
   def setting_params
     params.require(:setting).permit(:id)
   end

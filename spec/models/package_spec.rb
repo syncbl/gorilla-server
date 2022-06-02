@@ -1,12 +1,12 @@
 require "rails_helper"
 
 RSpec.describe Package, type: :model do
-  # it_behaves_like :blockable
-
   let(:user) { create(:user1) }
   let(:component) { create(:component1, user:) }
   let(:bundle) { create(:bundle1, user:) }
   let(:external) { create(:external1, user:) }
+
+  # TODO: subject should be its it_behaves_like :blockable
 
   context "with package params" do
     it "is correct component" do
