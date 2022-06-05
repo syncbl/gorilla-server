@@ -1,18 +1,16 @@
 class PackageInstallService < ApplicationService
-  def initialize(endpoint, packages)
+  def initialize(endpoint, package)
     @endpoint = endpoint
-    @packages = packages
+    @package = package
   end
 
   def call
     # TODO: Add check of ancestors installed at least for components
-    settings = Set[]
-    @packages.each do |package|
-      Setting.find_or_create_by(endpoint: @endpoint, package:) do |s|
-        # TODO: Touch?
-        settings << s
-      end
+    package = if @package.is_a? Package
+      @package
+    else
+      Package.find(@package)
     end
-    settings
+    Setting.find_or_create_by(endpoint: @endpoint, package:)
   end
 end

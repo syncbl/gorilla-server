@@ -117,3 +117,6 @@ RSpec/ExampleLength:
 
 RSpec/MultipleMemoizedHelpers:
   Max: 10
+
+Layout/CaseIndentation:
+  Enabled: false
