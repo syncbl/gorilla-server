@@ -24,6 +24,7 @@ gem "hiredis" # Ruby extension that wraps hiredis.
 
 # Other
 gem "activerecord-session_store" # A session store backed by an Active Record class.
+# gem "activerecord-summarize" # Summarize your ActiveRecord models.
 gem "active_record-events" # An ActiveRecord extension providing convenience methods for timestamp management.
 gem "active_storage_validations" # Active Storage Validations.
 # gem "acts-as-taggable-on" # ActsAsTaggableOn is a library for managing tags on ActiveRecord models.

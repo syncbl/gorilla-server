@@ -30,8 +30,7 @@ class SettingsController < ApplicationController
 
   # POST /endpoints/1/settings
   def create
-    packages = packages_from_params
-    settings = install_package(@endpoint, packages)
+    settings = install_package(@endpoint, packages_from_params)
 
     respond_to do |format|
       if settings.any?
