@@ -26,7 +26,7 @@ module Authentication
   end
 
   def endpoint_signed_in?
-    @current_resource.is_a?(Endpoint)
+    @current_resource.is_a? Endpoint
   end
 
   def reset_token!

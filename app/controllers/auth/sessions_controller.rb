@@ -8,9 +8,9 @@ class Auth::SessionsController < Devise::SessionsController
       format.json do
         # TODO: Move to ApplicationController
         clear_session
-        self.resource = warden.authenticate!(auth_options)
-        sign_in(resource_name, resource)
         if params[:endpoint].nil?
+          self.resource = warden.authenticate!(auth_options)
+          sign_in(resource_name, resource)
           render "users/show"
         else
           id = params.dig("endpoint", "id")

@@ -122,7 +122,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_16_150508) do
     t.index ["updated_at"], name: "index_products_on_updated_at"
   end
 
-  create_table "sessions", force: :cascade do |t|
+  create_table "sessions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "session_id", null: false
     t.jsonb "data"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
