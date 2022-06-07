@@ -10,7 +10,7 @@ module SettingsHelper
     end).grep(UUID_FORMAT)
   end
 
-  def install_package(endpoint, packages)
+  def install_packages(endpoint, packages)
     return [] unless packages.any?
 
     settings = Set[]

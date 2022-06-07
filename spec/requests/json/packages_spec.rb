@@ -22,7 +22,7 @@ RSpec.describe Package, type: :request do
     package.publish!
   end
 
-  describe "GET /show.json" do
+  describe "GET show" do
     let!(:valid_response) do
       {
         response_type: "package",
@@ -73,7 +73,7 @@ RSpec.describe Package, type: :request do
     end
   end
 
-  describe "GET /search.json" do
+  describe "GET search" do
     let!(:valid_response) do
       {
         name: "#{package.user.name}/#{package.name}",

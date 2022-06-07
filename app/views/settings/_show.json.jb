@@ -1,5 +1,4 @@
 # TODO: Username to User
-# TODO: CanCancan!
 setting_active = can? :show, setting
 
 json = {

@@ -15,7 +15,7 @@ require "rails_helper"
 RSpec.describe User, type: :request do
   let!(:user) { create(:user1) }
 
-  describe "GET /show.json" do
+  describe "GET show" do
     let(:valid_response) do
       {
         response_type: "user",

@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   resource :endpoint, only: %i[show update] do
     resources :settings do
       collection do
-        post :create_all
+        post :sync
       end
     end
     collection do

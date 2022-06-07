@@ -18,7 +18,8 @@ RSpec.describe "Settings", type: :request do
 
   # TODO: Wrong uuid, unauthorized, notification to install components
   # TODO: Correct response - why component1?
-  describe "GET /settings" do
+  # TODO: INDEX (short), GET (full), POST (full + not installed deps + all src), SYNC (show sources, no params)
+  describe "GET index" do
     let!(:valid_response) do
       {
         notifications: [
@@ -27,7 +28,38 @@ RSpec.describe "Settings", type: :request do
           }
         ],
         response_type: "settings",
-        response: []
+        response: [
+          {
+            active: true,
+            package: { caption: "Bundle 1",
+                       category: nil,
+                       h_size: nil,
+                       id: "e44adbea-5609-41c0-acbd-581203c71b70",
+                       name: "user1/bundle1",
+                       package_type: "bundle",
+                       short_description: "Test",
+                       size: 0,
+                       version: "1.0" },
+            params: {
+              path: "TEST1",
+              root: "system_root"
+            },
+            required_components: [
+              {
+                caption: "Component 1",
+                category: nil,
+                h_size: nil,
+                id: "586b941d-3ecb-4143-aa29-0041dd869736",
+                name: "user1/component1",
+                package_type: "component",
+                short_description: "Test",
+                size: 0,
+                version: nil
+              }
+            ],
+            sources: []
+          }
+        ]
       }
     end
 
@@ -41,7 +73,7 @@ RSpec.describe "Settings", type: :request do
     end
   end
 
-  describe "POST /settings" do
+  describe "POST create" do
     context "when package id is provided" do
       let!(:valid_response) do
         {
