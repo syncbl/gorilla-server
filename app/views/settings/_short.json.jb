@@ -1,0 +1,4 @@
+# TODO: Username to User
+json = {
+  package: (render "packages/short", package: setting.package),
+}

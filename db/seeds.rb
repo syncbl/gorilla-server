@@ -13,6 +13,7 @@ rescue StandardError => e
   Rails.logger.debug e.to_s.strip
   Rails.logger.debug e.backtrace.map do |x|
          x =~ /^(.+?):(\d+)(|:in `(.+)')$/
+         debugger
          [Regexp.last_match(1), Regexp.last_match(2)]
        end.reject { |x| x[0].include? ".rvm" }
   exit 1

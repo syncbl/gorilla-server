@@ -6,7 +6,7 @@ json = {
   params: setting.package.filtered_params,
 }
 
-json[:package] = render "packages/short", package: setting.package
+json.merge!(render("short", setting:))
 
 json.merge!(render("packages/includes", package: setting.package)) if setting_active
 

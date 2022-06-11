@@ -20,44 +20,23 @@ RSpec.describe "Settings", type: :request do
   # TODO: Correct response - why component1?
   # TODO: INDEX (short), GET (full), POST (full + not installed deps + all src), SYNC (show sources, no params)
   describe "GET index" do
+    # TODO: Valid response must contain component1
     let!(:valid_response) do
       {
-        notifications: [
-          {
-            remove_package: component1.id
-          }
-        ],
         response_type: "settings",
         response: [
           {
-            active: true,
-            package: { caption: "Bundle 1",
-                       category: nil,
-                       h_size: nil,
-                       id: "e44adbea-5609-41c0-acbd-581203c71b70",
-                       name: "user1/bundle1",
-                       package_type: "bundle",
-                       short_description: "Test",
-                       size: 0,
-                       version: "1.0" },
-            params: {
-              path: "TEST1",
-              root: "system_root"
+            package: {
+              caption: bundle1.caption,
+              category: nil,
+              h_size: nil,
+              id: bundle1.id,
+              name: "#{bundle1.user.name}/#{bundle1.name}",
+              package_type: bundle1.package_type.to_s,
+              short_description: bundle1.short_description,
+              size: bundle1.size,
+              version: bundle1.sources.last.version
             },
-            required_components: [
-              {
-                caption: "Component 1",
-                category: nil,
-                h_size: nil,
-                id: "586b941d-3ecb-4143-aa29-0041dd869736",
-                name: "user1/component1",
-                package_type: "component",
-                short_description: "Test",
-                size: 0,
-                version: nil
-              }
-            ],
-            sources: []
           }
         ]
       }
