@@ -65,46 +65,43 @@ gem "strip_attributes" # Automatically strips all attributes of leading and trai
 gem "uglifier" # Ruby wrapper for UglifyJS JavaScript compressor.
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem "simplecov", require: false
-  gem "rspec-rails"
-  gem "factory_bot_rails"
-  gem "capybara"
-  gem "database_cleaner"
-  gem "shoulda-matchers"
-  gem "rspec-json_expectations"
-  gem "debug", ">= 1.0.0"
-  gem "bundler-audit"
-  gem "brakeman"
-  gem "panolint"
+  gem "simplecov", require: false # A simple Ruby coverage tool.
+  gem "rspec-rails" # RSpec Rails is a Ruby extension for writing tests for Rails applications.
+  gem "factory_bot_rails" # FactoryBot is a Ruby library for generating test data for use with Rails and should be
+  gem "capybara" # Capybara is a test framework for integration testing of web applications.
+  gem "database_cleaner" # Database cleaner is a gem for testing that cleans your database before and after each test.
+  gem "shoulda-matchers" # Shoulda-Matchers is a set of matchers for test cases.
+  gem "rspec-json_expectations" # RSpec matcher for JSON.
+  gem "debug", ">= 1.0.0" # Ruby debugging tool
+  gem "bundler-audit" # Audit your Gemfile and Gemfile.lock
+  gem "brakeman" # Ruby on Rails vulnerability scanner.
 end
 
 group :development do
-  gem "listen"
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem "spring"
+  gem "listen" # Listen is a simple and powerful event-based server for Ruby.
+  gem "spring" # Spring speeds up development by keeping your application running in the background.
   gem "spring-watcher-listen", "~> 2.0.0"
-  gem "awesome_print", require: "ap"
-  gem "better_errors"
-  gem "binding_of_caller"
-  gem "derailed_benchmarks"
-  gem "i18n-tasks"
-  gem "bullet"
-  gem "query_count"
-  gem "traceroute"
-  gem "rack-mini-profiler"
-  gem "memory_profiler"
-  gem "rails_best_practices"
-  gem "rubocop"
+  gem "awesome_print", require: "ap" # A better, more colorful, printer for Ruby objects.
+  gem "better_errors" # Better Errors is a drop-in replacement for Rails' default error pages.
+  gem "binding_of_caller" # Provides a binding.of_caller method for the REPL.
+  gem "derailed_benchmarks" # Benchmarking framework for Ruby.
+  gem "i18n-tasks" # I18n tasks for rails
+  gem "bullet" # Bullet enables Bullet to detect N+1 queries and improve your application.
+  gem "query_count" # Query count for ActiveRecord
+  gem "traceroute" # A simple Ruby library for tracing the route of a request.
+  gem "rack-mini-profiler" # Rack middleware for profiling Rails applications.
+  gem "memory_profiler" # Memory Profiler is a Ruby library for profiling memory usage.
+  gem "rails_best_practices" # A collection of best practices for Rails apps.
+  gem "rubocop" # Ruby style guide checker
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
   gem 'rubocop-performance', require: false
-  gem "solargraph"
-  gem "rufo"
-  gem "reek"
+  gem "solargraph" # A Ruby language server for the Ruby language.
+  gem "rufo" # Ruby source code analyzer
+  gem "reek" # Ruby code smells detector
 end
 
 group :production do
   gem "whenever", require: false # Provides a clear syntax for writing and deploying cron jobs.
-  gem "connection_pool"
+  gem "connection_pool" # Connection pooling for ActiveRecord.
 end
