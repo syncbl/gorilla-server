@@ -14,7 +14,7 @@ class SettingsController < ApplicationController
   # Settings can be used by user only within packages/endpoints
   before_action :authenticate_endpoint!
   before_action :set_setting, only: %i[show]
-  before_action :set_package, only: :create
+  before_action :set_package, only: %i[create]
   before_action :set_endpoint
   skip_authorization_check only: :index
 

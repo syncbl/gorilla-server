@@ -1,13 +1,12 @@
 # TODO: Username to User
 setting_active = can? :show, setting
 
-json = {
-  active: setting_active,
-  params: setting.package.filtered_params,
-}
+json = render("base", setting:)
 
-json.merge!(render("short", setting:))
+json[:active] = setting_active
+json[:params] = setting.package.filtered_params
 
+# TODO: Assign, not merge
 json.merge!(render("packages/includes", package: setting.package)) if setting_active
 
 json

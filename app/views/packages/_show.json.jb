@@ -1,4 +1,4 @@
-json = render "packages/short", package: package
+json = render "base", package: package
 
 json.merge!(
   {
@@ -14,10 +14,10 @@ json.merge!(
 # TODO: May be, move icons into db?
 # TODO: Add dimensions
 json[:icon] = render "layouts/file", file: package.icon, prefix: "i"
-json[:user] = render "users/short", user: package.user
+json[:user] = render "users/base", user: package.user
 
 json[:dependencies] = package.dependencies.map do |d|
-  render "packages/short", package: d.dependent_package
+  render "base", package: d.dependent_package
 end
 
 json

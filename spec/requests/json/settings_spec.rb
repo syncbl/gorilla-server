@@ -7,8 +7,8 @@ RSpec.describe "Settings", type: :request do
   let!(:component1) { create(:component1, user:) }
   let!(:component2) { create(:component2, user:) }
   # let!(:bundle2) { create(:bundle2, user:) }
-  let(:source1) { create(:source1, package: bundle1) }
-  let(:source2) { create(:source2, package: bundle1) }
+  let!(:source1) { create(:source1, package: bundle1) }
+  let!(:source2) { create(:source2, package: bundle1) }
 
   before do
     bundle1.dependent_packages << component1
@@ -35,7 +35,7 @@ RSpec.describe "Settings", type: :request do
               package_type: bundle1.package_type.to_s,
               short_description: bundle1.short_description,
               size: bundle1.size,
-              version: bundle1.sources.last.version
+              version: source2.version
             },
           }
         ]
