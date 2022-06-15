@@ -17,7 +17,7 @@ json[:icon] = render "layouts/file", file: package.icon, prefix: "i"
 json[:user] = render "users/base", user: package.user
 
 json[:dependencies] = package.dependencies.map do |d|
-  render "base", package: d.dependent_package
+  render "packages/base", package: d.dependent_package
 end
 
 json

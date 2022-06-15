@@ -1,7 +1,7 @@
 # TODO: Username to User
-setting_active = can? :show, setting
+setting_active = can? :read, setting
 
-json = render("base", setting:)
+json = render "settings/base", setting: setting
 
 json[:active] = setting_active
 json[:params] = setting.package.filtered_params

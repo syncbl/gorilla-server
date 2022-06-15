@@ -12,6 +12,7 @@ end
 
 # TODO: Count all sizes of all dependencies
 # TODO: Show only if not installed?
+# TODO: Separate sources and dependencies
 package.dependencies.categorized.map do |d|
   component_type = if d.required_component?
       # Required components
@@ -27,7 +28,7 @@ package.dependencies.categorized.map do |d|
       :optional_packages
     end
   d.dependent_package.category = d.category
-  (json[component_type] ||= []) << (render "base", package: d.dependent_package)
+  (json[component_type] ||= []) << (render "packages/base", package: d.dependent_package)
 end
 
 json

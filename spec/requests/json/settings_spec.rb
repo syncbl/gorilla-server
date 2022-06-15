@@ -1,11 +1,11 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "Settings", type: :request do
   let!(:user) { create(:user1) }
-  let!(:endpoint) { create(:endpoint1, user:) }
-  let!(:bundle1) { create(:bundle1, user:) }
-  let!(:component1) { create(:component1, user:) }
-  let!(:component2) { create(:component2, user:) }
+  let!(:endpoint) { create(:endpoint1, user: user) }
+  let!(:bundle1) { create(:bundle1, user: user) }
+  let!(:component1) { create(:component1, user: user) }
+  let!(:component2) { create(:component2, user: user) }
   # let!(:bundle2) { create(:bundle2, user:) }
   let!(:source1) { create(:source1, package: bundle1) }
   let!(:source2) { create(:source2, package: bundle1) }
@@ -35,18 +35,18 @@ RSpec.describe "Settings", type: :request do
               package_type: bundle1.package_type.to_s,
               short_description: bundle1.short_description,
               size: bundle1.size,
-              version: source2.version
+              version: source2.version,
             },
-          }
-        ]
+          },
+        ],
       }
     end
 
     # TODO: fix this
     it "renders a successful response" do
       get endpoint_settings_path(current_endpoint: endpoint, format: :json), params: {
-        packages: source1.id.to_s
-      }
+                                                                               packages: source1.id.to_s,
+                                                                             }
       expect(response).to have_http_status(:ok)
       expect(JSON.parse(response.body, symbolize_names: true)).to match(valid_response)
     end
@@ -56,33 +56,66 @@ RSpec.describe "Settings", type: :request do
     context "when package id is provided" do
       let!(:valid_response) do
         {
-          response_type: "setting",
-          response: {
-            active: true,
-            package: {
-              caption: component2.caption,
-              category: component2.category,
-              h_size: nil,
-              id: component2.id,
-              name: "#{component2.user.name}/#{component2.name}",
-              package_type: component2.package_type.to_s,
-              short_description: component2.short_description,
-              size: 0,
-              version: nil
+          response_type: "settings",
+          response: [
+            {
+              active: true,
+              package: {
+                caption: component1.caption,
+                category: component1.category,
+                h_size: nil,
+                id: component1.id,
+                name: "#{component1.user.name}/#{component1.name}",
+                package_type: component1.package_type.to_s,
+                short_description: component1.short_description,
+                size: 0,
+                version: nil,
+              },
+              params: {
+                path: "TEST1",
+              },
+              sources: [],
+              required_components: [
+                {
+                  caption: component2.caption,
+                  category: component2.category,
+                  h_size: nil,
+                  id: component2.id,
+                  name: "#{component2.user.name}/#{component2.name}",
+                  package_type: component2.package_type.to_s,
+                  short_description: component2.short_description,
+                  size: 0,
+                  version: nil,
+                }
+              ]
             },
-            params: {
-              path: "TEST1"
+            {
+              active: true,
+              package: {
+                caption: component2.caption,
+                category: component2.category,
+                h_size: nil,
+                id: component2.id,
+                name: "#{component2.user.name}/#{component2.name}",
+                package_type: component2.package_type.to_s,
+                short_description: component2.short_description,
+                size: 0,
+                version: nil,
+              },
+              params: {
+                path: "TEST1",
+              },
+              sources: [],
             },
-            sources: []
-          }
+          ],
         }
       end
 
       # TODO: fix this
       it "renders a successful response" do
         post endpoint_settings_path(current_endpoint: endpoint, format: :json), params: {
-          id: component2.id.to_s
-        }
+                                                                                  packages: [component1.id, component2.id],
+                                                                                }
         expect(response).to have_http_status(:accepted)
         expect(JSON.parse(response.body, symbolize_names: true)).to match(valid_response)
       end
@@ -103,21 +136,21 @@ RSpec.describe "Settings", type: :request do
               package_type: component2.package_type.to_s,
               short_description: component2.short_description,
               size: 0,
-              version: nil
+              version: nil,
             },
             params: {
-              path: "TEST1"
+              path: "TEST1",
             },
-            sources: []
-          }
+            sources: [],
+          },
         }
       end
 
       # TODO: fix this
       it "renders a successful response" do
         post endpoint_settings_path(current_endpoint: endpoint, format: :json), params: {
-          user_id: component2.user.name, package_id: component2.name.to_s
-        }
+                                                                                  user_id: component2.user.name, package_id: component2.name.to_s,
+                                                                                }
         expect(response).to have_http_status(:accepted)
         expect(JSON.parse(response.body, symbolize_names: true)).to match(valid_response)
       end

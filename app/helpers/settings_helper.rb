@@ -1,21 +1,40 @@
 module SettingsHelper
+  # TODO: Inderstand when 403 and when 404
+
   def packages_from_params
-    (case package_params[:packages].class
-    when Array
-      package_params[:packages]
-    when String
-      package_params[:packages].split(",")
-    else
-      []
-    end).grep(UUID_FORMAT)
+    ids = case package_params
+      when Array
+        package_params
+      when String
+        package_params.split(",")
+      else
+        []
+      end
+
+    packages = Set[]
+    ids.each do |package|
+      packages << if package.include?("/")
+        Package.includes(:user)
+               .where(user: { name: package.split("/").first })
+               .find_by!(name: package.split("/").last).id
+      elsif package.match? UUID_FORMAT
+        Package.includes(:user)
+               .find(package)
+      else
+        raise ActiveRecord::RecordNotFound
+      end
+    end
+
+    packages
   end
 
   def install_packages(endpoint, packages)
     return [] unless packages.any?
 
     settings = Set[]
-    Package.where(id: packages.uniq).each do |uuid|
-      package = authorize! :show, Package.find_by(id: uuid)
+    packages.each do |package|
+      # TODO: Consider to use this authorization within a model
+      authorize! :show, package
       settings << PackageInstallService.call(endpoint, package)
     end
     settings

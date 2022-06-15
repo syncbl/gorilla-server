@@ -1,5 +1,4 @@
 class SettingsController < ApplicationController
-  include PackagesHelper
   include SettingsHelper
 
   # TODO: Implement this changes in client
@@ -14,7 +13,6 @@ class SettingsController < ApplicationController
   # Settings can be used by user only within packages/endpoints
   before_action :authenticate_endpoint!
   before_action :set_setting, only: %i[show]
-  before_action :set_package, only: %i[create]
   before_action :set_endpoint
   skip_authorization_check only: :index
 
@@ -42,7 +40,7 @@ class SettingsController < ApplicationController
                       notice: "Packages soon will be installed."
         end
         format.json do
-          render :index, status: :accepted
+          render :sync, status: :accepted
         end
       else
         format.html { render :new }
@@ -109,15 +107,11 @@ class SettingsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def setting_params
-    params.require!(:settings)
     params.permit(settings: [:id])
+    params.require(:settings)
   end
 
   def package_params
     params.require(:packages)
-  end
-
-  def set_package
-    @package = find_package_by_params
   end
 end
