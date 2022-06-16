@@ -32,10 +32,15 @@ module SettingsHelper
     return [] unless packages.any?
 
     settings = Set[]
-    packages.each do |package|
-      # TODO: Consider to use this authorization within a model
-      authorize! :show, package
-      settings << PackageInstallService.call(endpoint, package)
+    Setting.transaction do
+      packages.each do |package|
+        # TODO: Consider to use this authorization within a model
+        authorize! :show, package
+        settings << PackageInstallService.call(endpoint, package)
+      end
+    rescue ActiveRecord::RecordInvalid
+      settings.clear
+      raise ActiveRecord::Rollback
     end
     settings
   end

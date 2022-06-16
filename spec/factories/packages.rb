@@ -15,6 +15,14 @@ FactoryBot.define do
     path { "TEST1" }
   end
 
+  factory :component3, class: 'Package::Component' do
+    name { "component3" }
+    caption { "Component 3" }
+    short_description { "Test" }
+    description { "Test package" }
+    path { "TEST1" }
+  end
+
   factory :bundle1, class: 'Package::Bundle' do
     name { "bundle1" }
     caption { "Bundle 1" }

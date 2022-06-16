@@ -12,6 +12,7 @@ class PackageInstallService < ApplicationService
       Package.find(@package)
     end
     # TODO: Do this needs includes?
-    Setting.find_or_create_by(endpoint: @endpoint, package:)
+
+    Setting.find_or_create_by!(endpoint: @endpoint, package:)
   end
 end
