@@ -2,7 +2,6 @@ class Package < ApplicationRecord
   include PgSearch::Model
   include Blockable
   include Publishable
-  include IdentityCache
   include SimpleTypeable
   extend Enumerize
 

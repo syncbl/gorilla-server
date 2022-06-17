@@ -2,7 +2,6 @@ class Endpoint < ApplicationRecord
   include Blockable
   include Notifiable
   include TokenResetable
-  include IdentityCache
 
   # attribute :locale, :string, default: "en"
 

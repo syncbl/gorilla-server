@@ -1,7 +1,6 @@
 class Source < ApplicationRecord
   include Blockable
   include Publishable
-  include IdentityCache
 
   translates :description, :caption
 
