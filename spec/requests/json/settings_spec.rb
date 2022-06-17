@@ -27,24 +27,7 @@ RSpec.describe "Settings", type: :request do
   describe "GET index" do
     # TODO: Valid response must contain component1
     let!(:valid_response) do
-      {
-        response_type: "settings",
-        response: [
-          {
-            package: {
-              caption: bundle1.caption,
-              category: nil,
-              h_size: nil,
-              id: bundle1.id,
-              name: "#{bundle1.user.name}/#{bundle1.name}",
-              package_type: bundle1.package_type.to_s,
-              short_description: bundle1.short_description,
-              size: bundle1.size,
-              version: source2.version,
-            },
-          },
-        ],
-      }
+      short_settings_response(bundle1)
     end
 
     # TODO: fix this
@@ -60,60 +43,7 @@ RSpec.describe "Settings", type: :request do
   describe "POST create" do
     context "when package id is provided" do
       let!(:valid_response) do
-        {
-          response_type: "settings",
-          response: [
-            {
-              active: true,
-              package: {
-                caption: component1.caption,
-                category: component1.category,
-                h_size: nil,
-                id: component1.id,
-                name: "#{component1.user.name}/#{component1.name}",
-                package_type: component1.package_type.to_s,
-                short_description: component1.short_description,
-                size: 0,
-                version: nil,
-              },
-              params: {
-                path: "TEST1",
-              },
-              sources: [],
-              required_components: [
-                {
-                  caption: component2.caption,
-                  category: component2.category,
-                  h_size: nil,
-                  id: component2.id,
-                  name: "#{component2.user.name}/#{component2.name}",
-                  package_type: component2.package_type.to_s,
-                  short_description: component2.short_description,
-                  size: 0,
-                  version: nil,
-                }
-              ]
-            },
-            {
-              active: true,
-              package: {
-                caption: component2.caption,
-                category: component2.category,
-                h_size: nil,
-                id: component2.id,
-                name: "#{component2.user.name}/#{component2.name}",
-                package_type: component2.package_type.to_s,
-                short_description: component2.short_description,
-                size: 0,
-                version: nil,
-              },
-              params: {
-                path: "TEST1",
-              },
-              sources: [],
-            },
-          ],
-        }
+        long_settings_response(component1, component2)
       end
 
       let!(:invalid_response) do
