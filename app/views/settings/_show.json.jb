@@ -1,11 +1,7 @@
 # TODO: Username to User
-setting_active = can? :read, setting
-
 json = render "settings/base", setting: setting
 
-json[:active] = setting_active
-
-if setting_active
+if json[:active] = can?(:read, setting)
   json[:sources] = render("packages/sources", package: setting.package) unless setting.package.external?
   json[:params] = setting.package.filtered_params.compact
   json.merge! render("packages/dependencies", package: setting.package)
