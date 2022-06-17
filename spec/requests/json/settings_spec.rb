@@ -27,7 +27,7 @@ RSpec.describe "Settings", type: :request do
   describe "GET index" do
     # TODO: Valid response must contain component1
     let!(:valid_response) do
-      short_settings_response(bundle1)
+      settings_short_response(bundle1)
     end
 
     # TODO: fix this
@@ -43,7 +43,7 @@ RSpec.describe "Settings", type: :request do
   describe "POST create" do
     context "when package id is provided" do
       let!(:valid_response) do
-        long_settings_response(component1, component2)
+        settings_long_response(component1, component2)
       end
 
       let!(:invalid_response) do

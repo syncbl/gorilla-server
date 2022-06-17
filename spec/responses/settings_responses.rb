@@ -1,5 +1,5 @@
 module SettingsResponses
-  def short_settings_response(package)
+  def settings_short_response(package)
     {
       response_type: "settings",
       response: [
@@ -20,7 +20,7 @@ module SettingsResponses
     }
   end
 
-  def long_settings_response(component1, component2)
+  def settings_long_response(component1, component2)
     {
       response_type: "settings",
       response: [
