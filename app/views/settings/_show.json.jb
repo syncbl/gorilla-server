@@ -3,7 +3,7 @@ json = render "settings/base", setting: setting
 
 if json[:active] = can?(:read, setting)
   json[:sources] = render("packages/sources", package: setting.package) unless setting.package.external?
-  json[:params] = setting.package.filtered_params.compact
+  json[:params] = setting.package.filtered_params
   json.merge! render("packages/dependencies", package: setting.package)
 end
 
