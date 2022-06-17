@@ -4,9 +4,11 @@ setting_active = can? :read, setting
 json = render "settings/base", setting: setting
 
 json[:active] = setting_active
-json[:params] = setting.package.filtered_params
 
-# TODO: Assign, not merge
-json.merge!(render("packages/includes", package: setting.package)) if setting_active
+if setting_active
+  json[:sources] = render("packages/sources", package: setting.package) unless setting.package.external?
+  json[:params] = setting.package.filtered_params.compact
+  json.merge! render("packages/dependencies", package: setting.package)
+end
 
 json
