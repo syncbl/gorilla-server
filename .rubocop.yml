@@ -120,3 +120,6 @@ RSpec/MultipleMemoizedHelpers:
 
 Layout/CaseIndentation:
   Enabled: false
+
+RSpec/LetSetup:
+  Enabled: false
