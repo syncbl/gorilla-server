@@ -13,35 +13,11 @@ module SettingsHelper
 
     packages = Set[]
     ids.each do |package|
-      packages << if package.include?("/")
-        Package.includes(:user)
-               .where(user: { name: package.split("/").first })
-               .find_by!(name: package.split("/").last).id
-      elsif package.match? UUID_FORMAT
-        Package.includes(:user)
-               .find(package)
-      else
-        raise ActiveRecord::RecordNotFound
-      end
+      raise ActiveRecord::RecordNotFound unless package.match? UUID_FORMAT
+
+      packages << authorize!(:show, Package.includes(:user).find(package))
     end
 
     packages
-  end
-
-  def install_packages(endpoint, packages)
-    return [] unless packages.any?
-
-    settings = Set[]
-    Setting.transaction do
-      packages.each do |package|
-        # TODO: Consider to use this authorization within a model
-        authorize! :show, package
-        settings << PackageInstallService.call(endpoint, package)
-      end
-    rescue ActiveRecord::RecordInvalid
-      settings.clear
-      raise ActiveRecord::Rollback
-    end
-    settings
   end
 end
