@@ -47,7 +47,7 @@ RSpec.describe "Settings", type: :request do
       end
 
       let!(:invalid_response) do
-        { error: "TODO:" }
+        { errors: { packages: ["Validation failed: Package Can't install component without corresponding bundle"] } }
       end
 
       it "renders a successful response for components" do

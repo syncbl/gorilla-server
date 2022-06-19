@@ -25,7 +25,8 @@ class Endpoint < ApplicationRecord
       packages.each do |package|
         settings << PackageInstallService.call(self, package)
       end
-    rescue ActiveRecord::RecordInvalid
+    rescue ActiveRecord::RecordInvalid => e
+      errors.add :packages, e.message
       settings.clear
       raise ActiveRecord::Rollback
     end

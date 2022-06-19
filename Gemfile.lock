@@ -228,7 +228,7 @@ GEM
     identity_cache (1.1.0)
       activerecord (>= 5.2)
       ar_transaction_changes (~> 1.1)
-    importmap-rails (1.1.0)
+    importmap-rails (1.1.1)
       actionpack (>= 6.0.0)
       railties (>= 6.0.0)
     io-console (0.5.11)

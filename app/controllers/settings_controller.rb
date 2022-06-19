@@ -45,7 +45,8 @@ class SettingsController < ApplicationController
       else
         format.html { render :new }
         format.json do
-          render_json_error "TODO:", status: :unprocessable_entity
+          render_json_error @endpoint.errors.messages,
+                            status: :unprocessable_entity
         end
       end
     end
