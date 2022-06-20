@@ -1,5 +1,7 @@
 module SettingsResponses
-  def settings_short_response(package)
+  module_function
+
+  def short_response(package)
     {
       response_type: "settings",
       response: [
@@ -20,7 +22,7 @@ module SettingsResponses
     }
   end
 
-  def settings_long_response(component1, component2)
+  def long_response(component1, component2)
     {
       response_type: "settings",
       response: [
@@ -52,8 +54,8 @@ module SettingsResponses
               short_description: component2.short_description,
               size: 0,
               version: nil,
-            }
-          ]
+            },
+          ],
         },
         {
           active: true,
@@ -74,6 +76,14 @@ module SettingsResponses
           sources: [],
         },
       ],
+    }
+  end
+
+  def component_error_response
+    {
+      errors: {
+        packages: ["Validation failed: Package Can't install component without corresponding bundle"],
+      },
     }
   end
 end
