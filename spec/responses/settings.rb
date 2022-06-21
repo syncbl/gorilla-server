@@ -79,13 +79,5 @@ module Responses
         ],
       }
     end
-
-    def component_error
-      {
-        errors: {
-          packages: ["Validation failed: Package Can't install component without corresponding bundle"],
-        },
-      }
-    end
   end
 end

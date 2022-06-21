@@ -31,8 +31,6 @@ en:
       no_plan: There are no active plan for this action
       search_query_error: Search query is wrong
       link_not_exists: Cannot find this file in repository
-      forbidden: Access forbidden
-      not_found: Not found
   notices:
     attributes:
       package:

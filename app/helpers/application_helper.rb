@@ -37,8 +37,8 @@ module ApplicationHelper
     json
   end
 
-  def render_403(reason = nil)
-    reason ||= I18n.t("errors.messages.forbidden")
+  def render_403(exception)
+    reason = exception.message || I18n.t("errors.messages.forbidden")
     respond_to do |format|
       format.html do
         if user_signed_in?
@@ -52,7 +52,7 @@ module ApplicationHelper
     end
   end
 
-  def render_404
+  def render_404(exception)
     respond_to do |format|
       format.html do
         if user_signed_in?
@@ -62,7 +62,14 @@ module ApplicationHelper
           redirect_to new_user_session_path, status: :forbidden
         end
       end
-      format.json { render_json_error I18n.t("errors.messages.not_found"), status: :not_found }
+      format.json { render_json_error exception.message, status: :not_found }
+    end
+  end
+
+  def render_400(exception)
+    respond_to do |format|
+      format.html { super }
+      format.json { render json: { error: exception.message }, status: :bad_request }
     end
   end
 

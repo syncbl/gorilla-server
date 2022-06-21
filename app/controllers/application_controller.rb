@@ -14,8 +14,11 @@ class ApplicationController < ActionController::Base
                                   current_resource&.token_needs_reset?
                               }
   check_authorization unless: :devise_controller?
+
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
   rescue_from CanCan::AccessDenied, with: :render_403
+  rescue_from ActionController::ParameterMissing, with: :render_400
+
   helper_method :current_endpoint, :current_resource
 
   private
@@ -36,10 +39,8 @@ class ApplicationController < ActionController::Base
     if Api::Keys.new.find(service)
       case scope
       when "Endpoint"
-        unless sign_in_endpoint cache_fetch(Endpoint, id, token)
-          render_json_error I18n.t("devise.failure.unauthenticated"),
-                            status: :unauthorized
-        end
+        raise CanCan::AccessDenied unless sign_in_endpoint cache_fetch(Endpoint, id, token)
+
         if current_endpoint.remote_ip != request.remote_ip
           Rails.logger.warn "Endpoint #{current_endpoint.id} IP changed " \
                             "from #{current_endpoint.remote_ip} to #{request.remote_ip}"
@@ -47,16 +48,13 @@ class ApplicationController < ActionController::Base
                                   reseted_at: nil)
         end
       when "User"
-        unless sign_in cache_fetch(User, id, token)
-          render_json_error I18n.t("devise.failure.unauthenticated"),
-                            status: :unauthorized
-        end
+        raise CanCan::AccessDenied unless sign_in cache_fetch(User, id, token)
       end
     elsif service.present?
       head :upgrade_required
     else
       Rails.logger.warn "Forbidden request from #{request.remote_ip}"
-      render_403 I18n.t("devise.failure.unauthenticated")
+      raise CanCan::AccessDenied
     end
   end
 

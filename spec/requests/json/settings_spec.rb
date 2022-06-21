@@ -25,47 +25,62 @@ RSpec.describe "Settings", type: :request do
   # TODO: Correct response - why component1?
   # TODO: INDEX (short), GET (full), POST (full + not installed deps + all src), SYNC (show sources, no params)
   describe "GET index" do
-    # TODO: Valid response must contain component1 - mandatory install?
-    let!(:valid_response) do
-      Responses::Settings.index_valid(bundle1)
-    end
-
     # TODO: fix this
     it "renders a successful response" do
       get endpoint_settings_path(current_endpoint: endpoint, format: :json), params: {
         packages: source1.id.to_s,
       }
       expect(response).to have_http_status(:ok)
-      expect(JSON.parse(response.body, symbolize_names: true)).to match(valid_response)
+      expect(JSON.parse(response.body, symbolize_names: true)).to match(
+        Responses::Settings.index_valid(bundle1)
+      )
     end
   end
 
   describe "POST create" do
-    context "when package id is provided" do
-      let!(:valid_response) do
-        Responses::Settings.show_valid(component1, component2)
-      end
+    context "when package_id is provided" do
+      let!(:wrong_id) { SecureRandom.uuid }
 
-      let!(:invalid_response) do
-        Responses::Settings.component_error
-      end
-
-      it "renders a successful response for components" do
+      it "renders a successful response for the components" do
         post endpoint_settings_path(current_endpoint: endpoint, format: :json), params: {
           packages: [component1.id, component2.id],
         }
         expect(response).to have_http_status(:accepted)
-        expect(JSON.parse(response.body, symbolize_names: true)).to match(valid_response)
+        expect(JSON.parse(response.body, symbolize_names: true)).to match(
+          Responses::Settings.show_valid(component1, component2)
+        )
         expect(Setting.all.size).to eq(3)
       end
 
-      it "renders an unsuccessful response for other components" do
+      it "renders an unsuccessful response for the other components" do
         post endpoint_settings_path(current_endpoint: endpoint, format: :json), params: {
           packages: [component3.id],
         }
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(JSON.parse(response.body, symbolize_names: true)).to match(invalid_response)
+        expect(JSON.parse(response.body, symbolize_names: true)).to match(
+          Responses::Errors.component_error
+        )
         expect(Setting.all.size).to eq(1)
+      end
+
+      it "renders an unsuccessful response for the wrong bundle" do
+        post endpoint_settings_path(current_endpoint: endpoint, format: :json), params: {
+          packages: [wrong_id],
+        }
+        expect(response).to have_http_status(:not_found)
+        expect(JSON.parse(response.body, symbolize_names: true)).to match(
+          Responses::Errors.not_found(wrong_id)
+        )
+        expect(Setting.all.size).to eq(1)
+      end
+    end
+
+    context "when package_id is not provided" do
+      it "renders an unsuccessful response" do
+        post endpoint_settings_path(current_endpoint: endpoint, format: :json)
+
+        expect(response).to have_http_status(:bad_request)
+        expect(JSON.parse(response.body, symbolize_names: true)).to match(Responses::Errors.bad_request)
       end
     end
   end

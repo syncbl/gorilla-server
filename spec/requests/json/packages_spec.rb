@@ -23,17 +23,15 @@ RSpec.describe Package, type: :request do
   end
 
   describe "GET show" do
-    let!(:valid_response) do
-      Responses::Packages.show_valid(package)
-    end
-
     context "when signed in" do
       include_context "when user is authenticated"
 
       it "renders a successful response" do
         get package_path(package, format: :json)
         expect(response).to be_successful
-        expect(JSON.parse(response.body, symbolize_names: true)).to match(valid_response)
+        expect(JSON.parse(response.body, symbolize_names: true)).to match(
+          Responses::Packages.show_valid(package)
+        )
       end
     end
 
@@ -41,7 +39,9 @@ RSpec.describe Package, type: :request do
       it "renders a successful response" do
         get package_path(package, format: :json)
         expect(response).to be_successful
-        expect(JSON.parse(response.body, symbolize_names: true)).to match(valid_response)
+        expect(JSON.parse(response.body, symbolize_names: true)).to match(
+          Responses::Packages.show_valid(package)
+        )
       end
     end
   end
