@@ -27,7 +27,7 @@ RSpec.describe "Settings", type: :request do
   describe "GET index" do
     # TODO: Valid response must contain component1
     let!(:valid_response) do
-      SettingsResponses.index_valid(bundle1)
+      Responses::Settings.index_valid(bundle1)
     end
 
     # TODO: fix this
@@ -43,11 +43,11 @@ RSpec.describe "Settings", type: :request do
   describe "POST create" do
     context "when package id is provided" do
       let!(:valid_response) do
-        SettingsResponses.show_valid(component1, component2)
+        Responses::Settings.show_valid(component1, component2)
       end
 
       let!(:invalid_response) do
-        SettingsResponses.component_error
+        Responses::Settings.component_error
       end
 
       it "renders a successful response for components" do

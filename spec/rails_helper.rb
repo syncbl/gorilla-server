@@ -72,7 +72,7 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :helper
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include FactoryBot::Syntax::Methods
-  config.include SettingsResponses
+  config.include Responses::Settings
 
   config.before(:suite) do
     DatabaseCleaner[:active_record].strategy = :transaction
