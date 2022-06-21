@@ -67,9 +67,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_16_150508) do
 
   create_table "endpoints", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "caption"
-    t.inet "remote_ip"
     t.string "locale"
     t.string "authentication_token"
+    t.inet "remote_ip"
     t.uuid "user_id"
     t.datetime "blocked_at", precision: nil
     t.string "block_reason"
@@ -175,6 +175,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_16_150508) do
     t.string "locale"
     t.string "plan"
     t.string "authentication_token"
+    t.inet "remote_ip"
     t.datetime "blocked_at", precision: nil
     t.string "block_reason"
     t.datetime "reseted_at", precision: nil
