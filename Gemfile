@@ -51,6 +51,7 @@ gem "jb" # A simpler and faster Jbuilder alternative.
 gem "json_translate" # Rails I18n library for ActiveRecord model/data translation
 gem "jsonb_accessor", "~> 1" # Adds typed jsonb backed fields as first class citizens to your ActiveRecord models.
 gem "jwt" # A ruby implementation of the RFC 7519 OAuth JSON Web Token (JWT) standard.
+# gem "kredis" # Highlevel Ruby client for Redis.
 # gem "metainspector" # A Ruby library for extracting meta data from HTML pages.
 # gem "noticed" # Notifications for your Ruby on Rails app.
 # gem "omniauth" # Standardized Multi-Provider Authentication.

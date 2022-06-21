@@ -1,7 +1,7 @@
 module SettingsResponses
   module_function
 
-  def short_response(package)
+  def index_valid(package)
     {
       response_type: "settings",
       response: [
@@ -22,7 +22,7 @@ module SettingsResponses
     }
   end
 
-  def long_response(component1, component2)
+  def show_valid(component1, component2)
     {
       response_type: "settings",
       response: [
@@ -79,7 +79,7 @@ module SettingsResponses
     }
   end
 
-  def component_error_response
+  def component_error
     {
       errors: {
         packages: ["Validation failed: Package Can't install component without corresponding bundle"],
