@@ -37,18 +37,18 @@ class ApplicationController < ActionController::Base
     end
 
     if Api::Keys.new.find(service)
-      case scope
+      raise CanCan::AccessDenied unless case scope
       when "Endpoint"
-        raise CanCan::AccessDenied unless sign_in_endpoint cache_fetch(Endpoint, id, token)
+        sign_in_endpoint cache_fetch(Endpoint, id, token)
+      when "User"
+        sign_in cache_fetch(User, id, token)
+      end
 
-        if current_endpoint.remote_ip != request.remote_ip
-          Rails.logger.warn "Endpoint #{current_endpoint.id} IP changed " \
-                            "from #{current_endpoint.remote_ip} to #{request.remote_ip}"
-          current_endpoint.update(remote_ip: request.remote_ip,
+      if endpoint_signed_in? # TODO: May be user too?
+        if current_resource.remote_ip != request.remote_ip
+          current_resource.update(remote_ip: request.remote_ip,
                                   reseted_at: nil)
         end
-      when "User"
-        raise CanCan::AccessDenied unless sign_in cache_fetch(User, id, token)
       end
     elsif service.present?
       head :upgrade_required

@@ -20,6 +20,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
       # TODO: Is company? Show other info.
 
       t.string :authentication_token, index: { unique: true }
+      t.inet :remote_ip
 
       t.datetime :blocked_at
       t.string :block_reason
@@ -31,12 +32,12 @@ class InitializeTables < ActiveRecord::Migration[6.0]
     # ----------
     create_table :endpoints, id: :uuid do |t|
       t.string :caption
-      t.inet :remote_ip
       t.string :locale
 
       # TODO: Store PC parameters here
 
       t.string :authentication_token, index: { unique: true }
+      t.inet :remote_ip
 
       t.references :user, type: :uuid, index: true, foreign_key: true
 
