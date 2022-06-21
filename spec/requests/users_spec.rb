@@ -6,13 +6,9 @@ RSpec.describe "/users", type: :request do
   #   FactoryBot.attributes_for(:user1, name: "user3", email: "user3@example.com")
   # }
 
-  let(:user) { create(:user1) }
-
   describe "GET /show" do
     context "when signed in" do
-      before do
-        sign_in user
-      end
+      include_context "when user is authenticated"
 
       it "renders a successful response for me" do
         get user_path
@@ -40,9 +36,7 @@ RSpec.describe "/users", type: :request do
 
   describe "GET /edit" do
     context "when signed in" do
-      before do
-        sign_in user
-      end
+      include_context "when user is authenticated"
 
       it "renders a successful response" do
         get edit_user_path(user)
@@ -51,6 +45,8 @@ RSpec.describe "/users", type: :request do
     end
 
     context "when not signed in" do
+      let!(:user) { create(:user1) }
+
       it "renders an unsuccessful response" do
         get edit_user_path(user)
         expect(response).to have_http_status :unauthorized
@@ -70,9 +66,7 @@ RSpec.describe "/users", type: :request do
       }
     end
 
-    before do
-      sign_in user
-    end
+    include_context "when user is authenticated"
 
     context "with valid parameters" do
       it "updates the requested user" do

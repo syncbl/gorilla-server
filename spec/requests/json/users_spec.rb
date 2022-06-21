@@ -28,9 +28,7 @@ RSpec.describe User, type: :request do
       }
     end
 
-    before do
-      sign_in user
-    end
+    include_context "when user is authenticated"
 
     it "renders a successful response" do
       get user_path(format: :json)

@@ -8,6 +8,7 @@ require "rspec/rails"
 require "database_cleaner"
 require "rspec/json_expectations"
 Dir["spec/responses/*.rb"].each { |file| require File.expand_path(file) }
+Dir["spec/support/*.rb"].each { |file| require File.expand_path(file) }
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -72,7 +73,6 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :helper
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include FactoryBot::Syntax::Methods
-  config.include Responses::Settings
 
   config.before(:suite) do
     DatabaseCleaner[:active_record].strategy = :transaction

@@ -24,38 +24,11 @@ RSpec.describe Package, type: :request do
 
   describe "GET show" do
     let!(:valid_response) do
-      {
-        response_type: "package",
-        response: {
-          caption: package.caption,
-          category: package.category,
-          created_at: package.created_at.to_i,
-          dependencies: [],
-          description: package.description,
-          h_install_count: "0",
-          h_size: nil,
-          icon: nil,
-          id: package.id,
-          install_count: 0,
-          name: "#{user.name}/#{package.name}",
-          package_type: package.package_type.to_s,
-          short_description: package.short_description,
-          size: 0,
-          updated_at: package.reload.updated_at.to_i,
-          user: {
-            fullname: user.fullname,
-            id: user.id,
-            name: user.name,
-          },
-          version: source.version,
-        },
-      }
+      Responses::Packages.show_valid(package)
     end
 
     context "when signed in" do
-      before do
-        sign_in user
-      end
+      include_context "when user is authenticated"
 
       it "renders a successful response" do
         get package_path(package, format: :json)
@@ -81,9 +54,7 @@ RSpec.describe Package, type: :request do
     end
 
     context "when signed in" do
-      before do
-        sign_in user
-      end
+      include_context "when user is authenticated"
 
       it "renders a successful response" do
         get search_packages_path(q: "Bundle", format: :json)
