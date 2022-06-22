@@ -7,6 +7,7 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require "rspec/rails"
 require "database_cleaner"
 require "rspec/json_expectations"
+require "response_helper"
 Dir["spec/responses/*.rb"].each { |file| require File.expand_path(file) }
 Dir["spec/support/*.rb"].each { |file| require File.expand_path(file) }
 
