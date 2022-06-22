@@ -23,8 +23,33 @@ First of all, it is designed to install add-ons for any games very fast and cool
 
 But that's not all! Syncbl is not only allows to install, update and share software really easy, but also helps to remove it without leaving any parts behind. We are working hard to implement this principles in a client applications, which will be introduced soon with new awesome features.
 
-<p align="right">
-(<a href="#top">back to top</a>)</p>
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+<!-- PROJECT FEATURES -->
+## Project features
+
+# Highlights
+
+- [ ] Best way to share with someone a mod for a game you both playing and keep it synced!
+- [ ] Manage all your computers from one control panel: install, test and update software on them!
+- [ ] One-click restoration after Windows reinstallation!
+- [ ] ... TO BE CONTINUED
+
+# Server
+
+- [ ] Software parts can be splitted to packages with very fast calculated dependencies.
+    - [ ] Built-in S3 storage support allows packages to update or revert.
+    - [ ] Install from anywhere on the Internet using external packages with URLs.
+    - [ ] Monitor updates of other software and inform your customers.
+- [ ] Full statistic of software installations.
+- [ ] Add GDPR related notifications without changing your source code.
+- [ ] Manage your software settings, read remote logs, see remote errors.
+- [ ] Use the power of included existing opensource repositiories, like WinGet.
+- [ ] ... TO BE CONTINUED
+
+In project's Jira its like 100+ tickets right now, but I will move them to issues and features when we will be ready.
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- PREREQUISITES -->
 ## Prerequisites
@@ -52,18 +77,6 @@ So far just do these steps:
 * Run `rake db:create db:migrate` to prepare database. Additionally run `rake db:seed` to prepare development environment.
 * Run `rake assets:precompile` to build all the assets.
 * Run `rails s` to check if everything ok.
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-<!-- ROADMAP -->
-## Roadmap
-
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
-
-...Because, I have no idea so far. I mean, in my own Jira its like 100+ tickets right now, but I will move them to issues and features when I will be ready.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -96,7 +109,7 @@ Eldar Avatov - [@e1.avat](https://facebook.com/e1.avat) - eldar@syncbl.com
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-## My own gratitude
+## My gratitude
 
 I really need to thank all of the family, friends and collegues, who encouraged me during my work on that project. And my awesome team, which are, so far:
 
@@ -104,6 +117,8 @@ I really need to thank all of the family, friends and collegues, who encouraged 
 - Maksim Sysoev (master of applications)
 
 And of course [Provectus Inc.](https://provectus.com/), because they inspired me!
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
