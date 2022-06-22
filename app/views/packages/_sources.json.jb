@@ -1,0 +1,4 @@
+package.sources.preloaded.published.map do |source|
+  # TODO: Limit be last source id!!!
+  render "sources/show", source:
+end

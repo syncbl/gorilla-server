@@ -15,27 +15,17 @@ require "rails_helper"
 RSpec.describe User, type: :request do
   let!(:user) { create(:user1) }
 
-  describe "GET /show.json" do
+  describe "GET show" do
     let(:valid_response) do
-      {
-        response_type: "user",
-        response: {
-          id: user.id,
-          name: user.name,
-          fullname: user.fullname,
-          locale: user.locale,
-        },
-      }
+      Responses::Users.show_valid(user)
     end
 
-    before do
-      sign_in user
-    end
+    include_context "when user is authenticated"
 
     it "renders a successful response" do
       get user_path(format: :json)
       expect(response).to be_successful
-      expect(JSON.parse(response.body, symbolize_names: true)).to match(valid_response)
+      expect(JSON.parse(response.body)).to match(valid_response)
     end
   end
 end

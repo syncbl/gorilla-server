@@ -116,4 +116,13 @@ RSpec/ExampleLength:
   Enabled: false
 
 RSpec/MultipleMemoizedHelpers:
-  Max: 10
+  Max: 15
+
+Layout/CaseIndentation:
+  Enabled: false
+
+RSpec/LetSetup:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false

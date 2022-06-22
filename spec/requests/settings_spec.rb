@@ -12,14 +12,22 @@ RSpec.describe "Settings", type: :request do
   before do
     bundle1.dependent_packages << component1
     component1.dependent_packages << component2
-    PackageInstallService.call(endpoint, [bundle1])
+    PackageInstallService.call(endpoint, bundle1)
   end
 
-  describe "GET /endpoint/settings" do
+  describe "GET /index" do
     it "renders a successful response" do
-      get endpoint_settings_path(current_endpoint: endpoint), params: {
-        packages: source1.id.to_s
-      }
+      get endpoint_settings_path(current_endpoint: endpoint)
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
+  describe "GET /show" do
+    it "renders a successful response" do
+      get endpoint_settings_path(bundle1.id, current_endpoint: endpoint)
+      # , params: {
+      #  packages: source1.id.to_s
+      # }
       expect(response).to have_http_status(:ok)
     end
   end

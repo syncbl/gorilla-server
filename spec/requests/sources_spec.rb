@@ -7,9 +7,7 @@ RSpec.describe "Sources", type: :request do
 
   describe "POST /create" do
     context "when user signed in" do
-      before do
-        sign_in user
-      end
+      include_context "when user is authenticated"
 
       it "creates a new Source" do
         expect do

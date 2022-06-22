@@ -2,7 +2,6 @@ class Package < ApplicationRecord
   include PgSearch::Model
   include Blockable
   include Publishable
-  include IdentityCache
   include SimpleTypeable
   extend Enumerize
 
@@ -69,6 +68,10 @@ class Package < ApplicationRecord
             .order(published_at: :desc)
         }
 
+  def relative_name
+    "#{user.name}/#{name}"
+  end
+
   def recalculate_size!
     old_size = size
     self.size = 0
@@ -89,10 +92,18 @@ class Package < ApplicationRecord
       "Package::Bundle",
       "Package::Component",
       "Package::External",
+      "Package::Monitor"
     ]
   end
 
   def publishable?
     !blocked?
+  end
+
+  def self.inherited(subclass)
+    super
+    def subclass.model_name
+      superclass.model_name
+    end
   end
 end

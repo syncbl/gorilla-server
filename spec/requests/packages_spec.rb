@@ -25,9 +25,7 @@ RSpec.describe "/packages", type: :request do
 
   describe "GET /index" do
     context "when user signed in" do
-      before do
-        sign_in user
-      end
+      include_context "when user is authenticated"
 
       it "renders a successful response" do
         get packages_path
@@ -52,9 +50,7 @@ RSpec.describe "/packages", type: :request do
 
   describe "GET /show" do
     context "when user signed in" do
-      before do
-        sign_in user
-      end
+      include_context "when user is authenticated"
 
       it "valid package renders a successful response" do
         get package_path(package)
@@ -105,9 +101,7 @@ RSpec.describe "/packages", type: :request do
 
   describe "GET /new" do
     context "when user signed in" do
-      before do
-        sign_in user
-      end
+      include_context "when user is authenticated"
 
       it "renders a successful response" do
         get new_package_path
@@ -132,9 +126,7 @@ RSpec.describe "/packages", type: :request do
 
   describe "GET /edit" do
     context "when user signed in" do
-      before do
-        sign_in user
-      end
+      include_context "when user is authenticated"
 
       it "renders a successful response" do
         get edit_package_path(package)
@@ -159,9 +151,7 @@ RSpec.describe "/packages", type: :request do
 
   describe "POST /create" do
     context "when user signed in" do
-      before do
-        sign_in user
-      end
+      include_context "when user is authenticated"
 
       it "creates a new Package" do
         expect do
@@ -194,9 +184,7 @@ RSpec.describe "/packages", type: :request do
     end
 
     context "when signed in" do
-      before do
-        sign_in user
-      end
+      include_context "when user is authenticated"
 
       it "updates the requested package" do
         expect do
@@ -229,9 +217,7 @@ RSpec.describe "/packages", type: :request do
 
   describe "DELETE /destroy" do
     context "when user signed in" do
-      before do
-        sign_in user
-      end
+      include_context "when user is authenticated"
 
       it "destroys the requested package" do
         expect do

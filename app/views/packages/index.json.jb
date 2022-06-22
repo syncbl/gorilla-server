@@ -5,7 +5,7 @@ json[:response] = @packages.map do |package|
   if @edit
     render "show", package: package
   else
-    render "short", package: package
+    render "base", package: package
   end
 end
 

@@ -28,13 +28,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_16_150508) do
 
   create_table "active_storage_blobs", force: :cascade do |t|
     t.string "key", null: false
+    t.string "service_name", null: false
     t.string "filename", null: false
     t.string "content_type"
     t.text "metadata"
     t.bigint "byte_size", null: false
     t.string "checksum", null: false
     t.datetime "created_at", precision: nil, null: false
-    t.string "service_name", null: false
     t.index ["checksum"], name: "index_active_storage_blobs_on_checksum"
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
@@ -67,9 +67,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_16_150508) do
 
   create_table "endpoints", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "caption"
-    t.inet "remote_ip"
     t.string "locale"
     t.string "authentication_token"
+    t.inet "remote_ip"
     t.uuid "user_id"
     t.datetime "blocked_at", precision: nil
     t.string "block_reason"
@@ -122,7 +122,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_16_150508) do
     t.index ["updated_at"], name: "index_products_on_updated_at"
   end
 
-  create_table "sessions", force: :cascade do |t|
+  create_table "sessions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "session_id", null: false
     t.jsonb "data"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -175,6 +175,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_16_150508) do
     t.string "locale"
     t.string "plan"
     t.string "authentication_token"
+    t.inet "remote_ip"
     t.datetime "blocked_at", precision: nil
     t.string "block_reason"
     t.datetime "reseted_at", precision: nil

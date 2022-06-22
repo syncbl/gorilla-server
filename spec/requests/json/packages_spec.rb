@@ -22,71 +22,45 @@ RSpec.describe Package, type: :request do
     package.publish!
   end
 
-  describe "GET /show.json" do
-    let!(:valid_response) do
-      {
-        response_type: "package",
-        response: {
-          caption: package.caption,
-          category: package.category,
-          created_at: package.created_at.to_i,
-          dependencies: [],
-          description: package.description,
-          h_install_count: "0",
-          h_size: nil,
-          icon: nil,
-          id: package.id,
-          install_count: 0,
-          name: "#{user.name}/#{package.name}",
-          package_type: package.package_type.to_s,
-          short_description: package.short_description,
-          size: 0,
-          updated_at: package.reload.updated_at.to_i,
-          user: {
-            fullname: user.fullname,
-            id: user.id,
-            name: user.name,
-          },
-          version: source.version,
-        },
-      }
-    end
-
+  describe "GET show" do
     context "when signed in" do
-      before do
-        sign_in user
-      end
+      include_context "when user is authenticated"
 
       it "renders a successful response" do
         get package_path(package, format: :json)
+
         expect(response).to be_successful
-        expect(JSON.parse(response.body, symbolize_names: true)).to match(valid_response)
+        expect(JSON.parse(response.body)).to match(
+          Responses::Packages.show_valid(package)
+        )
       end
     end
 
     context "when not signed in" do
       it "renders a successful response" do
         get package_path(package, format: :json)
+
         expect(response).to be_successful
-        expect(JSON.parse(response.body, symbolize_names: true)).to match(valid_response)
+        expect(JSON.parse(response.body)).to match(
+          Responses::Packages.show_valid(package)
+        )
       end
     end
   end
 
-  describe "GET /search.json" do
+  describe "GET search" do
     let!(:valid_response) do
       {
-        name: "#{package.user.name}/#{package.name}",
+        name: package.relative_name
       }
     end
 
     context "when signed in" do
-      before do
-        sign_in user
-      end
+      include_context "when user is authenticated"
 
       it "renders a successful response" do
         get search_packages_path(q: "Bundle", format: :json)
+
         expect(response).to be_successful
         expect(JSON.parse(response.body)["response"][0]).to include_json(valid_response)
       end
@@ -95,6 +69,7 @@ RSpec.describe Package, type: :request do
     context "when not signed in" do
       it "renders a successful response" do
         get search_packages_path(q: "Bundle", format: :json)
+
         expect(response).to be_successful
         expect(JSON.parse(response.body)["response"][0]).to include_json(valid_response)
       end

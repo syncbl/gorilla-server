@@ -1,16 +1,8 @@
 json = {}
 
-json[:params] = package.params.compact
-
-unless package.external?
-
-  json[:sources] = package.sources.preloaded.published.map do |source|
-    # TODO: Limit be last source id!!!
-    render "sources/show", source:
-  end
-end
-
 # TODO: Count all sizes of all dependencies
+# TODO: Show only if not installed?
+# TODO: Separate sources and dependencies
 package.dependencies.categorized.map do |d|
   component_type = if d.required_component?
       # Required components
@@ -26,7 +18,7 @@ package.dependencies.categorized.map do |d|
       :optional_packages
     end
   d.dependent_package.category = d.category
-  (json[component_type] ||= []) << (render "packages/short", package: d.dependent_package)
+  (json[component_type] ||= []) << (render "packages/base", package: d.dependent_package)
 end
 
 json

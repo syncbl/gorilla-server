@@ -10,23 +10,23 @@ module Authentication
   end
 
   def current_user
-    current_endpoint&.user || devise_current_user
+    current_endpoint&.user || super
   end
 
   def current_resource
-    current_endpoint || devise_current_user
+    @current_resource
   end
 
   def current_endpoint
-    session[:current_endpoint]
+    current_resource if endpoint_signed_in?
   end
 
   def sign_in_endpoint(endpoint)
-    session[:current_endpoint] ||= endpoint
+    @current_resource = endpoint
   end
 
   def endpoint_signed_in?
-    current_endpoint.present?
+    @current_resource.is_a? Endpoint
   end
 
   def reset_token!
@@ -52,11 +52,5 @@ module Authentication
     return payload[:scope], payload[:uuid], payload[:token]
   rescue JWT::ExpiredSignature, JWT::DecodeError
     nil
-  end
-
-  private
-
-  def devise_current_user
-    session[:devise_current_user] ||= warden.authenticate(scope: :user)
   end
 end

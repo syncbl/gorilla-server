@@ -2,7 +2,6 @@ class Endpoint < ApplicationRecord
   include Blockable
   include Notifiable
   include TokenResetable
-  include IdentityCache
 
   # attribute :locale, :string, default: "en"
 
@@ -16,5 +15,21 @@ class Endpoint < ApplicationRecord
 
   def installed?(package)
     settings.exists?(package:)
+  end
+
+  def install(packages)
+    return [] unless packages.any?
+
+    settings = Set[]
+    Setting.transaction do
+      packages.each do |package|
+        settings << PackageInstallService.call(self, package)
+      end
+    rescue ActiveRecord::RecordInvalid => e
+      errors.add :packages, e.message
+      settings.clear
+      raise ActiveRecord::Rollback
+    end
+    settings
   end
 end

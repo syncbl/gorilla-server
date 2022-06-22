@@ -2,7 +2,6 @@ class User < ApplicationRecord
   include Blockable
   include Notifiable
   include TokenResetable
-  include IdentityCache
   extend Enumerize
 
   # Include default devise modules. Others available are:

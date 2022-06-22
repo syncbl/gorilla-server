@@ -14,9 +14,11 @@ class ActualizedSettingsService < ApplicationService
       next if components.include?(c.dependent_package.id)
 
       components << c.dependent_package.id
-      unless @packages.include?(c.dependent_package.id)
-        @endpoint.notify_add_package(c.package.id, c.dependent_package.id)
-      end
+      next if @packages.include?(c.dependent_package.id)
+
+      # TODO: Notify if optional, but somehow we need to
+      # make this notifications only once
+      @endpoint.notify_add_package(c.package.id, c.dependent_package.id)
     end
 
     # Auto cleaning unused components

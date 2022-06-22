@@ -1,4 +1,4 @@
-json = render "users/short", user: user
+json = render "users/base", user: user
 
 json[:locale] = user.locale
 

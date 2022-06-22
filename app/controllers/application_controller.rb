@@ -14,8 +14,11 @@ class ApplicationController < ActionController::Base
                                   current_resource&.token_needs_reset?
                               }
   check_authorization unless: :devise_controller?
+
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
   rescue_from CanCan::AccessDenied, with: :render_403
+  rescue_from ActionController::ParameterMissing, with: :render_400
+
   helper_method :current_endpoint, :current_resource
 
   private
@@ -34,29 +37,24 @@ class ApplicationController < ActionController::Base
     end
 
     if Api::Keys.new.find(service)
-      case scope
+      raise CanCan::AccessDenied unless case scope
       when "Endpoint"
-        unless sign_in_endpoint cache_fetch(Endpoint, id, token)
-          render_json_error I18n.t("devise.failure.unauthenticated"),
-                            status: :unauthorized
-        end
-        if current_endpoint.remote_ip != request.remote_ip
-          Rails.logger.warn "Endpoint #{current_endpoint.id} IP changed " \
-                            "from #{current_endpoint.remote_ip} to #{request.remote_ip}"
-          current_endpoint.update(remote_ip: request.remote_ip,
-                                  reseted_at: nil)
-        end
+        sign_in_endpoint cache_fetch(Endpoint, id, token)
       when "User"
-        unless sign_in cache_fetch(User, id, token)
-          render_json_error I18n.t("devise.failure.unauthenticated"),
-                            status: :unauthorized
+        sign_in cache_fetch(User, id, token)
+      end
+
+      if endpoint_signed_in? # TODO: May be user too?
+        if current_resource.remote_ip != request.remote_ip
+          current_resource.update(remote_ip: request.remote_ip,
+                                  reseted_at: nil)
         end
       end
     elsif service.present?
       head :upgrade_required
     else
       Rails.logger.warn "Forbidden request from #{request.remote_ip}"
-      render_403 I18n.t("devise.failure.unauthenticated")
+      raise CanCan::AccessDenied
     end
   end
 

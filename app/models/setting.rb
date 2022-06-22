@@ -1,6 +1,4 @@
 class Setting < ApplicationRecord
-  include IdentityCache
-
   belongs_to :package, counter_cache: true
   belongs_to :endpoint
   has_many :sources, through: :package
