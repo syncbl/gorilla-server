@@ -53,6 +53,8 @@ So far just do these steps:
 * Run `rake assets:precompile` to build all the assets.
 * Run `rails s` to check if everything ok.
 
+<p align="right">(<a href="#top">back to top</a>)</p>
+
 <!-- ROADMAP -->
 ## Roadmap
 
