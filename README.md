@@ -31,7 +31,7 @@ But that's not all! Syncbl is not only allows to install, update and share softw
 
 You will need:
 * NodeJS
-* Ruby 3.1.0
+* Ruby 3.1.0+
 * Redis
 * Memcached
 * PostgreSQL
