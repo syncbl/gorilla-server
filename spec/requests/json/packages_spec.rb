@@ -31,7 +31,7 @@ RSpec.describe Package, type: :request do
 
         expect(response).to be_successful
         expect(JSON.parse(response.body)).to match(
-          Responses::Packages.show_valid(package)
+          PackageResponse.new.call(:show_valid, package)
         )
       end
     end
@@ -42,7 +42,7 @@ RSpec.describe Package, type: :request do
 
         expect(response).to be_successful
         expect(JSON.parse(response.body)).to match(
-          Responses::Packages.show_valid(package)
+          PackageResponse.new.call(:show_valid, package)
         )
       end
     end

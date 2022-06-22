@@ -33,7 +33,7 @@ RSpec.describe "Settings", type: :request do
 
       expect(response).to have_http_status(:ok)
       expect(JSON.parse(response.body)).to match(
-        Responses::Settings.index_valid(bundle1)
+        SettingResponse.new.call(:index_valid, bundle1)
       )
     end
   end
@@ -48,7 +48,7 @@ RSpec.describe "Settings", type: :request do
 
       expect(response).to have_http_status(:ok)
       expect(JSON.parse(response.body)).to match(
-        Responses::Settings.show_valid(bundle1, component1)
+        SettingResponse.new.call(:show_valid, bundle1, component1)
       )
     end
 
@@ -57,7 +57,7 @@ RSpec.describe "Settings", type: :request do
 
       expect(response).to have_http_status(:not_found)
       expect(JSON.parse(response.body)).to match(
-        Responses::Errors.not_found(wrong_id)
+        ErrorResponse.new.call(:not_found, wrong_id)
       )
     end
   end
@@ -73,7 +73,7 @@ RSpec.describe "Settings", type: :request do
 
         expect(response).to have_http_status(:accepted)
         expect(JSON.parse(response.body)).to match(
-          Responses::Settings.post_valid(component1, component2)
+          SettingResponse.new.call(:post_valid, component1, component2)
         )
         expect(Setting.all.size).to eq(3)
       end
@@ -85,7 +85,7 @@ RSpec.describe "Settings", type: :request do
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(JSON.parse(response.body)).to match(
-          Responses::Errors.component_error
+          ErrorResponse.new.call(:component_error)
         )
         expect(Setting.all.size).to eq(1)
       end
@@ -97,7 +97,7 @@ RSpec.describe "Settings", type: :request do
 
         expect(response).to have_http_status(:not_found)
         expect(JSON.parse(response.body)).to match(
-          Responses::Errors.not_found(wrong_id)
+          ErrorResponse.new.call(:not_found, wrong_id)
         )
         expect(Setting.all.size).to eq(1)
       end
@@ -108,7 +108,7 @@ RSpec.describe "Settings", type: :request do
         post endpoint_settings_path(current_endpoint: endpoint, format: :json)
 
         expect(response).to have_http_status(:bad_request)
-        expect(JSON.parse(response.body)).to match(Responses::Errors.bad_request)
+        expect(JSON.parse(response.body)).to match ErrorResponse.new.call(:bad_request)
       end
     end
   end

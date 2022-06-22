@@ -5,6 +5,7 @@ RSpec.describe "/packages", type: :request do
   let!(:endpoint) { create(:endpoint1, user:) }
   let!(:package) { create(:bundle1, user:) }
   let!(:source) { create(:source1, package:) }
+  # TODO: To responses
   let!(:valid_bundle) do
     {
       name: "test-bundle",
