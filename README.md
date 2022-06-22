@@ -27,7 +27,7 @@ But that's not all! Syncbl is not only allows to install, update and share softw
 (<a href="#top">back to top</a>)</p>
 
 <!-- PREREQUISITES -->
-### Prerequisites
+## Prerequisites
 
 You will need:
 * NodeJS
@@ -42,7 +42,7 @@ Check out project Wiki for the detailed steps.
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- INSTALLATION -->
-### Installation
+## Installation
 
 So far just do these steps:
 * Copy and edit all `config/*.sample.yml`
