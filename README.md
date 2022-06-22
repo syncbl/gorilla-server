@@ -28,14 +28,14 @@ But that's not all! Syncbl is not only allows to install, update and share softw
 <!-- PROJECT FEATURES -->
 ## Project features
 
-# Highlights
+### Highlights
 
 - [ ] Best way to share with someone a mod for a game you both playing and keep it synced!
 - [ ] Manage all your computers from one control panel: install, test and update software on them!
 - [ ] One-click restoration after Windows reinstallation!
 - [ ] ... TO BE CONTINUED
 
-# Server
+### Server
 
 - [ ] Software parts can be splitted to packages with very fast calculated dependencies.
     - [ ] Built-in S3 storage support allows packages to update or revert.
