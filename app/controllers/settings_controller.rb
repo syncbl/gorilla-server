@@ -12,8 +12,9 @@ class SettingsController < ApplicationController
 
   # Settings can be used by user only within packages/endpoints
   before_action :authenticate_endpoint!
-  before_action :set_setting, only: %i[show]
+  # Endpoint must be identified before everything else
   before_action :set_endpoint
+  before_action :set_setting, only: %i[show]
   skip_authorization_check only: :index
 
   # GET /endpoints/1/settings
@@ -23,7 +24,9 @@ class SettingsController < ApplicationController
 
   # TODO: Show with descendants
   # GET /endpoints/1/settings/1
-  def show; end
+  def show
+    authorize! :show, @setting
+  end
 
   # @settings = ActualizedSettingsService.call(@endpoint, sources)
 
@@ -97,13 +100,14 @@ class SettingsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_setting
-    @setting = @endpoint.settings.find_by(package_id: params[:id])
-    authorize! :show, @setting
+    # TODO: Optimize by reducing number of queries and fixing error message
+    @setting = Setting.find_by! endpoint: @endpoint, package: Package.find(params[:id])
   end
 
-  # TODO: Allow to choose endpoint of current user
   def set_endpoint
-    @endpoint = authorize! :show, current_endpoint
+    # TODO: Allow to choose endpoint of current user /endpoint/1/settings
+    # params || current_endpoint
+    @endpoint = current_endpoint
   end
 
   # Only allow a trusted parameter "white list" through.

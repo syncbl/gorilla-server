@@ -18,7 +18,7 @@ module ApplicationHelper
       if object.user == current_user
         object.name
       else
-        "#{object.user.name}/#{object.name}"
+        object.relative_name
       end
     when Endpoint
       object.caption

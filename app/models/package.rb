@@ -68,6 +68,10 @@ class Package < ApplicationRecord
             .order(published_at: :desc)
         }
 
+  def relative_name
+    "#{user.name}/#{name}"
+  end
+
   def recalculate_size!
     old_size = size
     self.size = 0

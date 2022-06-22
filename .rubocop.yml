@@ -123,3 +123,6 @@ Layout/CaseIndentation:
 
 RSpec/LetSetup:
   Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false

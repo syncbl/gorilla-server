@@ -28,6 +28,7 @@ RSpec.describe Package, type: :request do
 
       it "renders a successful response" do
         get package_path(package, format: :json)
+
         expect(response).to be_successful
         expect(JSON.parse(response.body, symbolize_names: true)).to match(
           Responses::Packages.show_valid(package)
@@ -38,6 +39,7 @@ RSpec.describe Package, type: :request do
     context "when not signed in" do
       it "renders a successful response" do
         get package_path(package, format: :json)
+
         expect(response).to be_successful
         expect(JSON.parse(response.body, symbolize_names: true)).to match(
           Responses::Packages.show_valid(package)
@@ -49,7 +51,7 @@ RSpec.describe Package, type: :request do
   describe "GET search" do
     let!(:valid_response) do
       {
-        name: "#{package.user.name}/#{package.name}",
+        name: package.relative_name
       }
     end
 
@@ -58,6 +60,7 @@ RSpec.describe Package, type: :request do
 
       it "renders a successful response" do
         get search_packages_path(q: "Bundle", format: :json)
+
         expect(response).to be_successful
         expect(JSON.parse(response.body)["response"][0]).to include_json(valid_response)
       end
@@ -66,6 +69,7 @@ RSpec.describe Package, type: :request do
     context "when not signed in" do
       it "renders a successful response" do
         get search_packages_path(q: "Bundle", format: :json)
+
         expect(response).to be_successful
         expect(JSON.parse(response.body)["response"][0]).to include_json(valid_response)
       end

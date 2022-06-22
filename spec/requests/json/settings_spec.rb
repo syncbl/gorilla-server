@@ -30,9 +30,32 @@ RSpec.describe "Settings", type: :request do
       get endpoint_settings_path(current_endpoint: endpoint, format: :json), params: {
         packages: source1.id.to_s,
       }
+
       expect(response).to have_http_status(:ok)
       expect(JSON.parse(response.body, symbolize_names: true)).to match(
         Responses::Settings.index_valid(bundle1)
+      )
+    end
+  end
+
+  describe "GET show" do
+    let!(:wrong_id) { SecureRandom.uuid }
+
+    it "renders a successful response" do
+      get endpoint_setting_path(bundle1, current_endpoint: endpoint, format: :json)
+
+      expect(response).to have_http_status(:ok)
+      expect(JSON.parse(response.body, symbolize_names: true)).to match(
+        Responses::Settings.show_valid(bundle1, component1)
+      )
+    end
+
+    it "renders an unsuccessful response for the wrong bundle" do
+      get endpoint_setting_path(wrong_id, current_endpoint: endpoint, format: :json)
+
+      expect(response).to have_http_status(:not_found)
+      expect(JSON.parse(response.body, symbolize_names: true)).to match(
+        Responses::Errors.not_found(wrong_id)
       )
     end
   end
@@ -45,9 +68,10 @@ RSpec.describe "Settings", type: :request do
         post endpoint_settings_path(current_endpoint: endpoint, format: :json), params: {
           packages: [component1.id, component2.id],
         }
+
         expect(response).to have_http_status(:accepted)
         expect(JSON.parse(response.body, symbolize_names: true)).to match(
-          Responses::Settings.show_valid(component1, component2)
+          Responses::Settings.post_valid(component1, component2)
         )
         expect(Setting.all.size).to eq(3)
       end
@@ -56,6 +80,7 @@ RSpec.describe "Settings", type: :request do
         post endpoint_settings_path(current_endpoint: endpoint, format: :json), params: {
           packages: [component3.id],
         }
+
         expect(response).to have_http_status(:unprocessable_entity)
         expect(JSON.parse(response.body, symbolize_names: true)).to match(
           Responses::Errors.component_error
@@ -67,6 +92,7 @@ RSpec.describe "Settings", type: :request do
         post endpoint_settings_path(current_endpoint: endpoint, format: :json), params: {
           packages: [wrong_id],
         }
+
         expect(response).to have_http_status(:not_found)
         expect(JSON.parse(response.body, symbolize_names: true)).to match(
           Responses::Errors.not_found(wrong_id)
