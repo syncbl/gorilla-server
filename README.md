@@ -30,22 +30,22 @@ But that's not all! Syncbl is not only allows to install, update and share softw
 
 ### Highlights
 
-- [ ] Best way to share with someone a mod for a game you both playing and keep it synced!
-- [ ] Manage all your computers from one control panel: install, test and update software on them!
-- [ ] One-click restoration after Windows reinstallation!
-- [ ] ... TO BE CONTINUED
+- Best way to share with someone a mod for a game you both playing and keep it synced!
+- Manage all your computers from one control panel: install, test and update software on them!
+- One-click restoration after Windows reinstallation!
+- ... TO BE CONTINUED
 
 ### Server
 
-- [ ] Software parts can be splitted to packages with very fast calculated dependencies.
-    - [ ] Built-in S3 storage support allows packages to update or revert.
-    - [ ] Install from anywhere on the Internet using external packages with URLs.
-    - [ ] Monitor updates of other software and inform your customers.
-- [ ] Full statistic of software installations.
-- [ ] Add GDPR related notifications without changing your source code.
-- [ ] Manage your software settings, read remote logs, see remote errors.
-- [ ] Use the power of included existing opensource repositiories, like WinGet.
-- [ ] ... TO BE CONTINUED
+- Software parts can be splitted to packages with very fast calculated dependencies.
+    - Built-in S3 storage support allows packages to update or revert.
+    - Install from anywhere on the Internet using external packages with URLs.
+    - Monitor updates of other software and inform your customers.
+- Full statistic of software installations.
+- Add GDPR related notifications without changing your source code.
+- Manage your software settings, read remote logs, see remote errors.
+- Use the power of included existing opensource repositiories, like WinGet.
+- ... TO BE CONTINUED
 
 In project's Jira its like 100+ tickets right now, but I will move them to issues and features when we will be ready.
 
