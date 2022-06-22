@@ -20,7 +20,7 @@ module Responses
             },
           },
         ],
-      }
+      }.with_indifferent_access
     end
 
     def show_valid(package, component)
@@ -56,9 +56,31 @@ module Responses
               version: nil,
             },
           ],
-          sources: [],
+          sources: [
+            {
+              ancestor: nil,
+              caption: package.sources.first.caption,
+              created_at: package.sources.first.created_at.to_i,
+              delete_files: [],
+              description: package.sources.first.description,
+              file: {
+                checksum: package.sources.first.file.checksum,
+                filename: "#{package.name}.#{package.sources.first.file.filename}",
+                h_size: ActionController::Base.helpers.number_to_human_size(package.sources.first.file.byte_size),
+                size: package.sources.first.file.byte_size,
+                url: Rails.application.routes.url_helpers.url_for(package.sources.first.file).remove("http://"),
+              },
+              files: package.sources.first.files,
+              h_size: ActionController::Base.helpers.number_to_human_size(package.sources.first.unpacked_size),
+              id: package.sources.first.id,
+              partial: package.sources.first.partial,
+              size: package.sources.first.unpacked_size,
+              updated_at: package.sources.first.updated_at.to_i,
+              version: package.sources.first.version,
+            },
+          ],
         },
-      }
+      }.with_indifferent_access
     end
 
     def post_valid(component1, component2)
@@ -115,7 +137,7 @@ module Responses
             sources: [],
           },
         ],
-      }
+      }.with_indifferent_access
     end
   end
 end

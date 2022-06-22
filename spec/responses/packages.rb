@@ -28,7 +28,7 @@ module Responses
           },
           version: package.sources.last&.version,
         },
-      }
+      }.with_indifferent_access
     end
   end
 end

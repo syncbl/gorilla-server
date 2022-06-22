@@ -30,7 +30,7 @@ RSpec.describe Package, type: :request do
         get package_path(package, format: :json)
 
         expect(response).to be_successful
-        expect(JSON.parse(response.body, symbolize_names: true)).to match(
+        expect(JSON.parse(response.body)).to match(
           Responses::Packages.show_valid(package)
         )
       end
@@ -41,7 +41,7 @@ RSpec.describe Package, type: :request do
         get package_path(package, format: :json)
 
         expect(response).to be_successful
-        expect(JSON.parse(response.body, symbolize_names: true)).to match(
+        expect(JSON.parse(response.body)).to match(
           Responses::Packages.show_valid(package)
         )
       end

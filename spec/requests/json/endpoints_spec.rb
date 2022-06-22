@@ -18,20 +18,13 @@ RSpec.describe Endpoint, type: :request do
 
   describe "GET show" do
     let(:valid_response) do
-      {
-        response_type: "endpoint",
-        response: {
-          id: endpoint.id,
-          caption: endpoint.caption,
-          locale: endpoint.locale
-        },
-      }
+      Responses::Endpoints.show_valid(endpoint)
     end
 
     it "renders a successful response" do
       get endpoint_path(format: :json, current_endpoint: endpoint)
       expect(response).to be_successful
-      expect(JSON.parse(response.body, symbolize_names: true)).to match(valid_response)
+      expect(JSON.parse(response.body)).to match(valid_response)
     end
   end
 end

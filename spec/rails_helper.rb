@@ -10,6 +10,8 @@ require "rspec/json_expectations"
 Dir["spec/responses/*.rb"].each { |file| require File.expand_path(file) }
 Dir["spec/support/*.rb"].each { |file| require File.expand_path(file) }
 
+Rails.application.routes.default_url_options[:host] = ''
+
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in

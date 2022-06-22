@@ -11,7 +11,7 @@ RSpec.describe "Settings", type: :request do
   let(:bundle2) { create(:bundle2, user:) }
   let!(:component3) { create(:component3, user:) }
 
-  let!(:source1) { create(:source1, package: bundle1) }
+  let!(:source1) { create(:source1, :published, package: bundle1) }
   let!(:source2) { create(:source2, package: bundle1) }
 
   before do
@@ -32,7 +32,7 @@ RSpec.describe "Settings", type: :request do
       }
 
       expect(response).to have_http_status(:ok)
-      expect(JSON.parse(response.body, symbolize_names: true)).to match(
+      expect(JSON.parse(response.body)).to match(
         Responses::Settings.index_valid(bundle1)
       )
     end
@@ -44,8 +44,10 @@ RSpec.describe "Settings", type: :request do
     it "renders a successful response" do
       get endpoint_setting_path(bundle1, current_endpoint: endpoint, format: :json)
 
+      # , url_for(bundle1.sources.first.file)
+
       expect(response).to have_http_status(:ok)
-      expect(JSON.parse(response.body, symbolize_names: true)).to match(
+      expect(JSON.parse(response.body)).to match(
         Responses::Settings.show_valid(bundle1, component1)
       )
     end
@@ -54,7 +56,7 @@ RSpec.describe "Settings", type: :request do
       get endpoint_setting_path(wrong_id, current_endpoint: endpoint, format: :json)
 
       expect(response).to have_http_status(:not_found)
-      expect(JSON.parse(response.body, symbolize_names: true)).to match(
+      expect(JSON.parse(response.body)).to match(
         Responses::Errors.not_found(wrong_id)
       )
     end
@@ -70,7 +72,7 @@ RSpec.describe "Settings", type: :request do
         }
 
         expect(response).to have_http_status(:accepted)
-        expect(JSON.parse(response.body, symbolize_names: true)).to match(
+        expect(JSON.parse(response.body)).to match(
           Responses::Settings.post_valid(component1, component2)
         )
         expect(Setting.all.size).to eq(3)
@@ -82,7 +84,7 @@ RSpec.describe "Settings", type: :request do
         }
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(JSON.parse(response.body, symbolize_names: true)).to match(
+        expect(JSON.parse(response.body)).to match(
           Responses::Errors.component_error
         )
         expect(Setting.all.size).to eq(1)
@@ -94,7 +96,7 @@ RSpec.describe "Settings", type: :request do
         }
 
         expect(response).to have_http_status(:not_found)
-        expect(JSON.parse(response.body, symbolize_names: true)).to match(
+        expect(JSON.parse(response.body)).to match(
           Responses::Errors.not_found(wrong_id)
         )
         expect(Setting.all.size).to eq(1)
@@ -106,7 +108,7 @@ RSpec.describe "Settings", type: :request do
         post endpoint_settings_path(current_endpoint: endpoint, format: :json)
 
         expect(response).to have_http_status(:bad_request)
-        expect(JSON.parse(response.body, symbolize_names: true)).to match(Responses::Errors.bad_request)
+        expect(JSON.parse(response.body)).to match(Responses::Errors.bad_request)
       end
     end
   end
@@ -120,7 +122,7 @@ RSpec.describe "Settings", type: :request do
   #        user_id: component2.user.name, package_id: component2.name.to_s,
   #      }
   #      expect(response).to have_http_status(:accepted)
-  #      expect(JSON.parse(response.body, symbolize_names: true)).to match(valid_response)
+  #      expect(JSON.parse(response.body)).to match(valid_response)
   #    end
   #  end
   # end
