@@ -31,7 +31,7 @@ But that's not all! Syncbl is not only allows to install, update and share softw
 ### Highlights
 
 - Best way to share with someone a mod for a game you both playing and keep it synced!
-- Manage all your computers from one control panel: install, test and update software on them!
+- Manage all your computers from one control panel: install, test and update!
 - One-click restoration after Windows reinstallation!
 - ... TO BE CONTINUED
 
@@ -41,13 +41,13 @@ But that's not all! Syncbl is not only allows to install, update and share softw
     - Built-in S3 storage support allows packages to update or revert.
     - Install from anywhere on the Internet using external packages with URLs.
     - Monitor updates of other software and inform your customers.
-- Full statistic of software installations.
+- Full statistics for your software installations.
 - Add GDPR related notifications without changing your source code.
 - Manage your software settings, read remote logs, see remote errors.
 - Use the power of included existing opensource repositiories, like WinGet.
 - ... TO BE CONTINUED
 
-In project's Jira its like 100+ tickets right now, but I will move them to issues and features when we will be ready.
+In project's Jira there is like 100+ features right now, I will move them to issues and features when we will be ready.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -56,7 +56,7 @@ In project's Jira its like 100+ tickets right now, but I will move them to issue
 
 You will need:
 * NodeJS
-* Ruby 3.1.0+
+* Ruby ~3.1.0 (because of new short parameter syntax introduced in Ruby 3.1.0)
 * Redis
 * Memcached
 * PostgreSQL
