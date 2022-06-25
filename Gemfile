@@ -41,7 +41,7 @@ gem "devise-bootstrap5" # Devise Bootstrap5.
 # gem "discard" # Soft deletes for ActiveRecord done right.
 gem "enumerize" # Enumerated attributes with I18n and ActiveRecord/Mongoid/MongoMapper/Sequel support
 gem "eventmachine" # EventMachine is an event-driven I/O and lightweight concurrency library for Ruby.
-gem "goldiloader" # ActiveRecord eager loading
+# TODO: gem "goldiloader" # ActiveRecord eager loading
 # gem "has_friendship" # A simple friendship management gem for Rails.
 gem "high_voltage" # Rails engine for static pages.
 # gem "hotwire-rails" # Hotwire is an alternative approach to building modern web applications without using much JavaScript.

@@ -97,7 +97,7 @@ class Package < ApplicationRecord
   end
 
   def publishable?
-    !blocked?
+    not_blocked?
   end
 
   def self.inherited(subclass)

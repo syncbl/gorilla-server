@@ -35,6 +35,6 @@ class Source < ApplicationRecord
   end
 
   def publishable?
-    !blocked? && file.attached?
+    not_blocked? && file.attached?
   end
 end

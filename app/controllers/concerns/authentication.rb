@@ -2,7 +2,7 @@ module Authentication
   def cache_fetch(model, id, token)
     cached_instance = model.fetch(id)
     if ActiveSupport::SecurityUtils.secure_compare(cached_instance&.authentication_token, token) &&
-       !cached_instance&.blocked?
+       cached_instance&.not_blocked?
        cached_instance
     else
       raise CanCan::AccessDenied

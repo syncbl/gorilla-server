@@ -62,6 +62,7 @@ class ApplicationController < ActionController::Base
     sign_in_endpoint Endpoint.find(params[:current_endpoint]) if params[:current_endpoint].present?
   end
 
+  # TODO: Check up keys and merge
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(
       :sign_up,
