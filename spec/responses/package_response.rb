@@ -1,8 +1,4 @@
-class PackageResponse
-  include ResponseHelper
-
-  private
-
+class PackageResponse < Response
   def show_valid(package)
     {
       response_type: "package",

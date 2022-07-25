@@ -1,8 +1,4 @@
-class ErrorResponse
-  include ResponseHelper
-
-  private
-
+class ErrorResponse < Response
   def component_error
     {
       errors: {

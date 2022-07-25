@@ -16,6 +16,7 @@ RSpec.describe Package, type: :request do
   let!(:user) { create(:user1) }
   let!(:package) { create(:bundle1, user:) }
   let!(:source) { create(:source1, package:) }
+  let!(:package_mock) { PackageResponse.new }
 
   before do
     source.publish!
@@ -31,7 +32,7 @@ RSpec.describe Package, type: :request do
 
         expect(response).to be_successful
         expect(JSON.parse(response.body)).to match(
-          PackageResponse.new.call(:show_valid, package)
+          package_mock.build(:show_valid, package)
         )
       end
     end
@@ -42,7 +43,7 @@ RSpec.describe Package, type: :request do
 
         expect(response).to be_successful
         expect(JSON.parse(response.body)).to match(
-          PackageResponse.new.call(:show_valid, package)
+          package_mock.build(:show_valid, package)
         )
       end
     end

@@ -1,9 +1,5 @@
 # rubocop:disable Metrics/ClassLength
-class SettingResponse
-  include ResponseHelper
-
-  private
-
+class SettingResponse < Response
   def index_valid(package)
     {
       response_type: "settings",

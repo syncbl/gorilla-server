@@ -18,7 +18,7 @@ RSpec.describe Endpoint, type: :request do
 
   describe "GET show" do
     let(:valid_response) do
-      EndpointResponse.new.call(:show_valid, endpoint)
+      EndpointResponse.new.build(:show_valid, endpoint)
     end
 
     it "renders a successful response" do

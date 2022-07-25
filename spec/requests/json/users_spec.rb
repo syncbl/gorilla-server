@@ -17,7 +17,7 @@ RSpec.describe User, type: :request do
 
   describe "GET show" do
     let(:valid_response) do
-      UserResponse.new.call(:show_valid, user)
+      UserResponse.new.build(:show_valid, user)
     end
 
     include_context "when user is authenticated"

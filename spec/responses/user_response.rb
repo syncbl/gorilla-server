@@ -1,8 +1,4 @@
-class UserResponse
-  include ResponseHelper
-
-  private
-
+class UserResponse < Response
   def show_valid(user)
     {
       response_type: "user",

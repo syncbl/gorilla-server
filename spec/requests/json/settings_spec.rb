@@ -1,6 +1,8 @@
 require "rails_helper"
 
 RSpec.describe "Settings", type: :request do
+  let!(:setting_mock) { SettingResponse.new }
+
   let!(:user) { create(:user1) }
   let!(:endpoint) { create(:endpoint1, user:) }
 
@@ -13,6 +15,8 @@ RSpec.describe "Settings", type: :request do
 
   let!(:source1) { create(:source1, :published, package: bundle1) }
   let!(:source2) { create(:source2, package: bundle1) }
+  let!(:source3) { create(:source1, :published, package: bundle2) }
+  let!(:source4) { create(:source2, package: component3) }
 
   before do
     bundle1.dependent_packages << component1
@@ -33,7 +37,7 @@ RSpec.describe "Settings", type: :request do
 
       expect(response).to have_http_status(:ok)
       expect(JSON.parse(response.body)).to match(
-        SettingResponse.new.call(:index_valid, bundle1)
+        setting_mock.build(:index_valid, bundle1)
       )
     end
   end
@@ -48,7 +52,7 @@ RSpec.describe "Settings", type: :request do
 
       expect(response).to have_http_status(:ok)
       expect(JSON.parse(response.body)).to match(
-        SettingResponse.new.call(:show_valid, bundle1, component1)
+        setting_mock.build(:show_valid, bundle1, component1)
       )
     end
 
@@ -57,7 +61,7 @@ RSpec.describe "Settings", type: :request do
 
       expect(response).to have_http_status(:not_found)
       expect(JSON.parse(response.body)).to match(
-        ErrorResponse.new.call(:not_found, wrong_id)
+        ErrorResponse.new.build(:not_found, wrong_id)
       )
     end
   end
@@ -73,7 +77,7 @@ RSpec.describe "Settings", type: :request do
 
         expect(response).to have_http_status(:accepted)
         expect(JSON.parse(response.body)).to match(
-          SettingResponse.new.call(:post_valid, component1, component2)
+          setting_mock.build(:post_valid, component1, component2)
         )
         expect(Setting.all.size).to eq(3)
       end
@@ -85,7 +89,7 @@ RSpec.describe "Settings", type: :request do
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(JSON.parse(response.body)).to match(
-          ErrorResponse.new.call(:component_error)
+          ErrorResponse.new.build(:component_error)
         )
         expect(Setting.all.size).to eq(1)
       end
@@ -97,7 +101,7 @@ RSpec.describe "Settings", type: :request do
 
         expect(response).to have_http_status(:not_found)
         expect(JSON.parse(response.body)).to match(
-          ErrorResponse.new.call(:not_found, wrong_id)
+          ErrorResponse.new.build(:not_found, wrong_id)
         )
         expect(Setting.all.size).to eq(1)
       end
@@ -108,7 +112,25 @@ RSpec.describe "Settings", type: :request do
         post endpoint_settings_path(current_endpoint: endpoint, format: :json)
 
         expect(response).to have_http_status(:bad_request)
-        expect(JSON.parse(response.body)).to match ErrorResponse.new.call(:bad_request)
+        expect(JSON.parse(response.body)).to match ErrorResponse.new.build(:bad_request)
+      end
+    end
+  end
+
+  describe "POST sync" do
+    context "when package ids were provided" do
+      it "renders a successful response" do
+        post sync_endpoint_settings_path(current_endpoint: endpoint, format: :json), params: {
+          sources: [bundle1.sources.last.id, bundle2.sources.last.id],
+          packages: [bundle2.id],
+        }
+
+        expect(response).to have_http_status(:ok)
+        # TODO: fix this
+        # expect(JSON.parse(response.body)).to match(
+        #  SettingResponse.new.call(:post_valid, component1, component2)
+        # )
+        # expect(Setting.all.size).to eq(3)
       end
     end
   end

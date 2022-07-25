@@ -1,8 +1,4 @@
-class EndpointResponse
-  include ResponseHelper
-
-  private
-
+class EndpointResponse < Response
   def show_valid(endpoint)
     {
       response_type: "endpoint",
