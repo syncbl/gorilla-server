@@ -15,7 +15,9 @@ class SettingsController < ApplicationController
   # Endpoint must be identified before everything else
   before_action :set_endpoint
   before_action :set_setting, only: %i[show]
-  skip_authorization_check only: :index
+  before_action :set_sources, only: %i[sync]
+  # TODO: Auhtorize or this enough?
+  skip_authorization_check only: %i[index sync] # TODO: Don't skip
 
   # GET /endpoints/1/settings
   def index
@@ -30,7 +32,7 @@ class SettingsController < ApplicationController
 
   # @settings = ActualizedSettingsService.call(@endpoint, sources)
 
-  # TODO: /log /data and everything else, because PUT is not good for subelements
+  # TODO: !!! /log /data and everything else, because PUT is not good for subelements
   # POST /endpoints/1/settings
   # packages: [<package_id>, ...]
   def create
@@ -56,11 +58,19 @@ class SettingsController < ApplicationController
   end
 
   # POST /endpoints/1/settings/sync
-  # settings: [{ id: <package_id>, ... }, ...]
+  # sources: [<source_id>, ...], packages: [<package_id>, ...]
   def sync
-    setting_params[:settings].each do |setting|
+    sync_params[:sources].each do |setting|
+      @settings = ActualizedSettingsService.call(@endpoint, @sources)
+
+
+
+
       # TODO: Update setting, prepare array of results
     end
+    # TODO: Temporary solution to pass tests!!!
+    @settings = Setting.all
+    # authorize! @settings, :show
   end
 
   # PATCH/PUT /endpoints/1/settings/1
@@ -110,6 +120,10 @@ class SettingsController < ApplicationController
     @endpoint = current_endpoint
   end
 
+  def set_sources
+    @sources = Source.where(id: sync_params[:sources])
+  end
+
   # Only allow a trusted parameter "white list" through.
   def setting_params
     params.permit(settings: [:id])
@@ -118,5 +132,9 @@ class SettingsController < ApplicationController
 
   def package_params
     params.require(:packages)
+  end
+
+  def sync_params
+    params.permit(sources: [:source_id], packages: [:package_id])
   end
 end

@@ -5,20 +5,22 @@ class ActualizedSettingsService < ApplicationService
     # If empty - load everything
     @settings = @endpoint.settings
     @sources = sources
-    @packages = @sources.map(&:package_id)
+    @package_ids = @sources.map(&:package_id)
   end
+
+  # TODO: !!! 1. Get all the sources with ids.
+  # 2. Get all the sources per package which is newer than in a recordset from #1.
+  # We need to do that with no more than 2-3 queries.
 
   def call
     components = Set[]
-    DependencyExtractService.call(@endpoint, @packages).map do |c|
-      next if components.include?(c.dependent_package.id)
-
-      components << c.dependent_package.id
-      next if @packages.include?(c.dependent_package.id)
+    DependencyExtractService.call(@endpoint, @package_ids).map do |c|
+      components << c.dependent_package_id
+      next if @package_ids.include?(c.dependent_package_id)
 
       # TODO: Notify if optional, but somehow we need to
       # make this notifications only once
-      @endpoint.notify_add_package(c.package.id, c.dependent_package.id)
+      @endpoint.notify_add_package(c.package_id, c.dependent_package_id)
     end
 
     # Auto cleaning unused components
@@ -35,8 +37,10 @@ class ActualizedSettingsService < ApplicationService
     # Timestamp will be deleted.
 
     # Only updated packages
+    # TODO: & endpoint.packages.pluck(:id) - but better check every source
+    # In that case do that first before everything else
     @settings.includes(:sources, :package)
-             .where(package_id: @packages).select do |s|
+             .where(package_id: @package_ids).select do |s|
       s.package.sources.map(&:id).in?(@sources)
       s.package.user.plans.active?
     end

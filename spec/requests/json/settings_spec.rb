@@ -126,7 +126,7 @@ RSpec.describe "Settings", type: :request do
         }
 
         expect(response).to have_http_status(:ok)
-        # TODO: fix this
+        # TODO: !!! fix this
         # expect(JSON.parse(response.body)).to match(
         #  SettingResponse.new.call(:post_valid, component1, component2)
         # )
