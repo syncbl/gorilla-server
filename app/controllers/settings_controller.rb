@@ -60,11 +60,8 @@ class SettingsController < ApplicationController
   # POST /endpoints/1/settings/sync
   # sources: [<source_id>, ...], packages: [<package_id>, ...]
   def sync
-    sync_params[:sources].each do |setting|
+    sync_params[:sources].each do |_setting|
       @settings = ActualizedSettingsService.call(@endpoint, @sources)
-
-
-
 
       # TODO: Update setting, prepare array of results
     end
