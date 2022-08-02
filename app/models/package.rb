@@ -22,6 +22,7 @@ class Package < ApplicationRecord
   has_one :product, dependent: :destroy
   has_many :settings, dependent: :nullify
   has_many :endpoints, through: :settings
+  # TODO: destroy_async?
   has_many :sources, dependent: :destroy
   has_many :dependencies, dependent: :destroy
   has_many :dependent_packages, through: :dependencies
