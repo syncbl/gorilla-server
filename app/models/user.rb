@@ -4,7 +4,6 @@ class User < ApplicationRecord
   include TokenResetable
   extend Enumerize
 
-  # Include default devise modules. Others available are:
   # :rememberable, :confirmable, :lockable, :trackable and :omniauthable
   devise :database_authenticatable,
          :registerable,
