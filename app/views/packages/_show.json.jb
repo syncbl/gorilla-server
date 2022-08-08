@@ -13,7 +13,7 @@ json.merge!(
 
 # TODO: May be, move icons into db?
 # TODO: Add dimensions
-json[:icon] = render "layouts/file", file: package.icon, prefix: "i"
+json[:icon] = render "layouts/file", file: package.icon, type: :icon
 json[:user] = render "users/base", user: package.user
 
 json[:dependencies] = package.dependencies.map do |d|

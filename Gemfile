@@ -34,6 +34,7 @@ gem "bcrypt" # Provides a simple wrapper for safely handling passwords.
 gem "cancancan" # Authorization library for Ruby and Ruby on Rails
 gem "cityhash" # For faster hashing (C-Ruby only)
 gem "clamby" # This gem's function is to simply scan a given file.
+gem "connection_pool" # Connection pooling for ActiveRecord.
 gem "dalli" # To use :mem_cache_store
 gem "devise" # Devise is a flexible authentication solution for Rails based on Warden.
 gem "devise-i18n" # Devise I18n.
@@ -58,8 +59,8 @@ gem "jwt" # A ruby implementation of the RFC 7519 OAuth JSON Web Token (JWT) sta
 gem "pagy", "~> 3.8" # Pagination gem that outperforms the others in each and every benchmark and comparison.
 gem "rack-attack" # Rack middleware for blocking & throttling abusive requests.
 # gem "render_async" # Pages become faster seamlessly by rendering partials to your views.
-gem "rubyzip", require: "zip" # Ruby library for reading and writing zip files.
 gem "ruby-progressbar" # The ultimate text progress bar library for Ruby!
+gem "rubyzip", require: "zip" # Ruby library for reading and writing zip files.
 # gem "scenic" # Scenic adds methods to ActiveRecord::Migration to create and manage database views in Rails.
 gem "simple_form" # Simple Form aims to be as flexible as possible while helping you with powerful components to create your forms.
 gem "strip_attributes" # Automatically strips all attributes of leading and trailing whitespace before validation.
@@ -104,5 +105,4 @@ end
 
 group :production do
   gem "whenever", require: false # Provides a clear syntax for writing and deploying cron jobs.
-  gem "connection_pool" # Connection pooling for ActiveRecord.
 end
