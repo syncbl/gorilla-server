@@ -1,7 +1,7 @@
 if file.attached?
   {
     filename: file.filename,
-    type:,
+    type: file_type,
     size: file.byte_size,
     h_size: number_to_human_size(file.byte_size),
     checksum: file.checksum,

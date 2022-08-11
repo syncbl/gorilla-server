@@ -13,6 +13,6 @@ json = {
   updated_at: source.updated_at.to_i,
 }
 
-json[:file] = render "layouts/file", file: source.file, type: :source
+json[:file] = render "layouts/file", file: source.file, file_type: :source
 
 json # TODO: .compact

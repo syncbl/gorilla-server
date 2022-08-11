@@ -65,7 +65,7 @@ RSpec.describe "/packages", type: :request do
 
       it "invalid package shows 404 error" do
         get package_path("error")
-        expect(response).to have_http_status(:not_found)
+        expect(response).to have_http_status :not_found
       end
     end
 
@@ -83,7 +83,7 @@ RSpec.describe "/packages", type: :request do
       # TODO: :not_found
       it "invalid package redirects to login page" do
         get package_path("error")
-        expect(response).to have_http_status(:forbidden)
+        expect(response).to have_http_status :forbidden
       end
     end
 
@@ -95,7 +95,7 @@ RSpec.describe "/packages", type: :request do
 
       it "invalid package shows 403 error" do
         get package_path("error")
-        expect(response).to have_http_status(:forbidden)
+        expect(response).to have_http_status :forbidden
       end
     end
   end

@@ -35,7 +35,7 @@ RSpec.describe "Settings", type: :request do
         packages: source1.id.to_s,
       }
 
-      expect(response).to have_http_status(:ok)
+      expect(response).to have_http_status :ok
       expect(JSON.parse(response.body)).to match(
         setting_mock.build(:index_valid, bundle1)
       )
@@ -50,7 +50,7 @@ RSpec.describe "Settings", type: :request do
 
       # , url_for(bundle1.sources.first.file)
 
-      expect(response).to have_http_status(:ok)
+      expect(response).to have_http_status :ok
       expect(JSON.parse(response.body)).to match(
         setting_mock.build(:show_valid, bundle1, component1)
       )
@@ -59,7 +59,7 @@ RSpec.describe "Settings", type: :request do
     it "renders an unsuccessful response for the wrong bundle" do
       get endpoint_setting_path(wrong_id, current_endpoint: endpoint, format: :json)
 
-      expect(response).to have_http_status(:not_found)
+      expect(response).to have_http_status :not_found
       expect(JSON.parse(response.body)).to match(
         ErrorResponse.new.build(:not_found, wrong_id)
       )
@@ -75,7 +75,7 @@ RSpec.describe "Settings", type: :request do
           packages: [component1.id, component2.id],
         }
 
-        expect(response).to have_http_status(:accepted)
+        expect(response).to have_http_status :accepted
         expect(JSON.parse(response.body)).to match(
           setting_mock.build(:post_valid, component1, component2)
         )
@@ -87,7 +87,7 @@ RSpec.describe "Settings", type: :request do
           packages: [component3.id],
         }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status :unprocessable_entity
         expect(JSON.parse(response.body)).to match(
           ErrorResponse.new.build(:component_error)
         )
@@ -99,7 +99,7 @@ RSpec.describe "Settings", type: :request do
           packages: [wrong_id],
         }
 
-        expect(response).to have_http_status(:not_found)
+        expect(response).to have_http_status :not_found
         expect(JSON.parse(response.body)).to match(
           ErrorResponse.new.build(:not_found, wrong_id)
         )
@@ -111,7 +111,7 @@ RSpec.describe "Settings", type: :request do
       it "renders an unsuccessful response" do
         post endpoint_settings_path(current_endpoint: endpoint, format: :json)
 
-        expect(response).to have_http_status(:bad_request)
+        expect(response).to have_http_status :bad_request
         expect(JSON.parse(response.body)).to match ErrorResponse.new.build(:bad_request)
       end
     end
@@ -125,7 +125,7 @@ RSpec.describe "Settings", type: :request do
           packages: [bundle2.id],
         }
 
-        expect(response).to have_http_status(:ok)
+        expect(response).to have_http_status :ok
         # TODO: !!! fix this
         # expect(JSON.parse(response.body)).to match(
         #  SettingResponse.new.call(:post_valid, component1, component2)
@@ -143,7 +143,7 @@ RSpec.describe "Settings", type: :request do
   #      post endpoint_settings_path(current_endpoint: endpoint, format: :json), params: {
   #        user_id: component2.user.name, package_id: component2.name.to_s,
   #      }
-  #      expect(response).to have_http_status(:accepted)
+  #      expect(response).to have_http_status :accepted
   #      expect(JSON.parse(response.body)).to match(valid_response)
   #    end
   #  end

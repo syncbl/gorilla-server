@@ -18,7 +18,7 @@ RSpec.describe "Settings", type: :request do
   describe "GET /index" do
     it "renders a successful response" do
       get endpoint_settings_path(current_endpoint: endpoint)
-      expect(response).to have_http_status(:ok)
+      expect(response).to have_http_status :ok
     end
   end
 
@@ -28,7 +28,7 @@ RSpec.describe "Settings", type: :request do
       # , params: {
       #  packages: source1.id.to_s
       # }
-      expect(response).to have_http_status(:ok)
+      expect(response).to have_http_status :ok
     end
   end
 end
