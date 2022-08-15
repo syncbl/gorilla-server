@@ -1,5 +1,5 @@
 class DependencyExtractService < ApplicationService
-  def initialize(endpoint, package_ids = nil)
+  def initialize(endpoint, package_ids)
     @endpoint = endpoint
     @package_ids = package_ids # TODO: !!! No need endpoint.packages.pluck(:id), it's in a query. Write test, though.
   end

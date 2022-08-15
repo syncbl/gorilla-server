@@ -15,7 +15,6 @@ class SettingsController < ApplicationController
   # Endpoint must be identified before everything else
   before_action :set_endpoint
   before_action :set_setting, only: %i[show]
-  before_action :set_sources, only: %i[sync]
   # TODO: Auhtorize or this enough?
   skip_authorization_check only: %i[index sync] # TODO: Don't skip
 
@@ -41,6 +40,7 @@ class SettingsController < ApplicationController
     respond_to do |format|
       if @settings.any?
         format.html do
+          # TODO: Helper which will detect package count and change notice message
           redirect_to [@endpoint],
                       notice: "Packages soon will be installed."
         end
@@ -58,13 +58,10 @@ class SettingsController < ApplicationController
   end
 
   # POST /endpoints/1/settings/sync
-  # sources: [<source_id>, ...], packages: [<package_id>, ...]
+  # sources: [<source_id>, ...]
   def sync
-    sync_params[:sources].each do |_setting|
-      @settings = ActualizedSettingsService.call(@endpoint, @sources)
+    @updated_sources = ActualizedSettingsService.call(@endpoint, sync_params[:sources])
 
-      # TODO: Update setting, prepare array of results
-    end
     # TODO: Temporary solution to pass tests!!!
     @settings = Setting.all
     # authorize! @settings, :show
@@ -117,10 +114,6 @@ class SettingsController < ApplicationController
     @endpoint = current_endpoint
   end
 
-  def set_sources
-    @sources = Source.where(id: sync_params[:sources])
-  end
-
   # Only allow a trusted parameter "white list" through.
   def setting_params
     params.permit(settings: [:id])
@@ -132,6 +125,6 @@ class SettingsController < ApplicationController
   end
 
   def sync_params
-    params.permit(sources: [:source_id], packages: [:package_id])
+    params.permit(sources: [])
   end
 end

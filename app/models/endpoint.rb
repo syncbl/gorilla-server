@@ -17,6 +17,7 @@ class Endpoint < ApplicationRecord
     settings.exists?(package:)
   end
 
+  # TODO: Move everything to service!
   def install(packages)
     return [] unless packages.any?
 

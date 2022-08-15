@@ -1,4 +1,3 @@
-# TODO: Convert to class
 class Response
   Rails.application.routes.default_url_options[:host] = ""
 

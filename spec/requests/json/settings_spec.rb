@@ -121,8 +121,7 @@ RSpec.describe "Settings", type: :request do
     context "when package ids were provided" do
       it "renders a successful response" do
         post sync_endpoint_settings_path(current_endpoint: endpoint, format: :json), params: {
-          sources: [bundle1.sources.last.id, bundle2.sources.last.id],
-          packages: [bundle2.id],
+          sources: [bundle1.sources.last.id, bundle2.sources.last.id]
         }
 
         expect(response).to have_http_status :ok

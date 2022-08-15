@@ -13,7 +13,6 @@ RSpec.describe "/packages", type: :request do
       caption: "Test6",
       short_description: "Test",
       description: "Test",
-      user_id: user.id,
       root: :system_root,
       path: "Test",
     }

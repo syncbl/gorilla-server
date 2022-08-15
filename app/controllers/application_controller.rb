@@ -29,6 +29,7 @@ class ApplicationController < ActionController::Base
 
     service = request.headers["X-API-Service"]
     if request.headers["Authorization"].present?
+      # TODO: Bearer
       scope, id, token = decode_token(request.headers["Authorization"])
       unless id
         render_json_error I18n.t("devise.failure.timeout"),

@@ -13,7 +13,7 @@ class Package::Component < Package::InternalBase
     return if orphaned?
 
     # TODO: Relative path to error
-    errors.add :size, I18n.t("errors.attributes.dependency.used")
+    errors.add :dependent_package, I18n.t("errors.attributes.dependency.used")
     throw :abort
   end
 end
