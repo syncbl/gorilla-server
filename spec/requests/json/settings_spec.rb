@@ -103,7 +103,17 @@ RSpec.describe "Settings", type: :request do
         expect(JSON.parse(response.body)).to match(
           ErrorResponse.new.build(:not_found, wrong_id)
         )
-        expect(Setting.all.size).to eq(1)
+      end
+
+      it "renders an unsuccessful response for the bad id" do
+        post endpoint_settings_path(current_endpoint: endpoint, format: :json), params: {
+          packages: ["bad_id"],
+        }
+
+        expect(response).to have_http_status :not_found
+        expect(JSON.parse(response.body)).to match(
+          ErrorResponse.new.build(:not_found, "bad_id")
+        )
       end
     end
 

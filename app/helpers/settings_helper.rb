@@ -11,7 +11,10 @@ module SettingsHelper
 
     packages = Set[]
     ids.each do |package|
-      raise ActiveRecord::RecordNotFound unless package.match? UUID_FORMAT
+      unless package.match? UUID_FORMAT
+        # TODO: Standardize error response
+        raise ActiveRecord::RecordNotFound, "Couldn't find Package with 'id'=#{package}"
+      end
 
       packages << authorize!(:show, Package.includes(:user).find(package))
     end
