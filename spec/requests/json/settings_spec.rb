@@ -20,7 +20,7 @@ RSpec.describe "Settings", type: :request do
 
   before do
     bundle1.dependent_packages << component1
-    PackageInstallService.call(endpoint, bundle1)
+    PackageInstallService.call(endpoint, [bundle1])
     component1.dependent_packages << component2
     bundle2.dependent_packages << component3
   end

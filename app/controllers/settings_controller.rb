@@ -35,7 +35,7 @@ class SettingsController < ApplicationController
   # POST /endpoints/1/settings
   # packages: [<package_id>, ...]
   def create
-    @settings = @endpoint.install packages_from_params
+    @settings = PackageInstallService.call @endpoint, packages_from_params
 
     respond_to do |format|
       if @settings.any?

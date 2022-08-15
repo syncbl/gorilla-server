@@ -16,21 +16,4 @@ class Endpoint < ApplicationRecord
   def installed?(package)
     settings.exists?(package:)
   end
-
-  # TODO: Move everything to service!
-  def install(packages)
-    return [] unless packages.any?
-
-    settings = Set[]
-    Setting.transaction do
-      packages.each do |package|
-        settings << PackageInstallService.call(self, package)
-      end
-    rescue ActiveRecord::RecordInvalid => e
-      errors.add :packages, e.message
-      settings.clear
-      raise ActiveRecord::Rollback
-    end
-    settings
-  end
 end

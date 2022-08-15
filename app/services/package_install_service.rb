@@ -1,10 +1,18 @@
 class PackageInstallService < ApplicationService
-  def initialize(endpoint, package)
+  def initialize(endpoint, packages)
     @endpoint = endpoint
-    @package = package.is_a?(Package) ? package : Package.find(package)
+    @packages = packages
   end
 
   def call
-    Setting.find_or_create_by! endpoint: @endpoint, package: @package
+    return [] unless @packages.any?
+
+    settings = Set[]
+    Setting.transaction do
+      @packages.each do |package|
+        settings << Setting.find_or_create_by!(endpoint: @endpoint, package:)
+      end
+    end
+    settings
   end
 end

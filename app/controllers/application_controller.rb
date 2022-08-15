@@ -18,6 +18,7 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
   rescue_from CanCan::AccessDenied, with: :render_403
   rescue_from ActionController::ParameterMissing, with: :render_400
+  rescue_from ActiveRecord::RecordInvalid, with: :render_422
 
   helper_method :current_endpoint, :current_resource
 
