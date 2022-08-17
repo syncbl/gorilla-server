@@ -1,6 +1,6 @@
 json = {
   id: source.id,
-  ancestor: source.ancestor,
+  ancestor: source.ancestor_id,
   version: source.version,
   caption: source.caption,
   description: source.description,

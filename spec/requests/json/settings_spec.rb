@@ -14,7 +14,7 @@ RSpec.describe "Settings", type: :request do
   let!(:component3) { create(:component3, user:) }
 
   let!(:source1) { create(:source1, :published, package: bundle1) }
-  let!(:source2) { create(:source2, package: bundle1) }
+  let!(:source2) { create(:source2, :published, package: bundle1, ancestor: source1) }
   let!(:source3) { create(:source1, :published, package: bundle2) }
   let!(:source4) { create(:source2, package: component3) }
 
@@ -47,8 +47,6 @@ RSpec.describe "Settings", type: :request do
 
     it "renders a successful response" do
       get endpoint_setting_path(bundle1, current_endpoint: endpoint, format: :json)
-
-      # , url_for(bundle1.sources.first.file)
 
       expect(response).to have_http_status :ok
       expect(JSON.parse(response.body)).to match(
@@ -128,17 +126,18 @@ RSpec.describe "Settings", type: :request do
   end
 
   describe "POST sync" do
-    context "when package ids were provided" do
+    context "when source ids were provided" do
       it "renders a successful response" do
         post sync_endpoint_settings_path(current_endpoint: endpoint, format: :json), params: {
-          sources: [bundle1.sources.last.id, bundle2.sources.last.id]
+          sources: [bundle1.sources.first.id]
         }
 
-        expect(response).to have_http_status :ok
-        # TODO: !!! fix this
-        # expect(JSON.parse(response.body)).to match(
-        #  SettingResponse.new.call(:post_valid, component1, component2)
-        # )
+        expect(response).to have_http_status :accepted
+        # TODO: notifications -> add_package
+        # TODO: { id: source_id } IS IT ENOUGH???
+        expect(JSON.parse(response.body)["response"][source2.package_id].first).to match(
+          setting_mock.build(:package_source, source2)
+        )
         # expect(Setting.all.size).to eq(3)
       end
     end

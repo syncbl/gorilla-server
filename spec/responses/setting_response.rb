@@ -23,9 +23,7 @@ class SettingResponse < Response
         required_components: [
           short_package(component),
         ],
-        sources: [
-          package_source(package.sources.first),
-        ],
+        sources: package.sources.map { |source| package_source(source) },
       },
     }
   end
@@ -77,7 +75,7 @@ class SettingResponse < Response
   # TODO: file, files?
   def package_source(source)
     {
-      ancestor: nil,
+      ancestor: source.ancestor_id,
       caption: source.caption,
       created_at: source.created_at.to_i,
       delete_files: [],

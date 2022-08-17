@@ -46,5 +46,6 @@ class ActualizedSettingsService < ApplicationService
         end
       end
     end
+    updated_sources.flatten
   end
 end

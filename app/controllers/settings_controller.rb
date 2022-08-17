@@ -45,7 +45,7 @@ class SettingsController < ApplicationController
                       notice: "Packages soon will be installed."
         end
         format.json do
-          render :sync, status: :accepted
+          render :create, status: :accepted
         end
       else
         format.html { render :new }
@@ -60,10 +60,17 @@ class SettingsController < ApplicationController
   # POST /endpoints/1/settings/sync
   # sources: [<source_id>, ...]
   def sync
-    @updated_sources = ActualizedSettingsService.call(@endpoint, sync_params[:sources])
+    @sources = ActualizedSettingsService.call(@endpoint, sync_params[:sources])
+
+    respond_to do |format|
+      format.html { head :method_not_allowed }
+      format.json do
+        render :sync, status: :accepted
+      end
+    end
 
     # TODO: Temporary solution to pass tests!!!
-    @settings = Setting.all
+    # @settings = Setting.all
     # authorize! @settings, :show
   end
 

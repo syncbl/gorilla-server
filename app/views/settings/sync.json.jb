@@ -1,8 +1,11 @@
 json = render "layouts/header"
 
 json[:response_type] = :settings
-json[:response] = @settings.map do |setting|
-  render "show", setting: setting
+json[:response] = {}
+
+@sources.map do |source|
+  json[:response][source.package.id] ||= []
+  json[:response][source.package.id] << (render "sources/show", source:)
 end
 
 log_json json

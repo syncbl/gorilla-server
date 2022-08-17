@@ -1,0 +1,8 @@
+json = render "layouts/header"
+
+json[:response_type] = :settings
+json[:response] = @settings.map do |setting|
+  render "show", setting: setting
+end
+
+log_json json
