@@ -97,10 +97,11 @@ group :development do
   gem "rubocop" # Ruby style guide checker
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
-  gem 'rubocop-performance', require: false
+  gem "rubocop-performance", require: false
   gem "solargraph" # A Ruby language server for the Ruby language.
   gem "rufo" # Ruby source code analyzer
   gem "reek" # Ruby code smells detector
+  gem "rspec_api_documentation" # RSpec API documentation generator.
 end
 
 group :production do
