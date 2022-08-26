@@ -1,11 +1,18 @@
 json = render "layouts/header"
 
 json[:response_type] = :settings
-json[:response] = {}
 
-@sources.map do |source|
-  json[:response][source.package.id] ||= []
-  json[:response][source.package.id] << (render "sources/show", source:)
+packages = Set[]
+@sources.map { |source| packages.add(source.package) }
+
+# TODO: Select sources which can be not active, show active: false for them
+json[:response] = []
+packages.each do |package|
+  json[:response] << {
+    package: (render "packages/base", package:),
+    sources: @sources.select { |source| source.package == package && can?(:read, source) }
+                     .map { |source| render "sources/show", source: },
+  }
 end
 
 log_json json

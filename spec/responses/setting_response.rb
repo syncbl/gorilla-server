@@ -55,7 +55,12 @@ class SettingResponse < Response
     }
   end
 
-  private
+  def sync_valid(source)
+    {
+      package: short_package(source.package),
+      sources: [package_source(source)],
+    }
+  end
 
   # TODO: Move package, source and file to corresponding modules.
   def short_package(package)

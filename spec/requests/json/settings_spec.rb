@@ -135,8 +135,8 @@ RSpec.describe "Settings", type: :request do
         expect(response).to have_http_status :accepted
         # TODO: notifications -> add_package
         # TODO: { id: source_id } IS IT ENOUGH???
-        expect(JSON.parse(response.body)["response"][source2.package_id].first).to match(
-          setting_mock.build(:package_source, source2)
+        expect(JSON.parse(response.body)["response"].first).to match(
+          setting_mock.build(:sync_valid, source2)
         )
         # expect(Setting.all.size).to eq(3)
       end
