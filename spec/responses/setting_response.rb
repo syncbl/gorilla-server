@@ -57,6 +57,7 @@ class SettingResponse < Response
 
   def sync_valid(source)
     {
+      active: true,
       package: short_package(source.package),
       sources: [package_source(source)],
     }

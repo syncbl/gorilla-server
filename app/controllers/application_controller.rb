@@ -30,6 +30,9 @@ class ApplicationController < ActionController::Base
 
     service = request.headers["X-API-Service"]
     if request.headers["Authorization"].present?
+      # TODO: decode token and load session from database, don't use scope, just .is_a?
+      # Cache only session including resource, remove exp - store session time in database.
+      # Store token is session data field.
       # TODO: Bearer
       scope, id, token = decode_token(request.headers["Authorization"])
       unless id

@@ -1,5 +1,6 @@
 module Authentication
   def cache_fetch(model, id, token)
+    # TODO: Session.fetch(id).resource
     cached_instance = model.fetch(id)
     if ActiveSupport::SecurityUtils.secure_compare(cached_instance&.authentication_token, token) &&
        cached_instance&.not_blocked?
