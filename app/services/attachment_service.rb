@@ -7,7 +7,7 @@ class AttachmentService < ApplicationService
   def call
     # TODO: File.chmod(0644, @filename)
     if Rails.env.production? && Clamby.virus?(@filename)
-      @source.block! I18n.t("errors.block_reasons.suspicious_attachment")
+      @source.block! I18n.t("errors.messages.suspicious_attachment")
       return false
     end
     # ActiveRecord::Base.transaction do
@@ -38,19 +38,19 @@ class AttachmentService < ApplicationService
       existing_files.merge! s.files
     end
     Zip::File.open(@filename) do |zipfile|
-      raise I18n.t("errors.attributes.source.packed_files_too_many") if zipfile.size > MAX_FILE_COUNT
+      raise I18n.t("activerecord.errors.messages.packed_files_too_many") if zipfile.size > MAX_FILE_COUNT
 
       zipfile.each do |z|
         next if z.directory?
 
         if z.name.starts_with?(".syncbl/")
           # TODO: Check endpoint access after user block
-          @source.package.user.block! I18n.t("errors.attributes.source.illegal_file")
-          raise I18n.t("errors.attributes.source.illegal_file")
+          @source.package.user.block! I18n.t("activerecord.errors.messages.illegal_file")
+          raise I18n.t("activerecord.errors.messages.illegal_file")
         end
 
         if z.size > MAX_FILE_SIZE
-          raise I18n.t("errors.attributes.source.packed_file_too_big", name: z.name, size: z.size)
+          raise I18n.t("activerecord.errors.messages.packed_file_too_big", name: z.name, size: z.size)
         end
 
         crc = Digest::MD5.base64digest(z.get_input_stream.read)
@@ -61,7 +61,7 @@ class AttachmentService < ApplicationService
           filelist[z.name] = crc # z.crc
           # Replace with HashFileList.add if needed
           @source.unpacked_size += z.size
-          raise I18n.t("errors.attributes.source.packed_files_too_many") if @source.unpacked_size > MAX_FILE_SIZE
+          raise I18n.t("activerecord.errors.messages.packed_files_too_many") if @source.unpacked_size > MAX_FILE_SIZE
         end
       end
 

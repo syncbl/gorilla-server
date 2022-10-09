@@ -6,7 +6,7 @@ class NameRestrictValidator < ActiveModel::EachValidator
 
     if value_d.in?(RESTRICTED_NAMES) || UUID_FORMAT.match?(value_d) ||
        value_d.starts_with?("-")
-      record.errors.add attribute, I18n.t("errors.messages.name_restrict")
+      record.errors.add attribute, :name_restrict
     end
   end
 end

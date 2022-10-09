@@ -20,10 +20,10 @@ class SourceValidator < ActiveModel::Validator
       return unless @record.file.attached?
 
       if @record.package.user.used_space + @record.file.byte_size.to_i > @record.package.user.plans.size_limit
-        @record.errors.add I18n.t("errors.attributes.source.limit_reached")
+        @record.errors.add :package, :limit_reached
       end
     else
-      @record.errors.add I18n.t("errors.messages.no_plan")
+      @record.errors.add :user, :no_active_plan
     end
   end
 
@@ -31,6 +31,6 @@ class SourceValidator < ActiveModel::Validator
     return unless @record.id.nil? || (@record == @record.package.sources.last)
     return unless @record.partial?
 
-    @record.errors.add I18n.t("errors.attributes.source.last_cannot_be_partial")
+    @record.errors.add :partial, :last_cannot_be_partial
   end
 end
