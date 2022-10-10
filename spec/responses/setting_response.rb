@@ -81,15 +81,15 @@ class SettingResponse < Response
   # TODO: file, files?
   def package_source(source)
     {
+      id: source.id,
       ancestor: source.ancestor_id,
       caption: source.caption,
       created_at: source.created_at.to_i,
       delete_files: [],
       description: source.description,
-      file: source_file(:source, source.file),
+      file: source_file(source.file),
       files: source.files,
       h_size: ActionController::Base.helpers.number_to_human_size(source.unpacked_size),
-      id: source.id,
       partial: source.partial,
       size: source.unpacked_size,
       updated_at: source.updated_at.to_i,
@@ -97,11 +97,10 @@ class SettingResponse < Response
     }
   end
 
-  def source_file(type, file)
+  def source_file(file)
     {
       checksum: file.checksum,
       filename: file.filename.to_s,
-      type: type.to_s,
       h_size: ActionController::Base.helpers.number_to_human_size(file.byte_size),
       size: file.byte_size,
       url: Rails.application.routes.url_helpers.url_for(file).remove("http://"),
