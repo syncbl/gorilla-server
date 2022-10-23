@@ -15,19 +15,19 @@ module Authentication
   end
 
   def current_resource
-    @current_resource
+    current_endpoint || current_user
   end
 
   def current_endpoint
-    current_resource if endpoint_signed_in?
+    @current_endpoint
   end
 
   def sign_in_endpoint(endpoint)
-    @current_resource = endpoint
+    @current_endpoint = endpoint
   end
 
   def endpoint_signed_in?
-    @current_resource.is_a? Endpoint
+    @current_endpoint.is_a? Endpoint
   end
 
   def reset_token!
@@ -48,7 +48,7 @@ module Authentication
         token,
         Rails.application.credentials.jwt_secret,
         true,
-        { algorithm: "HS256" },
+        { algorithm: "HS256" }
       ).first.with_indifferent_access
     return payload[:scope], payload[:uuid], payload[:token]
   rescue JWT::ExpiredSignature, JWT::DecodeError

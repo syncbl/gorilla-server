@@ -95,7 +95,7 @@ class SourcesController < ApplicationController
           head :unprocessable_entity
         else
           MergeSourcesJob.perform_later current_user.packages.find(
-            params[:package_id],
+            params[:package_id]
           )
           head :accepted
         end

@@ -23,12 +23,12 @@ namespace :import do
         email: "admin@syncbl.com",
         # TODO: Mark this account nologin
         password: "testtest",
-        plan: :unlimited,
+        plan: :unlimited
       )
       Plan.create(
         user:,
         start_time: Time.current,
-        end_time: 100.years.from_now,
+        end_time: 100.years.from_now
       )
     end
     files = Dir.glob("../winget-pkgs/manifests/**/*.yaml").sort
@@ -47,7 +47,7 @@ namespace :import do
           Package::External.new(
             name: name.to_s,
             user:,
-            version: y["PackageVersion"],
+            version: y["PackageVersion"]
           )
       # TODO: Architecture check for x64
       p.caption = name

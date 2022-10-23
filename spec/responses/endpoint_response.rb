@@ -4,9 +4,9 @@ class EndpointResponse < Response
       response_type: "endpoint",
       response: {
         id: endpoint.id,
-        caption: endpoint.caption,
-        locale: endpoint.locale,
-      },
+        name: endpoint.name,
+        locale: endpoint.locale
+      }
     }
   end
 end

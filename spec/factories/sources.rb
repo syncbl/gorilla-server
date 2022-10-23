@@ -23,7 +23,7 @@ FactoryBot.define do
     end
     file do
       Rack::Test::UploadedFile.new(
-        File.open(Rails.root.join("files/test1.zip")),
+        File.open(Rails.root.join("files/test1.zip"))
       )
     end
   end
@@ -52,7 +52,7 @@ FactoryBot.define do
     end
     file do
       Rack::Test::UploadedFile.new(
-        File.open(Rails.root.join("files/test2.zip")),
+        File.open(Rails.root.join("files/test2.zip"))
       )
     end
   end

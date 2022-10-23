@@ -4,9 +4,9 @@ class SettingResponse < Response
       response_type: "settings",
       response: [
         {
-          package: short_package(package),
-        },
-      ],
+          package: short_package(package)
+        }
+      ]
     }
   end
 
@@ -18,13 +18,13 @@ class SettingResponse < Response
         package: short_package(package),
         params: {
           path: "TEST1",
-          root: "system_root",
+          root: "system_root"
         },
         required_components: [
-          short_package(component),
+          short_package(component)
         ],
-        sources: package.sources.map { |source| package_source(source) },
-      },
+        sources: package.sources.map { |source| package_source(source) }
+      }
     }
   end
 
@@ -36,22 +36,22 @@ class SettingResponse < Response
           active: true,
           package: short_package(component1),
           params: {
-            path: "TEST1",
+            path: "TEST1"
           },
           sources: [],
           required_components: [
-            short_package(component2),
-          ],
+            short_package(component2)
+          ]
         },
         {
           active: true,
           package: short_package(component2),
           params: {
-            path: "TEST1",
+            path: "TEST1"
           },
-          sources: [],
-        },
-      ],
+          sources: []
+        }
+      ]
     }
   end
 
@@ -59,7 +59,7 @@ class SettingResponse < Response
     {
       active: true,
       package: short_package(source.package),
-      sources: [package_source(source)],
+      sources: [package_source(source)]
     }
   end
 
@@ -74,7 +74,7 @@ class SettingResponse < Response
       package_type: package.package_type.to_s,
       short_description: package.short_description,
       size: package.size,
-      version: package.sources.last&.version,
+      version: package.sources.last&.version
     }
   end
 
@@ -93,7 +93,7 @@ class SettingResponse < Response
       partial: source.partial,
       size: source.unpacked_size,
       updated_at: source.updated_at.to_i,
-      version: source.version,
+      version: source.version
     }
   end
 
@@ -103,7 +103,7 @@ class SettingResponse < Response
       filename: file.filename.to_s,
       h_size: ActionController::Base.helpers.number_to_human_size(file.byte_size),
       size: file.byte_size,
-      url: Rails.application.routes.url_helpers.url_for(file).remove("http://"),
+      url: Rails.application.routes.url_helpers.url_for(file).remove("http://")
     }
   end
 end

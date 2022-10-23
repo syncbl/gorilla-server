@@ -12,7 +12,7 @@ packages.each do |package|
     active: can?(:read, package),
     package: (render "packages/base", package:),
     sources: @sources.select { |source| source.package == package && can?(:read, source) }
-                     .map { |source| render "sources/show", source: },
+                     .map { |source| render "sources/show", source: }
   }
 end
 

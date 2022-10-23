@@ -1,5 +1,5 @@
 class EndpointsController < ApplicationController
-  before_action :authenticate_user!, except: %i[show update clone]
+  before_action :authenticate_user!, only: %i[index destroy]
   before_action :forbid_for_endpoint!, only: %i[index destroy]
   before_action :authenticate_endpoint!, only: %i[show update clone]
   before_action :set_endpoint, only: %i[update destroy clone]
@@ -29,7 +29,7 @@ class EndpointsController < ApplicationController
                                        name: endpoint_params[:name],
                                        user: current_user,
                                        remote_ip: request.remote_ip,
-                                       locale: I18n.default_locale,
+                                       locale: I18n.default_locale
                                      })
         sign_in_endpoint @endpoint
         render :show, status: :created, location: @endpoint

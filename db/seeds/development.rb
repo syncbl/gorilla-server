@@ -22,16 +22,16 @@ puts Package::External.create!(
       caption: "Test1",
       short_description: "Test package",
       user: u1,
-      external_url: "https://www.heidisql.com/installers/HeidiSQL_11.0.0.5919_Setup.exe",
+      external_url: "https://www.heidisql.com/installers/HeidiSQL_11.0.0.5919_Setup.exe"
     },
     {
       name: "Openssl-2_0",
       caption: "Test2",
       short_description: "Test package",
       user: u1,
-      external_url: "https://www.7-zip.org/a/7z1900-x64.exe",
-    },
-  ],
+      external_url: "https://www.7-zip.org/a/7z1900-x64.exe"
+    }
+  ]
 )
 
 puts Package::Component.create!(
@@ -42,7 +42,7 @@ puts Package::Component.create!(
       short_description: "Test",
       description: "Test packageTest packageTest package",
       user: u1,
-      path: "TEST",
+      path: "TEST"
     },
     {
       name: "Openssl-1_2",
@@ -50,7 +50,7 @@ puts Package::Component.create!(
       short_description: "Test",
       description: "Test packageTest packageTest package",
       user: u1,
-      path: "TEST",
+      path: "TEST"
     },
     {
       name: "Openssl-1_3",
@@ -58,7 +58,7 @@ puts Package::Component.create!(
       short_description: "Test",
       description: "Test packageTest packageTest package",
       user: u1,
-      path: "TEST",
+      path: "TEST"
     },
     {
       name: "openssl-2_1",
@@ -66,9 +66,9 @@ puts Package::Component.create!(
       short_description: "Test",
       description: "Test packageTest packageTest package",
       user: u1,
-      path: "TEST",
-    },
-  ],
+      path: "TEST"
+    }
+  ]
 )
 
 puts Package::Bundle.create!(
@@ -80,7 +80,7 @@ puts Package::Bundle.create!(
       description: "Test packageTest packageTest package",
       user: u1,
       root: :system_root,
-      path: "TEST1",
+      path: "TEST1"
     },
     {
       name: "openssl-dev-2",
@@ -89,9 +89,9 @@ puts Package::Bundle.create!(
       description: "Test packageTest packageTest package",
       user: u1,
       root: :system_root,
-      path: "TEST1",
-    },
-  ],
+      path: "TEST1"
+    }
+  ]
 )
 
 c = Category.create!(caption: "Test")
@@ -108,7 +108,7 @@ Product.create!(package: p)
 
 Package::Bundle.first.icon.attach(
   io: File.open("files/hqdefault.jpg"),
-  filename: "hqdefault.jpg",
+  filename: "hqdefault.jpg"
 )
 
 p = Package::Component.find_by(name: "openssl-1_2")
@@ -147,9 +147,9 @@ p1.dependent_packages << p2
 p.dependent_packages << p2
 p.publish!
 
-Endpoint.create! caption: "Test2",
+Endpoint.create! name: "Test2",
                  user: u1,
                  id: "253307f5-0e4f-4a76-9b04-da35ba6345d5"
-e = Endpoint.create! caption: "Test5", user: User.last
+e = Endpoint.create! name: "Test5", user: User.last
 # TODO: To tests
 e.packages << Package::Bundle.find_by(name: "openssl-dev")

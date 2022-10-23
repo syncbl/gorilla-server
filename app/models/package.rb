@@ -33,30 +33,30 @@ class Package < ApplicationRecord
             presence: true,
             length: {
               minimum: MIN_NAME_LENGTH,
-              maximum: MAX_NAME_LENGTH,
+              maximum: MAX_NAME_LENGTH
             },
             uniqueness: {
               scope: :user_id,
-              case_sensitive: false,
+              case_sensitive: false
             },
             format: {
-              with: NAME_FORMAT,
+              with: NAME_FORMAT
             }
   validates :short_description,
             presence: true,
             length: {
-              maximum: MAX_SHORT_DESCRIPTION_LENGTH,
+              maximum: MAX_SHORT_DESCRIPTION_LENGTH
             }
   validates :description,
             length: {
-              maximum: MAX_DESCRIPTION_LENGTH,
+              maximum: MAX_DESCRIPTION_LENGTH
             }
   validates :type, presence: true
   validates :icon, size: { less_than: MAX_ICON_SIZE }
   validates :caption,
             presence: true,
             length: {
-              maximum: MAX_NAME_LENGTH,
+              maximum: MAX_NAME_LENGTH
             }
   validates_with PackageValidator
 

@@ -31,7 +31,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
     # ----------
     create_table :endpoints, id: :uuid do |t|
-      t.string :caption
+      t.string :name
       t.string :locale
 
       # TODO: Store PC parameters here
@@ -112,7 +112,7 @@ class InitializeTables < ActiveRecord::Migration[6.0]
 
       t.references :package, type: :uuid, index: true, null: false, foreign_key: true
       t.references :ancestor, type: :uuid, index: true,
-        foreign_key: { to_table: :sources }
+                              foreign_key: { to_table: :sources }
 
       t.datetime :published_at
       t.datetime :blocked_at

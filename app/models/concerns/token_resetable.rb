@@ -19,10 +19,10 @@ module TokenResetable
                USER_SESSION_TIME
              when Endpoint
                ENDPOINT_SESSION_TIME
-             end,
+             end
       }.to_a.shuffle.to_h,
       Rails.application.credentials.jwt_secret,
-      "HS256",
+      "HS256"
     )
   end
 

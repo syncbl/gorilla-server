@@ -10,7 +10,7 @@ json = {
   files: source.files,
   delete_files: source.delete_files,
   created_at: source.created_at.to_i,
-  updated_at: source.updated_at.to_i,
+  updated_at: source.updated_at.to_i
 }
 
 json[:file] = render "layouts/file", file: source.file

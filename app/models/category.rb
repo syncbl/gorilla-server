@@ -6,9 +6,9 @@ class Category < ApplicationRecord
   validates :caption,
             presence: true,
             length: {
-              maximum: MAX_NAME_LENGTH,
+              maximum: MAX_NAME_LENGTH
             },
             format: {
-              with: NAME_FORMAT,
+              with: NAME_FORMAT
             }
 end

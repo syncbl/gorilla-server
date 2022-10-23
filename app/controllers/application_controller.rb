@@ -6,8 +6,7 @@ class ApplicationController < ActionController::Base
   before_action :skip_session, if: -> { request.format.json? }
   protect_from_forgery with: :exception, unless: -> { request.format.json? }
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :api_check_headers, if: -> { request.format.json? }
-  before_action :test_helper, if: -> { Rails.env.test? }
+  before_action :authenticate_api!, if: -> { request.format.json? }
   before_action :set_locale
   after_action :reset_token!, if: -> {
                                 request.format.json? &&
@@ -25,57 +24,35 @@ class ApplicationController < ActionController::Base
   private
 
   # TODO: Save session in database, store only session id in token
-  def api_check_headers
-    return true if Rails.env.test?
+  def authenticate_api!
+    return test_helper if Rails.env.test?
+    return if request.headers["Authorization"].nil?
 
-    service = request.headers["X-API-Service"]
-    if request.headers["Authorization"].present?
-      # TODO: decode token and load session from database, don't use scope, just .is_a?
-      # Cache only session including resource, remove exp - store session time in database.
-      # Store token is session data field.
-      # TODO: Bearer
-      scope, id, token = decode_token(request.headers["Authorization"])
-      unless id
-        render_json_error I18n.t("devise.failure.timeout"),
-                          status: :unauthorized
-      end
+    # TODO: decode token and load session from database, don't use scope, just .is_a?
+    # Cache only session including resource, remove exp - store session time in database.
+    # Store token is session data field.
+    # TODO: Bearer
+    scope, id, token = decode_token(request.headers["Authorization"])
+
+    case scope
+    when "Endpoint"
+      sign_in_endpoint cache_fetch(Endpoint, id, token)
+      current_resource.update(remote_ip: request.remote_ip,
+                              reseted_at: nil)
+    when "User"
+      sign_in cache_fetch(User, id, token)
     end
-
-    if Api::Keys.new.find(service)
-      raise CanCan::AccessDenied unless case scope
-      when "Endpoint"
-        sign_in_endpoint cache_fetch(Endpoint, id, token)
-      when "User"
-        sign_in cache_fetch(User, id, token)
-      end
-
-      if endpoint_signed_in? # TODO: May be user too?
-        if current_resource.remote_ip != request.remote_ip
-          current_resource.update(remote_ip: request.remote_ip,
-                                  reseted_at: nil)
-        end
-      end
-    elsif service.present?
-      head :upgrade_required
-    else
-      Rails.logger.warn "Forbidden request from #{request.remote_ip}"
-      raise CanCan::AccessDenied
-    end
-  end
-
-  def test_helper
-    sign_in_endpoint Endpoint.find(params[:current_endpoint]) if params[:current_endpoint].present?
   end
 
   # TODO: Check up keys and merge
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(
       :sign_up,
-      keys: %i[fullname name locale],
+      keys: %i[fullname name locale]
     )
     devise_parameter_sanitizer.permit(
       :account_update,
-      keys: %i[fullname name locale],
+      keys: %i[fullname name locale]
     )
   end
 

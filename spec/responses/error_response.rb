@@ -2,20 +2,20 @@ class ErrorResponse < Response
   def component_error
     {
       errors: {
-        package: ["Can't install component without corresponding bundle"],
-      },
+        package: ["Can't install component without corresponding bundle"]
+      }
     }
   end
 
   def not_found(id)
     {
-      error: "Couldn't find Package with 'id'=#{id}",
+      error: "Couldn't find Package with 'id'=#{id}"
     }
   end
 
   def bad_request
     {
-      error: "param is missing or the value is empty: packages",
+      error: "param is missing or the value is empty: packages"
     }
   end
 end

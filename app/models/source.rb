@@ -14,11 +14,11 @@ class Source < ApplicationRecord
   validates :file,
             content_type: "application/zip",
             size: {
-              less_than: MAX_FILE_SIZE,
+              less_than: MAX_FILE_SIZE
             }
   validates :caption,
             length: {
-              maximum: MAX_NAME_LENGTH,
+              maximum: MAX_NAME_LENGTH
             }
   validates :description,
             length: { maximum: MAX_DESCRIPTION_LENGTH }

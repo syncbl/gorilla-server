@@ -21,10 +21,10 @@ class PackageResponse < Response
         user: {
           fullname: package.user.fullname,
           id: package.user.id,
-          name: package.user.name,
+          name: package.user.name
         },
-        version: package.sources.last&.version,
-      },
+        version: package.sources.last&.version
+      }
     }
   end
 end

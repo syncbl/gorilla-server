@@ -9,7 +9,7 @@ module Blockable
         update!(
           {
             blocked_at: Time.current,
-            block_reason: reason,
+            block_reason: reason
           }
         )
       end
@@ -18,7 +18,7 @@ module Blockable
         update!(
           {
             blocked_at: nil,
-            block_reason: nil,
+            block_reason: nil
           }
         )
       end

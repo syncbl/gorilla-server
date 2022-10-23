@@ -7,7 +7,7 @@ json.merge!(
     h_install_count: number_to_human(package.settings_count, precision: 1),
     # replaced_by: package.replaced_by&.id,
     created_at: package.created_at&.to_i,
-    updated_at: package.updated_at&.to_i,
+    updated_at: package.updated_at&.to_i
   }
 )
 

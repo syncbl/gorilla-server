@@ -30,12 +30,6 @@ Style/StringLiteralsInInterpolation:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
-Style/TrailingCommaInHashLiteral:
-  Enabled: false
-
-Style/TrailingCommaInArguments:
-  Enabled: false
-
 Layout/ElseAlignment:
   Enabled: false
 
@@ -52,9 +46,6 @@ Style/ClassAndModuleChildren:
   Enabled: false
 
 Style/RedundantReturn:
-  Enabled: false
-
-Style/TrailingCommaInArrayLiteral:
   Enabled: false
 
 Style/Lambda:
@@ -83,6 +74,9 @@ Metrics/BlockLength:
   Enabled: false
 
 Metrics/MethodLength:
+  Enabled: false
+
+Metrics/ClassLength:
   Enabled: false
 
 Metrics/AbcSize:

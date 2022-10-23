@@ -1,7 +1,7 @@
 json = {
   id: endpoint.id,
-  caption: endpoint.caption,
-  locale: endpoint.locale,
+  name: endpoint.name,
+  locale: endpoint.locale
 }
 
 # TODO: S3 url

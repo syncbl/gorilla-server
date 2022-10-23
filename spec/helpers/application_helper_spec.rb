@@ -25,7 +25,7 @@ RSpec.describe ApplicationHelper, type: :helper do
     end
 
     it "returns the endpoint title" do
-      expect(helper.page_title(endpoint)).to eq(endpoint.caption)
+      expect(helper.page_title(endpoint)).to eq(endpoint.name)
     end
 
     it "returns the package title" do

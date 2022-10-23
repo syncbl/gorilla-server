@@ -5,7 +5,7 @@ class ActualizedSettingsService < ApplicationService
     @sources = Source.where(id: source_ids)
     @packages = Package.includes(
       sources: { file_attachment: :blob },
-      user: :plans,
+      user: :plans
     ).where(sources: @sources)
     @updated_packages = @packages.where(sources: { ancestor: @sources })
   end

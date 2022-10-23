@@ -6,8 +6,8 @@ class UserResponse < Response
         id: user.id,
         name: user.name,
         fullname: user.fullname,
-        locale: user.locale,
-      },
+        locale: user.locale
+      }
     }
   end
 end

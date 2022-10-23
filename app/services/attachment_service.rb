@@ -17,7 +17,7 @@ class AttachmentService < ApplicationService
       io: File.open(@filename),
       filename: "#{@source.created_at.strftime("%y%m%d%H%M%S%2L")}.zip",
       content_type: "application/zip",
-      identify: false,
+      identify: false
     )
     # It's a magic trick: before we save this source count of sources is 0
     @source.merged = true if @source.package.sources.size.zero?

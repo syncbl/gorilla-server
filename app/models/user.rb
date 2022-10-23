@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  include IdentityCache
   include Blockable
   include Notifiable
   include TokenResetable
@@ -22,10 +23,10 @@ class User < ApplicationRecord
 
   validates :email,
             format: {
-              with: URI::MailTo::EMAIL_REGEXP,
+              with: URI::MailTo::EMAIL_REGEXP
             },
             uniqueness: {
-              case_sensitive: false,
+              case_sensitive: false
             },
             presence: true
   validates :name,
@@ -33,13 +34,13 @@ class User < ApplicationRecord
             presence: true,
             length: {
               minimum: MIN_NAME_LENGTH,
-              maximum: MAX_NAME_LENGTH,
+              maximum: MAX_NAME_LENGTH
             },
             uniqueness: {
-              case_sensitive: false,
+              case_sensitive: false
             },
             format: {
-              with: NAME_FORMAT,
+              with: NAME_FORMAT
             }
   validates :fullname,
             length: {

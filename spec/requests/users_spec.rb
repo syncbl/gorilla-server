@@ -57,12 +57,12 @@ RSpec.describe "/users", type: :request do
   describe "PATCH /update" do
     let(:valid_attributes) do
       {
-        fullname: "Test Test",
+        fullname: "Test Test"
       }
     end
     let(:invalid_attributes) do
       {
-        email: "123",
+        email: "123"
       }
     end
 

@@ -6,7 +6,7 @@ module ApplicationHelper
       success: "alert-success",
       error: "alert-danger",
       alert: "alert-warning",
-      notice: "alert-info",
+      notice: "alert-info"
     }[
       flash_type.to_sym
     ] || flash_type.to_s
@@ -21,7 +21,7 @@ module ApplicationHelper
         object.relative_name
       end
     when Endpoint
-      object.caption
+      object.name
     when User
       object.fullname
     else
@@ -86,5 +86,9 @@ module ApplicationHelper
     else
       render json: { error: messages }, status:
     end
+  end
+
+  def test_helper
+    sign_in_endpoint Endpoint.find(params[:current_endpoint]) if params[:current_endpoint].present?
   end
 end

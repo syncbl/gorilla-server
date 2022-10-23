@@ -30,7 +30,7 @@ class Auth::RegistrationsController < Devise::RegistrationsController
         :password,
         :password_confirmation,
         :name,
-        :fullname,
+        :fullname
       )
   end
 end

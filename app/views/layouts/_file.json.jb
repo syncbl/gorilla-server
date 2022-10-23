@@ -4,6 +4,6 @@ if file.attached?
     size: file.byte_size,
     h_size: number_to_human_size(file.byte_size),
     checksum: file.checksum,
-    url: url_for(file),
+    url: url_for(file)
   }
 end

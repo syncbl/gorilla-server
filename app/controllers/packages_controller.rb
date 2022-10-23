@@ -13,8 +13,10 @@ class PackagesController < ApplicationController
   # GET /packages.json
   def index
     @edit = params[:edit] == 1
-    @pagy, @packages =
-      pagy_countless(Package.accessible_by(current_ability).includes(:sources), items: params[:items])
+    @pagy, @packages = pagy_countless(
+      Package.accessible_by(current_ability).includes(%i[user sources]),
+      items: params[:items]
+    )
   end
 
   # GET /packages/1
@@ -97,7 +99,7 @@ class PackagesController < ApplicationController
       @pagy, @packages =
         pagy(
           Package.searcheable_by(current_user).search_by_text(params[:q]),
-          items: params[:items],
+          items: params[:items]
         )
       render :index
     else

@@ -32,7 +32,7 @@ RSpec.describe "Settings", type: :request do
     # TODO: fix this
     it "renders a successful response" do
       get endpoint_settings_path(current_endpoint: endpoint, format: :json), params: {
-        packages: source1.id.to_s,
+        packages: source1.id.to_s
       }
 
       expect(response).to have_http_status :ok
@@ -70,7 +70,7 @@ RSpec.describe "Settings", type: :request do
 
       it "renders a successful response for the components" do
         post endpoint_settings_path(current_endpoint: endpoint, format: :json), params: {
-          packages: [component1.id, component2.id],
+          packages: [component1.id, component2.id]
         }
 
         expect(response).to have_http_status :accepted
@@ -82,7 +82,7 @@ RSpec.describe "Settings", type: :request do
 
       it "renders an unsuccessful response for the other components" do
         post endpoint_settings_path(current_endpoint: endpoint, format: :json), params: {
-          packages: [component3.id],
+          packages: [component3.id]
         }
 
         expect(response).to have_http_status :unprocessable_entity
@@ -94,7 +94,7 @@ RSpec.describe "Settings", type: :request do
 
       it "renders an unsuccessful response for the wrong bundle" do
         post endpoint_settings_path(current_endpoint: endpoint, format: :json), params: {
-          packages: [wrong_id],
+          packages: [wrong_id]
         }
 
         expect(response).to have_http_status :not_found
@@ -105,7 +105,7 @@ RSpec.describe "Settings", type: :request do
 
       it "renders an unsuccessful response for the bad id" do
         post endpoint_settings_path(current_endpoint: endpoint, format: :json), params: {
-          packages: ["bad_id"],
+          packages: ["bad_id"]
         }
 
         expect(response).to have_http_status :not_found

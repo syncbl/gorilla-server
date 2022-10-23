@@ -14,7 +14,7 @@ RSpec.describe "/packages", type: :request do
       short_description: "Test",
       description: "Test",
       root: :system_root,
-      path: "Test",
+      path: "Test"
     }
   end
 
@@ -179,7 +179,7 @@ RSpec.describe "/packages", type: :request do
   describe "PATCH /update" do
     let(:new_attributes) do
       {
-        short_description: "Test1",
+        short_description: "Test1"
       }
     end
 

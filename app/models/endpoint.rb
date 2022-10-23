@@ -1,4 +1,5 @@
 class Endpoint < ApplicationRecord
+  include IdentityCache
   include Blockable
   include Notifiable
   include TokenResetable
@@ -10,7 +11,7 @@ class Endpoint < ApplicationRecord
   has_many :packages, through: :settings
   # TODO: Noticed has_many :notifications, as: :recipient, dependent: :destroy
 
-  validates :caption, length: { maximum: MAX_NAME_LENGTH }
+  validates :name, length: { maximum: MAX_NAME_LENGTH }
   validates :locale, length: { maximum: 10 }
 
   def installed?(package)

@@ -5,7 +5,7 @@ class Package::ExternalBase < Package
   validates :external_url,
             format: {
               with: URI::DEFAULT_PARSER.make_regexp(%w[https http]),
-              message: :not_allowed,
+              message: :not_allowed
             },
             length: { maximum: 2048 },
             presence: true

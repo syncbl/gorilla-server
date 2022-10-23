@@ -15,11 +15,11 @@ class Ability
       can :destroy, Package, user: user
       can :destroy, Source,
           package: {
-            user:,
+            user:
           }
       can :destroy, Setting,
           endpoint: {
-            user:,
+            user:
           }
     else
       can :update, User, id: user.id
@@ -27,11 +27,11 @@ class Ability
       can :manage, Package, user: user
       can :manage, Source,
           package: {
-            user:,
+            user:
           }
       can :manage, Setting,
           endpoint: {
-            user:,
+            user:
           }
     end
   end
