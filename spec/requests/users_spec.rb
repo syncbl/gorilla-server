@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "/users", type: :request do
+RSpec.describe "/users" do
   # TODO: For a new user
   # let(:new_user_attributes) {
   #   FactoryBot.attributes_for(:user1, name: "user3", email: "user3@example.com")

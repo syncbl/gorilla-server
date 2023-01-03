@@ -1,10 +1,10 @@
 require "rails_helper"
 
-RSpec.describe Package, type: :model do
+RSpec.describe Package do
   let(:user) { create(:user1) }
-  let(:component) { create(:component1, user:) }
-  let(:bundle) { create(:bundle1, user:) }
-  let(:external) { create(:external1, user:) }
+  let(:component) { create(:component1, user: user) }
+  let(:bundle) { create(:bundle1, user: user) }
+  let(:external) { create(:external1, user: user) }
 
   # TODO: subject should be its it_behaves_like :blockable
 

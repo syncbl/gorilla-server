@@ -1,17 +1,17 @@
 require "rails_helper"
 
-RSpec.describe "Settings", type: :request do
+RSpec.describe "Settings" do
   let!(:setting_mock) { SettingResponse.new }
 
   let!(:user) { create(:user1) }
-  let!(:endpoint) { create(:endpoint1, user:) }
+  let!(:endpoint) { create(:endpoint1, user: user) }
 
-  let!(:bundle1) { create(:bundle1, user:) }
-  let!(:component1) { create(:component1, user:) }
-  let!(:component2) { create(:component2, user:) }
+  let!(:bundle1) { create(:bundle1, user: user) }
+  let!(:component1) { create(:component1, user: user) }
+  let!(:component2) { create(:component2, user: user) }
 
-  let(:bundle2) { create(:bundle2, user:) }
-  let!(:component3) { create(:component3, user:) }
+  let(:bundle2) { create(:bundle2, user: user) }
+  let!(:component3) { create(:component3, user: user) }
 
   let!(:source1) { create(:source1, :published, package: bundle1) }
   let!(:source2) { create(:source2, :published, package: bundle1, ancestor: source1) }

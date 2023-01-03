@@ -1,10 +1,10 @@
 require "rails_helper"
 
-RSpec.describe "/packages", type: :request do
+RSpec.describe "/packages" do
   let!(:user) { create(:user1) }
-  let!(:endpoint) { create(:endpoint1, user:) }
-  let!(:package) { create(:bundle1, user:) }
-  let!(:source) { create(:source1, package:) }
+  let!(:endpoint) { create(:endpoint1, user: user) }
+  let!(:package) { create(:bundle1, user: user) }
+  let!(:source) { create(:source1, package: package) }
   # TODO: To responses
   let!(:valid_bundle) do
     {

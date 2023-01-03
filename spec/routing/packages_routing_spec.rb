@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe PackagesController, type: :routing do
+RSpec.describe PackagesController do
   describe "routing" do
     context "with default routes" do
       it "routes to #index" do

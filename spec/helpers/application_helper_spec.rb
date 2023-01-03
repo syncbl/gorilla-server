@@ -10,11 +10,11 @@ require "rails_helper"
 #     end
 #   end
 # end
-RSpec.describe ApplicationHelper, type: :helper do
+RSpec.describe ApplicationHelper do
   describe "page title" do
     let!(:user) { create(:user1) }
-    let!(:endpoint) { create(:endpoint1, user:) }
-    let!(:package) { create(:bundle1, user:) }
+    let!(:endpoint) { create(:endpoint1, user: user) }
+    let!(:package) { create(:bundle1, user: user) }
 
     it "returns the default title" do
       expect(helper.page_title("")).to eq("Syncbl")

@@ -120,3 +120,6 @@ RSpec/LetSetup:
 
 Metrics/ModuleLength:
   Enabled: false
+
+Style/HashSyntax:
+  Enabled: false

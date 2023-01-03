@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe EndpointsController, type: :routing do
+RSpec.describe EndpointsController do
   describe "routing" do
     it "routes to #show" do
       expect(get: "/endpoint").to route_to("endpoints#show")

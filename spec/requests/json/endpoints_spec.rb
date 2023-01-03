@@ -12,9 +12,9 @@ require "rails_helper"
 # of tools you can use to make these specs even more expressive, but we're
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
-RSpec.describe Endpoint, type: :request do
+RSpec.describe Endpoint do
   let!(:user) { create(:user1) }
-  let!(:endpoint) { create(:endpoint1, user:) }
+  let!(:endpoint) { create(:endpoint1, user: user) }
 
   describe "GET show" do
     let(:valid_response) do

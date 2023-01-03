@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe "Sources", type: :request do
+RSpec.describe "Sources" do
   let!(:user) { create(:user1) }
-  let!(:endpoint) { create(:endpoint1, user:) }
-  let!(:package) { create(:bundle1, user:) }
+  let!(:endpoint) { create(:endpoint1, user: user) }
+  let!(:package) { create(:bundle1, user: user) }
 
   describe "POST /create" do
     context "when user signed in" do

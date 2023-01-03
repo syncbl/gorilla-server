@@ -15,6 +15,6 @@ class Endpoint < ApplicationRecord
   validates :locale, length: { maximum: 10 }
 
   def installed?(package)
-    settings.exists?(package:)
+    settings.exists?(package: package)
   end
 end

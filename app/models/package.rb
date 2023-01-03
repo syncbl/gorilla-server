@@ -64,7 +64,7 @@ class Package < ApplicationRecord
           not_blocked
             .where(type: [Package::Bundle.name, Package::External.name])
             .published.or(
-              where(user:)
+              where(user: user)
             )
             .order(published_at: :desc)
         }

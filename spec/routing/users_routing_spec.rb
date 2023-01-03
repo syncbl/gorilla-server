@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe UsersController, type: :routing do
+RSpec.describe UsersController do
   describe "routing" do
     it "routes to #show" do
       expect(get: "/user1").to route_to("users#show", id: "user1")

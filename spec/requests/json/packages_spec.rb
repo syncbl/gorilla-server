@@ -12,10 +12,10 @@ require "rails_helper"
 # of tools you can use to make these specs even more expressive, but we're
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
-RSpec.describe Package, type: :request do
+RSpec.describe Package do
   let!(:user) { create(:user1) }
-  let!(:package) { create(:bundle1, user:) }
-  let!(:source) { create(:source1, package:) }
+  let!(:package) { create(:bundle1, user: user) }
+  let!(:source) { create(:source1, package: package) }
   let!(:package_mock) { PackageResponse.new }
 
   before do

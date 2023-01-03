@@ -1,9 +1,9 @@
 require "rails_helper"
 
-RSpec.describe Session, type: :model do
+RSpec.describe Session do
   let(:session) { create(:session) }
   let(:user) { create(:user1) }
-  let(:endpoint) { create(:endpoint1, user:) }
+  let(:endpoint) { create(:endpoint1, user: user) }
 
   context "with session create" do
     it "is correct user" do
