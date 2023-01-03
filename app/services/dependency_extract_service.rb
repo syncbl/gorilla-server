@@ -5,7 +5,7 @@ class DependencyExtractService < ApplicationService
   end
 
   def call
-    return [] if @packages.size.zero?
+    return [] if @packages.empty?
 
     # TODO: Add type check - component
     columns = Dependency.column_names
