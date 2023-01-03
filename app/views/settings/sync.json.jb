@@ -10,7 +10,7 @@ json[:response] = []
 packages.each do |package|
   json[:response] << {
     active: can?(:read, package),
-    package: (render "packages/base", package:),
+    package: (render "packages/base", package: package),
     sources: @sources.select { |source| source.package == package && can?(:read, source) }
                      .map { |source| render "sources/show", source: }
   }

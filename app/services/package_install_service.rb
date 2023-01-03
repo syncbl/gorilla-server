@@ -10,7 +10,7 @@ class PackageInstallService < ApplicationService
     settings = Set[]
     Setting.transaction do
       @packages.each do |package|
-        settings << Setting.find_or_create_by!(endpoint: @endpoint, package:)
+        settings << Setting.find_or_create_by!(endpoint: @endpoint, package: package)
       end
     end
     settings
