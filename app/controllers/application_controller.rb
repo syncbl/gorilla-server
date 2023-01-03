@@ -17,7 +17,18 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
   rescue_from CanCan::AccessDenied, with: :render_403
   rescue_from ActionController::ParameterMissing, with: :render_400
-  rescue_from ActiveRecord::RecordInvalid, with: :render_422
+  # rescue_from ActiveModel::ValidationError, ActiveRecord::RecordNotUnique do |exception|
+  #   respond_to do |format|
+  #     format.html { super }
+  #     format.json { render_json_error exception.model, status: :bad_request }
+  #   end
+  # end
+  rescue_from ActiveRecord::RecordInvalid do |exception|
+    respond_to do |format|
+      format.html { super }
+      format.json { render_json_error exception.record, status: :unprocessable_entity }
+    end
+  end
 
   helper_method :current_endpoint, :current_resource
 

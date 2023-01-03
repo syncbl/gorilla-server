@@ -73,19 +73,27 @@ module ApplicationHelper
     end
   end
 
-  def render_422(exception)
-    respond_to do |format|
-      format.html { super }
-      format.json { render_json_error exception.record.errors.messages, status: :unprocessable_entity }
-    end
-  end
+  # Still can be used for ActiveRecord::RecordInvalid
+  # def render_422(exception)
+  #   respond_to do |format|
+  #     format.html { super }
+  #     format.json { render_json_error exception.record.errors, status: :unprocessable_entity }
+  #   end
+  # end
 
-  def render_json_error(messages, status:)
-    if messages.is_a?(Array) || messages.is_a?(Hash)
-      render json: { errors: messages }, status: status
-    else
-      render json: { error: messages }, status:
-    end
+  def render_json_error(source, status: :bad_request)
+    error = (case source
+             when ActiveRecord::Base
+               { errors: source.errors.to_hash }
+             when ActiveModel::Errors
+               { errors: source.to_hash }
+             # TODO: when Array, Hash
+             #   { errors: source }
+             else
+               { error: source }
+             end)
+
+    render json: error, status:
   end
 
   def test_helper

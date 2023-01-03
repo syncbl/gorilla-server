@@ -44,7 +44,7 @@ class PackagesController < ApplicationController
       else
         format.html { render :new }
         format.json do
-          render json: @package.errors, status: :unprocessable_entity
+          render json: @package.errors, status: :bad_request
         end
       end
     end
@@ -62,8 +62,7 @@ class PackagesController < ApplicationController
       else
         format.html { render :edit }
         format.json do
-          render_json_error @package.errors.full_messages,
-                            status: :unprocessable_entity
+          render_json_error @package, status: :bad_request
         end
       end
     end
@@ -82,8 +81,7 @@ class PackagesController < ApplicationController
       else
         format.html { render :edit }
         format.json do
-          render_json_error @package.errors.full_messages,
-                            status: :unprocessable_entity
+          render_json_error @package, status: :bad_request
         end
       end
     end

@@ -38,21 +38,13 @@ class SettingsController < ApplicationController
     @settings = PackageInstallService.call @endpoint, packages_from_params
 
     respond_to do |format|
-      if @settings.any?
-        format.html do
+      format.html do
           # TODO: Helper which will detect package count and change notice message
           redirect_to [@endpoint],
                       notice: "Packages soon will be installed."
         end
-        format.json do
-          render :create, status: :accepted
-        end
-      else
-        format.html { render :new }
-        format.json do
-          render_json_error @endpoint.errors.messages,
-                            status: :unprocessable_entity
-        end
+      format.json do
+        render :create, status: :accepted
       end
     end
   end
@@ -75,14 +67,14 @@ class SettingsController < ApplicationController
   end
 
   # PATCH/PUT /endpoints/1/settings/1
+  # TODO: Fix this bullshit
   def update
     respond_to do |_format|
       if @setting.update(setting_params)
         redirect_to [@endpoint, @setting],
                     notice: "Setting was successfully updated."
       else
-        render_json_error @setting.errors.full_messages,
-                          status: :unprocessable_entity
+        render_json_error @setting, status: :bad_request
       end
     end
   end
@@ -90,8 +82,9 @@ class SettingsController < ApplicationController
   # DELETE /endpoints/1/settings/1
   # No need in permission check here: endpoint is already authorized
   def destroy
+    setting = @endpoint.settings.find_by(package_id: params[:package_id])
+
     respond_to do |format|
-      setting = @endpoint.settings.find_by(package_id: params[:package_id])
       if setting.destroy
         format.html do
           redirect_to settings_url, notice: "Package was successfully removed."
@@ -100,8 +93,7 @@ class SettingsController < ApplicationController
       else
         format.html { render :edit }
         format.json do
-          render_json_error @endpoint.errors.full_messages,
-                            status: :unprocessable_entity
+          render_json_error @endpoint, status: :bad_request
         end
       end
     end

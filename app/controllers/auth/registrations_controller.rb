@@ -14,7 +14,7 @@ class Auth::RegistrationsController < Devise::RegistrationsController
           sign_in @user
           render "users/show"
         else
-          render_json_error @user.errors.full_messages, status: :unauthorized
+          render_json_error @user, status: :unauthorized
         end
       end
     end

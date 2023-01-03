@@ -21,8 +21,7 @@ class UsersController < ApplicationController
       else
         format.html { render :edit }
         format.json do
-          render_json_error @user.errors.full_messages,
-                            status: :unprocessable_entity
+          render_json_error @user, status: :bad_request
         end
       end
     end
