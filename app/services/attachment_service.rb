@@ -65,12 +65,13 @@ class AttachmentService < ApplicationService
         end
       end
 
-      Dir::Tmpname.create(%w[manifest- .tmp]) do |path|
-        File.binwrite(path, filelist)
-        zipfile.add(".syncbl/filelist.json", path)
-        zipfile.commit
-        File.delete(path)
-      end
+      # TODO: Remove
+      # Dir::Tmpname.create(%w[manifest- .tmp]) do |path|
+      #   File.binwrite(path, filelist)
+      #   zipfile.add(".syncbl/filelist.json", path)
+      #   zipfile.commit
+      #   File.delete(path)
+      # end
     end
 
     if filelist.empty?
