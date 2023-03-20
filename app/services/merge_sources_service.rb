@@ -13,7 +13,11 @@ class MergeSourcesService < ApplicationService
       @package.sources.each_with_index.reverse_each.drop(@package.sources.size - i).map do |dst, _j|
         next unless src.file.attached? && dst.file.attached?
 
-        diff = dst.files.keys & src.files.keys & src.delete_files
+        dst_files = FileList.flatten(dst.files)
+        src_files = FileList.flatten(src.files)
+
+        # TODO: delete_files should be a tree too.
+        diff = dst_files.keys & src_files.keys & src.delete_files
         next if diff.empty?
 
         dst.file.open do |dstfile|

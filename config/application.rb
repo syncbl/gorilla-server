@@ -21,8 +21,6 @@ module SyncblServer
       expires_in: 6.hours.to_i, # in case of network errors when sending a cache invalidation
       failover: false # avoids more cache consistency issues
     }
-    config.session_store :active_record_store,
-                         key: Rails.application.credentials.jwt_secret
 
     # Configuration for the application, engines, and railties goes here.
     #

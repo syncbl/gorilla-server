@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_02_16_150508) do
+ActiveRecord::Schema[7.0].define(version: 2019_11_19_005009) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pgcrypto"
@@ -120,19 +120,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_16_150508) do
     t.index ["created_at"], name: "index_products_on_created_at"
     t.index ["package_id"], name: "index_products_on_package_id", unique: true
     t.index ["updated_at"], name: "index_products_on_updated_at"
-  end
-
-  create_table "sessions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "session_id", null: false
-    t.jsonb "data"
-    t.string "resource_type"
-    t.uuid "resource_id"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["created_at"], name: "index_sessions_on_created_at"
-    t.index ["resource_type", "resource_id"], name: "index_sessions_on_resource"
-    t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
-    t.index ["updated_at"], name: "index_sessions_on_updated_at"
   end
 
   create_table "settings", force: :cascade do |t|

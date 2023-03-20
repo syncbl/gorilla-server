@@ -78,7 +78,7 @@ class AttachmentService < ApplicationService
       # TODO: Inform user. He can merge or delete this source, but can't publish.
     end
 
-    @source.files = filelist
+    @source.files = FileList.extend(filelist)
   rescue StandardError => e # TODO: Make more specific
     Rails.logger.debug "+++ #{e.class} #{e.message}"
     @source.block! e.message
