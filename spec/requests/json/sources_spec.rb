@@ -1,8 +1,6 @@
 require "rails_helper"
 
 RSpec.describe "Sources" do
-  pending "add some examples to (or delete) #{__FILE__}"
-
   describe "GET show" do
     context "when user signed in" do
       include_context "when user is authenticated"

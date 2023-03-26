@@ -25,12 +25,14 @@ class MergeSourcesService < ApplicationService
             dstzipfile.select { |d| !d.directory? && diff.include?(d.name) }.each do |dstz|
               dstzipfile.remove(dstz)
               dstzipfile.commit
-              dst.files.delete(dstz.name)
-              dst.save
+              dst_files.delete(dstz.name)
             end
             if dstzipfile.empty?
               dst.package.user.notify :remove_source, dst.package
-              dst.destroy
+              dst.destroy!
+            else
+              dst.files = FileList.extend(dst_files)
+              dst.save!
             end
           end
           AttachmentService.call dst, dstfile

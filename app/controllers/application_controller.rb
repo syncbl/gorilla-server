@@ -76,6 +76,6 @@ class ApplicationController < ActionController::Base
   end
 
   def skip_session
-    request.session_options[:drop] = true
+    request.session_options[:skip] = true
   end
 end

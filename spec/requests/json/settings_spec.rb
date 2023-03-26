@@ -36,7 +36,7 @@ RSpec.describe "Settings" do
       }
 
       expect(response).to have_http_status :ok
-      expect(JSON.parse(response.body)).to match(
+      expect(response.parsed_body).to match(
         setting_mock.build(:index_valid, bundle1)
       )
     end
@@ -49,7 +49,7 @@ RSpec.describe "Settings" do
       get endpoint_setting_path(bundle1, current_endpoint: endpoint, format: :json)
 
       expect(response).to have_http_status :ok
-      expect(JSON.parse(response.body)).to match(
+      expect(response.parsed_body).to match(
         setting_mock.build(:show_valid, bundle1, component1)
       )
     end
@@ -58,7 +58,7 @@ RSpec.describe "Settings" do
       get endpoint_setting_path(wrong_id, current_endpoint: endpoint, format: :json)
 
       expect(response).to have_http_status :not_found
-      expect(JSON.parse(response.body)).to match(
+      expect(response.parsed_body).to match(
         ErrorResponse.new.build(:not_found, wrong_id)
       )
     end
@@ -74,7 +74,7 @@ RSpec.describe "Settings" do
         }
 
         expect(response).to have_http_status :accepted
-        expect(JSON.parse(response.body)).to match(
+        expect(response.parsed_body).to match(
           setting_mock.build(:post_valid, component1, component2)
         )
         expect(Setting.all.size).to eq(3)
@@ -86,7 +86,7 @@ RSpec.describe "Settings" do
         }
 
         expect(response).to have_http_status :unprocessable_entity
-        expect(JSON.parse(response.body)).to match(
+        expect(response.parsed_body).to match(
           ErrorResponse.new.build(:component_error)
         )
         expect(Setting.all.size).to eq(1)
@@ -98,7 +98,7 @@ RSpec.describe "Settings" do
         }
 
         expect(response).to have_http_status :not_found
-        expect(JSON.parse(response.body)).to match(
+        expect(response.parsed_body).to match(
           ErrorResponse.new.build(:not_found, wrong_id)
         )
       end
@@ -109,7 +109,7 @@ RSpec.describe "Settings" do
         }
 
         expect(response).to have_http_status :not_found
-        expect(JSON.parse(response.body)).to match(
+        expect(response.parsed_body).to match(
           ErrorResponse.new.build(:not_found, "bad_id")
         )
       end
@@ -120,7 +120,7 @@ RSpec.describe "Settings" do
         post endpoint_settings_path(current_endpoint: endpoint, format: :json)
 
         expect(response).to have_http_status :bad_request
-        expect(JSON.parse(response.body)).to match ErrorResponse.new.build(:bad_request)
+        expect(response.parsed_body).to match ErrorResponse.new.build(:bad_request)
       end
     end
   end
@@ -135,7 +135,7 @@ RSpec.describe "Settings" do
         expect(response).to have_http_status :accepted
         # TODO: notifications -> add_package
         # TODO: { id: source_id } IS IT ENOUGH???
-        expect(JSON.parse(response.body)["response"].first).to match(
+        expect(response.parsed_body["response"].first).to match(
           setting_mock.build(:sync_valid, source2)
         )
         # expect(Setting.all.size).to eq(3)

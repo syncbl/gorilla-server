@@ -25,7 +25,7 @@ RSpec.describe User do
     it "renders a successful response" do
       get user_path(format: :json)
       expect(response).to be_successful
-      expect(JSON.parse(response.body)).to match valid_response
+      expect(response.parsed_body).to match valid_response
     end
   end
 end

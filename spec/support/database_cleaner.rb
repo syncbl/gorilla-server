@@ -1,4 +1,4 @@
-DatabaseCleaner.strategy = :transaction
+DatabaseCleaner.strategy = :truncation
 
 RSpec.configure do |config|
   config.around do |example|

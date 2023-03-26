@@ -31,7 +31,7 @@ RSpec.describe Package do
         get package_path(package, format: :json)
 
         expect(response).to be_successful
-        expect(JSON.parse(response.body)).to match(
+        expect(response.parsed_body).to match(
           package_mock.build(:show_valid, package)
         )
       end
@@ -42,7 +42,7 @@ RSpec.describe Package do
         get package_path(package, format: :json)
 
         expect(response).to be_successful
-        expect(JSON.parse(response.body)).to match(
+        expect(response.parsed_body).to match(
           package_mock.build(:show_valid, package)
         )
       end
@@ -63,7 +63,7 @@ RSpec.describe Package do
         get search_packages_path(q: "Bundle", format: :json)
 
         expect(response).to be_successful
-        expect(JSON.parse(response.body)["response"][0]).to include_json(valid_response)
+        expect(response.parsed_body["response"][0]).to include_json(valid_response)
       end
     end
 
@@ -72,7 +72,7 @@ RSpec.describe Package do
         get search_packages_path(q: "Bundle", format: :json)
 
         expect(response).to be_successful
-        expect(JSON.parse(response.body)["response"][0]).to include_json(valid_response)
+        expect(response.parsed_body["response"][0]).to include_json(valid_response)
       end
     end
   end

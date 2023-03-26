@@ -88,7 +88,7 @@ class SettingResponse < Response
       delete_files: [],
       description: source.description,
       file: source_file(source.file),
-      files: source.files,
+      # files: source.files,
       h_size: ActionController::Base.helpers.number_to_human_size(source.unpacked_size),
       partial: source.partial,
       size: source.unpacked_size,
